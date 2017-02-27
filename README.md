@@ -7,7 +7,7 @@ As well as other common functionalities for Quick Application development.
 Download [demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutput.zip)
 
 
-[![QuickApp Demo](QuickApp.gif)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
+[![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
 
 ## This application consists of:
 
