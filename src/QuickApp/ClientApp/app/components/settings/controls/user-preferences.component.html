@@ -1,0 +1,144 @@
+﻿<div class="form-horizontal">
+    <div class="form-group">
+        <label for="refreshButton" class="col-sm-3 control-label">Reload Preferences: </label>
+        <div class="col-sm-4">
+            <button id="refreshButton" class="btn btn-default" (click)="reloadFromServer()">
+                <i class="fa fa-refresh"></i>
+            </button>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-static text-muted small">Load default preferences (local changes are discarded)</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="separator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="homePage" class="col-sm-3 control-label">Home Page: </label>
+        <div class="col-sm-4">
+            <select id="homePage" [(ngModel)]="configurations.homeUrl" bootstrapSelect class="selectpicker form-control">
+                <option data-icon="fa fa-tachometer" data-subtext="(Default)" value="/">Dashboard </option>
+                <option data-icon="fa fa-handshake-o" value="/customers">Customers</option>
+                <option data-icon="fa fa-truck" value="/products">Products</option>
+                <option data-icon="fa fa-shopping-cart" value="/orders">Orders</option>
+                <option data-icon="fa fa-info-circle" value="/about">About</option>
+                <option data-icon="fa fa-cog" value="/settings">Settings</option>
+            </select>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-static text-muted small">Select the default page to navigate to on login</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="separator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="homePage" class="col-sm-3 control-label">Theme: </label>
+        <div class="col-sm-4">
+            <select id="defaultTheme" [(ngModel)]="configurations.theme" bootstrapSelect class="selectpicker form-control">
+                <option data-content="<span class='default-theme-option'>Default</span>">Default</option>
+                <option data-content="<span class='red-theme-option'>Red</span>">Red</option>
+                <option data-content="<span class='orange-theme-option'>Orange</span>">Orange</option>
+                <option data-content="<span class='green-theme-option'>Green</span>">Green</option>
+                <option data-content="<span class='gray-theme-option'>Gray</span>">Gray</option>
+                <option data-content="<span class='black-theme-option'>Black</span>">Black</option>
+            </select>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-static text-muted small">Select the default color theme for your account</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="separator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label" for="dashboardStatistics">Dashboard Statistics: </label>
+        <div class="col-sm-4">
+            <div class="checkbox">
+                <input name="dashboardStatistics" [(ngModel)]="configurations.showDashboardStatistics" class="form-control" type="checkbox" bootstrapToggle data-size="small">
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-static text-muted small">Show demo graph widget on the dashboard</p>
+        </div>
+    </div>
+    <!--  -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="subseparator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label" for="dashboardTodo">Dashboard Todo: </label>
+        <div class="col-sm-4">
+            <div class="checkbox">
+                <input name="dashboardTodo" [(ngModel)]="configurations.showDashboardTodo" class="form-control" type="checkbox" bootstrapToggle data-size="small">
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-static text-muted small">Shows demo todo widget on the dashboard</p>
+        </div>
+    </div>
+    <!--  -->
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="subseparator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-3 control-label" for="dashboardBanner">Dashboard Banner: </label>
+        <div class="col-sm-4">
+            <div class="checkbox">
+                <input name="dashboardBanner" [(ngModel)]="configurations.showDashboardBanner" class="form-control" type="checkbox" bootstrapToggle data-size="small">
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-static text-muted small">Show demo information banner widget on the dashboard</p>
+        </div>
+    </div>
+    <!--  -->
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="last-separator-hr" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3">
+
+        </div>
+        <div class="col-sm-9">
+            <div class="row pull-left">
+                <div class="col-sm-6 col-reset-default">
+                    <button type="button" (click)="resetDefault()" class="btn btn-success">
+                        <i class='fa fa-circle-o-notch'></i> Reset default
+                    </button>
+                </div>
+                <div class="col-sm-6 col-set-default">
+                    <button type="button" (click)="setAsDefault()" class="btn btn-primary">
+                        <i class='fa fa-hdd-o'></i> Set as default
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

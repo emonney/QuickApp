@@ -1,0 +1,19 @@
+{
+  "title": "QuickApp - DAL",
+  "copyright": "Copyright © 2017 www.ebenmonney.com",
+  "description": "Data Access Layer for the Quick Application template",
+  "version": "1.0.0-0",
+
+  "dependencies": {
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.1.0",
+    "NETStandard.Library": "1.6.1",
+    "OpenIddict": "1.0.0-beta2-0560",
+    "OpenIddict.EntityFrameworkCore": "1.0.0-beta2-0560"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}

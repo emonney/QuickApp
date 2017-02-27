@@ -1,0 +1,20 @@
+.side-menu {
+    min-width: 120px;
+}
+
+.content-area {
+}
+
+.separator-hr {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.content-container {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+[hidden] {
+    display: none;
+}

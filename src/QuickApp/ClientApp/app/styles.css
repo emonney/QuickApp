@@ -1,0 +1,308 @@
+﻿@import './assets/styles/ngx-datatable.css';
+@import './assets/styles/alertify.core.css';
+@import './assets/styles/alertify.bootstrap.css';
+
+.navbar .nav li a:hover,
+.navbar.nav li.toolbaritem a:hover,
+.nav.nav-tabsNOTUSE li a:hover {
+    color: #E03930;
+}
+
+.navbar .nav > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > .active > a:focus {
+    background-color: #efefef;
+}
+
+
+.nav.nav-tabsNOTUSED li.active a {
+    color: #555;
+}
+
+
+
+
+.ng-valid[required], .ng-valid.required {
+    border-left: 5px solid #42A948; /*57A83F*/
+}
+
+.ng-invalid:not(form) {
+    border-left: 5px solid #a94442; /*E03930*/
+}
+
+.bootstrap-select.ng-novalidation > .dropdown-toggle {
+    border-left-width: 5px;
+}
+
+
+
+.has-success .bootstrap-select .dropdown-toggle,
+.success .bootstrap-select .dropdown-toggle {
+    border-color: #3c763d;
+}
+
+.has-error .bootstrap-select .dropdown-toggle,
+.error .bootstrap-select .dropdown-toggle {
+    border-color: #a94442;
+}
+
+.bootstrap-select .btn-default .badge {
+    color: #fff;
+    background-color: #777;
+}
+
+
+.pageHeader {
+    margin-bottom: 20px;
+}
+
+
+.errorMessage {
+    padding: 5px 10px;
+    color: #a94442;
+}
+
+.appName {
+    font-family: monospace;
+}
+
+i.page-caption {
+    vertical-align: baseline;
+    font-size: 1.2em;
+}
+
+
+
+.alertify {
+    top: 75px;
+}
+
+.alertify-message {
+    font-size: 1.2em;
+}
+
+
+
+#toasty.toasty-position-top-right {
+    top: 20px;
+    right: 20px;
+}
+
+#toasty .toast.toasty-theme-bootstrap {
+    font-size: 1em;
+}
+
+    #toasty .toast.toasty-theme-bootstrap .toast-text .toast-title {
+        font-size: 1.04em;
+    }
+
+
+
+
+/*-webkit-filter: blur(5px) grayscale(90%);*/
+/*body.modal-open .container {
+    -webkit-filter: blur(1px);
+    -moz-filter: blur(1px);
+    -o-filter: blur(1px);
+    -ms-filter: blur(1px);
+    filter: blur(1px);
+    filter: url("https://gist.githubusercontent.com/amitabhaghosh197/b7865b409e835b5a43b5/raw/1a255b551091924971e7dee8935fd38a7fdf7311/blur".svg#blur);
+    filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='1');
+}*/
+
+
+.user-info-popup .popover {
+    color: #333 !important;
+    max-width: 500px;
+    width: 500px;
+}
+
+
+.vertical-center-flex {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+}
+
+
+/*Hack stop get ngx-datatable width to be full when inside bootstrap tab control*/
+.tab-pane .datatable-scroll {
+    width: 100% !important;
+}
+
+.ngx-datatable.scroll-vertical {
+    height: 64vh;
+}
+
+
+
+.boldFont.app-component {
+    font-weight: bold;
+}
+
+.black-anchor {
+    color: #333;
+}
+
+
+
+.form-group .icon-addon .form-control {
+    border-radius: 25px;
+}
+
+.icon-addon {
+    position: relative;
+    color: #555;
+    display: block;
+}
+
+    .icon-addon:after,
+    .icon-addon:before {
+        display: table;
+        content: " ";
+    }
+
+    .icon-addon:after {
+        clear: both;
+    }
+
+    .icon-addon.addon-md .glyphicon,
+    .icon-addon .glyphicon,
+    .icon-addon.addon-md .fa,
+    .icon-addon .fa {
+        position: absolute;
+        z-index: 2;
+        font-size: 14px;
+        width: 20px;
+        text-align: center;
+        padding: 10px 0;
+        top: 1px;
+    }
+
+        .icon-addon .fa.left-icon {
+            left: 10px;
+            margin-left: -2.5px;
+        }
+
+        .icon-addon .fa.right-icon {
+            right: 10px;
+            margin-right: -2.5px;
+        }
+
+    .icon-addon.addon-lg .form-control {
+        line-height: 1.33;
+        height: 46px;
+        font-size: 18px;
+    }
+
+        .icon-addon.addon-lg .form-control.left-icon {
+            padding-top: 10px;
+            padding-right: 16px;
+            padding-bottom: 10px;
+            padding-left: 40px !important;
+        }
+
+        .icon-addon.addon-lg .form-control.right-icon {
+            padding-top: 10px;
+            padding-right: 40px !important;
+            padding-bottom: 10px;
+            padding-left: 16px;
+        }
+
+
+    .icon-addon.addon-sm .form-control {
+        height: 30px;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+        .icon-addon.addon-sm .form-control.left-icon {
+            padding-top: 5px;
+            padding-right: 10px;
+            padding-bottom: 5px;
+            padding-left: 28px !important;
+        }
+
+        .icon-addon.addon-sm .form-control.right-icon {
+            padding-top: 5px;
+            padding-right: 28px !important;
+            padding-bottom: 5px;
+            padding-left: 10px;
+        }
+
+
+    .icon-addon.addon-lg .fa,
+    .icon-addon.addon-lg .glyphicon {
+        font-size: 18px;
+        top: 4px;
+    }
+
+        .icon-addon.addon-lg .fa.left-icon,
+        .icon-addon.addon-lg .glyphicon.left-icon {
+            margin-left: 0;
+            left: 11px;
+        }
+
+        .icon-addon.addon-lg .fa.right-icon,
+        .icon-addon.addon-lg .glyphicon.right-icon {
+            margin-right: 0;
+            right: 11px;
+        }
+
+
+    .icon-addon.addon-md .form-control,
+    .icon-addon .form-control {
+        font-weight: normal;
+    }
+
+        .icon-addon.addon-md .form-control.left-icon,
+        .icon-addon .form-control.left-icon {
+            float: left;
+            padding-left: 30px;
+        }
+
+        .icon-addon.addon-md .form-control.right-icon,
+        .icon-addon .form-control.right-icon {
+            float: right;
+            padding-right: 30px;
+        }
+
+
+    .icon-addon.addon-sm .fa,
+    .icon-addon.addon-sm .glyphicon {
+        font-size: 12px;
+        top: -1px;
+    }
+
+        .icon-addon.addon-sm .fa.left-icon,
+        .icon-addon.addon-sm .glyphicon.left-icon {
+            margin-left: 0;
+            left: 5px;
+        }
+
+        .icon-addon.addon-sm .fa.right-icon,
+        .icon-addon.addon-sm .glyphicon.right-icon {
+            margin-right: 0;
+            right: 5px;
+        }
+
+
+
+
+    .icon-addon .form-control:focus + .glyphicon,
+    .icon-addon:hover .glyphicon,
+    .icon-addon .form-control:focus + .fa,
+    .icon-addon:hover .fa {
+        color: #2580db;
+    }
+
+.clear-input {
+    text-decoration: none !important;
+    color: #b3b3b3 !important;
+}
+
+    .clear-input:hover {
+        color: #2580db !important;
+    }
+
+.inline-block {
+    display: inline-block;
+}

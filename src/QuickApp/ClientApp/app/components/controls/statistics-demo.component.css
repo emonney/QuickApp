@@ -1,0 +1,21 @@
+﻿
+.chart-container {
+    display: block;
+}
+
+.table-container {
+}
+
+
+.refresh-btn {
+    margin-right: 10px;
+}
+
+.chart-type-container {
+    display: inline-block;
+}
+
+
+li.active2 {
+    background-color: #e8e8e8;
+}

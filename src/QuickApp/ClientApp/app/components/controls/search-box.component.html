@@ -1,0 +1,5 @@
+﻿<div class="icon-addon addon-sm">
+    <label for="searchInput" title="Search"><i class="fa fa-search left-icon search-icon"></i></label>
+    <input id="searchInput" #searchInput type="search" ngModel="" (ngModelChange)="onValueChange($event)" [attr.placeholder]="placeholder" class="form-control left-icon right-icon">
+    <a *ngIf="searchInput.value" href="javascript:;" title="Clear" (click)="clear()" class="fa fa-times-circle clear-input right-icon"></a>
+</div>

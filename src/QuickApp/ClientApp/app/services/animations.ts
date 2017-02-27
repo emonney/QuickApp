@@ -1,0 +1,25 @@
+﻿// ======================================
+// Author: Ebenezer Monney
+// Email:  info@ebenmonney.com
+// Copyright (c) 2017 www.ebenmonney.com
+// ======================================
+
+import { animate, state, style, transition, trigger } from '@angular/core';
+
+
+
+
+export const fadeInOut = trigger('fadeInOut', [
+    transition(':enter', [style({ opacity: 0 }), animate('0.4s ease-in', style({ opacity: 1 }))]),
+    transition(':leave', [animate('0.4s 10 ease-out', style({ opacity: 0 }))])
+])
+
+
+
+export function flyInOut(duration: number = 0.2) {
+    return trigger('flyInOut', [
+        state('in', style({ opacity: 1, transform: 'translateX(0)' })),
+        transition('void => *', [style({ opacity: 0, transform: 'translateX(-100%)' }), animate(`${duration}s ease-in`)]),
+        transition('* => void', [animate(`${duration}s 10 ease-out`, style({ opacity: 0, transform: 'translateX(100%)' }))])
+    ])
+}
