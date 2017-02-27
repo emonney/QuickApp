@@ -1,13 +1,13 @@
-# ASPNET Core / Angular2 **QuickApp**
+# **QuickApp** - ASPNET Core / Angular2 startup project template
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 
 A startup **Angular2 / ASP.NET Core** (cross-platform ) **project template** with an end-to-end user and role management implementation.
 As well as other common functionalities for Quick Application development.
 
-Setup your [demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutput.zip)
+Download [demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutput.zip)
 
 
-[![QuickApp Demo](QuickApp.gif)](http://ebenmonney.com/demo/quickapp)
+[![QuickApp Demo](QuickApp.gif)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
 
 ## This application consists of:
 
