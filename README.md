@@ -39,11 +39,12 @@ Download [demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutp
 
 ## Installation
 
-*   Clone the [Git Repository](https://github.com/emonney/QuickApp.git) and edit with your favorite editor. i.e. Visual Studio
+*   Clone the [Git Repository](https://github.com/emonney/QuickApp.git) and edit with your favorite editor. e.g. Visual Studio, Visual Studio Code
+*   Install Project template from the Visual Studio Gallery and follow the usual File -> New Project -> Web -> QuickApp - to create a new Project from this template.
+    Lunch with `F5` or `Ctrl+F5` (The usual way)
   
->   Yeoman generator & Visual Studio VSIX package coming soon...
+>   Yeoman generator package coming soon...
 
-**IMPORTANT!** The file `themes.scss` uses SASS. Hence ensure SASS is installed and the bindings for your environment is right. If this confuses you delete the file and remove all references to it.
 
 **NOTE** For faster builds you can comment out the line `"postcompile": [ "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" ]` in the "`project.json`" file.
  This is only required for the first time build and when the vendor packages in the `webpack.config.vendor.js` file is modified.

@@ -22,7 +22,7 @@ var alertify = require('../assets/scripts/alertify.js');
 @Component({
     selector: "quick-app",
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css', '../styles.css', '../themes.scss'],
+    styleUrls: ['./app.component.css', '../styles.css', '../themes.css'],
     encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit, AfterViewInit {

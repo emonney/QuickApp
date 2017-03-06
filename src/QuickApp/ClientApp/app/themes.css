@@ -1,0 +1,336 @@
+﻿
+/**********************************************************************************************************
+***********************************************************************************************************
+NOTE: SASS is already configured in this project template. To use SASS change your css file extension from
+    *.css to *.scss and you're good to go.
+
+    Example: To use SASS for this file instead of regular CSS follow the below steps
+    1. Uncomment the below SASS and comment out the CSS version of this document
+    2. Change file extension from css to scss
+    3. Change references to this file to use the sass extension
+        i.e. This file is being referenced from "app.component.ts". So replace references to
+            "../themes.css" with "../themes.scss"
+***********************************************************************************************************
+**********************************************************************************************************/
+
+
+
+
+/*//*********** SASS VERSION ***********
+        
+    @mixin app-theme($theme, $color, $footer:#f5f5f5) {
+    .#{$theme}-theme .navbar-inner.app-component {
+        background-color: $color; //#027FF4;
+    }
+             
+    .#{$theme}-theme .panel-primary > .panel-heading {
+        background-color: $color;
+        border-color: $color;
+    }
+
+    .#{$theme}-theme .panel-primary {
+        border-color: $color;
+    }
+
+    .#{$theme}-theme .navbar-inner.footer.app-component {
+        background-color: $footer;
+    }
+
+
+    .#{$theme}-theme .icon-addon .form-control:focus + .glyphicon,
+    .#{$theme}-theme .icon-addon:hover .glyphicon,
+    .#{$theme}-theme .icon-addon .form-control:focus + .fa,
+    .#{$theme}-theme .icon-addon:hover .fa {
+        color: $color; //#2580db;
+    }
+
+    .#{$theme}-theme .clear-input:hover {
+        color: $color !important; //#2580db !important;
+    }
+
+    .#{$theme}-theme .ngx-datatable.material.colored-header .datatable-header {
+        background-color: $color; //#027FF4;
+    }
+              
+
+    .#{$theme}-theme-option {
+        background: $color;        
+        color:white;
+        font-weight:bold;
+        display:inline-block;
+        width:100%;
+        height:100%;
+        text-align:center;
+    }
+}
+
+
+.default-theme-option {
+    background: #027FF4;
+    color:white;
+    font-weight:bold;
+    display:inline-block;
+    width:100%;
+    height:100%;
+    text-align:center;
+}
+
+
+//----------- black theme -----------
+@include app-theme('black', black);
+
+
+//----------- red theme -----------
+@include app-theme('red', red);
+
+
+//----------- orange theme -----------
+@include app-theme('orange', orange);
+
+
+//----------- green theme -----------
+@include app-theme('green', green);
+
+
+//----------- gray theme -----------
+@include app-theme('gray', gray);
+
+
+*/
+
+
+
+
+
+
+/*********** CSS VERSION ***********/
+
+.default-theme-option {
+  background: #027FF4;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+
+/*----------- black theme -----------*/
+.black-theme .navbar-inner.app-component {
+  background-color: black;  /*#027FF4;*/
+}
+
+.black-theme .panel-primary > .panel-heading {
+  background-color: black;
+  border-color: black;
+}
+
+.black-theme .panel-primary {
+  border-color: black;
+}
+
+.black-theme .navbar-inner.footer.app-component {
+  background-color: #f5f5f5;
+}
+
+.black-theme .icon-addon .form-control:focus + .glyphicon,
+.black-theme .icon-addon:hover .glyphicon,
+.black-theme .icon-addon .form-control:focus + .fa,
+.black-theme .icon-addon:hover .fa {
+  color: black;  /*#2580db;*/
+}
+
+.black-theme .clear-input:hover {
+  color: black !important;  /*#2580db !important;*/
+}
+
+.black-theme .ngx-datatable.material.colored-header .datatable-header {
+  background-color: black;  /*#027FF4;*/
+}
+
+.black-theme-option {
+  background: black;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+
+/*----------- red theme -----------*/
+.red-theme .navbar-inner.app-component {
+  background-color: red;  /*#027FF4;*/
+}
+
+.red-theme .panel-primary > .panel-heading {
+  background-color: red;
+  border-color: red;
+}
+
+.red-theme .panel-primary {
+  border-color: red;
+}
+
+.red-theme .navbar-inner.footer.app-component {
+  background-color: #f5f5f5;
+}
+
+.red-theme .icon-addon .form-control:focus + .glyphicon,
+.red-theme .icon-addon:hover .glyphicon,
+.red-theme .icon-addon .form-control:focus + .fa,
+.red-theme .icon-addon:hover .fa {
+  color: red;  /*#2580db;*/
+}
+
+.red-theme .clear-input:hover {
+  color: red !important;  /*#2580db !important;*/
+}
+
+.red-theme .ngx-datatable.material.colored-header .datatable-header {
+  background-color: red;  /*#027FF4;*/
+}
+
+.red-theme-option {
+  background: red;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+
+/*----------- orange theme -----------*/
+.orange-theme .navbar-inner.app-component {
+  background-color: orange;  /*#027FF4;*/
+}
+
+.orange-theme .panel-primary > .panel-heading {
+  background-color: orange;
+  border-color: orange;
+}
+
+.orange-theme .panel-primary {
+  border-color: orange;
+}
+
+.orange-theme .navbar-inner.footer.app-component {
+  background-color: #f5f5f5;
+}
+
+.orange-theme .icon-addon .form-control:focus + .glyphicon,
+.orange-theme .icon-addon:hover .glyphicon,
+.orange-theme .icon-addon .form-control:focus + .fa,
+.orange-theme .icon-addon:hover .fa {
+  color: orange;  /*#2580db;*/
+}
+
+.orange-theme .clear-input:hover {
+  color: orange !important;  /*#2580db !important;*/
+}
+
+.orange-theme .ngx-datatable.material.colored-header .datatable-header {
+  background-color: orange;  /*#027FF4;*/
+}
+
+.orange-theme-option {
+  background: orange;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+
+/*----------- green theme -----------*/
+.green-theme .navbar-inner.app-component {
+  background-color: green;  /*#027FF4;*/
+}
+
+.green-theme .panel-primary > .panel-heading {
+  background-color: green;
+  border-color: green;
+}
+
+.green-theme .panel-primary {
+  border-color: green;
+}
+
+.green-theme .navbar-inner.footer.app-component {
+  background-color: #f5f5f5;
+}
+
+.green-theme .icon-addon .form-control:focus + .glyphicon,
+.green-theme .icon-addon:hover .glyphicon,
+.green-theme .icon-addon .form-control:focus + .fa,
+.green-theme .icon-addon:hover .fa {
+  color: green;  /*#2580db;*/
+}
+
+.green-theme .clear-input:hover {
+  color: green !important;  /*#2580db !important;*/
+}
+
+.green-theme .ngx-datatable.material.colored-header .datatable-header {
+  background-color: green;  /*#027FF4;*/
+}
+
+.green-theme-option {
+  background: green;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+
+/*----------- gray theme -----------*/
+.gray-theme .navbar-inner.app-component {
+  background-color: gray;  /*#027FF4;*/
+}
+
+.gray-theme .panel-primary > .panel-heading {
+  background-color: gray;
+  border-color: gray;
+}
+
+.gray-theme .panel-primary {
+  border-color: gray;
+}
+
+.gray-theme .navbar-inner.footer.app-component {
+  background-color: #f5f5f5;
+}
+
+.gray-theme .icon-addon .form-control:focus + .glyphicon,
+.gray-theme .icon-addon:hover .glyphicon,
+.gray-theme .icon-addon .form-control:focus + .fa,
+.gray-theme .icon-addon:hover .fa {
+  color: gray;  /*#2580db;*/
+}
+
+.gray-theme .clear-input:hover {
+  color: gray !important;  /*#2580db !important;*/
+}
+
+.gray-theme .ngx-datatable.material.colored-header .datatable-header {
+  background-color: gray;  /*#027FF4;*/
+}
+
+.gray-theme-option {
+  background: gray;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
