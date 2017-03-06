@@ -40,10 +40,22 @@ Download [demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutp
 ## Installation
 
 *   Clone the [Git Repository](https://github.com/emonney/QuickApp.git) and edit with your favorite editor. e.g. Visual Studio, Visual Studio Code
-*   Install Project template from the Visual Studio Gallery and follow the usual File -> New Project -> Web -> QuickApp - to create a new Project from this template.
+*   Install Project template from the [Visual Studio Gallery](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngular2ProjectTemplate) and follow the usual File -> New Project -> Web -> QuickApp - to create a new Project from this template.
     Lunch with `F5` or `Ctrl+F5` (The usual way)
-  
->   Yeoman generator package coming soon...
+*   Yeoman generator package coming soon...
+
+
+> **LOGIN WITH USERNAME OR EMAIL ADDRESS**
+>> * **Default Administrator Account**
+>>   * Username: admin
+>>   * Email:    admin@ebenmonney.com
+>>   * Password: tempP@ss123
+>> * **Default Standard Account**
+>>   * Username: user
+>>   * Email:    user@ebenmonney.com
+>>   * Password: tempP@ss123
+
+
 
 
 **NOTE** For faster builds you can comment out the line `"postcompile": [ "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" ]` in the "`project.json`" file.

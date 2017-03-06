@@ -1,61 +1,91 @@
-<h1 id="quickappaspnetcoreangular2startupprojecttemplate"><strong>QuickApp</strong> - ASPNET Core / Angular2 startup project template</h1>
-<p><a href="https://github.com/emonney/QuickApp/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT license" /></a></p>
-<p>
-    A startup <strong>Angular2 / ASP.NET Core</strong> (cross-platform ) <strong>project template</strong> with an end-to-end user and role management implementation.
-    As well as other common functionalities for Quick Application development.
-</p>
-<p>Download <a href="https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutput.zip">demo</a></p>
-<p><a href="https://www.youtube.com/watch?v=Wuh7NIZ96jA"><img src="https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true" alt="QuickApp Demo" /></a></p>
-<h2 id="thisapplicationconsistsof">This application consists of:</h2>
-<ul>
-    <li>Template pages using Angular2 and TypeScript</li>
-    <li>RESTful API Backend using ASP.NET Core MVC Web API</li>
-    <li>Database using Entity Framework Core</li>
-    <li>Authentication based on OpenID Connect</li>
-    <li>API Documentation using Swagger</li>
-    <li><a href="https://webpack.js.org">Webpack2</a> for managing client-side libraries</li>
-    <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
-</ul>
-<h2 id="yougetthebenefitsof">You get the benefits of:</h2>
-<ul>
-    <li>A complete backend and frontend project structure to build on with user and permission-based role management already integrated</li>
-    <li>Data Access Layer built with the Repository and Unit of Work Pattern</li>
-    <li>Code First Database</li>
-    <li>A RESTful API Design</li>
-    <li>Angular Directives Quidance</li>
-    <li>Angular Pipes Quidance</li>
-    <li>Angular Animations Quidance</li>
-    <li>Angular Services</li>
-    <li>Dialog and Notification Services</li>
-    <li>Configuration Page and Service</li>
-    <li>Theming with SASS</li>
-    <li>Handling Access and Refresh Tokens with WebStorage (Bearer authentication) - No Cookies</li>
-    <li>Jquery Integration (Example of using standard Jquery libraries)</li>
-    <li>CRUD APIs</li>
-</ul>
-<h2 id="installation">Installation</h2>
-<ul>
-    <li>Clone the <a href="https://github.com/emonney/QuickApp.git">Git Repository</a> and edit with your favorite editor. e.g. Visual Studio, Visual Studio Code</li>
-    <li>
-        Install Project template from the Visual Studio Gallery and follow the usual File -> New Project -> Web -> QuickApp - to create a new Project from this template.
-        Lunch with <code>F5</code> or <code>Ctrl+F5</code> (The usual way)
-    </li>
-</ul>
-<blockquote>
-    <p>Yeoman generator package coming soon...</p>
-</blockquote>
-<p>
-    <strong>NOTE</strong> For faster builds you can comment out the line <code>"postcompile": [ "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" ]</code> in the "<code>project.json</code>" file.
-    This is only required for the first time build and when the vendor packages in the <code>webpack.config.vendor.js</code> file is modified.
-</p>
-<h2 id="documentation">Documentation</h2>
-<ul>
-    <li><a href="http://ebenmonney.com/quickapp">Overview of QuickApp</a></li>
-    <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
-    <li><a href="http://angular.io/docs/ts/latest/guide">Angular2 documentation overview</a></li>
-    <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
-    <li><a href="https://webpack.js.org/guides/get-started/">An introduction to webpack</a></li>
-</ul>
-<h2 id="license">License</h2>
-<p>Released under the <a href="https://github.com/emonney/QuickApp/blob/master/LICENSE">MIT License</a>.</p>
-<p>I would love to hear your <a href="mailto:info@ebenmonney.com">feedback</a></p>
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>QuickApp - ASPNET Core / Angular2 startup project template</title>
+</head>
+<body>
+    <h1 id="quickapp-aspnet-core-angular2-startup-project-template"><strong>QuickApp</strong> - ASPNET Core / Angular2 startup project template</h1>
+    <p><a href="https://github.com/emonney/QuickApp/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT license" /></a></p>
+    <p>
+        A startup <strong>Angular2 / ASP.NET Core</strong> (cross-platform ) <strong>project template</strong> with an end-to-end user and role management implementation.
+        As well as other common functionalities for Quick Application development.
+    </p>
+    <p>Download <a href="https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutput.zip">demo</a></p>
+    <p><a href="https://www.youtube.com/watch?v=Wuh7NIZ96jA"><img src="https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true" alt="QuickApp Demo" /></a></p>
+    <h2 id="this-application-consists-of">This application consists of:</h2>
+    <ul>
+        <li>Template pages using Angular2 and TypeScript</li>
+        <li>RESTful API Backend using ASP.NET Core MVC Web API</li>
+        <li>Database using Entity Framework Core</li>
+        <li>Authentication based on OpenID Connect</li>
+        <li>API Documentation using Swagger</li>
+        <li><a href="https://webpack.js.org">Webpack2</a> for managing client-side libraries</li>
+        <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
+    </ul>
+    <h2 id="you-get-the-benefits-of">You get the benefits of:</h2>
+    <ul>
+        <li>A complete backend and frontend project structure to build on with user and permission-based role management already integrated</li>
+        <li>Data Access Layer built with the Repository and Unit of Work Pattern</li>
+        <li>Code First Database</li>
+        <li>A RESTful API Design</li>
+        <li>Angular Directives Quidance</li>
+        <li>Angular Pipes Quidance</li>
+        <li>Angular Animations Quidance</li>
+        <li>Angular Services</li>
+        <li>Dialog and Notification Services</li>
+        <li>Configuration Page and Service</li>
+        <li>Theming with SASS</li>
+        <li>Handling Access and Refresh Tokens with WebStorage (Bearer authentication) - No Cookies</li>
+        <li>Jquery Integration (Example of using standard Jquery libraries)</li>
+        <li>CRUD APIs</li>
+    </ul>
+    <h2 id="installation">Installation</h2>
+    <ul>
+        <li>Clone the <a href="https://github.com/emonney/QuickApp.git">Git Repository</a> and edit with your favorite editor. e.g. Visual Studio, Visual Studio Code</li>
+        <li>
+            Install Project template from the <a href="https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngular2ProjectTemplate">Visual Studio Gallery</a> and follow the usual File -&gt; New Project -&gt; Web -&gt; QuickApp - to create a new Project from this template.
+            Lunch with <code>F5</code> or <code>Ctrl+F5</code> (The usual way)
+        </li>
+        <li>Yeoman generator package coming soon...</li>
+    </ul>
+    <blockquote>
+        <p><strong>LOGIN WITH USERNAME OR EMAIL ADDRESS</strong></p>
+        <blockquote>
+            <ul>
+                <li>
+                    <strong>Default Administrator Account</strong>
+                    <ul>
+                        <li>Username: admin</li>
+                        <li>Email:    admin@ebenmonney.com</li>
+                        <li>Password: tempP@ss123</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Default Standard Account</strong>
+                    <ul>
+                        <li>Username: user</li>
+                        <li>Email:    user@ebenmonney.com</li>
+                        <li>Password: tempP@ss123</li>
+                    </ul>
+                </li>
+            </ul>
+        </blockquote>
+    </blockquote>
+    <p>
+        <strong>NOTE</strong> For faster builds you can comment out the line <code>&quot;postcompile&quot;: [ &quot;node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js&quot; ]</code> in the &quot;<code>project.json</code>&quot; file.
+        This is only required for the first time build and when the vendor packages in the <code>webpack.config.vendor.js</code> file is modified.
+    </p>
+    <h2 id="documentation">Documentation</h2>
+    <ul>
+        <li><a href="http://ebenmonney.com/quickapp">Overview of QuickApp</a></li>
+        <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
+        <li><a href="http://angular.io/docs/ts/latest/guide">Angular2 documentation overview</a></li>
+        <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
+        <li><a href="https://webpack.js.org/guides/get-started/">An introduction to webpack</a></li>
+    </ul>
+    <h2 id="license">License</h2>
+    <p>Released under the <a href="https://github.com/emonney/QuickApp/blob/master/LICENSE">MIT License</a>.</p>
+    <p>I would love to hear your <a href="mailto:info@ebenmonney.com">feedback</a></p>
+
+</body>
+</html>
