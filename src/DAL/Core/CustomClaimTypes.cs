@@ -2,6 +2,8 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 using System;
@@ -22,6 +24,9 @@ namespace DAL.Core
 
         ///<summary>A claim that specifies the job title of an entity</summary>
         public const string JobTitle = "jobtitle";
+
+        ///<summary>A claim that specifies the email of an entity</summary>
+        public const string Email = "email";
 
         ///<summary>A claim that specifies the phone number of an entity</summary>
         public const string Phone = "phone";

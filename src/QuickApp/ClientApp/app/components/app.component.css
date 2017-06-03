@@ -12,7 +12,7 @@
 
 
 .navbar-fixed-top.app-component, .navbar-fixed-bottom.app-component {
-    z-index: 1;
+    z-index: 1000;
 }
 
 

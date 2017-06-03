@@ -2,14 +2,19 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 
-import { AlertService, DialogType, MessageSeverity } from '../../../services/alert.service';
-import { ConfigurationService } from '../../../services/configuration.service';
-import { AccountService } from '../../../services/account.service';
-import { Utilities } from '../../../services/utilities';
+import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
+import { ConfigurationService } from '../../services/configuration.service';
+import { AppTranslationService } from "../../services/app-translation.service";
+import { BootstrapSelectDirective } from "../../directives/bootstrap-select.directive";
+import { AccountService } from '../../services/account.service';
+import { Utilities } from '../../services/utilities';
+import { Permission } from '../../models/permission.model';
 
 
 @Component({
@@ -17,9 +22,35 @@ import { Utilities } from '../../../services/utilities';
     templateUrl: './user-preferences.component.html',
     styleUrls: ['./user-preferences.component.css']
 })
-export class UserPreferencesComponent {
+export class UserPreferencesComponent implements OnInit, OnDestroy {
 
-    constructor(private alertService: AlertService, private configurations: ConfigurationService, private accountService: AccountService) {
+    themeSelectorToggle = true;
+
+    languageChangedSubscription: any;
+
+    @ViewChild("languageSelector")
+    languageSelector: BootstrapSelectDirective;
+
+    @ViewChild("homePageSelector")
+    homePageSelector: BootstrapSelectDirective;
+
+    constructor(private alertService: AlertService, private configurations: ConfigurationService, private translationService: AppTranslationService, private accountService: AccountService) {
+    }
+
+    ngOnInit() {
+        this.languageChangedSubscription = this.translationService.languageChangedEvent().subscribe(data => {
+            this.themeSelectorToggle = false;
+
+            setTimeout(() => {
+                this.languageSelector.refresh();
+                this.homePageSelector.refresh();
+                this.themeSelectorToggle = true;
+            });
+        });
+    }
+
+    ngOnDestroy() {
+        this.languageChangedSubscription.unsubscribe();
     }
 
 
@@ -88,5 +119,20 @@ export class UserPreferencesComponent {
                 this.alertService.showStickyMessage("Save Error", `An error occured whilst resetting configuration defaults.\r\nErrors: "${Utilities.getHttpResponseMessage(error)}"`,
                     MessageSeverity.error, error);
             });
+    }
+
+
+
+
+    get canViewCustomers() {
+        return this.accountService.userHasPermission(Permission.viewUsersPermission); //eg. viewCustomersPermission
+    }
+
+    get canViewProducts() {
+        return this.accountService.userHasPermission(Permission.viewUsersPermission); //eg. viewProductsPermission
+    }
+
+    get canViewOrders() {
+        return true; //eg. viewOrdersPermission
     }
 }

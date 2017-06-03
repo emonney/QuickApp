@@ -1,0 +1,48 @@
+﻿<div>
+    <ngx-datatable class="material colored-header sm table-hover"
+                   [loadingIndicator]="loadingIndicator"
+                   [rows]="rows"
+                   [rowHeight]="35"
+                   [headerHeight]="isViewOnly ? 0 : 35"
+                   [footerHeight]="35"
+                   [limit]="10"
+                   [columns]="columns"
+                   [scrollbarV]="verticalScrollbar"
+                   [columnMode]="'force'">
+    </ngx-datatable>
+
+    <template #statusHeaderTemplate>
+        <i class="fa fa-bullhorn"></i>
+    </template>
+
+    <template #statusTemplate>
+        <span></span>
+    </template>
+
+    <template #dateTemplate let-row="row" let-value="value">
+        <span [class.unread]="!row.isRead" attr.title="{{getPrintedDate(value)}}">
+            {{getPrintedDate(value)}}
+        </span>
+    </template>
+
+    <template #contentHeaderTemplate let-row="row" let-value="value">
+        <span [class.unread]="!row.isRead" attr.title="{{row.body}}">
+            {{value}}
+        </span>
+    </template>
+
+    <template #contenBodytTemplate let-row="row" let-value="value">
+        <span [class.unread]="!row.isRead" attr.title="{{row.header}}">
+            {{value}}
+        </span>
+    </template>
+
+
+    <template #actionsTemplate let-row="row">
+        <a class="btn btn-link btn-xs" href="javascript:;" tooltip="{{'notifications.Delete' | translate}}" container="body" (click)="deleteNotification(row)"><i class="fa fa-times"></i></a>
+        <a class="btn btn-link btn-xs" href="javascript:;" tooltip="{{'notifications.Pin' | translate}}" co container="body" (click)="togglePin(row)">
+            <i *ngIf="row.isPinned" class="fa fa-thumb-tack"></i>
+            <i *ngIf="!row.isPinned" class="fa fa-thumb-tack fa-rotate-90"></i>
+        </a>
+    </template>
+</div>

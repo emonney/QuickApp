@@ -23,14 +23,14 @@
             <tbody>
                 <tr *ngFor="let d of chartData">
                     <th>{{d && d.label.split(' ').pop()}}</th>
-                    <td *ngFor="let label of chartLabels; let j=index">{{d && d.data[j]}}%</td>
+                    <td *ngFor="let label of chartLabels; let j=index">{{d && d.data[j]}}</td>
                 </tr>
             </tbody>
         </table>
         <button class="refresh-btn" (click)="randomize();showMessage('Manual refresh!');">REFSH</button>
         <div class="chart-type-container" dropdown>
-            <button id="chartType" type="button" dropdownToggle><i class="fa fa-bar-chart"></i></button>
-            <ul dropdownMenu role="menu" aria-labelledby="chartType">
+            <button id="chartType" type="button" dropdownToggle><i class="fa fa-bar-chart dropdown-toggle"></i></button>
+            <ul *dropdownMenu role="menu" aria-labelledby="chartType" class="dropdown-menu">
                 <li [class.active2]="chartType == 'bar'" role="menuitem"><a class="dropdown-item" (click)="changeChartType('bar')" href="javascript:;">Bar Chart</a></li>
                 <li [class.active2]="chartType == 'pie'" role="menuitem"><a class="dropdown-item" (click)="changeChartType('pie')" href="javascript:;">Pie Chart</a></li>
                 <li [class.active2]="chartType == 'doughnut'" role="menuitem"><a class="dropdown-item" (click)="changeChartType('doughnut')" href="javascript:;">Doughnut Chart</a></li>

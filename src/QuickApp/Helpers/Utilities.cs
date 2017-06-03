@@ -2,8 +2,11 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
+using AspNet.Security.OpenIdConnect.Primitives;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -51,19 +54,19 @@ namespace QuickApp.Helpers
             }
         }
 
-        
 
 
         public static string GetUserId(ClaimsPrincipal user)
         {
-            return user.FindFirst(ClaimTypes.NameIdentifier)?.Value?.Trim();
+            return user.FindFirst(OpenIdConnectConstants.Claims.Subject)?.Value?.Trim();
         }
+
 
 
         public static string[] GetRoles(ClaimsPrincipal identity)
         {
             return identity.Claims
-                .Where(c => c.Type == ClaimTypes.Role)
+                .Where(c => c.Type == OpenIdConnectConstants.Claims.Role)
                 .Select(c => c.Value)
                 .ToArray();
         }

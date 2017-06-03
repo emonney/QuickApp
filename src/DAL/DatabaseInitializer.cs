@@ -2,6 +2,8 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 using DAL.Models;
@@ -20,7 +22,7 @@ namespace DAL
 {
     public interface IDatabaseInitializer
     {
-        Task Seed();
+        Task SeedAsync();
     }
 
 
@@ -32,15 +34,14 @@ namespace DAL
         private readonly IAccountManager _accountManager;
         private readonly ILogger _logger;
 
-        public DatabaseInitializer(ApplicationDbContext context, IAccountManager accountManager, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager,
-            ILogger<DatabaseInitializer> logger)
+        public DatabaseInitializer(ApplicationDbContext context, IAccountManager accountManager, ILogger<DatabaseInitializer> logger)
         {
             _accountManager = accountManager;
             _context = context;
             _logger = logger;
         }
 
-        public async Task Seed()
+        public async Task SeedAsync()
         {
             await _context.Database.MigrateAsync().ConfigureAwait(false);
 
@@ -48,11 +49,12 @@ namespace DAL
             {
                 const string adminRoleName = "administrator";
                 const string userRoleName = "user";
-                await ensureRole(adminRoleName, "Default administrator", ApplicationPermissions.GetAllPermissionValues());
-                await ensureRole(userRoleName, "Default user", new string[] { });
 
-                await createUser("admin", "tempP@ss123", "Inbuilt Administrator", "admin@ebenmonney.com", "+1 (123) 000-0000", new string[] { adminRoleName });
-                await createUser("user", "tempP@ss123", "Inbuilt Standard User", "user@ebenmonney.com", "+1 (123) 000-0001", new string[] { userRoleName });
+                await ensureRoleAsync(adminRoleName, "Default administrator", ApplicationPermissions.GetAllPermissionValues());
+                await ensureRoleAsync(userRoleName, "Default user", new string[] { });
+
+                await createUserAsync("admin", "tempP@ss123", "Inbuilt Administrator", "admin@ebenmonney.com", "+1 (123) 000-0000", new string[] { adminRoleName });
+                await createUserAsync("user", "tempP@ss123", "Inbuilt Standard User", "user@ebenmonney.com", "+1 (123) 000-0001", new string[] { userRoleName });
             }
 
 
@@ -190,7 +192,7 @@ namespace DAL
 
 
 
-        private async Task ensureRole(string roleName, string description, string[] claims)
+        private async Task ensureRoleAsync(string roleName, string description, string[] claims)
         {
             if ((await _accountManager.GetRoleByNameAsync(roleName)) == null)
             {
@@ -203,7 +205,7 @@ namespace DAL
             }
         }
 
-        private async Task createUser(string userName, string password, string fullName, string email, string phoneNumber, string[] roles)
+        private async Task<ApplicationUser> createUserAsync(string userName, string password, string fullName, string email, string phoneNumber, string[] roles)
         {
             ApplicationUser applicationUser = new ApplicationUser
             {
@@ -219,6 +221,9 @@ namespace DAL
 
             if (!result.Item1)
                 throw new Exception($"Seeding \"{userName}\" user failed. Errors: {string.Join(Environment.NewLine, result.Item2)}");
+
+
+            return applicationUser;
         }
     }
 }

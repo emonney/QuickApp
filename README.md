@@ -1,17 +1,17 @@
-# **QuickApp** - ASPNET Core / Angular2 startup project template
+# **QuickApp** - ASPNET Core / Angular4 startup project template
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 
-A startup **Angular2 / ASP.NET Core** (cross-platform ) **project template** with an end-to-end user and role management implementation.
+A startup **Angular4 / ASP.NET Core** (cross-platform ) **project template** with an end-to-end user and role management implementation.
 As well as other common functionalities for Quick Application development.
 
-Download [demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutput.zip)
+[live demo](http://freeloada-001-site1.htempurl.com) / [downloadable demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutput.zip)
 
 
 [![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
 
 ## This application consists of:
 
-*   Template pages using Angular2 and TypeScript
+*   Template pages using Angular4 and TypeScript
 *   RESTful API Backend using ASP.NET Core MVC Web API
 *   Database using Entity Framework Core
 *   Authentication based on OpenID Connect
@@ -30,8 +30,10 @@ Download [demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutp
 *   Angular Animations Quidance
 *   Angular Services
 *   Dialog and Notification Services
-*   Configuration Page and Service
+*   Configuration Page and Configuration Service
+*   Integrated Internationaliztion functionality
 *   Theming with SASS
+*   Ready-to-use email feature
 *   Handling Access and Refresh Tokens with WebStorage (Bearer authentication) - No Cookies
 *   Jquery Integration (Example of using standard Jquery libraries)
 *   CRUD APIs
@@ -40,7 +42,7 @@ Download [demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutp
 ## Installation
 
 *   Clone the [Git Repository](https://github.com/emonney/QuickApp.git) and edit with your favorite editor. e.g. Visual Studio, Visual Studio Code
-*   Install Project template from the [Visual Studio Gallery](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngular2ProjectTemplate) and follow the usual File -> New Project -> Web -> QuickApp - to create a new Project from this template.
+*   Install Project template from the [Visual Studio Gallery](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate) and follow the usual File -> New Project -> Web -> QuickApp - to create a new Project from this template.
     Lunch with `F5` or `Ctrl+F5` (The usual way)
 *   Yeoman generator package coming soon...
 
@@ -57,15 +59,11 @@ Download [demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutp
 
 
 
-
-**NOTE** For faster builds you can comment out the line `"postcompile": [ "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" ]` in the "`project.json`" file.
- This is only required for the first time build and when the vendor packages in the `webpack.config.vendor.js` file is modified.
-
 ## Documentation
 
 *   [Overview of QuickApp](http://ebenmonney.com/quickapp)
 *   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
-*   [Angular2 documentation overview](http://angular.io/docs/ts/latest/guide)
+*   [Angular4 documentation overview](http://angular.io/docs/ts/latest/guide)
 *   [Working with Data](https://go.microsoft.com/fwlink/?LinkId=398602)
 *   [An introduction to webpack](https://webpack.js.org/guides/get-started/)
 
@@ -74,5 +72,5 @@ Download [demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutp
 
 Released under the [MIT License](https://github.com/emonney/QuickApp/blob/master/LICENSE).
 
-
+### _If you found this template useful, please take a minute to rate it. I'll really appreciate it. Thanks._
 I would love to hear your [feedback](mailto:info@ebenmonney.com)

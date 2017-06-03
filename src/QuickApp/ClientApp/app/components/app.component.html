@@ -18,22 +18,24 @@
                 <div *ngIf="isUserLoggedIn" class="app-component collapse navbar-collapse menuItemsContainer">
                     <ul class="app-component nav navbar-nav nav-pills navBarPadding">
                         <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"><a routerLink=""><span class="glyphicon glyphicon-home"></span></a></li>
-                        <li routerLinkActive="active"><a routerLink="/customers">Customers</a></li>
-                        <li routerLinkActive="active"><a routerLink="/products">Products</a></li>
-                        <li routerLinkActive="active"><a routerLink="/orders">Orders</a></li>
-                        <li routerLinkActive="active"><a routerLink="/about">About</a></li>
+                        <li routerLinkActive="active" *ngIf="canViewCustomers"><a routerLink="/customers">{{'mainMenu.Customers' | translate}}</a></li>
+                        <li routerLinkActive="active" *ngIf="canViewProducts"><a routerLink="/products">{{'mainMenu.Products' | translate}}</a></li>
+                        <li routerLinkActive="active" *ngIf="canViewOrders"><a routerLink="/orders">{{'mainMenu.Orders' | translate}}</a></li>
+                        <li routerLinkActive="active"><a routerLink="/about">{{'mainMenu.About' | translate}}</a></li>
                     </ul>
                     <ul class="app-component nav navbar-nav nav-pills navBarPadding navbar-right">
-                        <li (click)="logout()"><a href="javascript:;"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                        <li (click)="logout()"><a href="javascript:;"><span class="glyphicon glyphicon-log-out"></span> {{'mainMenu.Logout' | translate}}</a></li>
                     </ul>
                     <p class="app-component navbar-text navbar-right user-info-popup">
-                        Welcome
-                        <a class="app-component navbar-link user-name" [popover]="popTemplate" placement="bottom" popoverTitle="User Information" href="javascript:;"
-                           triggers="focus">{{userName}}</a>,
+                        {{'app.Welcome' | translate}}
+                        <a class="app-component navbar-link user-name" [popover]="popTemplate" (onHidden)="markNotificationsAsRead()" placement="bottom" [popoverTitle]="notificationsTitle" href="javascript:;" triggers="focus">
+                            {{userName}}
+                            <span *ngIf="newNotificationCount > 0" class="badge">{{newNotificationCount}}</span>
+                        </a>,
                     </p>
 
                     <template #popTemplate>
-                        <user-info [isViewOnly]="true"></user-info>
+                        <notifications-viewer [isViewOnly]="true"></notifications-viewer>
                     </template>
 
 

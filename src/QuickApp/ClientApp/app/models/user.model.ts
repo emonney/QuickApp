@@ -2,6 +2,8 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 export class User {
@@ -16,6 +18,17 @@ export class User {
         this.phoneNumber = phoneNumber;
         this.roles = roles;
     }
+
+
+    get friendlyName(): string {
+        let name = this.fullName || this.userName;
+
+        if (this.jobTitle)
+            name = this.jobTitle + " " + name;
+
+        return name;
+    }
+
 
     public id: string;
     public userName: string;

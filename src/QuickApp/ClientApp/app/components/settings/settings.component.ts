@@ -2,14 +2,17 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { fadeInOut } from '../../services/animations';
 import { ActivatedRoute } from '@angular/router';
-import { BootstrapTabDirective } from "../../directives/bootstrap-tab.directive";
 import 'rxjs/add/operator/switchMap';
 
+import { fadeInOut } from '../../services/animations';
+import { BootstrapTabDirective } from "../../directives/bootstrap-tab.directive";
+import { AppTranslationService } from "../../services/app-translation.service";
 import { AccountService, RolesChangedEventArg } from "../../services/account.service";
 import { Permission } from '../../models/permission.model';
 
@@ -28,6 +31,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     isRolesActived = false;
 
     fragmentSubscription: any;
+    languageChangedSubscription: any;
     rolesChangedSubscription: any;
 
     readonly profileTab = "profile";
@@ -42,20 +46,33 @@ export class SettingsComponent implements OnInit, OnDestroy {
     tab: BootstrapTabDirective;
 
 
-    constructor(private route: ActivatedRoute, private accountService: AccountService) {
+    constructor(private route: ActivatedRoute, private translationService: AppTranslationService, private accountService: AccountService) {
     }
 
 
     ngOnInit() {
         this.fragmentSubscription = this.route.fragment.subscribe(anchor => this.showContent(anchor));
+        this.languageChangedSubscription = this.translationService.languageChangedEvent().subscribe(data => this.handleLanguageChangedEvent());
         this.rolesChangedSubscription = this.accountService.getRolesChangedEvent().subscribe(data => this.handleRolesChangedEvent(data));
     }
 
 
     ngOnDestroy() {
         this.fragmentSubscription.unsubscribe();
+        this.languageChangedSubscription.unsubscribe();
         this.rolesChangedSubscription.unsubscribe();
     }
+
+
+    handleLanguageChangedEvent() {
+
+        if (this.activeTab != this.usersTab)
+            this.isUsersActived = false;
+
+        if (this.activeTab != this.rolesTab)
+            this.isRolesActived = false;
+    }
+
 
 
     handleRolesChangedEvent(eventArg: RolesChangedEventArg) {

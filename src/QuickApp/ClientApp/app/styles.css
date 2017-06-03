@@ -18,6 +18,9 @@
 }
 
 
+input.form-control.is-required-status, textarea.form-control.is-required-status, .bootstrap-select.is-required-status > .dropdown-toggle {
+    border-left-width: 5px;
+}
 
 
 .ng-valid[required], .ng-valid.required {

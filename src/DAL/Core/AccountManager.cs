@@ -2,6 +2,8 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 using DAL;
@@ -208,16 +210,12 @@ namespace DAL.Core
 
         public async Task<bool> TestCanDeleteUserAsync(string userId)
         {
-            bool canDelete = !await _context.Orders.Where(o => o.CashierId == userId).AnyAsync();
-
-            if (!canDelete)
-                return canDelete;
+            if (await _context.Orders.Where(o => o.CashierId == userId).AnyAsync())
+                return false;
 
             //canDelete = !await ; //Do other tests...
 
-
-
-            return canDelete;
+            return true;
         }
 
 

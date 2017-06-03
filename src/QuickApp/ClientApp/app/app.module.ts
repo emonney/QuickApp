@@ -2,31 +2,39 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 import { NgModule, ErrorHandler } from "@angular/core";
 import { RouterModule } from "@angular/router";
-import { FormsModule } from "@angular/forms"
-import { UniversalModule } from "angular2-universal";
+import { FormsModule } from "@angular/forms";
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpModule } from '@angular/http';
 
+import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastyModule } from 'ng2-toasty';
-//Bug in ng2-bootstrap packaging prevents loading individual modules. Check back in future updates
-//import { TooltipModule } from "ng2-bootstrap/tooltip";
-//import { PopoverModule } from "ng2-bootstrap/popover";
-//import { ModalModule } from 'ng2-bootstrap/modal';
-//Temp: load all from main package for now
-import { ModalModule, TooltipModule, PopoverModule, DropdownModule, CarouselModule } from "ng2-bootstrap"
+import { ModalModule } from 'ng2-bootstrap/modal';
+import { TooltipModule } from "ng2-bootstrap/tooltip";
+import { PopoverModule } from "ng2-bootstrap/popover";
+import { BsDropdownModule } from 'ng2-bootstrap/dropdown';
+import { CarouselModule } from 'ng2-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppErrorHandler } from './app-error.handler';
-import { AlertService } from './services/alert.service';
+import { AppTitleService } from './services/app-title.service';
+import { AppTranslationService, TranslateLanguageLoader } from './services/app-translation.service';
 import { ConfigurationService } from './services/configuration.service';
-import { AccountService } from './services/account.service';
+import { AlertService } from './services/alert.service';
 import { LocalStoreManager } from './services/local-store-manager.service';
 import { EndpointFactory } from './services/endpoint-factory.service';
-import { AppTitleService } from './services/app-title.service';
+import { NotificationService } from './services/notification.service';
+import { NotificationEndpoint } from './services/notification-endpoint.service';
+import { AccountService } from './services/account.service';
+import { AccountEndpoint } from './services/account-endpoint.service';
 
 import { EqualValidator } from './directives/equal-validator.directive';
 import { LastElementDirective } from './directives/last-element.directive';
@@ -34,6 +42,7 @@ import { AutofocusDirective } from './directives/autofocus.directive';
 import { BootstrapTabDirective } from './directives/bootstrap-tab.directive';
 import { BootstrapToggleDirective } from './directives/bootstrap-toggle.directive';
 import { BootstrapSelectDirective } from './directives/bootstrap-select.directive';
+import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.directive';
 import { GroupByPipe } from './pipes/group-by.pipe';
 
 import { AppComponent } from "./components/app.component";
@@ -42,30 +51,43 @@ import { HomeComponent } from "./components/home/home.component";
 import { CustomersComponent } from "./components/customers/customers.component";
 import { ProductsComponent } from "./components/products/products.component";
 import { OrdersComponent } from "./components/orders/orders.component";
+
 import { SettingsComponent } from "./components/settings/settings.component";
-import { UserInfoComponent } from "./components/settings/controls/user-info.component";
-import { UserPreferencesComponent } from "./components/settings/controls/user-preferences.component";
-import { UsersManagementComponent } from "./components/settings/controls/users-management.component";
-import { RolesManagementComponent } from "./components/settings/controls/roles-management.component";
-import { RoleEditorComponent } from "./components/settings/controls/role-editor.component";
 import { AboutComponent } from "./components/about/about.component";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
-import { SearchBoxComponent } from "./components/controls/search-box.component";
-import { StatisticsDemoComponent } from "./components/controls/statistics-demo.component";
-import { TodoDemoComponent } from "./components/controls/todo-demo.component";
+
 import { BannerDemoComponent } from "./components/controls/banner-demo.component";
+import { TodoDemoComponent } from "./components/controls/todo-demo.component";
+import { StatisticsDemoComponent } from "./components/controls/statistics-demo.component";
+import { NotificationsViewerComponent } from "./components/controls/notifications-viewer.component";
+import { SearchBoxComponent } from "./components/controls/search-box.component";
+import { UserInfoComponent } from "./components/controls/user-info.component";
+import { UserPreferencesComponent } from "./components/controls/user-preferences.component";
+import { UsersManagementComponent } from "./components/controls/users-management.component";
+import { RolesManagementComponent } from "./components/controls/roles-management.component";
+import { RoleEditorComponent } from "./components/controls/role-editor.component";
+
+
 
 
 @NgModule({
     imports: [
-        UniversalModule, // Must be first import. This automatically imports BrowserModule, HttpModule, and JsonpModule too.
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpModule,
         FormsModule,
         AppRoutingModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useClass: TranslateLanguageLoader
+            }
+        }),
         NgxDatatableModule,
         ToastyModule.forRoot(),
         TooltipModule.forRoot(),
         PopoverModule.forRoot(),
-        DropdownModule.forRoot(),
+        BsDropdownModule.forRoot(),
         CarouselModule.forRoot(),
         ModalModule.forRoot(),
         ChartsModule
@@ -77,9 +99,12 @@ import { BannerDemoComponent } from "./components/controls/banner-demo.component
         CustomersComponent,
         ProductsComponent,
         OrdersComponent,
-        SettingsComponent, UserInfoComponent, UserPreferencesComponent, UsersManagementComponent, RolesManagementComponent, RoleEditorComponent,
+        SettingsComponent,
+        UsersManagementComponent, UserInfoComponent, UserPreferencesComponent,
+        RolesManagementComponent, RoleEditorComponent,
         AboutComponent,
         NotFoundComponent,
+        NotificationsViewerComponent,
         SearchBoxComponent,
         StatisticsDemoComponent, TodoDemoComponent, BannerDemoComponent,
         EqualValidator,
@@ -88,6 +113,7 @@ import { BannerDemoComponent } from "./components/controls/banner-demo.component
         BootstrapTabDirective,
         BootstrapToggleDirective,
         BootstrapSelectDirective,
+        BootstrapDatepickerDirective,
         GroupByPipe
     ],
     providers: [
@@ -95,7 +121,11 @@ import { BannerDemoComponent } from "./components/controls/banner-demo.component
         AlertService,
         ConfigurationService,
         AppTitleService,
+        AppTranslationService,
+        NotificationService,
+        NotificationEndpoint,
         AccountService,
+        AccountEndpoint,
         LocalStoreManager,
         EndpointFactory
     ],

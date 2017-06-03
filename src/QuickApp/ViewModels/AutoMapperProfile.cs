@@ -2,6 +2,8 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 using AutoMapper;
@@ -25,7 +27,7 @@ namespace QuickApp.ViewModels
                 .ReverseMap();
 
             CreateMap<ApplicationUser, UserEditViewModel>()
-                .ForMember(vm => vm.Roles, map => map.Ignore())
+                .ForMember(d => d.Roles, map => map.Ignore())
                 .ReverseMap();
 
             CreateMap<ApplicationUser, UserPatchViewModel>()

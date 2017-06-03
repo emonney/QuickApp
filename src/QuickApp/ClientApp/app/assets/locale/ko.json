@@ -1,0 +1,179 @@
+﻿{
+  "app": {
+    "Welcome": "환영",
+    "Notifications": "알림",
+    "New": "새로운"
+  },
+  "mainMenu": {
+    "Appointments": "설비",
+    "Customers": "고객",
+    "Products": "제작품",
+    "Orders": "명령",
+    "About": "약",
+    "Logout": "로그 아웃"
+  },
+  "pageHeader": {
+    "Dashboard": "계기반",
+    "Customers": "고객",
+    "Products": "제작품",
+    "Orders": "명령",
+    "NotFound": "발견되지 않음",
+    "About": "약",
+    "Settings": "설정"
+  },
+  "home": {
+    "NoWidgets1": "위젯이 표시되지 않았습니다. 고토",
+    "NoWidgets2": "사용 가능한 위젯을 구성하는 방법",
+    "StatisticsTitle": "중요한 것들"
+  },
+  "notFound": {
+    "404": "404",
+    "pageNotFound": "찾고있는 페이지가 존재하지 않습니다.",
+    "backToHome": "홈으로"
+  },
+  "settings": {
+    "tab": {
+      "Profile": "윤곽",
+      "Preferences": "환경 설정",
+      "Users": "사용자",
+      "Roles": "역할"
+    },
+    "header": {
+      "UserProfile": "유저 프로필",
+      "UserPreferences": "사용자 환경 설정",
+      "UserDepartments": "사용자 부서",
+      "UsersManagements": "사용자 관리",
+      "RolesManagement": "역할 관리"
+    }
+  },
+  "preferences": {
+    "ReloadPreferences": "환경 설정 새로 고침 :",
+    "ReloadPreferencesHint": "기본 환경 설정로드 (로컬 변경 사항은 무시됩니다)",
+    "Language": "언어:",
+    "English": "영어",
+    "French": "프랑스 국민",
+    "Arabic": "아라비아 말",
+    "Korean": "한국어",
+    "LanguageHint": "계정의 기본 언어 선택",
+    "HomePage": "홈페이지 :",
+    "Dashboard": "계기반",
+    "Customers": "고객",
+    "Products": "제작품",
+    "Orders": "명령",
+    "About": "약",
+    "Settings": "설정",
+    "HomePageHint": "로그인시 이동할 기본 페이지를 선택하십시오.",
+    "Theme": "테마:",
+    "DefaultColor": "<span class='default-theme-option'>태만</span>",
+    "RedColor": "<span class='red-theme-option'>빨간</span>",
+    "OrangeColor": "\"<span class='orange-theme-option'>주황색</span>",
+    "GreenColor": "<span class='green-theme-option'>녹색</span>",
+    "GrayColor": "<span class='gray-theme-option'>회색</span>",
+    "BlackColor": "<span class='black-theme-option'>검은</span>",
+    "ThemeHint": "계정의 기본 색상 테마 선택",
+    "DashboardStatistics": "대시 보드 통계:",
+    "DashboardStatisticsHint": "데모 그래프 위젯을 대시 보드에 표시하십시오.",
+    "DashboardNotifications": "대시 보드 알림 :",
+    "DashboardNotificationsHint": "대시 보드에 애플리케이션 알림 표시",
+    "DashboardTodo": "대시 보드 할일:",
+    "DashboardTodoHint": "대시 보드에서 데모 할 일 위젯 표시",
+    "DashboardBanner": "대시 보드 배너 :",
+    "DashboardBannerHint": "데모 정보 배너 위젯을 대시 보드에 표시하십시오.",
+    "ResetDefault": "기본값 재설정",
+    "SetDefault": "기본값으로 설정"
+  },
+  "users": {
+    "management": {
+      "Search": "사용자 검색...",
+      "NewUser": "새로운 사용자",
+      "Edit": "편집하다",
+      "Delete": "지우다",
+      "EditUser": "사용자 편집 \"{{name}}\"",
+      "Title": "표제",
+      "UserName": "사용자 이름",
+      "FullName": "성명",
+      "Email": "이메일",
+      "Roles": "역할",
+      "PhoneNumber": "전화 번호"
+    },
+    "editor": {
+      "JobTitle": "직위: ",
+      "UserName": "사용자 이름: ",
+      "UserNameRequired": "사용자 이름이 필요합니다 (최소 2 자, 최대 200 자).",
+      "Password": "암호:",
+      "PasswordHint": "사용자 이름을 변경할 때 암호가 필요합니다.",
+      "CurrentPasswordRequired": "현재 비밀번호가 필요합니다.",
+      "Email": "이메일:",
+      "EmailRequired": "이메일 주소는 필수 사항입니다 (최대 200 자).",
+      "InvalidEmail": "지정된 이메일이 유효하지 않습니다.",
+      "ChangePassword": "비밀번호 변경",
+      "CurrentPassword": "현재 비밀번호:",
+      "NewPassword": "새 비밀번호:",
+      "NewPasswordRequired": "새 암호가 필요합니다 (최소 6 자).",
+      "ConfirmPassword": "비밀번호 확인:",
+      "ConfirmationPasswordRequired": "확인 암호가 필요합니다.",
+      "PasswordMismatch": "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.",
+      "Roles": "역할 :",
+      "FullName": "성명 :",
+      "RoleRequired": "역할이 필요합니다.",
+      "PhoneNumber": "전화 #:",
+      "Enabled": "사용",
+      "Unblock": "차단 해제",
+      "Close": "닫기",
+      "Edit": "편집하다",
+      "Cancel": "취소",
+      "Save": "구하다",
+      "Saving": "절약..."
+    }
+  },
+  "roles": {
+    "management": {
+      "Search": "역할 검색...",
+      "NewRole": "새로운 역할",
+      "Edit": "편집하다",
+      "Details": "세부",
+      "Delete": "지우다",
+      "RoleDetails": "역할 세부 정보",
+      "EditRole": "역할 편집 \"{{name}}\"",
+      "Name": "이름",
+      "Description": "기술",
+      "Users": "사용자"
+    },
+    "editor": {
+      "Name": "이름:",
+      "Description": "기술:",
+      "RoleNameRequired": "역할 이름은 필수 항목입니다 (최소 2 자, 최대 200 자).",
+      "SelectAll": "모두 선택",
+      "SelectNone": "없음 선택",
+      "Close": "닫기",
+      "Cancel": "취소",
+      "Save": "구하다",
+      "Saving": "절약..."
+    }
+  },
+  "notifications": {
+    "Delete": "알림 삭제",
+    "Pin": "핀 알림",
+    "Date": "날짜",
+    "Notification": "공고"
+  },
+  "todoDemo": {
+    "management": {
+      "Search": "할 일 검색...",
+      "HideCompleted": "완료 안함",
+      "AddTask": "할 일 추가",
+      "Delete": "작업 삭제",
+      "Important": "중요한 것으로 표시",
+      "Task": "태스크",
+      "Description": "기술"
+    },
+    "editor": {
+      "NewTask": "새 작업",
+      "Name": "이름",
+      "TaskNameRequired": "작업 이름이 필요합니다.",
+      "Description": "기술",
+      "Important": "중요한 것으로 표시",
+      "AddTask": "할 일 추가"
+    }
+  }
+}

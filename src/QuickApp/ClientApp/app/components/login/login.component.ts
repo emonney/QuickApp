@@ -2,6 +2,8 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 import { Component, OnInit, OnDestroy, Input } from "@angular/core";
@@ -43,6 +45,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.authService.redirectLoginUser();
         }
         else {
+            this.displayDemoUserAssistant();
+
             this.loginStatusSubscription = this.authService.getLoginStatusEvent().subscribe(isLoggedIn => {
                 if (this.getShouldRedirect()) {
                     this.authService.redirectLoginUser();
@@ -60,6 +64,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     getShouldRedirect() {
         return !this.isModal && this.authService.isLoggedIn && !this.authService.isSessionExpired;
+    }
+
+
+    displayDemoUserAssistant() {
+        if (this.isModal)
+            return;
+
+        setTimeout(() => this.alertService.showMessage("Hello tester!", "Please login with any of the demo credentials below", MessageSeverity.info), 2000);
+        setTimeout(() => this.alertService.showStickyMessage("Admin User", "Username: admin<br />Password: tempP@ss123", MessageSeverity.default), 4000);
+        setTimeout(() => this.alertService.showStickyMessage("Standard User", "Username: user<br />Password: tempP@ss123", MessageSeverity.default), 4500);
     }
 
 

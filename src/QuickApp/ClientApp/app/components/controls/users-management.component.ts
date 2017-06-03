@@ -2,18 +2,21 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 import { Component, OnInit, AfterViewInit, TemplateRef, ViewChild, Input } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap';//Todo: Change back to 'ng2-bootstrap/modal' when valorsoft fixes umd module
 
-import { AlertService, DialogType, MessageSeverity } from '../../../services/alert.service';
-import { AccountService } from "../../../services/account.service";
-import { Utilities } from "../../../services/utilities";
-import { User } from '../../../models/user.model';
-import { Role } from '../../../models/role.model';
-import { Permission } from '../../../models/permission.model';
-import { UserEdit } from '../../../models/user-edit.model';
+import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
+import { AppTranslationService } from "../../services/app-translation.service";
+import { AccountService } from "../../services/account.service";
+import { Utilities } from "../../services/utilities";
+import { User } from '../../models/user.model';
+import { Role } from '../../models/role.model';
+import { Permission } from '../../models/permission.model';
+import { UserEdit } from '../../models/user-edit.model';
 import { UserInfoComponent } from "./user-info.component";
 
 
@@ -28,7 +31,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     rowsCache: User[] = [];
     editedUser: UserEdit;
     sourceUser: UserEdit;
-    editingUserName: string;
+    editingUserName: { name: string };
     loadingIndicator: boolean;
 
     allRoles: Role[] = [];
@@ -52,21 +55,26 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     @ViewChild('userEditor')
     userEditor: UserInfoComponent;
 
-    constructor(private alertService: AlertService, private accountService: AccountService) {
+    constructor(private alertService: AlertService, private translationService: AppTranslationService, private accountService: AccountService) {
     }
 
 
     ngOnInit() {
+
+        let gT = (key: string) => this.translationService.getTranslation(key);
+
         this.columns = [
             { prop: "index", name: '#', width: 40, cellTemplate: this.indexTemplate, canAutoResize: false },
-            { prop: 'jobTitle', name: 'Title', width: 50 },
-            { prop: 'userName', name: 'User Name', width: 90, cellTemplate: this.userNameTemplate },
-            { prop: 'fullName', name: 'Full Name', width: 120 },
-            { prop: 'email', name: 'Email', width: 140 },
-            { prop: 'roles', name: 'Roles', width: 120, cellTemplate: this.rolesTemplate },
-            { prop: 'phoneNumber', width: 100, name: 'Phone Number' },
-            { name: '', width: 130, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false }
+            { prop: 'jobTitle', name: gT('users.management.Title'), width: 50 },
+            { prop: 'userName', name: gT('users.management.UserName'), width: 90, cellTemplate: this.userNameTemplate },
+            { prop: 'fullName', name: gT('users.management.FullName'), width: 120 },
+            { prop: 'email', name: gT('users.management.Email'), width: 140 },
+            { prop: 'roles', name: gT('users.management.Roles'), width: 120, cellTemplate: this.rolesTemplate },
+            { prop: 'phoneNumber', name: gT('users.management.PhoneNumber'), width: 100 }
         ];
+
+        if (this.canManageUsers)
+            this.columns.push({ name: '', width: 130, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false });
 
         this.loadData();
     }
@@ -191,7 +199,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 
 
     editUser(row: UserEdit) {
-        this.editingUserName = row.userName;
+        this.editingUserName = { name: row.userName };
         this.sourceUser = row;
         this.editedUser = this.userEditor.editUser(row, this.allRoles);
         this.editorModal.show();
@@ -229,6 +237,10 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 
     get canViewRoles() {
         return this.accountService.userHasPermission(Permission.viewRolesPermission)
+    }
+
+    get canManageUsers() {
+        return this.accountService.userHasPermission(Permission.manageUsersPermission);
     }
 
 }

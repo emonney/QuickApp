@@ -2,6 +2,8 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 import { NgModule } from '@angular/core';
@@ -17,10 +19,6 @@ import { AboutComponent } from "./components/about/about.component";
 import { NotFoundComponent } from "./components/not-found/not-found.component";
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard.service';
-
-
-
-//{ path: '', component: HomeComponent, canActivate: [AuthGuard] },
 
 
 

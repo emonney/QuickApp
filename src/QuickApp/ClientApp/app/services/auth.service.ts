@@ -2,6 +2,8 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 import { Injectable } from '@angular/core';
@@ -144,7 +146,7 @@ export class AuthService {
 
         let user = new User(
             decodedIdToken.sub,
-            decodedIdToken.unique_name,
+            decodedIdToken.name,
             decodedIdToken.fullname,
             decodedIdToken.email,
             decodedIdToken.jobTitle,

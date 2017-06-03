@@ -1,0 +1,180 @@
+﻿{
+  "app": {
+    "Welcome": "أهلا بك",
+    "Notifications": "إعلام",
+    "New": "جديد"
+  },
+  "mainMenu": {
+    "Appointments": "المواعيد",
+    "Customers": "الزبائن",
+    "Products": "المنتجات",
+    "Orders": "الأوامر",
+    "About": "حول منجز التطبيق",
+    "Logout": "الخروج"
+  },
+  "pageHeader": {
+    "Dashboard": "لوحة القيادة",
+    "Customers": "الزبائن",
+    "Products": "المنتجات",
+    "Orders": "الأوامر",
+    "NotFound": "لا يوجد",
+    "About": "حول منجز التطبيق",
+    "Settings": "إعدادات"
+  },
+  "home": {
+    "NoWidgets1": "لم يتم عرض أية أدوات. اذهب إلى",
+    "NoWidgets2": "لتكوين الأدوات المتاحة",
+    "StatisticsTitle": "بعض الاشياء الهامة"
+  },
+  "notFound": {
+    "404": "404",
+    "pageNotFound": "الصفحة التي تبحث عنها غير موجودة",
+    "backToHome": "العودة إلى لوحة الإستقبال"
+  },
+  "settings": {
+    "tab": {
+      "Profile": "الملف الشخصي",
+      "Preferences": "التفضيلات",
+      "Users": "المستخدمين",
+      "Roles": "الأدوار"
+    },
+    "header": {
+      "UserProfile": "ملف تعريفي للمستخدم",
+      "UserPreferences": "خيارات المستخدم",
+      "UserDepartments": "أقسام المستخدم",
+      "UsersManagements": "إدارة المستخدمين",
+      "RolesManagement": "إدارة الأدوار"
+    }
+  },
+  "preferences": {
+    "ReloadPreferences": "إعادة تحميل التفضيلات:",
+    "ReloadPreferencesHint": "(تحميل التفضيلات الافتراضية (يتم تجاهل التغييرات المحلية",
+    "Language": "لغة:",
+    "English": "الإنجليزية",
+    "French": "الفرنسية",
+    "Arabic": "العربية",
+    "Korean": "الكورية",
+    "LanguageHint": "اختيار اللغة المفضلة لحسابك",
+    "HomePage": "الصفحة الرئيسية:",
+    "Dashboard": "لوحة القيادة",
+    "Customers": "الزبائن",
+    "Products": "منتجات",
+    "Orders": "أوامر",
+    "About": "حول",
+    "Settings": "إعدادات",
+    "HomePageHint": "حدد الصفحة الافتراضية للانتقال إلى تسجيل الدخول",
+    "Theme": "فكرة رئيسية:",
+    "DefaultColor": "<span class='default-theme-option'>اللون المفضل</span>",
+    "RedColor": "<span class='red-theme-option'>الأحمر</span>",
+    "OrangeColor": "<span class='orange-theme-option'>البرتقالي</span>",
+    "GreenColor": "<span class='green-theme-option'>الأخضر</span>",
+    "GrayColor": "<span class='gray-theme-option'>الرمادي</span>",
+    "BlackColor": "<span class='black-theme-option'>الأسود</span>",
+    "ThemeHint": "حدد اللون الافتراضي لحسابك",
+    "DashboardStatistics": "إحصائيات لوحة التحكم:",
+    "DashboardStatisticsHint": "عرض الرسم البياني التجريبي على لوحة القيادة",
+    "DashboardNotifications": "إشعارات لوحة التحكم:",
+    "DashboardNotificationsHint": "عرض إشعارات التطبيق على لوحة التحكم",
+    "DashboardTodo": "لوحة التحكم للواجبات:",
+    "DashboardTodoHint": "يظهر الوحة التجريبية للواجبات على لوحة القيادة",
+    "DashboardBanner": "شعار لوحة التحكم:",
+    "DashboardBannerHint": "عرض معلومات الراية التجريبية على لوحة القيادة",
+    "ResetDefault": "اعادة تشغيل الأصل",
+    "SetDefault": "تعيين الأصل"
+  },
+  "users": {
+    "management": {
+      "Search": "البحث عن المستخدم...",
+      "NewUser": "مستخدم جديد",
+      "Edit": "تصحيح",
+      "Delete": "حذف",
+      "EditUser": "تحرير العضو \"{{name}}\"",
+      "Title": "عنوان",
+      "UserName": "اسم المستخدم",
+      "FullName": "الإسم الكامل",
+      "Email": "البريد الإلكتروني",
+      "Roles": "الأدوار",
+      "PhoneNumber": "رقم الهاتف"
+    },
+    "editor": {
+      "JobTitle": "المسمى الوظيفي: ",
+      "UserName": "اسم المستخدم:",
+      "UserNameRequired": "(مطلوب اسم المستخدم (الحد الأدنى من 2 والحد الأقصى 200 حرفا",
+      "Password": "كلمة المرور:",
+      "PasswordHint": "كلمة المرور مطلوبة عند تغيير اسم المستخدم",
+      "CurrentPasswordRequired": "كلمة المرور الحالية مطلوبة",
+      "Email": "البريد الإلكتروني:",
+      "EmailRequired": "(عنوان البريد الإلكتروني مطلوب (بحد أقصى 200 حرف",
+      "InvalidEmail": "البريد الإلكتروني المحدد غير صالح",
+      "ChangePassword": "غير كلمة المرور",
+      "CurrentPassword": "كلمة المرور الحالية:",
+      "NewPassword": "كلمة مرور جديدة:",
+      "NewPasswordRequired": "الحد الأدنى من 6 أحرف) مطلوب كلمة مرور)",
+      "ConfirmPassword": "تأكيد كلمة المرور:",
+      "ConfirmationPasswordRequired": "مطلوب كلمة مرور التأكيد",
+      "PasswordMismatch": "لا تتطابق كلمة المرور الجديدة وكلمة مرور التأكيد",
+      "Roles": "الأدوار:",
+      "FullName": " الإسم الكامل:",
+      "RoleRequired": " مطلوب دور",
+      "PhoneNumber": "الهاتف #:",
+      "Enabled": "تمكين",
+      "Unblock": "رفع الحظر",
+      "Close": "إغلاق",
+      "Edit": "تصحيح",
+      "Cancel": "إلغاء",
+      "Save": "حفظ",
+      "Saving": "جار الحفظ..."
+    }
+  },
+  "roles": {
+    "management": {
+      "Search": "البحث عن دور...",
+      "NewRole": "دور جديد",
+      "Edit": "تصحيح",
+      "Details": "تفاصيل",
+      "Delete": "حذف",
+      "RoleDetails": "تفاصيل الدور",
+      "EditRole": "  تحرير الدور\"{{name}}\"",
+      "Name": "اسم",
+      "Description": "وصف",
+      "Users": "المستخدمين"
+    },
+    "editor": {
+      "Name": "اسم:",
+      "Description": "وصف:",
+      "RoleNameRequired": "(اسم الدور مطلوب (بحد أدنى 2 و 200 حرف كحد أقصى",
+      "SelectAll": "اختر الكل",
+      "SelectNone": "لا تختر شيء",
+      "Close": "إغلاق",
+      "Cancel": "إلغاء",
+      "Save": "حفظ",
+      "Saving": "جار الحفظ..."
+    }
+  },
+  "notifications": {
+    "Delete": "حذف الإشعار",
+    "Pin": "رفع الأولوية",
+    "Date": "تاريخ",
+    "Notification": "إعلام"
+  },
+  "todoDemo": {
+    "management": {
+      "Search": "البحث عن مهمة...",
+      "HideCompleted": "إكتمال الإخفاء",
+      "AddTask": "إضافة مهمة",
+      "Delete": "حذف المهمة",
+      "Important": "وضع علامة كمهمة",
+      "Task": "مهمة",
+      "Description": "وصف"
+    },
+
+    "editor": {
+      "NewTask": "مهمة جديدة",
+      "Name": "اسم",
+      "TaskNameRequired": "مطلوب اسم المهمة",
+      "Description": "وصف",
+      "Important": "وضع علامة لإظهار الأهمية",
+      "AddTask": "إضافة مهمة"
+    }
+  }
+}

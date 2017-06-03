@@ -2,6 +2,8 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 using System;
@@ -136,7 +138,7 @@ namespace QuickApp.Controllers
             if (ModelState.IsValid)
             {
                 if (user == null)
-                    return BadRequest($"{nameof(user)} cannot be empty");
+                    return BadRequest($"{nameof(user)} cannot be null");
 
                 if (!string.IsNullOrWhiteSpace(user.Id) && id != user.Id)
                     return BadRequest("Conflicting user id in parameter and model data");
@@ -213,7 +215,7 @@ namespace QuickApp.Controllers
             if (ModelState.IsValid)
             {
                 if (patch == null)
-                    return BadRequest($"{nameof(patch)} cannot be empty");
+                    return BadRequest($"{nameof(patch)} cannot be null");
 
 
                 ApplicationUser appUser = await _accountManager.GetUserByIdAsync(id);
@@ -252,7 +254,7 @@ namespace QuickApp.Controllers
             if (ModelState.IsValid)
             {
                 if (user == null)
-                    return BadRequest($"{nameof(user)} cannot be empty");
+                    return BadRequest($"{nameof(user)} cannot be null");
 
 
                 ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
@@ -425,7 +427,7 @@ namespace QuickApp.Controllers
             if (ModelState.IsValid)
             {
                 if (role == null)
-                    return BadRequest($"{nameof(role)} cannot be empty");
+                    return BadRequest($"{nameof(role)} cannot be null");
 
                 if (!string.IsNullOrWhiteSpace(role.Id) && id != role.Id)
                     return BadRequest("Conflicting role id in parameter and model data");
@@ -461,7 +463,7 @@ namespace QuickApp.Controllers
             if (ModelState.IsValid)
             {
                 if (role == null)
-                    return BadRequest($"{nameof(role)} cannot be empty");
+                    return BadRequest($"{nameof(role)} cannot be null");
 
 
                 ApplicationRole appRole = Mapper.Map<ApplicationRole>(role);

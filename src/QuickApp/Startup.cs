@@ -2,6 +2,8 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 using System;
@@ -32,12 +34,15 @@ using QuickApp.ViewModels;
 using QuickApp.Helpers;
 using QuickApp.Policies;
 using AppPermissions = DAL.Core.ApplicationPermissions;
+using AspNet.Security.OpenIdConnect.Primitives;
+using OpenIddict.Core;
 
 namespace QuickApp
 {
     public class Startup
     {
         public IConfigurationRoot Configuration { get; }
+        private IHostingEnvironment _hostingEnvironment;
 
 
         public Startup(IHostingEnvironment env)
@@ -48,12 +53,27 @@ namespace QuickApp
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+            _hostingEnvironment = env;
         }
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            EmailTemplates.Initialize(_hostingEnvironment);
+
+            EmailSender.Configuration = new SmtpConfig
+            {
+                Host = Configuration["SmtpConfig:Host"],
+                Port = int.Parse(Configuration["SmtpConfig:Port"]),
+                UseSSL = bool.Parse(Configuration["SmtpConfig:UseSSL"]),
+                Name = Configuration["SmtpConfig:Name"],
+                Username = Configuration["SmtpConfig:Username"],
+                EmailAddress = Configuration["SmtpConfig:EmailAddress"],
+                Password = Configuration["SmtpConfig:Password"]
+            };
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"], b => b.MigrationsAssembly("QuickApp"));
@@ -81,20 +101,26 @@ namespace QuickApp
                 //    //// Lockout settings
                 //    //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 //    //options.Lockout.MaxFailedAccessAttempts = 10;
+
+                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
             });
 
 
 
-            // add OpenIddict
-            services.AddOpenIddict()
-                .AddEntityFrameworkCoreStores<ApplicationDbContext>()
-                .AddMvcBinders()
-                .DisableHttpsRequirement()
-                .EnableTokenEndpoint("/connect/token")
-                .AllowPasswordFlow()
-                .AllowRefreshTokenFlow()
-                //.UseJsonWebTokens() //Use JWT if preferred
-                .AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
+            // Register the OpenIddict services.
+            services.AddOpenIddict(options =>
+            {
+                options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
+                options.AddMvcBinders();
+                options.EnableTokenEndpoint("/connect/token");
+                options.AllowPasswordFlow();
+                options.AllowRefreshTokenFlow();
+                options.DisableHttpsRequirement();
+                // options.UseJsonWebTokens(); //Use JWT if preferred
+                options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
+            });
 
 
             // Enable cors if required
@@ -257,7 +283,7 @@ namespace QuickApp
 
             try
             {
-                databaseInitializer.Seed().Wait();
+                databaseInitializer.SeedAsync().Wait();
             }
             catch (Exception ex)
             {

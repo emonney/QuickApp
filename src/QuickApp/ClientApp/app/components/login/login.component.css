@@ -27,6 +27,15 @@
 }
 
 
+.separator-hr {
+    margin: 0;
+}
+
+.last-control-group {
+    margin-bottom: -25px;
+}
+
+
 
 @media (min-width: 768px) {
     .login-container {

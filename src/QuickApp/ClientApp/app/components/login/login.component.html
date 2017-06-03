@@ -45,11 +45,13 @@
                                 <button type="submit" class="btn btn-primary" [disabled]="isLoading"><i *ngIf="isLoading" class='fa fa-circle-o-notch fa-spin'></i> {{isLoading ? 'Loggin in...' : 'Login'}}</button>
                             </div>
                         </div>
-                        <!--<div class="statusRow">
-                            <br />
-                            <div class="label label-important" data-ng-show="vm.errorMessage">
-                                <span class="glyphicon glyphicon-thumbs-down icon-white"></span>&nbsp;&nbsp;Error: {{ vm.errorMessage }}
-                            </div>
+
+                        <!--<div *ngIf="!isModal" class="col-md-12">
+                            <hr class="separator-hr" />
+                        </div>
+
+                        <div *ngIf="!isModal" class="col-md-12 last-control-group">
+                            <span>Don't have an account?</span><a href="javascript:;" class="btn btn-link" (click)="signUp()">Sign Up</a>
                         </div>-->
                     </form>
                 </div>

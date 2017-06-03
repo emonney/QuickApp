@@ -2,10 +2,13 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 import { Injectable } from '@angular/core';
 
+import { AppTranslationService } from './app-translation.service';
 import { LocalStoreManager } from './local-store-manager.service';
 import { DBkeys } from './db-Keys';
 import { Utilities } from './utilities';
@@ -13,9 +16,11 @@ import { Utilities } from './utilities';
 
 
 type UserConfiguration = {
+    language: string,
     homeUrl: string,
     theme: string,
     showDashboardStatistics: boolean,
+    showDashboardNotifications: boolean,
     showDashboardTodo: boolean,
     showDashboardBanner: boolean
 };
@@ -30,27 +35,39 @@ export class ConfigurationService {
     public loginUrl: string = "/Login";
 
     //***Specify default configurations here***
+    public static readonly defaultLanguage: string = "en";
     public static readonly defaultHomeUrl: string = "/";
     public static readonly defaultTheme: string = "Default";
     public static readonly defaultShowDashboardStatistics: boolean = true;
+    public static readonly defaultShowDashboardNotifications: boolean = true;
     public static readonly defaultShowDashboardTodo: boolean = false;
     public static readonly defaultShowDashboardBanner: boolean = true;
     //***End of defaults***  
-    
+
+    private _language: string = null;
     private _homeUrl: string = null;
     private _theme: string = null;
     private _showDashboardStatistics: boolean = null;
+    private _showDashboardNotifications: boolean = null;
     private _showDashboardTodo: boolean = null;
     private _showDashboardBanner: boolean = null;
-        
 
-    constructor(private localStorage: LocalStoreManager) {
+
+    constructor(private localStorage: LocalStoreManager, private translationService: AppTranslationService) {
         this.loadLocalChanges();
     }
 
 
-    
+
     private loadLocalChanges() {
+
+        if (this.localStorage.exists(DBkeys.LANGUAGE)) {
+            this._language = this.localStorage.getDataObject<string>(DBkeys.LANGUAGE);
+            this.translationService.changeLanguage(this._language);
+        }
+        else {
+            this.resetLanguage();
+        }
 
         if (this.localStorage.exists(DBkeys.HOME_URL))
             this._homeUrl = this.localStorage.getDataObject<string>(DBkeys.HOME_URL);
@@ -60,6 +77,9 @@ export class ConfigurationService {
 
         if (this.localStorage.exists(DBkeys.SHOW_DASHBOARD_STATISTICS))
             this._showDashboardStatistics = this.localStorage.getDataObject<boolean>(DBkeys.SHOW_DASHBOARD_STATISTICS);
+
+        if (this.localStorage.exists(DBkeys.SHOW_DASHBOARD_NOTIFICATIONS))
+            this._showDashboardNotifications = this.localStorage.getDataObject<boolean>(DBkeys.SHOW_DASHBOARD_NOTIFICATIONS);
 
         if (this.localStorage.exists(DBkeys.SHOW_DASHBOARD_TODO))
             this._showDashboardTodo = this.localStorage.getDataObject<boolean>(DBkeys.SHOW_DASHBOARD_TODO);
@@ -83,6 +103,9 @@ export class ConfigurationService {
 
         let importValue: UserConfiguration = Utilities.JSonTryParse(jsonValue);
 
+        if (importValue.language != null)
+            this.language = importValue.language;
+
         if (importValue.homeUrl != null)
             this.homeUrl = importValue.homeUrl;
 
@@ -91,6 +114,9 @@ export class ConfigurationService {
 
         if (importValue.showDashboardStatistics != null)
             this.showDashboardStatistics = importValue.showDashboardStatistics;
+
+        if (importValue.showDashboardNotifications != null)
+            this.showDashboardNotifications = importValue.showDashboardNotifications;
 
         if (importValue.showDashboardTodo != null)
             this.showDashboardTodo = importValue.showDashboardTodo;
@@ -104,9 +130,11 @@ export class ConfigurationService {
 
         let exportValue: UserConfiguration =
             {
+                language: changesOnly ? this._language : this.language,
                 homeUrl: changesOnly ? this._homeUrl : this.homeUrl,
                 theme: changesOnly ? this._theme : this.theme,
                 showDashboardStatistics: changesOnly ? this._showDashboardStatistics : this.showDashboardStatistics,
+                showDashboardNotifications: changesOnly ? this._showDashboardNotifications : this.showDashboardNotifications,
                 showDashboardTodo: changesOnly ? this._showDashboardTodo : this.showDashboardTodo,
                 showDashboardBanner: changesOnly ? this._showDashboardBanner : this.showDashboardBanner
             };
@@ -116,21 +144,51 @@ export class ConfigurationService {
 
 
     public clearLocalChanges() {
+        this._language = null;
         this._homeUrl = null;
         this._theme = null;
         this._showDashboardStatistics = null;
+        this._showDashboardNotifications = null;
         this._showDashboardTodo = null;
         this._showDashboardBanner = null;
-        
+
+        this.localStorage.deleteData(DBkeys.LANGUAGE);
         this.localStorage.deleteData(DBkeys.HOME_URL);
         this.localStorage.deleteData(DBkeys.THEME);
         this.localStorage.deleteData(DBkeys.SHOW_DASHBOARD_STATISTICS);
+        this.localStorage.deleteData(DBkeys.SHOW_DASHBOARD_NOTIFICATIONS);
         this.localStorage.deleteData(DBkeys.SHOW_DASHBOARD_TODO);
         this.localStorage.deleteData(DBkeys.SHOW_DASHBOARD_BANNER);
+
+        this.resetLanguage();
     }
 
 
-    
+    private resetLanguage() {
+        let language = this.translationService.useBrowserLanguage();
+
+        if (language) {
+            this._language = language;
+        }
+        else {
+            this._language = this.translationService.changeLanguage()
+        }
+    }
+
+
+
+
+    set language(value: string) {
+        this._language = value;
+        this.saveToLocalStore(value, DBkeys.LANGUAGE);
+        this.translationService.changeLanguage(value);
+    }
+    get language() {
+        if (this._language != null)
+            return this._language;
+
+        return ConfigurationService.defaultLanguage;
+    }
 
 
     set homeUrl(value: string) {
@@ -166,6 +224,18 @@ export class ConfigurationService {
             return this._showDashboardStatistics;
 
         return ConfigurationService.defaultShowDashboardStatistics;
+    }
+
+
+    set showDashboardNotifications(value: boolean) {
+        this._showDashboardNotifications = value;
+        this.saveToLocalStore(value, DBkeys.SHOW_DASHBOARD_NOTIFICATIONS);
+    }
+    get showDashboardNotifications() {
+        if (this._showDashboardNotifications != null)
+            return this._showDashboardNotifications;
+
+        return ConfigurationService.defaultShowDashboardNotifications;
     }
 
 

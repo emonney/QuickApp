@@ -2,6 +2,8 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 using System;
@@ -30,13 +32,13 @@ namespace DAL.Core
 
 
 
-
         static ApplicationPermissions()
         {
             List<ApplicationPermission> allPermissions = new List<ApplicationPermission>()
             {
                 ViewUsers,
                 ManageUsers,
+
                 ViewRoles,
                 ManageRoles,
                 AssignRoles
@@ -58,6 +60,11 @@ namespace DAL.Core
         public static string[] GetAllPermissionValues()
         {
             return AllPermissions.Select(p => p.Value).ToArray();
+        }
+
+        public static string[] GetAdministrativePermissionValues()
+        {
+            return new string[] { ManageUsers, ManageRoles, AssignRoles };
         }
     }
 

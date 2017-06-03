@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-sm-4">
                 <div class="form-group has-feedback">
-                    <label class="control-label col-md-2" for="roleName">Name:</label>
+                    <label class="control-label col-md-2" for="roleName">{{'roles.editor.Name' | translate}}</label>
                     <div class="col-md-10" [ngClass]="{'has-success': f.submitted && roleName.valid, 'has-error' : f.submitted && !roleName.valid}">
                         <input [disabled]="!canManageRoles" type="text" id="roleName" name="roleName" placeholder="Enter role name" class="form-control" [(ngModel)]="roleEdit.name" #roleName="ngModel" required minlength="2" maxlength="200" />
                         <span *ngIf="showValidationErrors && f.submitted" class="glyphicon form-control-feedback" [ngClass]="{'glyphicon-ok ': roleName.valid, 'glyphicon-remove' : !roleName.valid}"></span>
@@ -16,7 +16,7 @@
 
             <div class="col-sm-8">
                 <div class="form-group">
-                    <label class="control-label col-md-2" for="roleDescription">Description:</label>
+                    <label class="control-label col-md-2" for="roleDescription">{{'roles.editor.Description' | translate}}</label>
                     <div class="col-md-10">
                         <input [disabled]="!canManageRoles" type="text" id="roleDescription" name="roleDescription" placeholder="Enter role description" class="form-control" [(ngModel)]="roleEdit.description" />
                     </div>
@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-md-12">
                 <span *ngIf="showValidationErrors && f.submitted && !roleName.valid" class="errorMessage roleErrorMessage">
-                    Role name is required (minimum of 2 and maximum of 200 characters)
+                    {{'roles.editor.RoleNameRequired' | translate}}
                 </span>
             </div>
         </div>
@@ -71,15 +71,16 @@
         <div class="form-group">
             <div class="col-sm-5">
                 <div *ngIf="canManageRoles" class="pull-left">
-                    <a (click)="selectAll()" href="javascript:;" class="btn btn-link">Select all</a>|<a (click)="selectNone()" href="javascript:;" class="btn btn-link">Select none</a>
+                    <a (click)="selectAll()" href="javascript:;" class="btn btn-link">{{'roles.editor.SelectAll' | translate}}</a>|<a (click)="selectNone()" href="javascript:;" class="btn btn-link">{{'roles.editor.SelectNone' | translate}}</a>
                 </div>
             </div>
 
             <div class="col-sm-7">
                 <div class="pull-right">
-                    <button type="button" (click)="cancel()" class="btn btn-danger" [disabled]="isSaving"><i class='fa fa-times'></i> Cancel</button>
+                    <button *ngIf="!canManageRoles" type="button" (click)="cancel()" class="btn btn-default">{{'roles.editor.Close' | translate}}</button>
+                    <button *ngIf="canManageRoles" type="button" (click)="cancel()" class="btn btn-danger" [disabled]="isSaving"><i class='fa fa-times'></i> {{'roles.editor.Cancel' | translate}}</button>
                     <button *ngIf="canManageRoles" type="submit" class="btn btn-primary" [disabled]="isSaving">
-                        <i *ngIf="!isSaving" class='fa fa-save'></i><i *ngIf="isSaving" class='fa fa-circle-o-notch fa-spin'></i> {{isSaving ? 'Saving...' : 'Save'}}
+                        <i *ngIf="!isSaving" class='fa fa-save'></i><i *ngIf="isSaving" class='fa fa-circle-o-notch fa-spin'></i> {{isSaving ? ('roles.editor.Saving' | translate) : ('roles.editor.Save' | translate)}}
                     </button>
                 </div>
             </div>

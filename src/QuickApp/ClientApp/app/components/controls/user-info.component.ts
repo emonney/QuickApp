@@ -2,19 +2,19 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import 'rxjs/add/observable/forkJoin';
 
-import { AlertService, MessageSeverity } from '../../../services/alert.service';
-import { AccountService } from "../../../services/account.service";
-import { Utilities } from '../../../services/utilities';
-import { UserLogin } from '../../../models/user-login.model';
-import { User } from '../../../models/user.model';
-import { UserEdit } from '../../../models/user-edit.model';
-import { Role } from '../../../models/role.model';
-import { Permission } from '../../../models/permission.model';
+import { AlertService, MessageSeverity } from '../../services/alert.service';
+import { AccountService } from "../../services/account.service";
+import { Utilities } from '../../services/utilities';
+import { User } from '../../models/user.model';
+import { UserEdit } from '../../models/user-edit.model';
+import { Role } from '../../models/role.model';
+import { Permission } from '../../models/permission.model';
 
 
 @Component({
@@ -46,6 +46,7 @@ export class UserInfoComponent implements OnInit {
 
     @Input()
     isGeneralEditor = false;
+
 
 
 
@@ -90,7 +91,7 @@ export class UserInfoComponent implements OnInit {
     private loadCurrentUserData() {
         this.alertService.startLoadingMessage();
 
-        if (this.canViewRoles) {
+        if (this.canViewAllRoles) {
             this.accountService.getUserAndRoles().subscribe(results => this.onCurrentUserDataLoadSuccessful(results[0], results[1]), error => this.onCurrentUserDataLoadFailed(error));
         }
         else {
@@ -145,7 +146,7 @@ export class UserInfoComponent implements OnInit {
             if (!this.userEdit)
                 this.userEdit = new UserEdit();
 
-            this.isEditingSelf = this.userEdit.id == this.accountService.currentUser.id;
+            this.isEditingSelf = this.accountService.currentUser ? this.userEdit.id == this.accountService.currentUser.id : false;
         }
 
         this.isEditMode = true;
@@ -189,18 +190,15 @@ export class UserInfoComponent implements OnInit {
                 this.alertService.showMessage("Success", `User \"${this.user.userName}\" was created successfully`, MessageSeverity.success);
             else if (!this.isEditingSelf)
                 this.alertService.showMessage("Success", `Changes to user \"${this.user.userName}\" was saved successfully`, MessageSeverity.success);
-
-            this.user = new User();
         }
-        else {
-            this.isEditMode = false;
-        }
-
 
         if (this.isEditingSelf) {
             this.alertService.showMessage("Success", "Changes to your User Profile was saved successfully", MessageSeverity.success);
             this.refreshLoggedInUser();
         }
+
+        this.isEditMode = false;
+
 
         if (this.changesSavedCallback)
             this.changesSavedCallback();
@@ -252,6 +250,17 @@ export class UserInfoComponent implements OnInit {
     }
 
 
+    private close() {
+        this.userEdit = this.user = new UserEdit();
+        this.showValidationErrors = false;
+        this.resetForm();
+        this.isEditMode = false;
+
+        if (this.changesSavedCallback)
+            this.changesSavedCallback();
+    }
+
+
 
     private refreshLoggedInUser() {
         this.accountService.refreshLoggedInUser()
@@ -290,6 +299,7 @@ export class UserInfoComponent implements OnInit {
             });
     }
 
+
     resetForm(replace = false) {
         this.isChangePassword = false;
 
@@ -319,12 +329,12 @@ export class UserInfoComponent implements OnInit {
         return this.userEdit;
     }
 
-    editUser(user: UserEdit, allRoles: Role[]) {
+    editUser(user: User, allRoles: Role[]) {
         if (user) {
             this.isGeneralEditor = true;
             this.isNewUser = false;
 
-            this.allRoles = allRoles;
+            this.setRoles(user, allRoles);
             this.editingUserName = user.userName;
             this.user = new User();
             this.userEdit = new UserEdit();
@@ -340,12 +350,37 @@ export class UserInfoComponent implements OnInit {
     }
 
 
+    displayUser(user: User, allRoles?: Role[]) {
 
-    get canViewRoles() {
-        return this.accountService.userHasPermission(Permission.viewRolesPermission)
+        this.user = new User();
+        Object.assign(this.user, user);
+        this.deletePasswordFromUser(this.user);
+        this.setRoles(user, allRoles);
+
+        this.isEditMode = false;
+    }
+
+
+
+    private setRoles(user: User, allRoles?: Role[]) {
+
+        this.allRoles = allRoles ? [...allRoles] : [];
+
+        if (user.roles) {
+            for (let ur of user.roles) {
+                if (!this.allRoles.some(r => r.name == ur))
+                    this.allRoles.unshift(new Role(ur));
+            }
+        }
+    }
+
+
+
+    get canViewAllRoles() {
+        return this.accountService.userHasPermission(Permission.viewRolesPermission);
     }
 
     get canAssignRoles() {
-        return this.accountService.userHasPermission(Permission.assignRolesPermission)
+        return this.accountService.userHasPermission(Permission.assignRolesPermission);
     }
 }

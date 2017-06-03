@@ -1,23 +1,31 @@
 <div class="container">
     <header class="pageHeader">
-        <h3><i class="fa fa-tachometer fa-lg page-caption" aria-hidden="true"></i> Dashboard</h3>
+        <h3><i class="fa fa-tachometer fa-lg page-caption" aria-hidden="true"></i> {{'pageHeader.Dashboard' | translate}}</h3>
     </header>
 
     <div [@fadeInOut]>
-        <div *ngIf="!configurations.showDashboardStatistics && !configurations.showDashboardTodo && !configurations.showDashboardBanner" class="well well-lg">
+        <div *ngIf="!configurations.showDashboardStatistics && !configurations.showDashboardNotifications && !configurations.showDashboardTodo && !configurations.showDashboardBanner" class="well well-lg">
             <h4 class="text-muted text-center">
-                You have no widgets displayed. Goto <a routerLink="/settings" fragment="preferences"><i class="fa fa-sliders"></i> Preferences</a>
-                to configure available widgets
+                {{'home.NoWidgets1' | translate}} <a routerLink="/settings" fragment="preferences"><i class="fa fa-sliders"></i> {{'settings.tab.Preferences' | translate}}</a>
+                {{'home.NoWidgets2' | translate}}
             </h4>
         </div>
 
         <div *ngIf="configurations.showDashboardStatistics" class="row bottom-space well well-sm">
-            <h4 class="text-muted inline-block">Some Important Stuff</h4>
+            <h4 class="text-muted inline-block">{{'home.StatisticsTitle' | translate}}</h4>
             <button type="button" class="close pull-right statistics-close-btn" aria-label="Close" title="Close" (click)="configurations.showDashboardStatistics = false">
                 <span aria-hidden="true">&times;</span>
             </button>
             <div class="clearfix"></div>
             <statistics-demo></statistics-demo>
+        </div>
+
+        <div *ngIf="configurations.showDashboardNotifications" class="row bottom-space">
+            <button type="button" class="close pull-right todo-close-btn" aria-label="Close" title="Close" (click)="configurations.showDashboardNotifications = false">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="clearfix"></div>
+            <notifications-viewer></notifications-viewer>
         </div>
 
         <div *ngIf="configurations.showDashboardTodo" class="row bottom-space">

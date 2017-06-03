@@ -9,13 +9,13 @@ using DAL.Core;
 namespace QuickApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170223064929_Initial")]
+    [Migration("20170531045241_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
+                .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DAL.Models.ApplicationRole", b =>

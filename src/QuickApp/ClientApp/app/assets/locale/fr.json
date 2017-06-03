@@ -1,0 +1,179 @@
+﻿{
+  "app": {
+    "Welcome": "Bienvenue",
+    "Notifications": "Notifications",
+    "New": "Nouveau"
+  },
+  "mainMenu": {
+    "Appointments": "Rendez-vous",
+    "Customers": "Les clients",
+    "Products": "Les produits",
+    "Orders": "Les ordres",
+    "About": "À Propos",
+    "Logout": "Se Déconnecter"
+  },
+  "pageHeader": {
+    "Dashboard": "Tableau de bord",
+    "Customers": "Les clients",
+    "Products": "Les produits",
+    "Orders": "Les ordres",
+    "NotFound": "Pas trouvé",
+    "About": "À Propos",
+    "Settings": "Paramètres"
+  },
+  "home": {
+    "NoWidgets1": "Vous n'avez pas de widgets affichés. Aller à",
+    "NoWidgets2": "Configurer les widgets disponibles",
+    "StatisticsTitle": "Quelques trucs importants"
+  },
+  "notFound": {
+    "404": "404",
+    "pageNotFound": "La page que vous recherchez n'existe pas",
+    "backToHome": "De retour à la page d'accueil"
+  },
+  "settings": {
+    "tab": {
+      "Profile": "Profil",
+      "Preferences": "Préférences",
+      "Users": "Utilisateurs",
+      "Roles": "Rôles"
+    },
+    "header": {
+      "UserProfile": "Profil de l'utilisateur",
+      "UserPreferences": "Préférences de l'utilisateur",
+      "UserDepartments": "Départements d'utilisateurs",
+      "UsersManagements": "Gestion des utilisateurs",
+      "RolesManagement": "Gestion des rôles"
+    }
+  },
+  "preferences": {
+    "ReloadPreferences": "Recharger les préférences:",
+    "ReloadPreferencesHint": "Charger les préférences par défaut (les modifications locales sont rejetées)",
+    "Language": "La langue:",
+    "English": "Anglais",
+    "French": "Français",
+    "Arabic": "Arabe",
+    "Korean": "Coréen",
+    "LanguageHint": "Sélectionnez la langue préférée pour votre compte",
+    "HomePage": "Page d'accueil:",
+    "Dashboard": "Tableau de bord",
+    "Customers": "Les clients",
+    "Products": "Les produits",
+    "Orders": "Les ordres",
+    "About": "À propos",
+    "Settings": "Paramètres",
+    "HomePageHint": "Sélectionnez la page par défaut pour naviguer jusqu'à la connexion",
+    "Theme": "Thème:",
+    "DefaultColor": "<span class='default-theme-option'>Défaut</span>",
+    "RedColor": "<span class='red-theme-option'>Rouge</span>",
+    "OrangeColor": "<span class='orange-theme-option'>Orange</span>",
+    "GreenColor": "<span class='green-theme-option'>Vert</span>",
+    "GrayColor": "<span class='gray-theme-option'>Gris</span>",
+    "BlackColor": "<span class='black-theme-option'>Noir</span>",
+    "ThemeHint": "Sélectionnez le thème de couleur par défaut pour votre compte",
+    "DashboardStatistics": "Statistiques du tableau de bord:",
+    "DashboardStatisticsHint": "Afficher le widget de graphique de démonstration sur le tableau de bord",
+    "DashboardNotifications": "Notifications du tableau de bord:",
+    "DashboardNotificationsHint": "Afficher les notifications d'application sur le tableau de bord",
+    "DashboardTodo": "Tableau de bord à faire:",
+    "DashboardTodoHint": "Afficher le widget de démon tout sur le tableau de bord",
+    "DashboardBanner": "Bannière de Tableau de Bord:",
+    "DashboardBannerHint": "Afficher le widget de bannière d'information de démonstration sur le tableau de bord",
+    "ResetDefault": "Réinitialiser par défaut",
+    "SetDefault": "Définir par défaut"
+  },
+  "users": {
+    "management": {
+      "Search": "Rechercher un utilisateur...",
+      "NewUser": "Nouvel utilisateur",
+      "Edit": "Modif.",
+      "Delete": "Supp.",
+      "EditUser": "Modifier Utilisateur \"{{name}}\"",
+      "Title": "Titre",
+      "UserName": "Nom d'utilisateur",
+      "FullName": "Nom Complet",
+      "Email": "Adresse électronique",
+      "Roles": "Les rôles",
+      "PhoneNumber": "Numéro de téléphone"
+    },
+    "editor": {
+      "JobTitle": "Profession: ",
+      "UserName": "Nom d'utilisateur:",
+      "UserNameRequired": "Le nom d'utilisateur est requis (minimum de 2 et maximum de 200 caractères)",
+      "Password": "Mot de passe:",
+      "PasswordHint": "Votre mot de passe est nécessaire lors de la modification du nom d'utilisateur",
+      "CurrentPasswordRequired": "Le mot de passe actuel est requis",
+      "Email": "Adresse électronique:",
+      "EmailRequired": "L'adresse de courrier électronique est requise (maximum de 200 caractères)",
+      "InvalidEmail": "Le courrier électronique spécifié n'est pas valide",
+      "ChangePassword": "Changer le mot de passe",
+      "CurrentPassword": "Mot de passe actuel:",
+      "NewPassword": "Nouveau mot de passe:",
+      "NewPasswordRequired": "Un nouveau mot de passe est nécessaire (minimum de 6 caractères)",
+      "ConfirmPassword": "Confirmez le mot de passe:",
+      "ConfirmationPasswordRequired": "Le mot de passe de confirmation est requis",
+      "PasswordMismatch": "Le nouveau mot de passe et le mot de passe de confirmation ne correspondent pas",
+      "Roles": "Les rôles:",
+      "FullName": " Nom complet:",
+      "RoleRequired": "Rôle requis ",
+      "PhoneNumber": "Téléphone #:",
+      "Enabled": "Activée",
+      "Unblock": "Débloquer",
+      "Close": "Fermer",
+      "Edit": "Modifier",
+      "Cancel": "Annuler",
+      "Save": "Enregistrer",
+      "Saving": "En cours d'enregistrement..."
+    }
+  },
+  "roles": {
+    "management": {
+      "Search": "Recherche rôle...",
+      "NewRole": "Nouveau rôle",
+      "Edit": "Modifier",
+      "Details": "Détails",
+      "Delete": "Effacer",
+      "RoleDetails": "Détails des rôles ",
+      "EditRole": "Modifier Rôle \"{{name}}\"",
+      "Name": "Nom",
+      "Description": "La description",
+      "Users": "Utilisateurs"
+    },
+    "editor": {
+      "Name": "Nom:",
+      "Description": "La description:",
+      "RoleNameRequired": "Le nom du rôle est requis (minimum de 2 et maximum de 200 caractères)",
+      "SelectAll": "Tout sélectionner",
+      "SelectNone": "Ne rien sélectionner",
+      "Close": "Fermer",
+      "Cancel": "Annuler",
+      "Save": "Enregistrer",
+      "Saving": "En cours d'enregistrement..."
+    }
+  },
+  "notifications": {
+    "Delete": "Supprimer notification",
+    "Pin": "Épingler notification",
+    "Date": "Date",
+    "Notification": "Notification"
+  },
+  "todoDemo": {
+    "management": {
+      "Search": "Rechercher une tâche...",
+      "HideCompleted": "Masquer complété",
+      "AddTask": "Ajouter une tâche",
+      "Delete": "Supprimer la tâche",
+      "Important": "Marquer comme important",
+      "Task": "Tâche",
+      "Description": "Description"
+    },
+    "editor": {
+      "NewTask": "Nouvelle tâche",
+      "Name": "Nom",
+      "TaskNameRequired": "Le nom de la tâche est requis",
+      "Description": "Description",
+      "Important": "Marquer comme important",
+      "AddTask": "Ajouter une tâche"
+    }
+  }
+}

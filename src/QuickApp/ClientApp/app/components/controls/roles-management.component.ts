@@ -2,16 +2,19 @@
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
 import { Component, OnInit, AfterViewInit, TemplateRef, ViewChild, Input } from '@angular/core';
 import { ModalDirective } from 'ng2-bootstrap';//Todo: Change back to 'ng2-bootstrap/modal' when valorsoft fixes umd module
 
-import { AlertService, DialogType, MessageSeverity } from '../../../services/alert.service';
-import { AccountService } from "../../../services/account.service";
-import { Utilities } from "../../../services/utilities";
-import { Role } from '../../../models/role.model';
-import { Permission } from '../../../models/permission.model';
+import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
+import { AppTranslationService } from "../../services/app-translation.service";
+import { AccountService } from '../../services/account.service';
+import { Utilities } from '../../services/utilities';
+import { Role } from '../../models/role.model';
+import { Permission } from '../../models/permission.model';
 import { RoleEditorComponent } from "./role-editor.component";
 
 
@@ -27,7 +30,7 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
     allPermissions: Permission[] = [];
     editedRole: Role;
     sourceRole: Role;
-    editingRoleName: string;
+    editingRoleName: { name: string };
     loadingIndicator: boolean;
 
 
@@ -44,16 +47,19 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
     @ViewChild('roleEditor')
     roleEditor: RoleEditorComponent;
 
-    constructor(private alertService: AlertService, private accountService: AccountService) {
+    constructor(private alertService: AlertService, private translationService: AppTranslationService, private accountService: AccountService) {
     }
 
 
     ngOnInit() {
+
+        let gT = (key: string) => this.translationService.getTranslation(key);
+
         this.columns = [
             { prop: "index", name: '#', width: 50, cellTemplate: this.indexTemplate, canAutoResize: false },
-            { prop: 'name', name: 'Name', width: 200 },
-            { prop: 'description', name: 'Description', width: 350 },
-            { prop: 'usersCount', name: 'Users', width: 80 },
+            { prop: 'name', name: gT('roles.management.Name'), width: 200 },
+            { prop: 'description', name: gT('roles.management.Description'), width: 350 },
+            { prop: 'usersCount', name: gT('roles.management.Users'), width: 80 },
             { name: '', width: 130, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false }
         ];
 
@@ -91,9 +97,9 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
             this.editedRole = null;
 
             let maxIndex = 0;
-            for (let u of this.rowsCache) {
-                if ((<any>u).index > maxIndex)
-                    maxIndex = (<any>u).index;
+            for (let r of this.rowsCache) {
+                if ((<any>r).index > maxIndex)
+                    maxIndex = (<any>r).index;
             }
 
             (<any>role).index = maxIndex + 1;
@@ -172,7 +178,7 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
 
 
     editRole(row: Role) {
-        this.editingRoleName = row.name;
+        this.editingRoleName = { name: row.name };
         this.sourceRole = row;
         this.editedRole = this.roleEditor.editRole(row, this.allPermissions);
         this.editorModal.show();
