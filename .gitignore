@@ -253,3 +253,4 @@ _Pvt_Extensions
 # Others
 *.licenseheader
 Thumbs.db
+/.cr

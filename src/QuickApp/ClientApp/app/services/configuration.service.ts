@@ -30,7 +30,7 @@ export class ConfigurationService {
 
     public static readonly appVersion: string = "1.0.0";
 
-    public baseUrl: string = window.location.origin.replace(/\/$/, '');
+    public baseUrl: string = Utilities.baseUrl().replace(/\/$/, '');
     public fallbackBaseUrl: string = "http://ebenmonney.com/demo/quickapp";
     public loginUrl: string = "/Login";
 

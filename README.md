@@ -4,6 +4,8 @@
 A startup **Angular4 / ASP.NET Core** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
 As well as other common functionalities for **Quick Application Development**.
 
+[FOLLOW ME](https://twitter.com/kommand) on twitter for important updates
+
 [live demo](http://freeloada-001-site1.htempurl.com) / [downloadable demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutput.zip)
 
 [![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
@@ -44,6 +46,9 @@ As well as other common functionalities for **Quick Application Development**.
 *   [OPTION 2] Install Project template from the [Visual Studio Gallery](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate) and follow the usual File -> New Project -> Web -> QuickApp - to create a new Project from this template.
     Lunch with `F5` or `Ctrl+F5` (The usual way)
 *   [OPTION 3] Yeoman generator package coming soon...
+
+NOTE: When creating a new project please wait for all dependencies ("dotnet restore" & "npm install") to be restored.  
+When using VisualStudio this is automatic, check the output window or status bar to know that the package/dependencies restore process is complete before launching your program for the first time
 
 
 ## Login

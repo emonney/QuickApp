@@ -238,6 +238,15 @@ export class Utilities {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
+
+    public static baseUrl() {
+        if (window.location.origin)
+            return window.location.origin
+
+        return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+    }
+
+
     public static printDateOnly(date: Date) {
 
         date = new Date(date);

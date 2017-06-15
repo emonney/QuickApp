@@ -6,7 +6,8 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-import 'reflect-metadata';
+import 'core-js/client/shim';
+import 'web-animations-js';
 import 'zone.js';
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
