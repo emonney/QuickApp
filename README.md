@@ -72,7 +72,6 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 >   * Password: tempP@ss123
 
 
-
 ## Documentation
 
 *   [Overview of QuickApp](http://ebenmonney.com/quickapp)
@@ -80,6 +79,15 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 *   [Angular4 documentation overview](http://angular.io/docs/ts/latest/guide)
 *   [Working with Data](https://go.microsoft.com/fwlink/?LinkId=398602)
 *   [An introduction to webpack](https://webpack.js.org/guides/get-started/)
+
+
+## Contribution
+
+QuickApp is actively maintained by [Ebenezer Monney](https://github.com/emonney) on [GitHub](https://github.com/emonney/QuickApp). You can support it by
+*   Submitted your changes/improvements/features using pull requests
+*   Suggesting ideas or areas of improvements
+*   Encouraging the developers by rating it/starring it
+*   Linking to it and recommending it to others
 
 
 ## License
