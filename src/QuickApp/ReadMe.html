@@ -119,8 +119,22 @@
                     [OPTION 3] Yeoman generator package coming soon...
                 </li>
             </ul>
-            NOTE: When creating a new project please wait for all dependencies ("dotnet restore" & "npm install") to be restored.<br />
-            When using VisualStudio this is automatic, check the output window or status bar to know that the package/dependencies restore process is complete before launching your program for the first time.
+        </div>
+        <div>
+            <h2 id="installation-notes">Installation Notes</h2>
+            <ul>
+                <li>
+                    When creating a new project please wait for all dependencies ("dotnet restore" & "npm install") to be restored.<br />
+                    When using VisualStudio this is automatic, check the output window or status bar to know that the package/dependencies restore process is complete before launching your program for the first time.
+                </li>
+                <li>
+                    If you get this error: Unable to resolve 'OpenIddict', do the below steps to add myget.org to nuget package sources;<br />
+                    Copy the "NuGet.config" from the project folder to the solution's folder (i.e. copy to the same folder location as your solutions file) and restart VisualStudio<br />
+                    OR<br />
+                    Add myget.org to your package sources in VisualStudio.<br />
+                    Visual Studio -> Tools -> Options -> NuGet Package Manager -> Package Sources, Add "aspnet-contrib", this URL "https://www.myget.org/F/aspnet-contrib/api/v3/index.json"
+                </li>
+            </ul>
         </div>
         <div>
             <h2 id="login">Login</h2>

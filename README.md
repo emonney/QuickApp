@@ -51,6 +51,17 @@ NOTE: When creating a new project please wait for all dependencies ("dotnet rest
 When using VisualStudio this is automatic, check the output window or status bar to know that the package/dependencies restore process is complete before launching your program for the first time
 
 
+## Installation Notes
+
+*   When creating a new project please wait for all dependencies ("dotnet restore" & "npm install") to be restored.  
+    When using VisualStudio this is automatic, check the output window or status bar to know that the package/dependencies restore process is complete before launching your program for the first time.
+*   If you get this error: Unable to resolve 'OpenIddict', do the below steps to add myget.org to nuget package sources;  
+    Copy the "NuGet.config" from the project folder to the solution's folder (i.e. copy to the same folder location as your solutions file) and restart VisualStudio  
+    OR  
+    Add myget.org to your package sources in VisualStudio.  
+    Visual Studio -> Tools -> Options -> NuGet Package Manager -> Package Sources, Add "aspnet-contrib", this URL "https://www.myget.org/F/aspnet-contrib/api/v3/index.json"
+
+
 ## Login
 
 LOGIN WITH USERNAME OR EMAIL ADDRESS
