@@ -47,9 +47,6 @@ As well as other common functionalities for **Quick Application Development**.
     Lunch with `F5` or `Ctrl+F5` (The usual way)
 *   [OPTION 3] Yeoman generator package coming soon...
 
-NOTE: When creating a new project please wait for all dependencies ("dotnet restore" & "npm install") to be restored.  
-When using VisualStudio this is automatic, check the output window or status bar to know that the package/dependencies restore process is complete before launching your program for the first time
-
 
 ## Installation Notes
 
