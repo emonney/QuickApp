@@ -53,10 +53,19 @@ As well as other common functionalities for **Quick Application Development**.
 *   When creating a new project please wait for all dependencies ("dotnet restore" & "npm install") to be restored.  
     When using VisualStudio this is automatic, check the output window or status bar to know that the package/dependencies restore process is complete before launching your program for the first time.
 *   If you get this error: Unable to resolve 'OpenIddict', do the below steps to add myget.org to nuget package sources;  
-    Copy the "NuGet.config" from the project folder to the solution's folder (i.e. copy to the same folder location as your solutions file) and restart VisualStudio  
+    Copy the "NuGet.config" from the project folder to the solution's folder (i.e. copy to the same folder location as your solutions file) and restart your IDE  
     OR  
     Add myget.org to your package sources in VisualStudio.  
     Visual Studio -> Tools -> Options -> NuGet Package Manager -> Package Sources, Add "aspnet-contrib", this URL "https://www.myget.org/F/aspnet-contrib/api/v3/index.json"
+*   If you get any other errors, consider running manually the steps to build the project and note where the errors occur.  
+    Open command prompt and do the below steps:  
+    1. run 'dotnet restore' from the two project folders - Restore nuget packages  
+    2. run 'npm install' from the project with package.json - Restore node packages  
+    3. run 'npm run dev-build' from the project with package.json - Build webpack vendor packages  
+    4. Try running the application again - Test to make sure it all works  
+    
+    *When I say "run from the project folder" I mean run the commands on the command line from those folders  
+    If any step fails open an [issue](https://github.com/emonney/QuickApp/issues) on github and I'll help fix it.
 
 
 ## Login
@@ -88,6 +97,7 @@ QuickApp is actively maintained by [Ebenezer Monney](https://github.com/emonney)
 *   Suggesting ideas or areas of improvements
 *   Encouraging the developers by rating it/starring it
 *   Linking to it and recommending it to others
+*   [Donate a dollar if you feel inspired](https://salt.bountysource.com/teams/monney)
 
 
 ## License

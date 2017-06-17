@@ -129,10 +129,21 @@
                 </li>
                 <li>
                     If you get this error: Unable to resolve 'OpenIddict', do the below steps to add myget.org to nuget package sources;<br />
-                    Copy the "NuGet.config" from the project folder to the solution's folder (i.e. copy to the same folder location as your solutions file) and restart VisualStudio<br />
+                    Copy the "NuGet.config" from the project folder to the solution's folder (i.e. copy to the same folder location as your solutions file) and restart your IDE<br />
                     OR<br />
                     Add myget.org to your package sources in VisualStudio.<br />
                     Visual Studio -> Tools -> Options -> NuGet Package Manager -> Package Sources, Add "aspnet-contrib", this URL "https://www.myget.org/F/aspnet-contrib/api/v3/index.json"
+                </li>
+                <li>
+                    If you get any other errors, consider running manually the steps to build the project and note where the errors occur.<br />
+                    Open command prompt and do the below steps:<br />
+                    1. run 'dotnet restore' from the two project folders - Restore nuget packages<br />
+                    2. run 'npm install' from the project with package.json - Restore node packages<br />
+                    3, run 'npm run dev-build' from the project with package.json - Build webpack vendor packages<br />
+                    4. Try running the application again - Test to make sure it all works<br />
+                    <br />
+                    *When I say "run from the project folder" I mean run the commands on the command line from those folders<br />
+                    If any step fails open an <a target="_blank" href="https://github.com/emonney/QuickApp/issues">issue</a> on github and I'll help fix it.
                 </li>
             </ul>
         </div>
@@ -178,6 +189,7 @@
                 <li>Suggesting ideas or areas of improvements</li>
                 <li>Encouraging the developers by rating it/starring it</li>
                 <li>Linking to it and recommending it to others</li>
+                <li><a target="_blank" href="https://salt.bountysource.com/teams/monney">Donate a dollar if you feel inspired</a></li>
             </ul>
         </div>
         <div>
