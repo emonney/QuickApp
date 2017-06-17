@@ -60,7 +60,7 @@ As well as other common functionalities for **Quick Application Development**.
 *   If you get any other errors, consider running manually the steps to build the project and note where the errors occur.  
     Open command prompt and do the below steps:  
     1. run 'dotnet restore' from the two project folders - Restore nuget packages  
-    2. run 'npm install' from the project with package.json - Restore node packages  
+    2. run 'npm install' from the project with package.json - Restore npm packages  
     3. run 'npm run dev-build' from the project with package.json - Build webpack vendor packages  
     4. Try running the application again - Test to make sure it all works  
     
