@@ -66,6 +66,7 @@ As well as other common functionalities for **Quick Application Development**.
     
     *When I say "run from the project folder" I mean run the commands on the command line from those folders  
     If any step fails open an [issue](https://github.com/emonney/QuickApp/issues) on github and I'll help fix it.
+*   If you're really new to this consider [paid consultancy](mailto:contact@ebenmonney.com) (I'll guide you on asp.net core through to angular4 and related technologies to quickly get you up to speed)
 
 
 ## Login
@@ -93,7 +94,7 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 ## Contribution
 
 QuickApp is actively maintained by [Ebenezer Monney](https://github.com/emonney) on [GitHub](https://github.com/emonney/QuickApp). You can support it by
-*   Submitted your changes/improvements/features using pull requests
+*   Submitting your changes/improvements/features using pull requests
 *   Suggesting ideas or areas of improvements
 *   Encouraging the developers by rating it/starring it
 *   Linking to it and recommending it to others

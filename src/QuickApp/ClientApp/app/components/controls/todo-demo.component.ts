@@ -7,7 +7,7 @@
 // ======================================
 
 import { Component, OnInit, OnDestroy, Input, TemplateRef, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ng2-bootstrap';//Todo: Change back to 'ng2-bootstrap/modal' when valorsoft fixes umd module
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { AuthService } from '../../services/auth.service';
 import { AlertService, MessageSeverity, DialogType } from '../../services/alert.service';

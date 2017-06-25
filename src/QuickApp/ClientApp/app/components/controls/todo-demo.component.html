@@ -25,40 +25,40 @@
                    [columnMode]="'force'">
     </ngx-datatable>
 
-    <template #statusHeaderTemplate>
+    <ng-template #statusHeaderTemplate>
         <i class="fa fa-check-square-o"></i>
-    </template>
+    </ng-template>
 
-    <template #statusTemplate let-row="row" let-value="value">
+    <ng-template #statusTemplate let-row="row" let-value="value">
         <div class="checkbox">
             <label>
                 <input attr.name="checkboxes-{{value}}" type="checkbox" [(ngModel)]="row.completed">
             </label>
         </div>
-    </template>
+    </ng-template>
 
-    <template #nameTemplate let-row="row" let-value="value">
+    <ng-template #nameTemplate let-row="row" let-value="value">
         <span *ngIf="!editing[row.$$index + '-name']" [class.completed]="row.completed" attr.title="{{value}}" (dblclick)="editing[row.$$index + '-name'] = true">
             {{value}}
         </span>
         <input *ngIf="editing[row.$$index + '-name']" class="inline-editor" autofocus (blur)="updateValue($event, 'name', value, row)" type="text" [value]="value" />
-    </template>
+    </ng-template>
 
-    <template #descriptionTemplate let-row="row" let-value="value">
+    <ng-template #descriptionTemplate let-row="row" let-value="value">
         <span *ngIf="!editing[row.$$index + '-description']" [class.completed]="row.completed" attr.title="{{value}}" (dblclick)="editing[row.$$index + '-description'] = true">
             {{value}}
         </span>
         <input *ngIf="editing[row.$$index + '-description']" class="inline-editor" autofocus (blur)="updateValue($event, 'description', value, row)" type="text" [value]="value" />
-    </template>
+    </ng-template>
 
 
-    <template #actionsTemplate let-row="row">
+    <ng-template #actionsTemplate let-row="row">
         <a class="btn btn-link btn-xs" href="javascript:;" tooltip="{{'todoDemo.management.Delete' | translate}}" container="body" (click)="delete(row)"><i class="fa fa-times"></i></a>
         <a class="btn btn-link btn-xs" href="javascript:;" tooltip="{{'todoDemo.management.Important' | translate}}" container="body" (click)="row.important = !row.important" (mouseover)="row.isMouseOver=true" (mouseout)="row.isMouseOver=false">
             <i *ngIf="row.important || row.isMouseOver" class="fa fa-bookmark"></i>
             <i *ngIf="!row.important && !row.isMouseOver" class="fa fa-bookmark-o"></i>
         </a>
-    </template>
+    </ng-template>
 
 
 

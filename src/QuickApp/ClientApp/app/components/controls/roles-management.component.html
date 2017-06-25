@@ -29,17 +29,17 @@
                    [columnMode]="'force'">
     </ngx-datatable>
 
-    <template #indexTemplate let-value="value">
+    <ng-template #indexTemplate let-value="value">
         <strong>{{value}}</strong>
-    </template>
+    </ng-template>
 
 
-    <template #actionsTemplate let-row="row" let-value="value" let-i="index">
+    <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
         <a *ngIf="canManageRoles" class="btn btn-link btn-xs" href="javascript:;" (click)="editRole(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'roles.management.Edit' | translate}}</a>
         <a *ngIf="!canManageRoles" class="btn btn-link btn-xs" href="javascript:;" (click)="editRole(row)"><i class="fa fa-eye" aria-hidden="true"></i> {{'roles.management.Details' | translate}}</a>
         {{canManageRoles ? '|' : ''}}
         <a *ngIf="canManageRoles" class="btn btn-link btn-xs" href="javascript:;" (click)="deleteRole(row)"><i class="fa fa-trash-o" aria-hidden="true"></i> {{'roles.management.Delete' | translate}}</a>
-    </template>
+    </ng-template>
 
 
     <div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}" tabindex="-1">

@@ -16,11 +16,11 @@ import { HttpModule } from '@angular/http';
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastyModule } from 'ng2-toasty';
-import { ModalModule } from 'ng2-bootstrap/modal';
-import { TooltipModule } from "ng2-bootstrap/tooltip";
-import { PopoverModule } from "ng2-bootstrap/popover";
-import { BsDropdownModule } from 'ng2-bootstrap/dropdown';
-import { CarouselModule } from 'ng2-bootstrap/carousel';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { PopoverModule } from "ngx-bootstrap/popover";
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';

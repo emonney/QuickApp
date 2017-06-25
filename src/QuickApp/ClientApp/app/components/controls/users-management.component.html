@@ -29,29 +29,29 @@
                    [columnMode]="'force'">
     </ngx-datatable>
 
-    <template #indexTemplate let-value="value">
+    <ng-template #indexTemplate let-value="value">
         <strong>{{value}}</strong>
-    </template>
+    </ng-template>
 
-    <template #userNameTemplate let-row="row" let-value="value">
+    <ng-template #userNameTemplate let-row="row" let-value="value">
         <span [class.locked-out]="row.isLockedOut" [class.user-disabled]="!row.isEnabled">
             <i *ngIf="row.isLockedOut" class="fa fa-exclamation-triangle"> </i>
             <i *ngIf="!row.isEnabled" class="fa fa-exclamation"> </i>
             {{value}}
         </span>
-    </template>
+    </ng-template>
 
-    <template #rolesTemplate let-row="row" let-value="value" let-i="index">
+    <ng-template #rolesTemplate let-row="row" let-value="value" let-i="index">
         <span class="user-role badge" *ngFor="let role of value">{{role}}</span>
-    </template>
+    </ng-template>
 
-    <template #actionsTemplate let-row="row" let-value="value" let-i="index">
+    <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
         <div *ngIf="canManageUsers">
             <a class="btn btn-link btn-xs" href="javascript:;" (click)="editUser(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'users.management.Edit' | translate}}</a>
             |
             <a class="btn btn-link btn-xs" href="javascript:;" (click)="deleteUser(row)"><i class="fa fa-trash-o" aria-hidden="true"></i> {{'users.management.Delete' | translate}}</a>
         </div>
-    </template>
+    </ng-template>
 
 
     <div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}" tabindex="-1">

@@ -41,7 +41,7 @@
         <div class="row">
             <div class="row well well-sm permissionsRow">
 
-                <template ngFor let-permissionGroup [ngForOf]="allPermissions | groupBy: 'groupName'" let-i="index">
+                <ng-template ngFor let-permissionGroup [ngForOf]="allPermissions | groupBy: 'groupName'" let-i="index">
                     <div class="form-group col-sm-6 permissionsColumn">
                         <label class="col-md-5 control-label" for="checkboxes" (click)="toggleGroup(permissionGroup.key)">{{permissionGroup.key}}</label>
                         <div class="col-md-7">
@@ -54,7 +54,7 @@
                         </div>
                     </div>
                     <div *ngIf="(i + 1) % 2 === 0" class="clearfix"></div>
-                </template>
+                </ng-template>
 
             </div>
 
