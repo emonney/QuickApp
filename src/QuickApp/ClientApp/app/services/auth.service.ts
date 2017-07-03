@@ -52,7 +52,7 @@ export class AuthService {
     gotoPage(page: string, preserveParams = true) {
 
         let navigationExtras: NavigationExtras = {
-            preserveQueryParams: preserveParams, preserveFragment: preserveParams
+            queryParamsHandling: preserveParams ? "merge" : "", preserveFragment: preserveParams
         };
 
 
@@ -69,7 +69,7 @@ export class AuthService {
 
         let navigationExtras: NavigationExtras = {
             fragment: urlAndFragment.secondPart,
-            preserveQueryParams: true
+            queryParamsHandling: "merge"
         };
 
         this.router.navigate([urlAndFragment.firstPart], navigationExtras);

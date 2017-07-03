@@ -26,7 +26,7 @@
                     <ul class="app-component nav navbar-nav nav-pills navBarPadding navbar-right">
                         <li (click)="logout()"><a href="javascript:;"><span class="glyphicon glyphicon-log-out"></span> {{'mainMenu.Logout' | translate}}</a></li>
                     </ul>
-                    <p class="app-component navbar-text navbar-right user-info-popup">
+                    <p class="app-component navbar-text navbar-right notifications-popup">
                         {{'app.Welcome' | translate}}
                         <a class="app-component navbar-link user-name" [popover]="popTemplate" (onHidden)="markNotificationsAsRead()" placement="bottom" [popoverTitle]="notificationsTitle" href="javascript:;" triggers="focus">
                             {{userName}}

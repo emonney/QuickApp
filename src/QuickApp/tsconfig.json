@@ -9,6 +9,6 @@
     "lib": [ "es6", "dom" ],
     "types": [ "node" ]
   },
-  "exclude": [ "bin", "node_modules", "JunkYard" ],
+  "exclude": [ "bin", "node_modules" ],
   "atom": { "rewriteTsconfig": false }
 }
