@@ -50,6 +50,7 @@ As well as other common functionalities for **Quick Application Development**.
 
 ## Installation Notes
 
+*	If not installed already, Install Web Development Workload for  Build Tools for Visual Studio 2017 from https://www.visualstudio.com/downloads/ .
 *   When creating a new project please wait for all dependencies ("dotnet restore" & "npm install") to be restored.  
     When using VisualStudio this is automatic, check the output window or status bar to know that the package/dependencies restore process is complete before launching your program for the first time.
 *   If you get this error: Unable to resolve 'OpenIddict', do the below steps to add myget.org to nuget package sources;  
