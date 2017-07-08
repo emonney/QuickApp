@@ -47,6 +47,8 @@ namespace DAL
 
             if (!await _context.Users.AnyAsync())
             {
+                _logger.LogInformation("Generating inbuilt accounts");
+
                 const string adminRoleName = "administrator";
                 const string userRoleName = "user";
 
@@ -55,12 +57,16 @@ namespace DAL
 
                 await createUserAsync("admin", "tempP@ss123", "Inbuilt Administrator", "admin@ebenmonney.com", "+1 (123) 000-0000", new string[] { adminRoleName });
                 await createUserAsync("user", "tempP@ss123", "Inbuilt Standard User", "user@ebenmonney.com", "+1 (123) 000-0001", new string[] { userRoleName });
+
+                _logger.LogInformation("Inbuilt account generation completed");
             }
 
 
 
             if (!await _context.Customers.AnyAsync() && !await _context.ProductCategories.AnyAsync())
             {
+                _logger.LogInformation("Seeding initial data");
+
                 Customer cust_1 = new Customer
                 {
                     Name = "Ebenezer Monney",
@@ -187,6 +193,8 @@ namespace DAL
                 _context.Orders.Add(ordr_2);
 
                 await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Seeding initial data completed");
             }
         }
 
