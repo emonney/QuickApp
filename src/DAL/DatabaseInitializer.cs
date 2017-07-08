@@ -23,6 +23,9 @@ namespace DAL
     public interface IDatabaseInitializer
     {
         Task SeedAsync();
+        Task<ApplicationUser> createUserAsync(string userName, string password, string fullName, string email, string phoneNumber, string[] roles);
+        Task ensureRoleAsync(string roleName, string description, string[] claims);
+
     }
 
 
@@ -200,7 +203,7 @@ namespace DAL
 
 
 
-        private async Task ensureRoleAsync(string roleName, string description, string[] claims)
+        public async Task ensureRoleAsync(string roleName, string description, string[] claims)
         {
             if ((await _accountManager.GetRoleByNameAsync(roleName)) == null)
             {
@@ -213,7 +216,8 @@ namespace DAL
             }
         }
 
-        private async Task<ApplicationUser> createUserAsync(string userName, string password, string fullName, string email, string phoneNumber, string[] roles)
+
+        public async Task<ApplicationUser> createUserAsync(string userName, string password, string fullName, string email, string phoneNumber, string[] roles)
         {
             ApplicationUser applicationUser = new ApplicationUser
             {

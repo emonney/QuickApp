@@ -27,6 +27,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     formResetToggle = true;
     modalClosedCallback: () => void;
     loginStatusSubscription: any;
+    quickLearnMessage = `Email:<a target="_blank" href="mailto:contact@ebenmonney.com">contact@ebenmonney.com</a> for your own private tutor on the technologies used here @ 20USD/Month`;
+
+
 
     @Input()
     isModal = false;
@@ -45,6 +48,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.authService.redirectLoginUser();
         }
         else {
+            this.displayDemoUserAssistant();
+
             this.loginStatusSubscription = this.authService.getLoginStatusEvent().subscribe(isLoggedIn => {
                 if (this.getShouldRedirect()) {
                     this.authService.redirectLoginUser();
@@ -62,6 +67,18 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     getShouldRedirect() {
         return !this.isModal && this.authService.isLoggedIn && !this.authService.isSessionExpired;
+    }
+
+
+    displayDemoUserAssistant() {
+        if (this.isModal)
+            return;
+
+        setTimeout(() => this.alertService.showMessage("Hello tester!", "Please login with any of the demo credentials below", MessageSeverity.info), 2000);
+        setTimeout(() => this.alertService.showStickyMessage("Admin User", "Username: admin<br />Password: tempP@ss123", MessageSeverity.default), 4000);
+        setTimeout(() => this.alertService.showStickyMessage("Standard User", "Username: user<br />Password: tempP@ss123", MessageSeverity.default), 4500);
+
+        setTimeout(() => this.alertService.showStickyMessage("QuickLearn", this.quickLearnMessage, MessageSeverity.info), 5000);
     }
 
 
@@ -90,6 +107,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
                     if (!this.isModal) {
                         this.alertService.showMessage("Login", `Welcome ${user.userName}!`, MessageSeverity.success);
+                        setTimeout(() => this.alertService.showStickyMessage("QuickLearn", this.quickLearnMessage, MessageSeverity.info), 2000);
                     }
                     else {
                         this.alertService.showMessage("Login", `Session for ${user.userName} restored!`, MessageSeverity.success);

@@ -25,6 +25,9 @@ using DAL.Models;
 using DAL.Core;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Builder;
+using DAL;
+using Microsoft.Extensions.Logging;
+using DAL.Core.Interfaces;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,15 +39,25 @@ namespace QuickApp.Controllers
         private readonly IOptions<IdentityOptions> _identityOptions;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IAccountManager _accountManager;
+        private readonly IDatabaseInitializer _databaseInitializer;
+        private readonly ILogger _logger;
+
 
         public AuthorizationController(
             IOptions<IdentityOptions> identityOptions,
             SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IAccountManager accountManager,
+            IDatabaseInitializer databaseInitializer,
+            ILogger<AuthorizationController> logger)
         {
             _identityOptions = identityOptions;
             _signInManager = signInManager;
             _userManager = userManager;
+            _accountManager = accountManager;
+            _databaseInitializer = databaseInitializer;
+            _logger = logger;
         }
 
 
@@ -57,52 +70,67 @@ namespace QuickApp.Controllers
                 var user = await _userManager.FindByEmailAsync(request.Username) ?? await _userManager.FindByNameAsync(request.Username);
                 if (user == null)
                 {
-                    return BadRequest(new OpenIdConnectResponse
+                    if (GetIsDemoUser(request.Username))
                     {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "Please check that your email and password is correct"
-                    });
+                        user = await CreateDemoUser(request.Username);
+                    }
+                    else
+                    {
+                        return BadRequest(new OpenIdConnectResponse
+                        {
+                            Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                            ErrorDescription = "Please check that your email and password is correct"
+                        });
+                    }
                 }
 
-                // Ensure the user is allowed to sign in.
-                if (!await _signInManager.CanSignInAsync(user))
+                if (GetIsDemoUser(user.UserName))
                 {
-                    return BadRequest(new OpenIdConnectResponse
+                    await RefreshDemoUser(user);
+                }
+                else
+                {
+                    // Ensure the user is allowed to sign in.
+                    if (!await _signInManager.CanSignInAsync(user))
                     {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The specified user is not allowed to sign in"
-                    });
+                        return BadRequest(new OpenIdConnectResponse
+                        {
+                            Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                            ErrorDescription = "The specified user is not allowed to sign in"
+                        });
+                    }
+
+                    // Reject the token request if two-factor authentication has been enabled by the user.
+                    if (_userManager.SupportsUserTwoFactor && await _userManager.GetTwoFactorEnabledAsync(user))
+                    {
+                        return BadRequest(new OpenIdConnectResponse
+                        {
+                            Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                            ErrorDescription = "The specified user is not allowed to sign in"
+                        });
+                    }
+
+                    // Ensure the user is not already locked out.
+                    if (_userManager.SupportsUserLockout && await _userManager.IsLockedOutAsync(user))
+                    {
+                        return BadRequest(new OpenIdConnectResponse
+                        {
+                            Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                            ErrorDescription = "The specified user account has been suspended"
+                        });
+                    }
+
+                    // Ensure the user is enabled.
+                    if (!user.IsEnabled)
+                    {
+                        return BadRequest(new OpenIdConnectResponse
+                        {
+                            Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                            ErrorDescription = "The specified user account is disabled"
+                        });
+                    }
                 }
 
-                // Reject the token request if two-factor authentication has been enabled by the user.
-                if (_userManager.SupportsUserTwoFactor && await _userManager.GetTwoFactorEnabledAsync(user))
-                {
-                    return BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The specified user is not allowed to sign in"
-                    });
-                }
-
-                // Ensure the user is not already locked out.
-                if (_userManager.SupportsUserLockout && await _userManager.IsLockedOutAsync(user))
-                {
-                    return BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The specified user account has been suspended"
-                    });
-                }
-
-                // Ensure the user is enabled.
-                if (!user.IsEnabled)
-                {
-                    return BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The specified user account is disabled"
-                    });
-                }
 
                 // Ensure the password is valid.
                 if (!await _userManager.CheckPasswordAsync(user, request.Password))
@@ -171,6 +199,86 @@ namespace QuickApp.Controllers
                 ErrorDescription = "The specified grant type is not supported"
             });
         }
+
+
+
+        private static bool GetIsDemoUser(string userName)
+        {
+            string loweredUserName = userName?.ToLowerInvariant();
+            return loweredUserName == "admin" || loweredUserName == "user";
+        }
+
+
+        private static bool GetIsAdminDemoUser(string userName) => userName?.ToLowerInvariant() == "admin";
+
+
+        private static bool GetIsUserDemoUser(string userName) => userName?.ToLowerInvariant() == "user";
+
+
+        private async Task<ApplicationUser> CreateDemoUser(string userName)
+        {
+            if (!GetIsDemoUser(userName))
+                throw new InvalidOperationException($"The user \"{userName}\" is not a demo user");
+
+            _logger.LogInformation("Recreating demo user: " + userName);
+
+
+            if (GetIsAdminDemoUser(userName))
+            {
+                const string adminRoleName = "administrator";
+                await _databaseInitializer.ensureRoleAsync(adminRoleName, "Default administrator", ApplicationPermissions.GetAllPermissionValues());
+
+                await _databaseInitializer.createUserAsync("admin", "tempP@ss123", "Inbuilt Administrator", "admin@ebenmonney.com", "+1 (123) 000-0000", new string[] { adminRoleName });
+            }
+            else
+            {
+                const string userRoleName = "user";
+                await _databaseInitializer.ensureRoleAsync(userRoleName, "Default user", new string[] { });
+
+                await _databaseInitializer.createUserAsync("user", "tempP@ss123", "Inbuilt Standard User", "user@ebenmonney.com", "+1 (123) 000-0001", new string[] { userRoleName });
+            }
+
+            _logger.LogInformation($"Demo user \"{userName}\" recreation completed.");
+
+            return await _userManager.FindByNameAsync(userName);
+        }
+
+
+        private async Task RefreshDemoUser(ApplicationUser user)
+        {
+            if (!GetIsDemoUser(user.UserName))
+                throw new InvalidOperationException($"The user \"{user.UserName}\" is not a demo user");
+
+
+            string roleName = GetIsAdminDemoUser(user.UserName) ? "administrator" : "user";
+            ApplicationRole role = await _accountManager.GetRoleByNameAsync(roleName);
+
+            if (role == null)
+            {
+                if (GetIsAdminDemoUser(user.UserName))
+                    await _databaseInitializer.ensureRoleAsync(roleName, "Default administrator", ApplicationPermissions.GetAllPermissionValues());
+                else
+                    await _databaseInitializer.ensureRoleAsync(roleName, "Default user", new string[] { });
+
+                role = await _accountManager.GetRoleByNameAsync(roleName);
+            }
+
+            var result = await _accountManager.UpdateRoleAsync(role, GetIsAdminDemoUser(user.UserName) ? ApplicationPermissions.GetAllPermissionValues() : new string[] { });
+            if (!result.Item1)
+                _logger.LogError($"An error occurred whilst refreshing role permissions for demo user \"{user.UserName}\". Error: {result.Item2}");
+
+
+            user.Email = GetIsAdminDemoUser(user.UserName) ? "admin@ebenmonney.com" : "user@ebenmonney.com";
+            result = await _accountManager.UpdateUserAsync(user, new string[] { roleName });
+            if (!result.Item1)
+                _logger.LogError($"An error occurred whilst refreshing account details for demo user \"{user.UserName}\". Error: {result.Item2}");
+
+            result = await _accountManager.ResetPasswordAsync(user, "tempP@ss123");
+            if (!result.Item1)
+                _logger.LogError($"An error occurred whilst refreshing password for demo user \"{user.UserName}\". Error: {result.Item2}");
+        }
+
+
 
         private async Task<AuthenticationTicket> CreateTicketAsync(OpenIdConnectRequest request, ApplicationUser user, AuthenticationProperties properties = null)
         {
