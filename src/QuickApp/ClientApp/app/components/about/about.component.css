@@ -11,9 +11,20 @@
     font-size: 200px;
 }
 
+.quick-learn {
+    font-weight: bold;
+    margin-top: 4.7em;
+    text-align: right;
+}
+
 @media screen and (max-width: 768px) {
     .col-sm-4 {
         text-align: center;
         margin: 25px 0;
+    }
+
+    .quick-learn {
+        margin-top: 0;
+        text-align: center;
     }
 }
