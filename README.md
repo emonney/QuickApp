@@ -66,7 +66,7 @@ As well as other common functionalities for **Quick Application Development**.
     
     *When I say "run from the project folder" I mean run the commands on the command line from those folders  
     If any step fails open an [issue](https://github.com/emonney/QuickApp/issues) on github and I'll help fix it.
-*   If you're really new to this consider [paid consultancy](mailto:contact@ebenmonney.com) (I'll guide you on asp.net core through to angular4 and related technologies to quickly get you up to speed)
+*   You can also get a personal trainer on the technologies used in this template for 100USD/Month. Email [contact@ebenmonney.com](mailto:contact@ebenmonney.com)  
 
 
 ## Login
