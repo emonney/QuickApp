@@ -44,6 +44,8 @@ module.exports = (env) => {
                 'ng2-toasty',
                 'ng2-toasty/bundles/style-bootstrap.css',
                 'ng2-charts',
+                'angulartics2',
+                'ng2-adsense',
                 'ngx-bootstrap/modal',
                 'ngx-bootstrap/tooltip',
                 'ngx-bootstrap/popover',

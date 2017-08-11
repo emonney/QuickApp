@@ -8,6 +8,7 @@
 
 import { Component, ViewEncapsulation, OnInit, OnDestroy, ViewChildren, AfterViewInit, QueryList, ElementRef } from "@angular/core";
 import { Router, NavigationStart } from '@angular/router';
+import { Angulartics2GoogleAnalytics } from 'angulartics2';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
@@ -64,9 +65,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
 
-    constructor(storageManager: LocalStoreManager, private router: Router, private toastyService: ToastyService, private toastyConfig: ToastyConfig,
-        private accountService: AccountService, private alertService: AlertService, private notificationService: NotificationService, private appTitleService: AppTitleService,
-        private authService: AuthService, private configurations: ConfigurationService, private translationService: AppTranslationService) {
+    constructor(angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, private translationService: AppTranslationService, storageManager: LocalStoreManager, private router: Router,
+        private toastyService: ToastyService, private toastyConfig: ToastyConfig, private accountService: AccountService, private authService: AuthService,
+        private configurations: ConfigurationService, private alertService: AlertService, private notificationService: NotificationService, private appTitleService: AppTitleService) {
 
         storageManager.initialiseStorageSyncListener();
 

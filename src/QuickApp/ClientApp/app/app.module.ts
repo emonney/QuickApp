@@ -14,6 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
 
 import 'bootstrap';
+import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
+import { AdsenseModule } from 'ng2-adsense';
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastyModule } from 'ng2-toasty';
@@ -77,6 +79,8 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
         HttpModule,
         FormsModule,
         AppRoutingModule,
+        Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
+        AdsenseModule.forRoot({ adClient: 'ca-pub-5040490701169307' }),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

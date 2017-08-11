@@ -8,6 +8,7 @@
 
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Angulartics2 } from 'angulartics2';
 import 'rxjs/add/operator/switchMap';
 
 import { fadeInOut } from '../../services/animations';
@@ -46,7 +47,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     tab: BootstrapTabDirective;
 
 
-    constructor(private route: ActivatedRoute, private translationService: AppTranslationService, private accountService: AccountService) {
+    constructor(private route: ActivatedRoute, private angulartics2: Angulartics2, private translationService: AppTranslationService, private accountService: AccountService) {
     }
 
 
@@ -106,7 +107,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
 
     onShowTab(event) {
-        this.setActiveTab(event.target.hash);
+
+        this.activeTab = event.target.hash.split("#", 2).pop();
 
         switch (this.activeTab) {
             case this.profileTab:
@@ -124,12 +126,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
             default:
                 throw new Error("Selected bootstrap tab is unknown. Selected Tab: " + this.activeTab);
         }
+
+
+        this.angulartics2.eventTrack.next({ action: this.activeTab + 'Tab', properties: { category: 'SettingsPage' } });
     }
 
 
-    setActiveTab(tab: string) {
-        this.activeTab = tab.split("#", 2).pop();
-    }
 
 
     get canViewUsers() {

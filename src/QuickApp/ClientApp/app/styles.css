@@ -120,7 +120,7 @@ i.page-caption {
 
 
 .vertical-center-flex {
-    min-height: 80vh;
+    min-height: 70vh;
     display: flex;
     align-items: center;
 }

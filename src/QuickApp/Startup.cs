@@ -76,7 +76,7 @@ namespace QuickApp
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"], b => b.MigrationsAssembly("QuickApp"));
+                options.UseSqlServer(Configuration["Data:ConnectionString:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
                 options.UseOpenIddict();
             });
 
