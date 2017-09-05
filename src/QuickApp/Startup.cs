@@ -7,9 +7,6 @@
 // ======================================
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -18,13 +15,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Serialization;
 using DAL;
 using DAL.Models;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using FluentValidation.AspNetCore;
 using AutoMapper;
 using Newtonsoft.Json;
 using DAL.Core;
@@ -33,9 +28,10 @@ using Microsoft.AspNetCore.Authorization;
 using QuickApp.ViewModels;
 using QuickApp.Helpers;
 using QuickApp.Policies;
-using AppPermissions = DAL.Core.ApplicationPermissions;
 using AspNet.Security.OpenIdConnect.Primitives;
-using OpenIddict.Core;
+using Microsoft.AspNetCore.Identity;
+using Swashbuckle.AspNetCore.Swagger;
+using AppPermissions = DAL.Core.ApplicationPermissions;
 
 namespace QuickApp
 {
@@ -76,7 +72,7 @@ namespace QuickApp
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"], b => b.MigrationsAssembly("QuickApp"));
+                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
                 options.UseOpenIddict();
             });
 
@@ -123,8 +119,11 @@ namespace QuickApp
             });
 
 
-            // Enable cors if required
-            //services.AddCors();
+            services.AddAuthentication()
+                .AddOAuthValidation();
+
+            // Add cors
+            services.AddCors();
 
             // Add framework services.
             services.AddMvc();
@@ -138,15 +137,17 @@ namespace QuickApp
             //});
 
 
-            services.AddSwaggerGen(o =>
+            services.AddSwaggerGen(c =>
             {
-                o.AddSecurityDefinition("BearerAuth", new Swashbuckle.Swagger.Model.ApiKeyScheme
+                c.AddSecurityDefinition("BearerAuth", new ApiKeyScheme
                 {
                     Name = "Authorization",
                     Description = "Login with your bearer authentication token. e.g. Bearer <auth-token>",
                     In = "header",
                     Type = "apiKey"
                 });
+
+                c.SwaggerDoc("v1", new Info { Title = "QuickApp API", Version = "v1" });
             });
 
             services.AddAuthorization(options =>
@@ -175,7 +176,7 @@ namespace QuickApp
 
 
             // Repositories
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
             services.AddScoped<IAccountManager, AccountManager>();
 
             // Auth Policies
@@ -190,7 +191,7 @@ namespace QuickApp
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDatabaseInitializer databaseInitializer, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug(LogLevel.Warning);
@@ -212,16 +213,15 @@ namespace QuickApp
             }
 
 
-            // Configure Cors if enabled
-            //app.UseCors(builder => builder
-            //    .AllowAnyOrigin()
-            //    .AllowAnyHeader()
-            //    .AllowAnyMethod());
+            //Configure Cors
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
 
 
             app.UseStaticFiles();
-            app.UseOAuthValidation();
-            app.UseOpenIddict();
+            app.UseAuthentication();
 
 
 
@@ -267,7 +267,10 @@ namespace QuickApp
 
 
             app.UseSwagger();
-            app.UseSwaggerUi();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuickApp API V1");
+            });
 
             app.UseMvc(routes =>
             {
@@ -279,17 +282,6 @@ namespace QuickApp
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
-
-
-            try
-            {
-                databaseInitializer.SeedAsync().Wait();
-            }
-            catch (Exception ex)
-            {
-                Utilities.CreateLogger<Startup>().LogCritical(LoggingEvents.INIT_DATABASE, ex, LoggingEvents.INIT_DATABASE.Name);
-                throw;
-            }
         }
     }
 }

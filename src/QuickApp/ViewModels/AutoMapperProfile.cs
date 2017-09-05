@@ -9,7 +9,7 @@
 using AutoMapper;
 using DAL.Core;
 using DAL.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

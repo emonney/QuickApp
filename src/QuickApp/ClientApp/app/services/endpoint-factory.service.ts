@@ -58,7 +58,7 @@ export class EndpointFactory {
         searchParams.append('username', userName);
         searchParams.append('password', password);
         searchParams.append('grant_type', 'password');
-        searchParams.append('scope', 'openid email profile offline_access roles');
+        searchParams.append('scope', 'openid email phone profile offline_access roles');
         searchParams.append('resource', window.location.origin);
 
         let requestBody = searchParams.toString();

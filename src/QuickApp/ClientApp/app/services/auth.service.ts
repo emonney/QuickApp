@@ -149,7 +149,7 @@ export class AuthService {
             decodedIdToken.name,
             decodedIdToken.fullname,
             decodedIdToken.email,
-            decodedIdToken.jobTitle,
+            decodedIdToken.jobtitle,
             decodedIdToken.phone,
             Array.isArray(decodedIdToken.role) ? decodedIdToken.role : [decodedIdToken.role]);
         user.isEnabled = true;

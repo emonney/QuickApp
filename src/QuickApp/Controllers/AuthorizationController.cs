@@ -12,19 +12,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AspNet.Security.OpenIdConnect.Extensions;
-using OpenIddict;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http.Authentication;
 using AspNet.Security.OpenIdConnect.Server;
-using OpenIddict.Models;
 using OpenIddict.Core;
 using AspNet.Security.OpenIdConnect.Primitives;
 using DAL.Models;
 using DAL.Core;
 using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Builder;
+using System.Security.Claims;
+
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -64,36 +61,6 @@ namespace QuickApp.Controllers
                     });
                 }
 
-                // Ensure the user is allowed to sign in.
-                if (!await _signInManager.CanSignInAsync(user))
-                {
-                    return BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The specified user is not allowed to sign in"
-                    });
-                }
-
-                // Reject the token request if two-factor authentication has been enabled by the user.
-                if (_userManager.SupportsUserTwoFactor && await _userManager.GetTwoFactorEnabledAsync(user))
-                {
-                    return BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The specified user is not allowed to sign in"
-                    });
-                }
-
-                // Ensure the user is not already locked out.
-                if (_userManager.SupportsUserLockout && await _userManager.IsLockedOutAsync(user))
-                {
-                    return BadRequest(new OpenIdConnectResponse
-                    {
-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
-                        ErrorDescription = "The specified user account has been suspended"
-                    });
-                }
-
                 // Ensure the user is enabled.
                 if (!user.IsEnabled)
                 {
@@ -104,14 +71,42 @@ namespace QuickApp.Controllers
                     });
                 }
 
-                // Ensure the password is valid.
-                if (!await _userManager.CheckPasswordAsync(user, request.Password))
-                {
-                    if (_userManager.SupportsUserLockout)
-                    {
-                        await _userManager.AccessFailedAsync(user);
-                    }
 
+                // Validate the username/password parameters and ensure the account is not locked out.
+                var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);
+
+                // Ensure the user is not already locked out.
+                if (result.IsLockedOut)
+                {
+                    return BadRequest(new OpenIdConnectResponse
+                    {
+                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                        ErrorDescription = "The specified user account has been suspended"
+                    });
+                }
+
+                // Reject the token request if two-factor authentication has been enabled by the user.
+                if (result.RequiresTwoFactor)
+                {
+                    return BadRequest(new OpenIdConnectResponse
+                    {
+                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                        ErrorDescription = "Invalid login procedure"
+                    });
+                }
+
+                // Ensure the user is allowed to sign in.
+                if (result.IsNotAllowed)
+                {
+                    return BadRequest(new OpenIdConnectResponse
+                    {
+                        Error = OpenIdConnectConstants.Errors.InvalidGrant,
+                        ErrorDescription = "The specified user is not allowed to sign in"
+                    });
+                }
+
+                if (!result.Succeeded)
+                {
                     return BadRequest(new OpenIdConnectResponse
                     {
                         Error = OpenIdConnectConstants.Errors.InvalidGrant,
@@ -119,10 +114,7 @@ namespace QuickApp.Controllers
                     });
                 }
 
-                if (_userManager.SupportsUserLockout)
-                {
-                    await _userManager.ResetAccessFailedCountAsync(user);
-                }
+
 
                 // Create a new authentication ticket.
                 var ticket = await CreateTicketAsync(request, user);
@@ -132,8 +124,7 @@ namespace QuickApp.Controllers
             else if (request.IsRefreshTokenGrantType())
             {
                 // Retrieve the claims principal stored in the refresh token.
-                var info = await HttpContext.Authentication.GetAuthenticateInfoAsync(
-                    OpenIdConnectServerDefaults.AuthenticationScheme);
+                var info = await HttpContext.AuthenticateAsync(OpenIdConnectServerDefaults.AuthenticationScheme);
 
                 // Retrieve the user profile corresponding to the refresh token.
                 // Note: if you want to automatically invalidate the refresh token
@@ -161,7 +152,7 @@ namespace QuickApp.Controllers
 
                 // Create a new authentication ticket, but reuse the properties stored
                 // in the refresh token, including the scopes originally granted.
-                var ticket = await CreateTicketAsync(request, user, info.Properties);
+                var ticket = await CreateTicketAsync(request, user);
 
                 return SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
             }
@@ -172,7 +163,7 @@ namespace QuickApp.Controllers
             });
         }
 
-        private async Task<AuthenticationTicket> CreateTicketAsync(OpenIdConnectRequest request, ApplicationUser user, AuthenticationProperties properties = null)
+        private async Task<AuthenticationTicket> CreateTicketAsync(OpenIdConnectRequest request, ApplicationUser user)
         {
             // Create a new ClaimsPrincipal containing the claims that
             // will be used to create an id_token, a token or a code.
@@ -180,7 +171,7 @@ namespace QuickApp.Controllers
 
             // Create a new authentication ticket holding the user identity.
             var ticket = new AuthenticationTicket(principal, new AuthenticationProperties(), OpenIdConnectServerDefaults.AuthenticationScheme);
-            ticket.SetResources(request.GetResources());
+
 
             //if (!request.IsRefreshTokenGrantType())
             //{
@@ -191,12 +182,14 @@ namespace QuickApp.Controllers
             {
                     OpenIdConnectConstants.Scopes.OpenId,
                     OpenIdConnectConstants.Scopes.Email,
+                    OpenIdConnectConstants.Scopes.Phone,
                     OpenIdConnectConstants.Scopes.Profile,
                     OpenIdConnectConstants.Scopes.OfflineAccess,
                     OpenIddictConstants.Scopes.Roles
-                }.Intersect(request.GetScopes()));
+            }.Intersect(request.GetScopes()));
             //}
 
+            ticket.SetResources(request.GetResources());
 
             // Note: by default, claims are NOT automatically included in the access and identity tokens.
             // To allow OpenIddict to serialize them, you must attach them a destination, that specifies
@@ -208,26 +201,38 @@ namespace QuickApp.Controllers
                 if (claim.Type == _identityOptions.Value.ClaimsIdentity.SecurityStampClaimType)
                     continue;
 
-                claim.SetDestinations(OpenIdConnectConstants.Destinations.AccessToken, OpenIdConnectConstants.Destinations.IdentityToken);
+
+                var destinations = new List<string> { OpenIdConnectConstants.Destinations.AccessToken };
+
+                // Only add the iterated claim to the id_token if the corresponding scope was granted to the client application.
+                // The other claims will only be added to the access_token, which is encrypted when using the default format.
+                if ((claim.Type == OpenIdConnectConstants.Claims.Name && ticket.HasScope(OpenIdConnectConstants.Scopes.Profile)) ||
+                    (claim.Type == OpenIdConnectConstants.Claims.Email && ticket.HasScope(OpenIdConnectConstants.Scopes.Email)) ||
+                    (claim.Type == OpenIdConnectConstants.Claims.PhoneNumber && ticket.HasScope(OpenIdConnectConstants.Scopes.Phone)) ||
+                    (claim.Type == OpenIdConnectConstants.Claims.Role && ticket.HasScope(OpenIddictConstants.Claims.Roles)))
+                {
+                    destinations.Add(OpenIdConnectConstants.Destinations.IdentityToken);
+                }
+
+
+                claim.SetDestinations(destinations);
             }
 
 
             var identity = principal.Identity as ClaimsIdentity;
 
-            if (!string.IsNullOrWhiteSpace(user.Email))
-                identity.AddClaim(CustomClaimTypes.Email, user.Email, OpenIdConnectConstants.Destinations.IdentityToken);
 
-            if (!string.IsNullOrWhiteSpace(user.FullName))
-                identity.AddClaim(CustomClaimTypes.FullName, user.FullName, OpenIdConnectConstants.Destinations.IdentityToken);
+            if (ticket.HasScope(OpenIdConnectConstants.Scopes.Profile))
+            {
+                if (!string.IsNullOrWhiteSpace(user.JobTitle))
+                    identity.AddClaim(CustomClaimTypes.JobTitle, user.JobTitle, OpenIdConnectConstants.Destinations.IdentityToken);
 
-            if (!string.IsNullOrWhiteSpace(user.JobTitle))
-                identity.AddClaim(CustomClaimTypes.JobTitle, user.JobTitle, OpenIdConnectConstants.Destinations.IdentityToken);
+                if (!string.IsNullOrWhiteSpace(user.FullName))
+                    identity.AddClaim(CustomClaimTypes.FullName, user.FullName, OpenIdConnectConstants.Destinations.IdentityToken);
 
-            if (!string.IsNullOrWhiteSpace(user.PhoneNumber))
-                identity.AddClaim(CustomClaimTypes.Phone, user.PhoneNumber, OpenIdConnectConstants.Destinations.IdentityToken);
-
-            if (!string.IsNullOrWhiteSpace(user.Configuration))
-                identity.AddClaim(CustomClaimTypes.Configuration, user.Configuration, OpenIdConnectConstants.Destinations.IdentityToken);
+                if (!string.IsNullOrWhiteSpace(user.Configuration))
+                    identity.AddClaim(CustomClaimTypes.Configuration, user.Configuration, OpenIdConnectConstants.Destinations.IdentityToken);
+            }
 
 
             return ticket;

@@ -11,11 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using DAL.Models.Interfaces;
 
 namespace DAL.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser, IAuditableEntity
     {
         public virtual string FriendlyName
         {
@@ -37,7 +38,26 @@ namespace DAL.Models
         public bool IsEnabled { get; set; }
         public bool IsLockedOut => this.LockoutEnabled && this.LockoutEnd >= DateTimeOffset.UtcNow;
 
+        public string CreatedBy { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
 
+
+
+        /// <summary>
+        /// Navigation property for the roles this user belongs to.
+        /// </summary>
+        public virtual ICollection<IdentityUserRole<string>> Roles { get; } = new List<IdentityUserRole<string>>();
+
+        /// <summary>
+        /// Navigation property for the claims this user possesses.
+        /// </summary>
+        public virtual ICollection<IdentityUserClaim<string>> Claims { get; } = new List<IdentityUserClaim<string>>();
+
+        /// <summary>
+        /// Demo Navigation property for orders this user has processed
+        /// </summary>
         public ICollection<Order> Orders { get; set; }
     }
 }

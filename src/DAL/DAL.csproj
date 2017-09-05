@@ -1,26 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.0.0</Version>
     <Description>Data Access Layer for the Quick Application template</Description>
     <Copyright>Copyright © 2017 www.ebenmonney.com</Copyright>
-    <AssemblyTitle>QuickApp - DAL</AssemblyTitle>
-    <VersionPrefix>1.0.0-0</VersionPrefix>
-    <TargetFramework>netstandard1.6</TargetFramework>
-    <AssemblyName>DAL</AssemblyName>
-    <PackageId>DAL</PackageId>
-    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
-    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <PackageLicenseUrl>https://github.com/emonney/QuickApp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/emonney/QuickApp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/emonney/QuickApp.git</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.1.2" />
-    <PackageReference Include="OpenIddict" Version="1.0.0-beta2-0614" />
-    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="1.0.0-beta2-0614" />
-    <PackageReference Include="System.ValueTuple" Version="4.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.0" />
+    <PackageReference Include="OpenIddict" Version="2.0.0-preview1-0649" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-preview1-0649" />
   </ItemGroup>
 
 </Project>

@@ -31,13 +31,8 @@ Obj/
 
 # Visual Studio 2015 cache/options directory
 .vs/
-/src/QuickApp/wwwroot/dist/**
-/src/QuickApp/ClientApp/dist/**
-
-# Workaround for https://github.com/aspnet/JavaScriptServices/issues/235
-!/src/QuickApp/wwwroot/dist/_placeholder.txt
-!/src/QuickApp/ClientApp/dist/_placeholder.txt
-
+/src/QuickApp/wwwroot/dist/
+/src/QuickApp/ClientApp/dist/
 
 # MSTest test Results
 [Tt]est[Rr]esult*/
@@ -51,10 +46,6 @@ TestResult.xml
 [Dd]ebugPS/
 [Rr]eleasePS/
 dlldata.c
-
-# DNX
-project.lock.json
-artifacts/
 
 *_i.c
 *_p.c
@@ -195,9 +186,7 @@ ClientBin/
 *.publishsettings
 orleans.codegen.cs
 
-# Workaround for https://github.com/aspnet/JavaScriptServices/issues/235
-/src/QuickApp/node_modules/**
-!/src/QuickApp/node_modules/_placeholder.txt
+/src/QuickApp/node_modules
 
 /src/QuickApp/yarn.lock
 

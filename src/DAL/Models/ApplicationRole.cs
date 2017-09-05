@@ -6,7 +6,8 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using DAL.Models.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Models
 {
-    public class ApplicationRole : IdentityRole
+    public class ApplicationRole : IdentityRole, IAuditableEntity
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ApplicationRole"/>.
@@ -61,5 +62,21 @@ namespace DAL.Models
         /// Gets or sets the description for this role.
         /// </summary>
         public string Description { get; set; }
+        public string CreatedBy { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
+
+
+
+        /// <summary>
+        /// Navigation property for the users in this role.
+        /// </summary>
+        public virtual ICollection<IdentityUserRole<string>> Users { get; } = new List<IdentityUserRole<string>>();
+
+        /// <summary>
+        /// Navigation property for claims in this role.
+        /// </summary>
+        public virtual ICollection<IdentityRoleClaim<string>> Claims { get; } = new List<IdentityRoleClaim<string>>();
     }
 }

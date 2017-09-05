@@ -6,16 +6,10 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-using DAL.Models;
 using MailKit.Net.Smtp;
 using MimeKit;
 using System;
 using Microsoft.Extensions.Logging;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
