@@ -29,6 +29,7 @@ using QuickApp.ViewModels;
 using QuickApp.Helpers;
 using QuickApp.Policies;
 using AspNet.Security.OpenIdConnect.Primitives;
+using AspNet.Security.OAuth.Validation;
 using Microsoft.AspNetCore.Identity;
 using Swashbuckle.AspNetCore.Swagger;
 using AppPermissions = DAL.Core.ApplicationPermissions;
@@ -37,39 +38,19 @@ namespace QuickApp
 {
     public class Startup
     {
-        public IConfigurationRoot Configuration { get; }
-        private IHostingEnvironment _hostingEnvironment;
+        public IConfiguration Configuration { get; }
 
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
-            _hostingEnvironment = env;
+            Configuration = configuration;
         }
+
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            EmailTemplates.Initialize(_hostingEnvironment);
-
-            EmailSender.Configuration = new SmtpConfig
-            {
-                Host = Configuration["SmtpConfig:Host"],
-                Port = int.Parse(Configuration["SmtpConfig:Port"]),
-                UseSSL = bool.Parse(Configuration["SmtpConfig:UseSSL"]),
-                Name = Configuration["SmtpConfig:Name"],
-                Username = Configuration["SmtpConfig:Username"],
-                EmailAddress = Configuration["SmtpConfig:EmailAddress"],
-                Password = Configuration["SmtpConfig:Password"]
-            };
-
-
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
@@ -114,13 +95,16 @@ namespace QuickApp
                 options.AllowPasswordFlow();
                 options.AllowRefreshTokenFlow();
                 options.DisableHttpsRequirement();
-                // options.UseJsonWebTokens(); //Use JWT if preferred
                 options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
             });
 
 
-            services.AddAuthentication()
-                .AddOAuthValidation();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = OAuthValidationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OAuthValidationDefaults.AuthenticationScheme;
+            }).AddOAuthValidation();
+
 
             // Add cors
             services.AddCors();
@@ -135,6 +119,19 @@ namespace QuickApp
             //{
             //    opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             //});
+
+
+
+            EmailSender.Configuration = new SmtpConfig
+            {
+                Host = Configuration["SmtpConfig:Host"],
+                Port = int.Parse(Configuration["SmtpConfig:Port"]),
+                UseSSL = bool.Parse(Configuration["SmtpConfig:UseSSL"]),
+                Name = Configuration["SmtpConfig:Name"],
+                Username = Configuration["SmtpConfig:Username"],
+                EmailAddress = Configuration["SmtpConfig:EmailAddress"],
+                Password = Configuration["SmtpConfig:Password"]
+            };
 
 
             services.AddSwaggerGen(c =>
@@ -198,6 +195,7 @@ namespace QuickApp
             loggerFactory.AddFile(Configuration.GetSection("Logging"));
 
             Utilities.ConfigureLogger(loggerFactory);
+            EmailTemplates.Initialize(env);
 
             if (env.IsDevelopment())
             {
@@ -224,30 +222,6 @@ namespace QuickApp
             app.UseAuthentication();
 
 
-
-            // Configure jwt bearer authentication if enabled
-            //app.UseJwtBearerAuthentication(new JwtBearerOptions
-            //{
-            //    AutomaticAuthenticate = true,
-            //    AutomaticChallenge = true,
-            //    RequireHttpsMetadata = false,
-            //    Audience = "http://localhost:58292/",
-            //    Authority = "http://localhost:58292/",
-
-            //    //TokenValidationParameters = new TokenValidationParameters
-            //    //{
-            //    //    ValidateIssuer = true,
-            //    //    ValidIssuer = "http://localhost:58292/",
-
-            //    //    ValidateAudience = true,
-            //    //    ValidAudience = "http://localhost:58292/",
-
-            //    //    ValidateLifetime = true,
-            //    //}
-            //});
-
-
-
             app.UseExceptionHandler(builder =>
             {
                 builder.Run(async context =>
@@ -271,6 +245,7 @@ namespace QuickApp
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuickApp API V1");
             });
+
 
             app.UseMvc(routes =>
             {

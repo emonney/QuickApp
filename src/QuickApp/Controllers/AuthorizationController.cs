@@ -206,10 +206,10 @@ namespace QuickApp.Controllers
 
                 // Only add the iterated claim to the id_token if the corresponding scope was granted to the client application.
                 // The other claims will only be added to the access_token, which is encrypted when using the default format.
-                if ((claim.Type == OpenIdConnectConstants.Claims.Name && ticket.HasScope(OpenIdConnectConstants.Scopes.Profile)) ||
-                    (claim.Type == OpenIdConnectConstants.Claims.Email && ticket.HasScope(OpenIdConnectConstants.Scopes.Email)) ||
-                    (claim.Type == OpenIdConnectConstants.Claims.PhoneNumber && ticket.HasScope(OpenIdConnectConstants.Scopes.Phone)) ||
-                    (claim.Type == OpenIdConnectConstants.Claims.Role && ticket.HasScope(OpenIddictConstants.Claims.Roles)))
+                if ((claim.Type == OpenIdConnectConstants.Claims.Subject && ticket.HasScope(OpenIdConnectConstants.Scopes.OpenId)) ||
+                    (claim.Type == OpenIdConnectConstants.Claims.Name && ticket.HasScope(OpenIdConnectConstants.Scopes.Profile)) ||
+                    (claim.Type == OpenIdConnectConstants.Claims.Role && ticket.HasScope(OpenIddictConstants.Claims.Roles)) ||
+                    (claim.Type == CustomClaimTypes.Permission && ticket.HasScope(OpenIddictConstants.Claims.Roles)))
                 {
                     destinations.Add(OpenIdConnectConstants.Destinations.IdentityToken);
                 }
@@ -232,6 +232,18 @@ namespace QuickApp.Controllers
 
                 if (!string.IsNullOrWhiteSpace(user.Configuration))
                     identity.AddClaim(CustomClaimTypes.Configuration, user.Configuration, OpenIdConnectConstants.Destinations.IdentityToken);
+            }
+
+            if (ticket.HasScope(OpenIdConnectConstants.Scopes.Email))
+            {
+                if (!string.IsNullOrWhiteSpace(user.Email))
+                    identity.AddClaim(CustomClaimTypes.Email, user.Email, OpenIdConnectConstants.Destinations.IdentityToken);
+            }
+
+            if (ticket.HasScope(OpenIdConnectConstants.Scopes.Phone))
+            {
+                if (!string.IsNullOrWhiteSpace(user.PhoneNumber))
+                    identity.AddClaim(CustomClaimTypes.Phone, user.PhoneNumber, OpenIdConnectConstants.Destinations.IdentityToken);
             }
 
 

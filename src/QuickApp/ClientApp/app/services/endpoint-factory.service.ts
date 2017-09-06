@@ -75,7 +75,7 @@ export class EndpointFactory {
         let searchParams = new URLSearchParams();
         searchParams.append('refresh_token', this.authService.refreshToken);
         searchParams.append('grant_type', 'refresh_token');
-        searchParams.append('scope', 'openid email profile offline_access roles');
+        searchParams.append('scope', 'openid email phone profile offline_access roles');
 
         let requestBody = searchParams.toString();
 
