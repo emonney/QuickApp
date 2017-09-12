@@ -70,7 +70,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         storageManager.initialiseStorageSyncListener();
 
-        translationService.addLanguages(["en", "fr", "ar", "ko"]);
+        translationService.addLanguages(["en", "fr", "de", "ar", "ko"]);
         translationService.setDefaultLanguage('en');
 
 

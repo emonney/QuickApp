@@ -1,0 +1,180 @@
+﻿{
+  "app": {
+    "Welcome": "Willkommen",
+    "Notifications": "Benachrichtigungen",
+    "New": "Neu"
+  },
+  "mainMenu": {
+    "Appointments": "Termine",
+    "Customers": "Kunden",
+    "Products": "Produkte",
+    "Orders": "Bestellungen",
+    "About": "Über",
+    "Logout": "Abmelden"
+  },
+  "pageHeader": {
+    "Dashboard": "Übersicht",
+    "Customers": "Kunden",
+    "Products": "Produkte",
+    "Orders": "Bestellungen",
+    "NotFound": "Nicht gefunden",
+    "About": "Über",
+    "Settings": "Einstellungen"
+  },
+  "home": {
+    "NoWidgets1": "Keine Elemente zur Anzeige vorhanden. Gehe zu",
+    "NoWidgets2": "um die Anzeige zu konfigurieren",
+    "StatisticsTitle": "Irgendwas ganz Wichtiges"
+  },
+  "notFound": {
+    "404": "404",
+    "pageNotFound": "Die angeforderte Seite wurde nicht gefunden",
+    "backToHome": "Zurück zur Startseite"
+  },
+  "settings": {
+    "tab": {
+      "Profile": "Profil",
+      "Preferences": "Einstellungen",
+      "Users": "Benutzer",
+      "Roles": "Rollen"
+    },
+    "header": {
+      "UserProfile": "Benutzerprofil",
+      "UserPreferences": "Benutzereinstellungen",
+      "UserDepartments": "Benutzerabteilungen",
+      "UsersManagements": "Benutzerverwaltung",
+      "RolesManagement": "Rollenverwaltung"
+    }
+  },
+  "preferences": {
+    "ReloadPreferences": "Einstellungen aktualisieren:",
+    "ReloadPreferencesHint": "Vorgabeeinstellungen laden (lokale Einstellungen überschreiben)",
+    "Language": "Sprache:",
+    "English": "English",
+    "French": "Französisch",
+    "German": "Deutsch",
+    "Arabic": "Arabisch",
+    "Korean": "Koreanisch",
+    "LanguageHint": "Die bevorzugte Anzeigesprache auswählen",
+    "HomePage": "Startseite:",
+    "Dashboard": "Dashboard",
+    "Customers": "Kunden",
+    "Products": "Produkte",
+    "Orders": "Bestellungen",
+    "About": "Über",
+    "Settings": "Einstellungen",
+    "HomePageHint": "Die Standardseite zur Anzeige nach der Anmeldung wählen",
+    "Theme": "Farbschema:",
+    "DefaultColor": "<span class='default-theme-option'>Standard</span>",
+    "RedColor": "<span class='red-theme-option'>Rot</span>",
+    "OrangeColor": "<span class='orange-theme-option'>Orange</span>",
+    "GreenColor": "<span class='green-theme-option'>Grün</span>",
+    "GrayColor": "<span class='gray-theme-option'>Grau</span>",
+    "BlackColor": "<span class='black-theme-option'>Schwarz</span>",
+    "ThemeHint": "Das bevorzugte Farbschema wählen",
+    "DashboardStatistics": "Dashboard Statistiken:",
+    "DashboardStatisticsHint": "Zeigt das Demo-Statistik Element auf dem Dashboard",
+    "DashboardNotifications": "Dashboard Benachrichtigungen:",
+    "DashboardNotificationsHint": "Zeige Anwendungsbenachrichtigungen auf dem Dashboard",
+    "DashboardTodo": "Dashboard Beispielaufgaben:",
+    "DashboardTodoHint": "Zeigt das Beispielaufgaben Element auf dem Dashboard",
+    "DashboardBanner": "Dashboard Banner:",
+    "DashboardBannerHint": "Zeigt das Info-Banner Element auf dem Dashboard",
+    "ResetDefault": "Vorgabeeinstellungen",
+    "SetDefault": "Als Standard setzen"
+  },
+  "users": {
+    "management": {
+      "Search": "Benutzer suchen...",
+      "NewUser": "Neuer Benutzer",
+      "Edit": "Bearb.",
+      "Delete": "Entf.",
+      "EditUser": "Benutzer \"{{name}}\" bearbeiten",
+      "Title": "Titel",
+      "UserName": "Benutzername",
+      "FullName": "Vor- und Nachname",
+      "Email": "Email",
+      "Roles": "Rollen",
+      "PhoneNumber": "Telefon"
+    },
+    "editor": {
+      "JobTitle": "Beruf: ",
+      "UserName": "Benutzername:",
+      "UserNameRequired": "Ein Benutzername ist erforderlich (mindestens 2, maximal 200 Zeichen)",
+      "Password": "Passwort:",
+      "PasswordHint": "Passworteingabe ist erforderlich, wenn der Benutzername geändert werden soll",
+      "CurrentPasswordRequired": "Aktuelles Passwort ist erforderlich",
+      "Email": "Email:",
+      "EmailRequired": "Email Adresse ist erforderlich (maximal 200 Zeichen)",
+      "InvalidEmail": "Angegebene Email-Adresse ist ungültig",
+      "ChangePassword": "Passwort ändern",
+      "CurrentPassword": "Aktuelles Passwort:",
+      "NewPassword": "Neues Passwort:",
+      "NewPasswordRequired": "Neues Passwort ist erforderlich (mindestens 6 Zeichen)",
+      "ConfirmPassword": "Passwort bestätigen:",
+      "ConfirmationPasswordRequired": "Passwort Bestätigung ist erforderlich",
+      "PasswordMismatch": "Die angegebenen Passwörter stimmen nicht überein",
+      "Roles": "Rollen:",
+      "FullName": "Vollständiger Name:",
+      "RoleRequired": " Rolle ist erforderlich",
+      "PhoneNumber": "Telefon #:",
+      "Enabled": "Aktiviert",
+      "Unblock": "Entsperren",
+      "Close": "Schliessen",
+      "Edit": "Bearbeiten",
+      "Cancel": "Abbrechen",
+      "Save": "Speichern",
+      "Saving": "Speichere..."
+    }
+  },
+  "roles": {
+    "management": {
+      "Search": "Suche nach Rollen...",
+      "NewRole": "Neue Rolle",
+      "Edit": "Bearb.",
+      "Details": "Details",
+      "Delete": "Entf.",
+      "RoleDetails": "Rollen Details",
+      "EditRole": "Rolle \"{{name}}\" bearbeiten",
+      "Name": "Name",
+      "Description": "Beschreibung",
+      "Users": "Benutzer"
+    },
+    "editor": {
+      "Name": "Name:",
+      "Description": "Beschreibung:",
+      "RoleNameRequired": "Ein Rollenname ist erforderlich (mindestens 2, maximal 200 Zeichen)",
+      "SelectAll": "Alle auswählen",
+      "SelectNone": "Auswahl aufheben",
+      "Close": "Schliessen",
+      "Cancel": "Abbrechen",
+      "Save": "Speichern",
+      "Saving": "Speichere..."
+    }
+  },
+  "notifications": {
+    "Delete": "Benachrichtigung löschen",
+    "Pin": "Benachrichtigung anheften",
+    "Date": "Datum",
+    "Notification": "Benachrichtigung"
+  },
+  "todoDemo": {
+    "management": {
+      "Search": "Suche nach Aufgaben...",
+      "HideCompleted": "Abgeschlossene ausblenden",
+      "AddTask": "Aufgabe hinzufügen",
+      "Delete": "Aufgabe löschen",
+      "Important": "Als wichtig markieren",
+      "Task": "Aufgabe",
+      "Description": "Beschreibung"
+    },
+    "editor": {
+      "NewTask": "Neue Aufgabe",
+      "Name": "Name",
+      "TaskNameRequired": "Aufgabenname ist erforderlich",
+      "Description": "Beschreibung",
+      "Important": "Als wichtig markieren",
+      "AddTask": "Aufgabe hinzufügen"
+    }
+  }
+}
