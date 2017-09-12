@@ -117,6 +117,7 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
         GroupByPipe
     ],
     providers: [
+        { provide: 'BASE_URL', useFactory: getBaseUrl },
         { provide: ErrorHandler, useClass: AppErrorHandler },
         AlertService,
         ConfigurationService,
@@ -132,3 +133,10 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
     bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+
+
+export function getBaseUrl() {
+    return document.getElementsByTagName('base')[0].href;
+}

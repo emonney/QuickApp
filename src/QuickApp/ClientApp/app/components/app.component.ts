@@ -22,7 +22,7 @@ import { ConfigurationService } from '../services/configuration.service';
 import { Permission } from '../models/permission.model';
 import { LoginComponent } from "../components/login/login.component";
 
-var alertify = require('../assets/scripts/alertify.js');
+var alertify: any = require('../assets/scripts/alertify.js');
 
 
 @Component({
