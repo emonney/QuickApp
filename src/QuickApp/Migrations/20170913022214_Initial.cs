@@ -322,6 +322,7 @@ namespace QuickApp.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ApplicationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Scope = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Subject = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -375,6 +376,11 @@ namespace QuickApp.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ApplicationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     AuthorizationId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Ciphertext = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    End = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Hash = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Start = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Subject = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -495,6 +501,13 @@ namespace QuickApp.Migrations
                 name: "IX_OpenIddictTokens_AuthorizationId",
                 table: "OpenIddictTokens",
                 column: "AuthorizationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OpenIddictTokens_Hash",
+                table: "OpenIddictTokens",
+                column: "Hash",
+                unique: true,
+                filter: "[Hash] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

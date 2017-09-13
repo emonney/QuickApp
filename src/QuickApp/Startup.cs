@@ -95,7 +95,7 @@ namespace QuickApp
                 options.AllowPasswordFlow();
                 options.AllowRefreshTokenFlow();
                 options.DisableHttpsRequirement();
-                options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
+                //options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
             });
 
 
@@ -111,6 +111,7 @@ namespace QuickApp
 
             // Add framework services.
             services.AddMvc();
+
 
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
             //services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
