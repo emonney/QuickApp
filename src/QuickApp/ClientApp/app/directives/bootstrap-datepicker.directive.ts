@@ -46,9 +46,9 @@ export class BootstrapDatepickerDirective implements OnInit, OnDestroy {
 
 
     constructor(private el: ElementRef) {
-        this.changedSubscription = Observable.fromEvent($(this.el.nativeElement), 'change').subscribe((e: any) => setTimeout(() => this.ngModelChange.emit(e.target.value)));
-        this.shownSubscription = Observable.fromEvent($(this.el.nativeElement), 'show').subscribe((e: any) => this._isShown = true);
-        this.hiddenSubscription = Observable.fromEvent($(this.el.nativeElement), 'hide').subscribe((e: any) => this._isShown = false);
+        this.changedSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'change').subscribe((e: any) => setTimeout(() => this.ngModelChange.emit(e.target.value)));
+        this.shownSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'show').subscribe((e: any) => this._isShown = true);
+        this.hiddenSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'hide').subscribe((e: any) => this._isShown = false);
     }
 
 

@@ -12,7 +12,7 @@ using System;
 namespace QuickApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170905205616_Initial")]
+    [Migration("20170913022214_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -445,6 +445,8 @@ namespace QuickApp.Migrations
 
                     b.Property<string>("Scope");
 
+                    b.Property<string>("Status");
+
                     b.Property<string>("Subject");
 
                     b.HasKey("Id");
@@ -475,6 +477,16 @@ namespace QuickApp.Migrations
 
                     b.Property<string>("AuthorizationId");
 
+                    b.Property<string>("Ciphertext");
+
+                    b.Property<DateTimeOffset?>("End");
+
+                    b.Property<string>("Hash");
+
+                    b.Property<DateTimeOffset?>("Start");
+
+                    b.Property<string>("Status");
+
                     b.Property<string>("Subject");
 
                     b.Property<string>("Type");
@@ -484,6 +496,10 @@ namespace QuickApp.Migrations
                     b.HasIndex("ApplicationId");
 
                     b.HasIndex("AuthorizationId");
+
+                    b.HasIndex("Hash")
+                        .IsUnique()
+                        .HasFilter("[Hash] IS NOT NULL");
 
                     b.ToTable("OpenIddictTokens");
                 });

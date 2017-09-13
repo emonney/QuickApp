@@ -12,14 +12,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-preview1-0285" />
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc1-0286" />
     <PackageReference Include="AutoMapper" Version="6.1.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.1.1" />
     <PackageReference Include="MailKit" Version="1.18.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="OpenIddict" Version="2.0.0-preview1-0649" />
-    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-preview1-0649" />
-    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-preview1-0649" />
+    <PackageReference Include="OpenIddict" Version="2.0.0-rc1-0669" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc1-0669" />
+    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc1-0669" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
   </ItemGroup>
