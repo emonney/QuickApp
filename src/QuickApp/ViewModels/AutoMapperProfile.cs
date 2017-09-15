@@ -23,12 +23,14 @@ namespace QuickApp.ViewModels
         public AutoMapperProfile()
         {
             CreateMap<ApplicationUser, UserViewModel>()
-                .ForMember(d => d.Roles, map => map.Ignore())
-                .ReverseMap();
+                   .ForMember(d => d.Roles, map => map.Ignore());
+            CreateMap<UserViewModel, ApplicationUser>()
+                .ForMember(d => d.Roles, map => map.Ignore());
 
             CreateMap<ApplicationUser, UserEditViewModel>()
-                .ForMember(d => d.Roles, map => map.Ignore())
-                .ReverseMap();
+                .ForMember(d => d.Roles, map => map.Ignore());
+            CreateMap<UserEditViewModel, ApplicationUser>()
+                .ForMember(d => d.Roles, map => map.Ignore());
 
             CreateMap<ApplicationUser, UserPatchViewModel>()
                 .ReverseMap();
