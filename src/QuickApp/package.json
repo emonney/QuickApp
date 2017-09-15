@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "4.3.6",
     "@angular/platform-server": "4.3.6",
     "@angular/router": "4.3.6",
-    "@ngtools/webpack": "1.6.2",
+    "@ngtools/webpack": "1.7.1",
     "@types/webpack-env": "1.13.1",
     "@ngx-translate/core": "8.0.0",
     "@swimlane/ngx-datatable": "10.2.3",
@@ -66,7 +66,7 @@
   },
   "devDependencies": {
     "@types/chai": "4.0.4",
-    "@types/jasmine": "2.5.54",
+    "@types/jasmine": "2.6.0",
     "chai": "4.1.2",
     "jasmine-core": "2.8.0",
     "karma": "1.7.1",

@@ -64,9 +64,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
 
-    constructor(storageManager: LocalStoreManager, private router: Router, private toastyService: ToastyService, private toastyConfig: ToastyConfig,
+    constructor(storageManager: LocalStoreManager, private toastyService: ToastyService, private toastyConfig: ToastyConfig,
         private accountService: AccountService, private alertService: AlertService, private notificationService: NotificationService, private appTitleService: AppTitleService,
-        private authService: AuthService, private configurations: ConfigurationService, private translationService: AppTranslationService) {
+        private authService: AuthService, private translationService: AppTranslationService, public configurations: ConfigurationService, public router: Router) {
 
         storageManager.initialiseStorageSyncListener();
 

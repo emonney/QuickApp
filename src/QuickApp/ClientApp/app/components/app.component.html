@@ -43,12 +43,12 @@
                         <li routerLinkActive="active"><a routerLink="/settings"><span class="glyphicon glyphicon-cog"></span></a></li>
                     </ul>
                 </div>
-                <div *ngIf="!isUserLoggedIn && router.isActive('/about')" class="app-component collapse navbar-collapse menuItemsContainer">
+                <div *ngIf="!isUserLoggedIn && router.isActive('/about', false)" class="app-component collapse navbar-collapse menuItemsContainer">
                     <ul class="app-component nav navbar-nav nav-pills navBarPadding navbar-right">
                         <li routerLinkActive="active"><a routerLink="/login"><span class="glyphicon glyphicon-log-in"></span></a></li>
                     </ul>
                 </div>
-                <div *ngIf="!isUserLoggedIn && router.isActive('/login') || false" class="app-component collapse navbar-collapse menuItemsContainer">
+                <div *ngIf="!isUserLoggedIn && router.isActive('/login', false) || false" class="app-component collapse navbar-collapse menuItemsContainer">
                     <ul class="app-component nav navbar-nav nav-pills navBarPadding navbar-right">
                         <li routerLinkActive="active"><a routerLink="/about"><span class="glyphicon glyphicon-info-sign"></span></a></li>
                     </ul>

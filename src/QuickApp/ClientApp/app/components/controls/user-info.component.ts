@@ -30,12 +30,13 @@ export class UserInfoComponent implements OnInit {
     private isChangePassword = false;
     private isEditingSelf = false;
     private showValidationErrors = false;
-    private formResetToggle = true;
     private editingUserName: string;
     private uniqueId: string = Utilities.uniqueId();
     private user: User = new User();
     private userEdit: UserEdit;
     private allRoles: Role[] = [];
+
+    public formResetToggle = true;
 
     public changesSavedCallback: () => void;
     public changesFailedCallback: () => void;

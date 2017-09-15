@@ -25,7 +25,7 @@ module.exports = (env) => {
         },
         module: {
             rules: [
-                { test: /\.ts$/, include: /ClientApp/, use: isDevBuild ? ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] : '@ngtools/webpack' },
+                { test: /\.ts$/, use: isDevBuild ? ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] : '@ngtools/webpack' },
                 { test: /\.html$/, use: 'html-loader?minimize=false' },
                 { test: /\.css$/, use: ['to-string-loader', isDevBuild ? 'css-loader' : 'css-loader?minimize'] },
                 { test: /\.scss$/, use: ['to-string-loader', isDevBuild ? 'css-loader' : 'css-loader?minimize', 'sass-loader'] },
@@ -56,8 +56,7 @@ module.exports = (env) => {
                 new webpack.optimize.UglifyJsPlugin(),
                 new AotPlugin({
                     tsConfigPath: './tsconfig.json',
-                    entryModule: path.join(__dirname, 'ClientApp/app/app.module.browser#AppModule'),
-                    exclude: ['./**/*.server.ts']
+                    entryModule: path.join(__dirname, 'ClientApp/app/app.module#AppModule')
                 })
             ])
     });

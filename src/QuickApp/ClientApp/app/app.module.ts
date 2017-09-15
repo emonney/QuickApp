@@ -132,7 +132,8 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
 
 
 

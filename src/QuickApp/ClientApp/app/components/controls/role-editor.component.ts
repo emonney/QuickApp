@@ -24,11 +24,12 @@ export class RoleEditorComponent {
     private isNewRole = false;
     private isSaving: boolean;
     private showValidationErrors: boolean = true;
-    private formResetToggle = true;
     private editingRoleName: string;
     private roleEdit: Role = new Role();
     private allPermissions: Permission[] = [];
     private selectedValues: { [key: string]: boolean; } = {};
+
+    public formResetToggle = true;
 
     public changesSavedCallback: () => void;
     public changesFailedCallback: () => void;
