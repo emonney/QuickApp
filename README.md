@@ -6,6 +6,8 @@ As well as other common functionalities for **Quick Application Development**.
 
 [FOLLOW ME](https://twitter.com/kommand) on twitter for important updates
 
+For the older asp.net core 1.x version: [Download](https://github.com/emonney/QuickApp-VSIX/releases/tag/v1.5")
+
 [live demo](http://quickapp.ebenmonney.com) / [downloadable demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutput.zip)
 
 [![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
@@ -17,7 +19,7 @@ As well as other common functionalities for **Quick Application Development**.
 *   Database using Entity Framework Core
 *   Authentication based on OpenID Connect
 *   API Documentation using Swagger
-*   [Webpack2](https://webpack.js.org) for managing client-side libraries
+*   [Webpack3](https://webpack.js.org) for managing client-side libraries
 *   Theming using [Bootstrap](https://go.microsoft.com/fwlink/?LinkID=398939)
 
 ## You get the benefits of:
@@ -98,7 +100,7 @@ QuickApp is actively maintained by [Ebenezer Monney](https://github.com/emonney)
 *   Suggesting ideas or areas of improvements
 *   Encouraging the developers by rating it/starring it
 *   Linking to it and recommending it to others
-*   [Donate a dollar if you feel inspired](https://salt.bountysource.com/teams/monney)
+*   [Making a donation](https://www.paypal.me/emonney)
 
 
 ## License

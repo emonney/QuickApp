@@ -61,18 +61,20 @@ export class AuthService {
 
 
     redirectLoginUser() {
-        let redirect = this.loginRedirectUrl && this.loginRedirectUrl != ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
+        let redirect = this.loginRedirectUrl && this.loginRedirectUrl != '/' && this.loginRedirectUrl != ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
         this.loginRedirectUrl = null;
 
 
-        let urlAndFragment = Utilities.splitInTwo(redirect, '#');
+        let urlParamsAndFragment = Utilities.splitInTwo(redirect, '#');
+        let urlAndParams = Utilities.splitInTwo(urlParamsAndFragment.firstPart, '?');
 
         let navigationExtras: NavigationExtras = {
-            fragment: urlAndFragment.secondPart,
+            fragment: urlParamsAndFragment.secondPart,
+            queryParams: Utilities.getQueryParamsFromString(urlAndParams.secondPart),
             queryParamsHandling: "merge"
         };
 
-        this.router.navigate([urlAndFragment.firstPart], navigationExtras);
+        this.router.navigate([urlAndParams.firstPart], navigationExtras);
     }
 
 

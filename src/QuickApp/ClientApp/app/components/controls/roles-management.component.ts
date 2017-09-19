@@ -145,23 +145,9 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
 
 
     onSearchChanged(value: string) {
-        if (value) {
-            value = value.toLowerCase();
-
-            let filteredRows = this.rowsCache.filter(r => {
-                let isChosen = !value
-                    || r.name.toLowerCase().indexOf(value) !== -1
-                    || r.description && r.description.toLowerCase().indexOf(value) !== -1;
-
-                return isChosen;
-            });
-
-            this.rows = filteredRows;
-        }
-        else {
-            this.rows = [...this.rowsCache];
-        }
+        this.rows = this.rowsCache.filter(r => Utilities.searchArray(value, false, r.name, r.description));
     }
+
 
     onEditorModalHidden() {
         this.editingRoleName = null;

@@ -36,6 +36,7 @@
   <ItemGroup>
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
     <Content Remove="ClientApp\**" />
+    <Content Remove="wwwroot\dist\**" />
   </ItemGroup>
 
   <Target Name="DevelopementRunWebpack" AfterTargets="Build" Condition="!Exists('wwwroot\dist\vendor.js')">
@@ -48,6 +49,7 @@
     <!-- In development, the dist files won't exist on the first run or when cloning to
          a different machine, so rebuild them if not already present. -->
     <Message Importance="high" Text="Performing first-run Webpack build..." />
+    <Exec Command="npm install" Condition="!Exists('node_modules/webpack/bin/webpack.js')" />
     <Exec Command="node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js" />
     <Exec Command="node node_modules/webpack/bin/webpack.js" />
   </Target>
