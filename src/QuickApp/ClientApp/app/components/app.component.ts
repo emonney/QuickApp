@@ -1,4 +1,4 @@
-// ======================================
+﻿// ======================================
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2017 www.ebenmonney.com
@@ -70,7 +70,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         storageManager.initialiseStorageSyncListener();
 
-        translationService.addLanguages(["en", "fr", "de", "ar", "ko"]);
+        translationService.addLanguages(["en", "fr", "de", "ar", "ko", "pt"]);
         translationService.setDefaultLanguage('en');
 
 

@@ -76,5 +76,6 @@
     <Content Include="ClientApp\app\assets\locale\ko.json" />
     <Content Include="ClientApp\app\assets\locale\en.json" />
     <Content Include="ClientApp\app\assets\locale\fr.json" />
+    <Content Include="ClientApp\app\assets\locale\pt.json" />
   </ItemGroup>
 </Project>
