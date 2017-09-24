@@ -43,7 +43,8 @@
     "ValidEmailRequest": "Please enter a valid email",
     "ValidPasswordRequest": "Please enter a valid password",
     "EnterEmailOrUsername": "Enter email or username",
-    "EnterPassword": "Enter Password"
+    "EnterPassword": "Enter Password",
+    "AppLoaded": "Loaded!"
   },
   "mainMenu": {
     "Appointments": "Appointments",

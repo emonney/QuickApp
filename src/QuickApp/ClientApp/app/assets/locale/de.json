@@ -43,7 +43,8 @@
     "ValidEmailRequest": "Bitte geben Sie eine gültige Email-Adresse ein",
     "ValidPasswordRequest": "Bitte geben Sie ein gültiges Passwort ein",
     "EnterEmailOrUsername": "E-Mail oder Benutzernamen eingeben",
-    "EnterPassword": "Passwort eingeben"
+    "EnterPassword": "Passwort eingeben",
+    "AppLoaded": "Geladen!"
   },
   "mainMenu": {
     "Appointments": "Termine",

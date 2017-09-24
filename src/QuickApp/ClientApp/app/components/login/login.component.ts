@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     showErrorAlert(caption: string, message: string) {
-        this.alertService.showMessage(caption, message, MessageSeverity.error);
+        this.alertService.showMessage(this.translationService.getTranslation(caption), this.translationService.getTranslation(message), MessageSeverity.error);
     }
 
     closeModal() {
@@ -127,8 +127,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     offerAlternateHost() {
-        //TODO: MMM - https://github.com/emonney/QuickApp/issues/31
-
         if (Utilities.checkIsLocalHost(location.origin) && Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
             this.alertService.showDialog(this.translationService.getTranslation("app.BackendServiceNotRunning"),
                 DialogType.prompt,

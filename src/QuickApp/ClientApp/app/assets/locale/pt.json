@@ -43,7 +43,9 @@
     "ValidEmailRequest": "Entre com um email válido",
     "ValidPasswordRequest": "Entre com uma senha válida",
     "EnterEmailOrUsername": "Entre com usuário ou email",
-    "EnterPassword": "Entre com a Senha"
+    "EnterPassword": "Entre com a Senha",
+    "AppLoaded": "Carregado!",
+    "SamplePage": "Página Exemplo"
   },
   "mainMenu": {
     "Appointments": "Compromissos",

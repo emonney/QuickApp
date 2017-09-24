@@ -43,7 +43,8 @@
     "ValidEmailRequest": "يرجى إدخال البريد الإلكتروني الصحيح",
     "ValidPasswordRequest": "يرجى إدخال البريد الإلكتروني الصحيح...",
     "EnterEmailOrUsername": "أدخل البريد الإلكتروني أو اسم المستخدم",
-    "EnterPassword": "أدخل كلمة المرور"
+    "EnterPassword": "أدخل كلمة المرور",
+    "AppLoaded": "محمل!"
   },
   "mainMenu": {
     "Appointments": "المواعيد",
