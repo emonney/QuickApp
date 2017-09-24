@@ -103,7 +103,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
     onLoginModalShown() {
-        this.alertService.showStickyMessage("Session Expired", "Your Session has expired. Please log in again", MessageSeverity.info);
+        this.alertService.showStickyMessage(this.translationService.getTranslation("app.SessionExpired"), this.translationService.getTranslation("app.SessionExpiredLoginAgain"), MessageSeverity.info);
     }
 
 
@@ -113,7 +113,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.shouldShowLoginModal = false;
 
         if (this.authService.isSessionExpired)
-            this.alertService.showStickyMessage("Session Expired", "Your Session has expired. Please log in again to renew your session", MessageSeverity.warn);
+            this.alertService.showStickyMessage(this.translationService.getTranslation("app.SessionExpired"), this.translationService.getTranslation("app.SessionExpiredLoginAgain"), MessageSeverity.warn);
     }
 
 
@@ -134,7 +134,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                 this.alertService.resetStickyMessage();
 
                 //if (!this.authService.isSessionExpired)
-                this.alertService.showMessage("Login", `Welcome back ${this.userName}!`, MessageSeverity.default);
+                this.alertService.showMessage(this.translationService.getTranslation("app.Login"), `${this.translationService.getTranslation("app.WelcomeBack")} ${this.userName}!`, MessageSeverity.default);
                 //else
                 //    this.alertService.showStickyMessage("Session Expired", "Your Session has expired. Please log in again", MessageSeverity.warn);
             }
@@ -160,7 +160,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
             setTimeout(() => {
                 if (!this.isUserLoggedIn) {
-                    this.alertService.showMessage("Session Ended!", "", MessageSeverity.default);
+                    this.alertService.showMessage(this.translationService.getTranslation("app.SessionEnded"), "", MessageSeverity.default);
                 }
             }, 500);
         });
@@ -202,7 +202,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                 if (this.dataLoadingConsecutiveFailurs++ < 20)
                     setTimeout(() => this.initNotificationsLoading(), 5000);
                 else
-                    this.alertService.showStickyMessage("Load Error", "Loading new notifications from the server failed!", MessageSeverity.error);
+                    this.alertService.showStickyMessage(this.translationService.getTranslation("app.LoadError"), this.translationService.getTranslation("app.LoadingNotificationsFailed"), MessageSeverity.error);
             });
     }
 
@@ -222,7 +222,7 @@ export class AppComponent implements OnInit, AfterViewInit {
                 },
                 error => {
                     this.alertService.logError(error);
-                    this.alertService.showMessage("Notification Error", "Marking read notifications failed", MessageSeverity.error);
+                    this.alertService.showMessage(this.translationService.getTranslation("app.NotificationError"), this.translationService.getTranslation("app.MarkingReadNotificationFailed"), MessageSeverity.error);
 
                 });
         }
@@ -234,8 +234,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
         alertify.set({
             labels: {
-                ok: dialog.okLabel || "OK",
-                cancel: dialog.cancelLabel || "Cancel"
+                ok: dialog.okLabel || this.translationService.getTranslation("app.OK"),
+                cancel: dialog.cancelLabel || this.translationService.getTranslation("app.Cancel")
             }
         });
 

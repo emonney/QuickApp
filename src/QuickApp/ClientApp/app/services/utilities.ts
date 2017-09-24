@@ -14,10 +14,12 @@ import { Response } from '@angular/http';
 export class Utilities {
 
     public static readonly captionAndMessageSeparator = ":";
-    public static readonly noNetworkMessageCaption = "No Network";
-    public static readonly noNetworkMessageDetail = "The server cannot be reached";
-    public static readonly accessDeniedMessageCaption = "Access Denied!";
-    public static readonly accessDeniedMessageDetail = "";
+    public static readonly noNetworkMessageCaption = "app.NoNetwork";
+    public static readonly noNetworkMessageDetail = "app.TheServerCannotBeReached";
+    public static readonly accessDeniedMessageCaption = "app.AccessDenied";
+    public static readonly accessDeniedMessageDetail = "app.accessDeniedMessageDetail";
+
+    //TODO: localize all these methods
 
     public static getHttpResponseMessage(data: Response | any): string[] {
 
@@ -26,6 +28,7 @@ export class Utilities {
         if (data instanceof Response) {
 
             if (this.checkNoNetwork(data)) {
+                //TODO: Localize this
                 responses.push(`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`);
             }
             else {
@@ -266,7 +269,6 @@ export class Utilities {
         return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
     }
 
-
     public static printDateOnly(date: Date) {
 
         date = new Date(date);
@@ -325,11 +327,12 @@ export class Utilities {
         return timeString;
     }
 
+    //TODO: @marcelo-maciel: localize this method
     public static printDate(date: Date, separator = "at") {
         return `${Utilities.printDateOnly(date)} ${separator} ${Utilities.printTimeOnly(date)}`;
     }
 
-
+    //TODO: @marcelo-maciel: localize this method
     public static printFriendlyDate(date: Date, separator = "-") {
         let today = new Date(); today.setHours(0, 0, 0, 0);
         let yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
