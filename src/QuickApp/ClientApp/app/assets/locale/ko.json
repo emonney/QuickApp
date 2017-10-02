@@ -44,7 +44,8 @@
     "ValidPasswordRequest": "유효한 암호를 입력하십시오.",
     "EnterEmailOrUsername": "이메일 또는 사용자 이름 입력",
     "EnterPassword": "비밀번호를 입력하십시오.",
-    "AppLoaded": "짐을 실은!"
+    "AppLoaded": "짐을 실은!",
+    "SamplePage": "샘플 페이지"
   },
   "mainMenu": {
     "Appointments": "설비",

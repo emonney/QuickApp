@@ -44,7 +44,8 @@
     "ValidPasswordRequest": "Bitte geben Sie ein gültiges Passwort ein",
     "EnterEmailOrUsername": "E-Mail oder Benutzernamen eingeben",
     "EnterPassword": "Passwort eingeben",
-    "AppLoaded": "Geladen!"
+    "AppLoaded": "Geladen!",
+    "SamplePage": "Beispielseite"
   },
   "mainMenu": {
     "Appointments": "Termine",

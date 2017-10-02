@@ -44,7 +44,8 @@
     "ValidPasswordRequest": "يرجى إدخال البريد الإلكتروني الصحيح...",
     "EnterEmailOrUsername": "أدخل البريد الإلكتروني أو اسم المستخدم",
     "EnterPassword": "أدخل كلمة المرور",
-    "AppLoaded": "محمل!"
+    "AppLoaded": "محمل!",
+    "SamplePage": "نموذج الصفحة"
   },
   "mainMenu": {
     "Appointments": "المواعيد",

@@ -44,7 +44,8 @@
     "ValidPasswordRequest": "Please enter a valid password",
     "EnterEmailOrUsername": "Enter email or username",
     "EnterPassword": "Enter Password",
-    "AppLoaded": "Loaded!"
+    "AppLoaded": "Loaded!",
+    "SamplePage": "Sample Page"
   },
   "mainMenu": {
     "Appointments": "Appointments",

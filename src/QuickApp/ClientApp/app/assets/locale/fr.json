@@ -44,7 +44,8 @@
     "ValidPasswordRequest": "Entrer un mot de passe valide s'il vous plait",
     "EnterEmailOrUsername": "Entrez un email ou un nom d'utilisateur",
     "EnterPassword": "Entrer le mot de passe",
-    "AppLoaded": "Chargé!"
+    "AppLoaded": "Chargé!",
+    "SamplePage": "Page d'exemple"
   },
   "mainMenu": {
     "Appointments": "Rendez-vous",
