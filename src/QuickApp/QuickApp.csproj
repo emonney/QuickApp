@@ -12,16 +12,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc1-0286" />
-    <PackageReference Include="AutoMapper" Version="6.1.1" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="7.1.1" />
-    <PackageReference Include="MailKit" Version="1.18.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="OpenIddict" Version="2.0.0-rc1-0669" />
-    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc1-0669" />
-    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc1-0669" />
-    <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc1-final" />
+    <PackageReference Include="AutoMapper" Version="6.2.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="7.3.0-beta2" />
+    <PackageReference Include="MailKit" Version="1.20.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="OpenIddict" Version="2.0.0-rc1-final" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc1-final" />
+    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc1-final" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0-dev-00023" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
