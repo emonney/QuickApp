@@ -16,7 +16,7 @@ export class AppErrorHandler extends ErrorHandler {
     //private alertService: AlertService;
 
     constructor() {
-        super(true);
+        super();
     }
 
 
