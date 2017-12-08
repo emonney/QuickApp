@@ -88,7 +88,7 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 
 *   [Overview of QuickApp](http://ebenmonney.com/quickapp)
 *   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
-*   [Angular4 documentation overview](http://angular.io/docs/ts/latest/guide)
+*   [Angular5 documentation overview](http://angular.io/docs/ts/latest/guide)
 *   [Working with Data](https://go.microsoft.com/fwlink/?LinkId=398602)
 *   [An introduction to webpack](https://webpack.js.org/guides/get-started/)
 
