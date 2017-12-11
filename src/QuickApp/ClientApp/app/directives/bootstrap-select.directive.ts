@@ -6,8 +6,10 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-import { Directive, Attribute, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
+import { Directive, Attribute, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/observable/fromEvent';
 import * as $ from 'jquery';
 import 'bootstrap-select/dist/js/bootstrap-select';
 
@@ -19,6 +21,11 @@ import 'bootstrap-select/dist/js/bootstrap-select';
 })
 export class BootstrapSelectDirective implements OnInit, OnDestroy {
 
+
+    private changedSubscription: Subscription;
+    private shownSubscription: Subscription;
+    private hiddenSubscription: Subscription;
+
     @Input()
     required: string;
 
@@ -28,9 +35,22 @@ export class BootstrapSelectDirective implements OnInit, OnDestroy {
     }
 
 
-    constructor(private el: ElementRef) {
+    @Output()
+    ngModelChange = new EventEmitter();
 
+    @Output()
+    shown = new EventEmitter();
+
+    @Output()
+    hidden = new EventEmitter();
+
+
+    constructor(private el: ElementRef) {
+        this.changedSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'changed.bs.select').subscribe((e: any) => setTimeout(() => this.ngModelChange.emit(this.selected)));
+        this.shownSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'shown.bs.select').subscribe((e: any) => setTimeout(() => this.shown.emit()));
+        this.hiddenSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'hidden.bs.select').subscribe((e: any) => setTimeout(() => this.hidden.emit()));
     }
+
 
 
     ngOnInit() {
@@ -48,6 +68,15 @@ export class BootstrapSelectDirective implements OnInit, OnDestroy {
 
 
     ngOnDestroy() {
+        if (this.changedSubscription)
+            this.changedSubscription.unsubscribe();
+
+        if (this.shownSubscription)
+            this.shownSubscription.unsubscribe();
+
+        if (this.hiddenSubscription)
+            this.hiddenSubscription.unsubscribe();
+
         (<any>$(this.el.nativeElement)).selectpicker('destroy');
     }
 
@@ -65,11 +94,15 @@ export class BootstrapSelectDirective implements OnInit, OnDestroy {
 
 
     refresh() {
-        (<any>$(this.el.nativeElement)).selectpicker('refresh');
+        setTimeout(() => {
+            (<any>$(this.el.nativeElement)).selectpicker('refresh');
+        });
     }
 
     render() {
-        (<any>$(this.el.nativeElement)).selectpicker('render');
+        setTimeout(() => {
+            (<any>$(this.el.nativeElement)).selectpicker('render');
+        });
     }
 
 

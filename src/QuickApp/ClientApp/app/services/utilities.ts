@@ -7,7 +7,7 @@
 // ======================================
 
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
+import { HttpResponseBase, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 
 @Injectable()
@@ -19,35 +19,31 @@ export class Utilities {
     public static readonly accessDeniedMessageCaption = "Access Denied!";
     public static readonly accessDeniedMessageDetail = "";
 
-    public static getHttpResponseMessage(data: Response | any): string[] {
+    public static getHttpResponseMessage(data: HttpResponseBase | any): string[] {
 
         let responses: string[] = [];
 
-        if (data instanceof Response) {
+        if (data instanceof HttpResponseBase) {
 
             if (this.checkNoNetwork(data)) {
                 responses.push(`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`);
             }
             else {
-                try {
-                    let responseObject = data.json();
+                let responseObject = this.getResponseBody(data);
 
-                    if (typeof responseObject === 'object' || responseObject instanceof Object) {
+                if (responseObject && (typeof responseObject === 'object' || responseObject instanceof Object)) {
 
-                        for (let key in responseObject) {
-                            if (key)
-                                responses.push(`${key}${this.captionAndMessageSeparator} ${responseObject[key]}`);
-                            else if (responseObject[key])
-                                responses.push(responseObject[key].toString());
-                        }
+                    for (let key in responseObject) {
+                        if (key)
+                            responses.push(`${key}${this.captionAndMessageSeparator} ${responseObject[key]}`);
+                        else if (responseObject[key])
+                            responses.push(responseObject[key].toString());
                     }
-                }
-                catch (error) {
                 }
             }
 
-            if (!responses.length && data.text())
-                responses.push(`${data.statusText}: ${data.text()}`);
+            if (!responses.length && this.getResponseBody(data))
+                responses.push(`${data.statusText}: ${this.getResponseBody(data).toString()}`);
         }
 
         if (!responses.length)
@@ -61,7 +57,7 @@ export class Utilities {
     }
 
 
-    public static findHttpResponseMessage(messageToFind: string, data: Response | any, seachInCaptionOnly = true, includeCaptionInResult = false): string {
+    public static findHttpResponseMessage(messageToFind: string, data: HttpResponse<any> | any, seachInCaptionOnly = true, includeCaptionInResult = false): string {
 
         let searchString = messageToFind.toLowerCase();
         let httpMessages = this.getHttpResponseMessage(data);
@@ -93,24 +89,33 @@ export class Utilities {
     }
 
 
-    public static checkNoNetwork(response: Response) {
-        if (response instanceof Response) {
+    public static getResponseBody(response: HttpResponseBase) {
+        if (response instanceof HttpResponse)
+            return response.body;
+
+        if (response instanceof HttpErrorResponse)
+            return response.error;
+    }
+
+
+    public static checkNoNetwork(response: HttpResponseBase) {
+        if (response instanceof HttpResponseBase) {
             return response.status == 0;
         }
 
         return false;
     }
 
-    public static checkAccessDenied(response: Response) {
-        if (response instanceof Response) {
+    public static checkAccessDenied(response: HttpResponseBase) {
+        if (response instanceof HttpResponseBase) {
             return response.status == 403;
         }
 
         return false;
     }
 
-    public static checkNotFound(response: Response) {
-        if (response instanceof Response) {
+    public static checkNotFound(response: HttpResponseBase) {
+        if (response instanceof HttpResponseBase) {
             return response.status == 404;
         }
 
@@ -203,6 +208,17 @@ export class Utilities {
     }
 
 
+    public static TestIsObjectEmpty(obj: any) {
+        for (let prop in obj) {
+            if (obj.hasOwnProperty(prop)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     public static TestIsUndefined(value: any) {
         return typeof value === 'undefined';
         //return value === undefined;
@@ -260,10 +276,14 @@ export class Utilities {
 
 
     public static baseUrl() {
-        if (window.location.origin)
-            return window.location.origin
+        let base = '';
 
-        return window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+        if (window.location.origin)
+            base = window.location.origin;
+        else
+            base = window.location.protocol + "//" + window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+
+        return base.replace(/\/$/, '');
     }
 
 
@@ -476,9 +496,9 @@ export class Utilities {
         if (!text)
             return text;
 
-        return text.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => {
-            return str.toUpperCase();
-        })
+        return text.replace(/([A-Z][a-z]+)/g, " $1")
+            .replace(/([A-Z][A-Z]+)/g, " $1")
+            .replace(/([^A-Za-z ]+)/g, " $1");
     }
 
 

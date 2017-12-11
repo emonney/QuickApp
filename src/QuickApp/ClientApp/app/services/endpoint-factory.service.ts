@@ -7,7 +7,7 @@
 // ======================================
 
 import { Injectable, Injector } from '@angular/core';
-import { Http, Headers, RequestOptions, Response, URLSearchParams } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/throw';
@@ -44,45 +44,40 @@ export class EndpointFactory {
 
 
 
-    constructor(protected http: Http, protected configurations: ConfigurationService, private injector: Injector) {
+    constructor(protected http: HttpClient, protected configurations: ConfigurationService, private injector: Injector) {
 
     }
 
 
-    getLoginEndpoint(userName: string, password: string): Observable<Response> {
+    getLoginEndpoint<T>(userName: string, password: string): Observable<T> {
 
-        let header = new Headers();
-        header.append("Content-Type", "application/x-www-form-urlencoded");
+        let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
-        let searchParams = new URLSearchParams();
-        searchParams.append('username', userName);
-        searchParams.append('password', password);
-        searchParams.append('grant_type', 'password');
-        searchParams.append('scope', 'openid email phone profile offline_access roles');
-        searchParams.append('resource', window.location.origin);
+        let params = new HttpParams()
+            .append('username', userName)
+            .append('password', password)
+            .append('grant_type', 'password')
+            .append('scope', 'openid email phone profile offline_access roles')
+            .append('resource', window.location.origin);
 
-        let requestBody = searchParams.toString();
+        let requestBody = params.toString();
 
-        return this.http.post(this.loginUrl, requestBody, { headers: header });
+        return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
     }
 
 
-    getRefreshLoginEndpoint(): Observable<Response> {
+    getRefreshLoginEndpoint<T>(): Observable<T> {
 
-        let header = new Headers();
-        header.append("Content-Type", "application/x-www-form-urlencoded");
+        let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
-        let searchParams = new URLSearchParams();
-        searchParams.append('refresh_token', this.authService.refreshToken);
-        searchParams.append('grant_type', 'refresh_token');
-        searchParams.append('scope', 'openid email phone profile offline_access roles');
+        let params = new HttpParams()
+            .append('refresh_token', this.authService.refreshToken)
+            .append('grant_type', 'refresh_token')
+            .append('scope', 'openid email phone profile offline_access roles');
 
-        let requestBody = searchParams.toString();
+        let requestBody = params.toString();
 
-        return this.http.post(this.loginUrl, requestBody, { headers: header })
-            .map((response: Response) => {
-                return response;
-            })
+        return this.http.post<T>(this.loginUrl, requestBody, { headers: header })
             .catch(error => {
                 return this.handleError(error, () => this.getRefreshLoginEndpoint());
             });
@@ -90,20 +85,15 @@ export class EndpointFactory {
 
 
 
+    protected getRequestHeaders(): { headers: HttpHeaders | { [header: string]: string | string[]; } } {
+        let headers = new HttpHeaders({
+            'Authorization': 'Bearer ' + this.authService.accessToken,
+            'Content-Type': 'application/json',
+            'Accept': `application/vnd.iman.v${EndpointFactory.apiVersion}+json, application/json, text/plain, */*`,
+            'App-Version': ConfigurationService.appVersion
+        });
 
-
-
-
-    protected getAuthHeader(includeJsonContentType?: boolean): RequestOptions {
-        let headers = new Headers({ 'Authorization': 'Bearer ' + this.authService.accessToken });
-
-        if (includeJsonContentType)
-            headers.append("Content-Type", "application/json");
-
-        headers.append("Accept", `application/vnd.iman.v${EndpointFactory.apiVersion}+json, application/json, text/plain, */*`);
-        headers.append("App-Version", ConfigurationService.appVersion);
-
-        return new RequestOptions({ headers: headers });
+        return { headers: headers };
     }
 
 
@@ -140,10 +130,11 @@ export class EndpointFactory {
 
         if (error.url && error.url.toLowerCase().includes(this.loginUrl.toLowerCase())) {
             this.authService.reLogin();
-            return Observable.throw('session expired');
+
+            return Observable.throw((error.error && error.error.error_description) ? `session expired (${error.error.error_description})` : 'session expired');
         }
         else {
-            return Observable.throw(error || 'server error');
+            return Observable.throw(error);
         }
     }
 

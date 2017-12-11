@@ -188,6 +188,7 @@ orleans.codegen.cs
 
 /src/QuickApp/node_modules
 
+/src/QuickApp/package-lock.json
 /src/QuickApp/yarn.lock
 
 # RIA/Silverlight projects

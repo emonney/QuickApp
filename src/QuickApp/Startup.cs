@@ -116,23 +116,12 @@ namespace QuickApp
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
             //services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
+
             //.AddJsonOptions(opts =>
             //{
             //    opts.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             //});
 
-
-
-            EmailSender.Configuration = new SmtpConfig
-            {
-                Host = Configuration["SmtpConfig:Host"],
-                Port = int.Parse(Configuration["SmtpConfig:Port"]),
-                UseSSL = bool.Parse(Configuration["SmtpConfig:UseSSL"]),
-                Name = Configuration["SmtpConfig:Name"],
-                Username = Configuration["SmtpConfig:Username"],
-                EmailAddress = Configuration["SmtpConfig:EmailAddress"],
-                Password = Configuration["SmtpConfig:Password"]
-            };
 
 
             services.AddSwaggerGen(c =>
@@ -171,6 +160,14 @@ namespace QuickApp
             {
                 cfg.AddProfile<AutoMapperProfile>();
             });
+
+
+            // Configurations
+            services.Configure<SmtpConfig>(Configuration.GetSection("SmtpConfig"));
+
+
+            // Business Services
+            services.AddScoped<IEmailer, Emailer>();
 
 
             // Repositories

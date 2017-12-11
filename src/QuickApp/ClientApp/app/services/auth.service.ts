@@ -8,7 +8,6 @@
 
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from "@angular/router";
-import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -19,6 +18,7 @@ import { ConfigurationService } from './configuration.service';
 import { DBkeys } from './db-Keys';
 import { JwtHelper } from './jwt-helper';
 import { Utilities } from './utilities';
+import { LoginResponse, IdToken } from '../models/login-response.model';
 import { User } from '../models/user.model';
 import { Permission, PermissionNames, PermissionValues } from '../models/permission.model';
 
@@ -106,8 +106,8 @@ export class AuthService {
 
 
     refreshLogin() {
-        return this.endpointFactory.getRefreshLoginEndpoint()
-            .map((response: Response) => this.processLoginResponse(response, this.rememberMe));
+        return this.endpointFactory.getRefreshLoginEndpoint<LoginResponse>()
+            .map(response => this.processLoginResponse(response, this.rememberMe));
     }
 
 
@@ -116,22 +116,21 @@ export class AuthService {
         if (this.isLoggedIn)
             this.logout();
 
-        return this.endpointFactory.getLoginEndpoint(userName, password)
-            .map((response: Response) => this.processLoginResponse(response, rememberMe));
+        return this.endpointFactory.getLoginEndpoint<LoginResponse>(userName, password)
+            .map(response => this.processLoginResponse(response, rememberMe));
     }
 
 
-    private processLoginResponse(response: Response, rememberMe: boolean) {
+    private processLoginResponse(response: LoginResponse, rememberMe: boolean) {
 
-        let response_token = response.json();
-        let accessToken = response_token.access_token;
+        let accessToken = response.access_token;
 
         if (accessToken == null)
             throw new Error("Received accessToken was empty");
 
-        let idToken: string = response_token.id_token;
-        let refreshToken: string = response_token.refresh_token;
-        let expiresIn: number = response_token.expires_in;
+        let idToken = response.id_token;
+        let refreshToken = response.refresh_token;
+        let expiresIn = response.expires_in;
 
         let tokenExpiryDate = new Date();
         tokenExpiryDate.setSeconds(tokenExpiryDate.getSeconds() + expiresIn);
@@ -139,7 +138,7 @@ export class AuthService {
         let accessTokenExpiry = tokenExpiryDate;
 
         let jwtHelper = new JwtHelper();
-        let decodedIdToken = jwtHelper.decodeToken(response_token.id_token);
+        let decodedIdToken = <IdToken>jwtHelper.decodeToken(response.id_token);
 
         let permissions: PermissionValues[] = Array.isArray(decodedIdToken.permission) ? decodedIdToken.permission : [decodedIdToken.permission];
 

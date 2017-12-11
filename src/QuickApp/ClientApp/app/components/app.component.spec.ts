@@ -4,7 +4,7 @@ import { assert } from 'chai';
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from "@angular/forms";
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from "../components/app.component";
 import { LoginComponent } from "../components/login/login.component";
@@ -33,7 +33,7 @@ describe('AppComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                HttpModule,
+                HttpClientModule,
                 FormsModule,
                 RouterTestingModule,
                 TranslateModule.forRoot({

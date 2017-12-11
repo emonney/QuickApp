@@ -7,7 +7,7 @@
 // ======================================
 
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
+import { HttpResponseBase } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 
@@ -43,13 +43,13 @@ export class AlertService {
     showMessage(summary: string)
     showMessage(summary: string, detail: string, severity: MessageSeverity)
     showMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity)
-    showMessage(response: Response, ignoreValue_useNull: string, severity: MessageSeverity)
+    showMessage(response: HttpResponseBase, ignoreValue_useNull: string, severity: MessageSeverity)
     showMessage(data: any, separatorOrDetail?: string, severity?: MessageSeverity) {
 
         if (!severity)
             severity = MessageSeverity.default;
 
-        if (data instanceof Response) {
+        if (data instanceof HttpResponseBase) {
             data = Utilities.getHttpResponseMessage(data);
             separatorOrDetail = Utilities.captionAndMessageSeparator;
         }
@@ -70,13 +70,13 @@ export class AlertService {
     showStickyMessage(summary: string)
     showStickyMessage(summary: string, detail: string, severity: MessageSeverity, error?: any)
     showStickyMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity)
-    showStickyMessage(response: Response, ignoreValue_useNull: string, severity: MessageSeverity)
-    showStickyMessage(data: string | string[] | Response, separatorOrDetail?: string, severity?: MessageSeverity, error?: any) {
+    showStickyMessage(response: HttpResponseBase, ignoreValue_useNull: string, severity: MessageSeverity)
+    showStickyMessage(data: string | string[] | HttpResponseBase, separatorOrDetail?: string, severity?: MessageSeverity, error?: any) {
 
         if (!severity)
             severity = MessageSeverity.default;
 
-        if (data instanceof Response) {
+        if (data instanceof HttpResponseBase) {
             data = Utilities.getHttpResponseMessage(data);
             separatorOrDetail = Utilities.captionAndMessageSeparator;
         }

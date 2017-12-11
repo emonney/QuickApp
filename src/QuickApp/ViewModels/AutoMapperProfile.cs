@@ -38,8 +38,8 @@ namespace QuickApp.ViewModels
             CreateMap<ApplicationRole, RoleViewModel>()
                 .ForMember(d => d.Permissions, map => map.MapFrom(s => s.Claims))
                 .ForMember(d => d.UsersCount, map => map.ResolveUsing(s => s.Users?.Count ?? 0))
-                .ReverseMap()
-                .ForMember(d => d.Claims, map => map.Ignore());
+                .ReverseMap();
+            CreateMap<RoleViewModel, ApplicationRole>();
 
             CreateMap<IdentityRoleClaim<string>, ClaimViewModel>()
                 .ForMember(d => d.Type, map => map.MapFrom(s => s.ClaimType))
