@@ -12,14 +12,14 @@ using System;
 namespace QuickApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170913022214_Initial")]
+    [Migration("20171212061431_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("DAL.Models.ApplicationRole", b =>
@@ -415,23 +415,27 @@ namespace QuickApp.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ClientId");
+                    b.Property<string>("ClientId")
+                        .IsRequired();
 
                     b.Property<string>("ClientSecret");
 
+                    b.Property<string>("ConcurrencyToken")
+                        .IsConcurrencyToken();
+
                     b.Property<string>("DisplayName");
 
-                    b.Property<string>("LogoutRedirectUri");
+                    b.Property<string>("PostLogoutRedirectUris");
 
-                    b.Property<string>("RedirectUri");
+                    b.Property<string>("RedirectUris");
 
-                    b.Property<string>("Type");
+                    b.Property<string>("Type")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId")
-                        .IsUnique()
-                        .HasFilter("[ClientId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("OpenIddictApplications");
                 });
@@ -443,11 +447,19 @@ namespace QuickApp.Migrations
 
                     b.Property<string>("ApplicationId");
 
-                    b.Property<string>("Scope");
+                    b.Property<string>("ConcurrencyToken")
+                        .IsConcurrencyToken();
 
-                    b.Property<string>("Status");
+                    b.Property<string>("Scopes");
 
-                    b.Property<string>("Subject");
+                    b.Property<string>("Status")
+                        .IsRequired();
+
+                    b.Property<string>("Subject")
+                        .IsRequired();
+
+                    b.Property<string>("Type")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -461,7 +473,13 @@ namespace QuickApp.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("ConcurrencyToken")
+                        .IsConcurrencyToken();
+
                     b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -477,19 +495,24 @@ namespace QuickApp.Migrations
 
                     b.Property<string>("AuthorizationId");
 
-                    b.Property<string>("Ciphertext");
+                    b.Property<string>("ConcurrencyToken")
+                        .IsConcurrencyToken();
 
-                    b.Property<DateTimeOffset?>("End");
+                    b.Property<DateTimeOffset?>("CreationDate");
 
-                    b.Property<string>("Hash");
+                    b.Property<DateTimeOffset?>("ExpirationDate");
 
-                    b.Property<DateTimeOffset?>("Start");
+                    b.Property<string>("Payload");
+
+                    b.Property<string>("ReferenceId");
 
                     b.Property<string>("Status");
 
-                    b.Property<string>("Subject");
+                    b.Property<string>("Subject")
+                        .IsRequired();
 
-                    b.Property<string>("Type");
+                    b.Property<string>("Type")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -497,9 +520,9 @@ namespace QuickApp.Migrations
 
                     b.HasIndex("AuthorizationId");
 
-                    b.HasIndex("Hash")
+                    b.HasIndex("ReferenceId")
                         .IsUnique()
-                        .HasFilter("[Hash] IS NOT NULL");
+                        .HasFilter("[ReferenceId] IS NOT NULL");
 
                     b.ToTable("OpenIddictTokens");
                 });

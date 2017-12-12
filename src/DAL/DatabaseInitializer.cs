@@ -52,11 +52,11 @@ namespace DAL
                 const string adminRoleName = "administrator";
                 const string userRoleName = "user";
 
-                await ensureRoleAsync(adminRoleName, "Default administrator", ApplicationPermissions.GetAllPermissionValues());
-                await ensureRoleAsync(userRoleName, "Default user", new string[] { });
+                await EnsureRoleAsync(adminRoleName, "Default administrator", ApplicationPermissions.GetAllPermissionValues());
+                await EnsureRoleAsync(userRoleName, "Default user", new string[] { });
 
-                await createUserAsync("admin", "tempP@ss123", "Inbuilt Administrator", "admin@ebenmonney.com", "+1 (123) 000-0000", new string[] { adminRoleName });
-                await createUserAsync("user", "tempP@ss123", "Inbuilt Standard User", "user@ebenmonney.com", "+1 (123) 000-0001", new string[] { userRoleName });
+                await CreateUserAsync("admin", "tempP@ss123", "Inbuilt Administrator", "admin@ebenmonney.com", "+1 (123) 000-0000", new string[] { adminRoleName });
+                await CreateUserAsync("user", "tempP@ss123", "Inbuilt Standard User", "user@ebenmonney.com", "+1 (123) 000-0001", new string[] { userRoleName });
 
                 _logger.LogInformation("Inbuilt account generation completed");
             }
@@ -200,7 +200,7 @@ namespace DAL
 
 
 
-        private async Task ensureRoleAsync(string roleName, string description, string[] claims)
+        private async Task EnsureRoleAsync(string roleName, string description, string[] claims)
         {
             if ((await _accountManager.GetRoleByNameAsync(roleName)) == null)
             {
@@ -213,7 +213,7 @@ namespace DAL
             }
         }
 
-        private async Task<ApplicationUser> createUserAsync(string userName, string password, string fullName, string email, string phoneNumber, string[] roles)
+        private async Task<ApplicationUser> CreateUserAsync(string userName, string password, string fullName, string email, string phoneNumber, string[] roles)
         {
             ApplicationUser applicationUser = new ApplicationUser
             {
