@@ -1,7 +1,7 @@
-# **QuickApp** - ASPNET Core / Angular4 startup project template
+# **QuickApp** - ASPNET Core / Angular5 startup project template
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 
-A startup **Angular4 / ASP.NET Core** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
+A startup **Angular5 / ASP.NET Core** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
 As well as other common functionalities for **Quick Application Development**.
 
 [FOLLOW ME](https://twitter.com/kommand) on twitter for important updates
@@ -14,7 +14,7 @@ For the older asp.net core 1.x version: [Download](https://github.com/emonney/Qu
 
 ## This application consists of:
 
-*   Template pages using Angular4 and TypeScript
+*   Template pages using Angular5 and TypeScript
 *   RESTful API Backend using ASP.NET Core MVC Web API
 *   Database using Entity Framework Core
 *   Authentication based on OpenID Connect
@@ -88,7 +88,7 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 
 *   [Overview of QuickApp](http://ebenmonney.com/quickapp)
 *   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
-*   [Angular4 documentation overview](http://angular.io/docs/ts/latest/guide)
+*   [Angular5 documentation overview](http://angular.io/docs/ts/latest/guide)
 *   [Working with Data](https://go.microsoft.com/fwlink/?LinkId=398602)
 *   [An introduction to webpack](https://webpack.js.org/guides/get-started/)
 

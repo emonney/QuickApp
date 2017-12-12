@@ -1,7 +1,7 @@
 {
   "name": "quickapp",
   "version": "2.0.0",
-  "description": "Angular4 (ASP.NET Core) startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
+  "description": "Angular5 (ASP.NET Core) startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
   "author": {
     "name": "Ebenezer Monney",
     "email": "info@ebenmonney.com",
@@ -84,7 +84,7 @@
     "ng",
     "angular",
     "angular2",
-    "angular4",
+    "angular5",
     "angularX",
     "aspnetcore",
     "aspnet-core",
