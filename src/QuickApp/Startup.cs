@@ -95,6 +95,7 @@ namespace QuickApp
                 options.AllowPasswordFlow();
                 options.AllowRefreshTokenFlow();
                 options.DisableHttpsRequirement();
+                //options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request
                 //options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
             });
 

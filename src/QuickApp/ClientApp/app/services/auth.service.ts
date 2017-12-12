@@ -129,7 +129,7 @@ export class AuthService {
             throw new Error("Received accessToken was empty");
 
         let idToken = response.id_token;
-        let refreshToken = response.refresh_token;
+        let refreshToken = response.refresh_token || this.refreshToken;
         let expiresIn = response.expires_in;
 
         let tokenExpiryDate = new Date();
