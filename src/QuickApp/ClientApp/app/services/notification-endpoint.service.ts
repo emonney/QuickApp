@@ -7,7 +7,7 @@
 // ======================================
 
 import { Injectable } from '@angular/core';
-import { Response, ResponseOptions } from '@angular/http';
+import { HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/map';
@@ -45,60 +45,60 @@ export class NotificationEndpoint {
 
 
 
-    getNotificationEndpoint(notificationId: number): Observable<Response> {
+    getNotificationEndpoint<T>(notificationId: number): Observable<T> {
 
         let notification = this.demoNotifications.find(val => val.id == notificationId);
-        let response: Response;
+        let response: HttpResponse<T>;
 
         if (notification) {
-            response = this.createResponse(notification, 200);
+            response = this.createResponse<T>(notification, 200);
         }
         else {
-            response = this.createResponse(null, 404);
+            response = this.createResponse<T>(null, 404);
         }
 
-        return Observable.of(response);
+        return Observable.of(response.body);
     }
 
 
 
-    getNotificationsEndpoint(page: number, pageSize: number): Observable<Response> {
+    getNotificationsEndpoint<T>(page: number, pageSize: number): Observable<T> {
 
         let notifications = this.demoNotifications;
-        let response = this.createResponse(this.demoNotifications, 200);
+        let response = this.createResponse<T>(this.demoNotifications, 200);
 
-        return Observable.of(response);
+        return Observable.of(response.body);
     }
 
 
 
-    getUnreadNotificationsEndpoint(userId?: string): Observable<Response> {
+    getUnreadNotificationsEndpoint<T>(userId?: string): Observable<T> {
 
         let unreadNotifications = this.demoNotifications.filter(val => !val.isRead);
-        let response = this.createResponse(unreadNotifications, 200);
+        let response = this.createResponse<T>(unreadNotifications, 200);
 
-        return Observable.of(response);
+        return Observable.of(response.body);
     }
 
 
 
-    getNewNotificationsEndpoint(lastNotificationDate?: Date): Observable<Response> {
+    getNewNotificationsEndpoint<T>(lastNotificationDate?: Date): Observable<T> {
 
         let unreadNotifications = this.demoNotifications;
-        let response = this.createResponse(unreadNotifications, 200);
+        let response = this.createResponse<T>(unreadNotifications, 200);
 
-        return Observable.of(response);
+        return Observable.of(response.body);
     }
 
 
 
-    getPinUnpinNotificationEndpoint(notificationId: number, isPinned?: boolean, ): Observable<Response> {
+    getPinUnpinNotificationEndpoint<T>(notificationId: number, isPinned?: boolean, ): Observable<T> {
 
         let notification = this.demoNotifications.find(val => val.id == notificationId);
-        let response: Response;
+        let response: HttpResponse<T>;
 
         if (notification) {
-            response = this.createResponse(null, 204);
+            response = this.createResponse<T>(null, 204);
 
             if (isPinned == null)
                 isPinned = !notification.isPinned;
@@ -107,16 +107,16 @@ export class NotificationEndpoint {
             notification.isRead = true;
         }
         else {
-            response = this.createResponse(null, 404);
+            response = this.createResponse<T>(null, 404);
         }
 
 
-        return Observable.of(response);
+        return Observable.of(response.body);
     }
 
 
 
-    getReadUnreadNotificationEndpoint(notificationIds: number[], isRead: boolean, ): Observable<Response> {
+    getReadUnreadNotificationEndpoint<T>(notificationIds: number[], isRead: boolean, ): Observable<T> {
 
         for (let notificationId of notificationIds) {
 
@@ -127,31 +127,31 @@ export class NotificationEndpoint {
             }
         }
 
-        let response = this.createResponse(null, 204);
-        return Observable.of(response);
+        let response = this.createResponse<T>(null, 204);
+        return Observable.of(response.body);
     }
 
 
 
-    getDeleteNotificationEndpoint(notificationId: number): Observable<Response> {
+    getDeleteNotificationEndpoint<T>(notificationId: number): Observable<T> {
 
         let notification = this.demoNotifications.find(val => val.id == notificationId);
-        let response: Response;
+        let response: HttpResponse<T>;
 
         if (notification) {
             this.demoNotifications = this.demoNotifications.filter(val => val.id != notificationId)
-            response = this.createResponse(notification, 200);
+            response = this.createResponse<T>(notification, 200);
         }
         else {
-            response = this.createResponse(null, 404);
+            response = this.createResponse<T>(null, 404);
         }
 
-        return Observable.of(response);
+        return Observable.of(response.body);
     }
 
 
 
-    private createResponse(body, status: number) {
-        return new Response(new ResponseOptions({ body: body, status: status }));
+    private createResponse<T>(body, status: number) {
+        return new HttpResponse<T>({ body: body, status: status });
     }
 }

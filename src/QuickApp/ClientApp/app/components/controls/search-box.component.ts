@@ -25,7 +25,7 @@ export class SearchBoxComponent {
     searchInput: ElementRef;
 
 
-    private onValueChange(value: string) {
+    onValueChange(value: string) {
         setTimeout(() => this.searchChange.emit(value));
     }
 

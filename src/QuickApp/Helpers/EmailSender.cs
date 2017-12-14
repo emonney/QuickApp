@@ -6,51 +6,61 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-using DAL.Models;
 using MailKit.Net.Smtp;
 using MimeKit;
 using System;
 using Microsoft.Extensions.Logging;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using Microsoft.Extensions.Options;
 
 namespace QuickApp.Helpers
 {
-    public class EmailSender
+    public interface IEmailer
     {
-        internal static SmtpConfig Configuration;
+        Task<(bool success, string errorMsg)> SendEmailAsync(MailboxAddress sender, MailboxAddress[] recepients, string subject, string body, SmtpConfig config = null, bool isHtml = true);
+        Task<(bool success, string errorMsg)> SendEmailAsync(string recepientName, string recepientEmail, string subject, string body, SmtpConfig config = null, bool isHtml = true);
+        Task<(bool success, string errorMsg)> SendEmailAsync(string senderName, string senderEmail, string recepientName, string recepientEmail, string subject, string body, SmtpConfig config = null, bool isHtml = true);
+    }
 
 
-        public static async Task<(bool success, string errorMsg)> SendEmailAsync(string recepientName, string recepientEmail,
+
+    public class Emailer : IEmailer
+    {
+        private SmtpConfig _config;
+
+
+        public Emailer(IOptions<SmtpConfig> config)
+        {
+            _config = config.Value;
+        }
+
+
+        public async Task<(bool success, string errorMsg)> SendEmailAsync(string recepientName, string recepientEmail,
             string subject, string body, SmtpConfig config = null, bool isHtml = true)
         {
-            var from = new MailboxAddress(Configuration.Name, Configuration.EmailAddress);
+            var from = new MailboxAddress(_config.Name, _config.EmailAddress);
             var to = new MailboxAddress(recepientName, recepientEmail);
 
-            return await EmailSender.SendEmailAsync(from, new MailboxAddress[] { to }, subject, body, config, isHtml);
+            return await SendEmailAsync(from, new MailboxAddress[] { to }, subject, body, config, isHtml);
         }
 
 
 
-        public static async Task<(bool success, string errorMsg)> SendEmailAsync(string senderName, string senderEmail,
+        public async Task<(bool success, string errorMsg)> SendEmailAsync(string senderName, string senderEmail,
             string recepientName, string recepientEmail,
             string subject, string body, SmtpConfig config = null, bool isHtml = true)
         {
             var from = new MailboxAddress(senderName, senderEmail);
             var to = new MailboxAddress(recepientName, recepientEmail);
 
-            return await EmailSender.SendEmailAsync(from, new MailboxAddress[] { to }, subject, body, config, isHtml);
+            return await SendEmailAsync(from, new MailboxAddress[] { to }, subject, body, config, isHtml);
         }
 
 
 
-        public static async Task<(bool success, string errorMsg)> SendEmailAsync(MailboxAddress sender, MailboxAddress[] recepients, string subject, string body, SmtpConfig config = null, bool isHtml = true)
+        public async Task<(bool success, string errorMsg)> SendEmailAsync(MailboxAddress sender, MailboxAddress[] recepients, string subject, string body, SmtpConfig config = null, bool isHtml = true)
         {
             MimeMessage message = new MimeMessage();
 
@@ -62,7 +72,7 @@ namespace QuickApp.Helpers
             try
             {
                 if (config == null)
-                    config = Configuration;
+                    config = _config;
 
                 using (var client = new SmtpClient())
                 {
@@ -83,7 +93,7 @@ namespace QuickApp.Helpers
             }
             catch (Exception ex)
             {
-                Utilities.CreateLogger<EmailSender>().LogError(LoggingEvents.SEND_EMAIL, ex, "An error occurred whilst sending email");
+                Utilities.CreateLogger<Emailer>().LogError(LoggingEvents.SEND_EMAIL, ex, "An error occurred whilst sending email");
                 return (false, ex.Message);
             }
         }

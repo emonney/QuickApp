@@ -160,28 +160,8 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     }
 
 
-
     onSearchChanged(value: string) {
-        if (value) {
-            value = value.toLowerCase();
-
-            let filteredRows = this.rowsCache.filter(r => {
-                let isChosen = !value
-                    || r.userName.toLowerCase().indexOf(value) !== -1
-                    || r.fullName && r.fullName.toLowerCase().indexOf(value) !== -1
-                    || r.email.toLowerCase().indexOf(value) !== -1
-                    || r.phoneNumber && r.phoneNumber.toLowerCase().indexOf(value) !== -1
-                    || r.jobTitle && r.jobTitle.toLowerCase().indexOf(value) !== -1
-                    || r.roles.some(i => i.toLowerCase().indexOf(value) !== -1);
-
-                return isChosen;
-            });
-
-            this.rows = filteredRows;
-        }
-        else {
-            this.rows = [...this.rowsCache];
-        }
+        this.rows = this.rowsCache.filter(r => Utilities.searchArray(value, false, r.userName, r.fullName, r.email, r.phoneNumber, r.jobTitle, r.roles));
     }
 
     onEditorModalHidden() {

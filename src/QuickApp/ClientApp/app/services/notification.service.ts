@@ -7,7 +7,6 @@
 // ======================================
 
 import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/startWith';
@@ -43,14 +42,14 @@ export class NotificationService {
     getNotification(notificationId?: number) {
 
         return this.notificationEndpoint.getNotificationEndpoint(notificationId)
-            .map((response: Response) => Notification.Create(response.json()));
+            .map(response => Notification.Create(response));
     }
 
 
     getNotifications(page: number, pageSize: number) {
 
         return this.notificationEndpoint.getNotificationsEndpoint(page, pageSize)
-            .map((response: Response) => {
+            .map(response => {
                 return this.getNotificationsFromResponse(response);
             });
     }
@@ -59,13 +58,13 @@ export class NotificationService {
     getUnreadNotifications(userId?: string) {
 
         return this.notificationEndpoint.getUnreadNotificationsEndpoint(userId)
-            .map((response: Response) => this.getNotificationsFromResponse(response));
+            .map(response => this.getNotificationsFromResponse(response));
     }
 
 
     getNewNotifications() {
         return this.notificationEndpoint.getNewNotificationsEndpoint(this.lastNotificationDate)
-            .map((response: Response) => this.processNewNotificationsFromResponse(response));
+            .map(response => this.processNewNotificationsFromResponse(response));
     }
 
 
@@ -74,14 +73,14 @@ export class NotificationService {
             .startWith(0)
             .flatMap(() => {
                 return this.notificationEndpoint.getNewNotificationsEndpoint(this.lastNotificationDate)
-                    .map((response: Response) => this.processNewNotificationsFromResponse(response));
+                    .map(response => this.processNewNotificationsFromResponse(response));
             });
     }
 
 
 
 
-    pinUnpinNotification(notificationOrNotificationId: number | Notification, isPinned?: boolean): Observable<Response> {
+    pinUnpinNotification(notificationOrNotificationId: number | Notification, isPinned?: boolean): Observable<any> {
 
         if (typeof notificationOrNotificationId === 'number' || notificationOrNotificationId instanceof Number) {
             return this.notificationEndpoint.getPinUnpinNotificationEndpoint(<number>notificationOrNotificationId, isPinned);
@@ -92,7 +91,7 @@ export class NotificationService {
     }
 
 
-    readUnreadNotification(notificationIds: number[], isRead: boolean): Observable<Response> {
+    readUnreadNotification(notificationIds: number[], isRead: boolean): Observable<any> {
 
         return this.notificationEndpoint.getReadUnreadNotificationEndpoint(notificationIds, isRead);
     }
@@ -104,9 +103,9 @@ export class NotificationService {
 
         if (typeof notificationOrNotificationId === 'number' || notificationOrNotificationId instanceof Number) { //Todo: Test me if its check is valid
             return this.notificationEndpoint.getDeleteNotificationEndpoint(<number>notificationOrNotificationId)
-                .map((response: Response) => {
+                .map(response => {
                     this.recentNotifications = this.recentNotifications.filter(n => n.id != notificationOrNotificationId);
-                    return Notification.Create(response.json());
+                    return Notification.Create(response);
                 });
         }
         else {
@@ -117,7 +116,7 @@ export class NotificationService {
 
 
 
-    private processNewNotificationsFromResponse(response: Response) {
+    private processNewNotificationsFromResponse(response) {
         let notifications = this.getNotificationsFromResponse(response);
 
         for (let n of notifications) {
@@ -129,12 +128,11 @@ export class NotificationService {
     }
 
 
-    private getNotificationsFromResponse(response: Response) {
-        let result = response.json()
+    private getNotificationsFromResponse(response) {
         let notifications: Notification[] = [];
 
-        for (let i in result) {
-            notifications[i] = Notification.Create(result[i]);
+        for (let i in response) {
+            notifications[i] = Notification.Create(response[i]);
         }
 
         notifications.sort((a, b) => b.date.valueOf() - a.date.valueOf());

@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace DAL.Models
 {
-    public class OrderDetail
+    public class OrderDetail : AuditableEntity
     {
         public int Id { get; set; }
         public decimal UnitPrice { get; set; }

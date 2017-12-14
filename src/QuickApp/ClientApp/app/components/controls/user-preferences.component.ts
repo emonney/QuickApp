@@ -34,7 +34,7 @@ export class UserPreferencesComponent implements OnInit, OnDestroy {
     @ViewChild("homePageSelector")
     homePageSelector: BootstrapSelectDirective;
 
-    constructor(private alertService: AlertService, private configurations: ConfigurationService, private translationService: AppTranslationService, private accountService: AccountService) {
+    constructor(private alertService: AlertService, private translationService: AppTranslationService, private accountService: AccountService, public configurations: ConfigurationService) {
     }
 
     ngOnInit() {

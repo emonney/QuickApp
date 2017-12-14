@@ -18,6 +18,6 @@ import { ConfigurationService } from '../../services/configuration.service';
     animations: [fadeInOut]
 })
 export class HomeComponent {
-    constructor(private configurations: ConfigurationService) {
+    constructor(public configurations: ConfigurationService) {
     }
 }

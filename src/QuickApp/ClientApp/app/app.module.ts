@@ -11,7 +11,7 @@ import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import 'bootstrap';
 import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
@@ -76,7 +76,7 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
-        HttpModule,
+        HttpClientModule,
         FormsModule,
         AppRoutingModule,
         Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
@@ -121,6 +121,7 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
         GroupByPipe
     ],
     providers: [
+        { provide: 'BASE_URL', useFactory: getBaseUrl },
         { provide: ErrorHandler, useClass: AppErrorHandler },
         AlertService,
         ConfigurationService,
@@ -135,4 +136,12 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
+
+
+
+
+export function getBaseUrl() {
+    return document.getElementsByTagName('base')[0].href;
+}

@@ -16,11 +16,11 @@ export class AppErrorHandler extends ErrorHandler {
     //private alertService: AlertService;
 
     constructor() {
-        super(true);
+        super();
     }
 
 
-    handleError(error) {
+    handleError(error: any) {
         //if (this.alertService == null) {
         //    this.alertService = this.injector.get(AlertService);
         //}

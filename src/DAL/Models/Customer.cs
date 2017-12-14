@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Models
 {
-    public class Customer
+    public class Customer : AuditableEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Metadata;
+using System;
+using System.Collections.Generic;
 
 namespace QuickApp.Migrations
 {
@@ -10,14 +10,63 @@ namespace QuickApp.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AppCustomers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(maxLength: 50, nullable: true),
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: false),
+                    Email = table.Column<string>(maxLength: 100, nullable: true),
+                    Gender = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    PhoneNumber = table.Column<string>(unicode: false, maxLength: 30, nullable: true),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppCustomers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppProductCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: false),
+                    Description = table.Column<string>(maxLength: 500, nullable: true),
+                    Icon = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppProductCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedBy = table.Column<string>(nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,6 +81,8 @@ namespace QuickApp.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Configuration = table.Column<string>(nullable: true),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     FullName = table.Column<string>(nullable: true),
@@ -46,6 +97,8 @@ namespace QuickApp.Migrations
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     SecurityStamp = table.Column<string>(nullable: true),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    UpdatedBy = table.Column<string>(nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true)
                 },
                 constraints: table =>
@@ -54,67 +107,17 @@ namespace QuickApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppCustomers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Address = table.Column<string>(nullable: true),
-                    City = table.Column<string>(maxLength: 50, nullable: true),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
-                    Email = table.Column<string>(maxLength: 100, nullable: true),
-                    Gender = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    PhoneNumber = table.Column<string>(unicode: false, maxLength: 30, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppCustomers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppProductCategories",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(maxLength: 500, nullable: true),
-                    Icon = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppProductCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AspNetUserTokens",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Value = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OpenIddictApplications",
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    ClientId = table.Column<string>(nullable: true),
+                    ClientId = table.Column<string>(nullable: false),
                     ClientSecret = table.Column<string>(nullable: true),
+                    ConcurrencyToken = table.Column<string>(nullable: true),
                     DisplayName = table.Column<string>(nullable: true),
-                    LogoutRedirectUri = table.Column<string>(nullable: true),
-                    RedirectUri = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true)
+                    PostLogoutRedirectUris = table.Column<string>(nullable: true),
+                    RedirectUris = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,11 +129,53 @@ namespace QuickApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(nullable: false),
-                    Description = table.Column<string>(nullable: true)
+                    ConcurrencyToken = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_OpenIddictScopes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppProducts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BuyingPrice = table.Column<decimal>(nullable: false),
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: false),
+                    Description = table.Column<string>(maxLength: 500, nullable: true),
+                    Icon = table.Column<string>(unicode: false, maxLength: 256, nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    IsDiscontinued = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    ParentId = table.Column<int>(nullable: true),
+                    ProductCategoryId = table.Column<int>(nullable: false),
+                    SellingPrice = table.Column<decimal>(nullable: false),
+                    UnitsInStock = table.Column<int>(nullable: false),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppProducts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppProducts_AppProducts_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "AppProducts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AppProducts_AppProductCategories_ProductCategoryId",
+                        column: x => x.ProductCategoryId,
+                        principalTable: "AppProductCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -150,6 +195,40 @@ namespace QuickApp.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppOrders",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CashierId = table.Column<string>(nullable: true),
+                    Comments = table.Column<string>(maxLength: 500, nullable: true),
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    CustomerId = table.Column<int>(nullable: false),
+                    DateCreated = table.Column<DateTime>(nullable: false),
+                    DateModified = table.Column<DateTime>(nullable: false),
+                    Discount = table.Column<decimal>(nullable: false),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppOrders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppOrders_AspNetUsers_CashierId",
+                        column: x => x.CashierId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AppOrders_AppCustomers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "AppCustomers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -220,67 +299,21 @@ namespace QuickApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppOrders",
+                name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CashierId = table.Column<string>(nullable: true),
-                    Comments = table.Column<string>(maxLength: 500, nullable: true),
-                    CustomerId = table.Column<int>(nullable: false),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
-                    Discount = table.Column<decimal>(nullable: false)
+                    UserId = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppOrders", x => x.Id);
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_AppOrders_AspNetUsers_CashierId",
-                        column: x => x.CashierId,
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AppOrders_AppCustomers_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "AppCustomers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppProducts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    BuyingPrice = table.Column<decimal>(nullable: false),
-                    DateCreated = table.Column<DateTime>(nullable: false),
-                    DateModified = table.Column<DateTime>(nullable: false),
-                    Description = table.Column<string>(maxLength: 500, nullable: true),
-                    Icon = table.Column<string>(unicode: false, maxLength: 256, nullable: true),
-                    IsActive = table.Column<bool>(nullable: false),
-                    IsDiscontinued = table.Column<bool>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    ParentId = table.Column<int>(nullable: true),
-                    ProductCategoryId = table.Column<int>(nullable: false),
-                    SellingPrice = table.Column<decimal>(nullable: false),
-                    UnitsInStock = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppProducts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AppProducts_AppProducts_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "AppProducts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AppProducts_AppProductCategories_ProductCategoryId",
-                        column: x => x.ProductCategoryId,
-                        principalTable: "AppProductCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -291,8 +324,11 @@ namespace QuickApp.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     ApplicationId = table.Column<string>(nullable: true),
-                    Scope = table.Column<string>(nullable: true),
-                    Subject = table.Column<string>(nullable: true)
+                    ConcurrencyToken = table.Column<string>(nullable: true),
+                    Scopes = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: false),
+                    Subject = table.Column<string>(nullable: false),
+                    Type = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -311,11 +347,15 @@ namespace QuickApp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
                     Discount = table.Column<decimal>(nullable: false),
                     OrderId = table.Column<int>(nullable: false),
                     ProductId = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    UnitPrice = table.Column<decimal>(nullable: false)
+                    UnitPrice = table.Column<decimal>(nullable: false),
+                    UpdatedBy = table.Column<string>(maxLength: 256, nullable: true),
+                    UpdatedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -341,8 +381,14 @@ namespace QuickApp.Migrations
                     Id = table.Column<string>(nullable: false),
                     ApplicationId = table.Column<string>(nullable: true),
                     AuthorizationId = table.Column<string>(nullable: true),
-                    Subject = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true)
+                    ConcurrencyToken = table.Column<string>(nullable: true),
+                    CreationDate = table.Column<DateTimeOffset>(nullable: true),
+                    ExpirationDate = table.Column<DateTimeOffset>(nullable: true),
+                    Payload = table.Column<string>(nullable: true),
+                    ReferenceId = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true),
+                    Subject = table.Column<string>(nullable: false),
+                    Type = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -362,36 +408,9 @@ namespace QuickApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "RoleNameIndex",
-                table: "AspNetRoles",
-                column: "NormalizedName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "EmailIndex",
-                table: "AspNetUsers",
-                column: "NormalizedEmail");
-
-            migrationBuilder.CreateIndex(
-                name: "UserNameIndex",
-                table: "AspNetUsers",
-                column: "NormalizedUserName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AppCustomers_Name",
                 table: "AppCustomers",
                 column: "Name");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppOrders_CashierId",
-                table: "AppOrders",
-                column: "CashierId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppOrders_CustomerId",
-                table: "AppOrders",
-                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppOrderDetails_OrderId",
@@ -402,6 +421,16 @@ namespace QuickApp.Migrations
                 name: "IX_AppOrderDetails_ProductId",
                 table: "AppOrderDetails",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppOrders_CashierId",
+                table: "AppOrders",
+                column: "CashierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppOrders_CustomerId",
+                table: "AppOrders",
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AppProducts_Name",
@@ -424,6 +453,13 @@ namespace QuickApp.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true,
+                filter: "[NormalizedName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
                 table: "AspNetUserClaims",
                 column: "UserId");
@@ -437,6 +473,18 @@ namespace QuickApp.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
@@ -458,6 +506,13 @@ namespace QuickApp.Migrations
                 name: "IX_OpenIddictTokens_AuthorizationId",
                 table: "OpenIddictTokens",
                 column: "AuthorizationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OpenIddictTokens_ReferenceId",
+                table: "OpenIddictTokens",
+                column: "ReferenceId",
+                unique: true,
+                filter: "[ReferenceId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

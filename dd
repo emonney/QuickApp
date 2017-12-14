@@ -1,0 +1,290 @@
+[1mdiff --git a/src/QuickApp/Controllers/AuthorizationController.cs b/src/QuickApp/Controllers/AuthorizationController.cs[m
+[1mindex 4613afb..629daa2 100644[m
+[1m--- a/src/QuickApp/Controllers/AuthorizationController.cs[m
+[1m+++ b/src/QuickApp/Controllers/AuthorizationController.cs[m
+[36m@@ -12,16 +12,22 @@[m [musing System.Linq;[m
+ using System.Threading.Tasks;[m
+ using Microsoft.AspNetCore.Mvc;[m
+ using AspNet.Security.OpenIdConnect.Extensions;[m
+[32m+[m[32musing OpenIddict;[m
+ using Microsoft.AspNetCore.Identity;[m
+ using Microsoft.AspNetCore.Authentication;[m
+[32m+[m[32musing System.Security.Claims;[m
+[32m+[m[32musing Microsoft.AspNetCore.Http.Authentication;[m
+ using AspNet.Security.OpenIdConnect.Server;[m
+[32m+[m[32musing OpenIddict.Models;[m
+ using OpenIddict.Core;[m
+ using AspNet.Security.OpenIdConnect.Primitives;[m
+ using DAL.Models;[m
+ using DAL.Core;[m
+ using Microsoft.Extensions.Options;[m
+[31m-using System.Security.Claims;[m
+[31m-[m
+[32m+[m[32musing Microsoft.AspNetCore.Builder;[m
+[32m+[m[32musing DAL;[m
+[32m+[m[32musing Microsoft.Extensions.Logging;[m
+[32m+[m[32musing DAL.Core.Interfaces;[m
+ [m
+ // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860[m
+ [m
+[36m@@ -33,15 +39,25 @@[m [mnamespace QuickApp.Controllers[m
+         private readonly IOptions<IdentityOptions> _identityOptions;[m
+         private readonly SignInManager<ApplicationUser> _signInManager;[m
+         private readonly UserManager<ApplicationUser> _userManager;[m
+[32m+[m[32m        private readonly IAccountManager _accountManager;[m
+[32m+[m[32m        private readonly IDatabaseInitializer _databaseInitializer;[m
+[32m+[m[32m        private readonly ILogger _logger;[m
+[32m+[m
+ [m
+         public AuthorizationController([m
+             IOptions<IdentityOptions> identityOptions,[m
+             SignInManager<ApplicationUser> signInManager,[m
+[31m-            UserManager<ApplicationUser> userManager)[m
+[32m+[m[32m            UserManager<ApplicationUser> userManager,[m
+[32m+[m[32m            IAccountManager accountManager,[m
+[32m+[m[32m            IDatabaseInitializer databaseInitializer,[m
+[32m+[m[32m            ILogger<AuthorizationController> logger)[m
+         {[m
+             _identityOptions = identityOptions;[m
+             _signInManager = signInManager;[m
+             _userManager = userManager;[m
+[32m+[m[32m            _accountManager = accountManager;[m
+[32m+[m[32m            _databaseInitializer = databaseInitializer;[m
+[32m+[m[32m            _logger = logger;[m
+         }[m
+ [m
+ [m
+[36m@@ -54,59 +70,76 @@[m [mnamespace QuickApp.Controllers[m
+                 var user = await _userManager.FindByEmailAsync(request.Username) ?? await _userManager.FindByNameAsync(request.Username);[m
+                 if (user == null)[m
+                 {[m
+[31m-                    return BadRequest(new OpenIdConnectResponse[m
+[32m+[m[32m                    if (GetIsDemoUser(request.Username))[m
+                     {[m
+[31m-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,[m
+[31m-                        ErrorDescription = "Please check that your email and password is correct"[m
+[31m-                    });[m
+[31m-                }[m
+[31m-[m
+[31m-                // Ensure the user is enabled.[m
+[31m-                if (!user.IsEnabled)[m
+[31m-                {[m
+[31m-                    return BadRequest(new OpenIdConnectResponse[m
+[32m+[m[32m                        user = await CreateDemoUser(request.Username);[m
+[32m+[m[32m                    }[m
+[32m+[m[32m                    else[m
+                     {[m
+[31m-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,[m
+[31m-                        ErrorDescription = "The specified user account is disabled"[m
+[31m-                    });[m
+[32m+[m[32m                        return BadRequest(new OpenIdConnectResponse[m
+[32m+[m[32m                        {[m
+[32m+[m[32m                            Error = OpenIdConnectConstants.Errors.InvalidGrant,[m
+[32m+[m[32m                            ErrorDescription = "Please check that your email and password is correct"[m
+[32m+[m[32m                        });[m
+[32m+[m[32m                    }[m
+                 }[m
+ [m
+[31m-[m
+[31m-                // Validate the username/password parameters and ensure the account is not locked out.[m
+[31m-                var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, true);[m
+[31m-[m
+[31m-                // Ensure the user is not already locked out.[m
+[31m-                if (result.IsLockedOut)[m
+[32m+[m[32m                if (GetIsDemoUser(user.UserName))[m
+                 {[m
+[31m-                    return BadRequest(new OpenIdConnectResponse[m
+[31m-                    {[m
+[31m-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,[m
+[31m-                        ErrorDescription = "The specified user account has been suspended"[m
+[31m-                    });[m
+[32m+[m[32m                    await RefreshDemoUser(user);[m
+                 }[m
+[31m-[m
+[31m-                // Reject the token request if two-factor authentication has been enabled by the user.[m
+[31m-                if (result.RequiresTwoFactor)[m
+[32m+[m[32m                else[m
+                 {[m
+[31m-                    return BadRequest(new OpenIdConnectResponse[m
+[32m+[m[32m                    // Ensure the user is allowed to sign in.[m
+[32m+[m[32m                    if (!await _signInManager.CanSignInAsync(user))[m
+                     {[m
+[31m-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,[m
+[31m-                        ErrorDescription = "Invalid login procedure"[m
+[31m-                    });[m
+[32m+[m[32m                        return BadRequest(new OpenIdConnectResponse[m
+[32m+[m[32m                        {[m
+[32m+[m[32m                            Error = OpenIdConnectConstants.Errors.InvalidGrant,[m
+[32m+[m[32m                            ErrorDescription = "The specified user is not allowed to sign in"[m
+[32m+[m[32m                        });[m
+[32m+[m[32m                    }[m
+[32m+[m
+[32m+[m[32m                    // Reject the token request if two-factor authentication has been enabled by the user.[m
+[32m+[m[32m                    if (_userManager.SupportsUserTwoFactor && await _userManager.GetTwoFactorEnabledAsync(user))[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        return BadRequest(new OpenIdConnectResponse[m
+[32m+[m[32m                        {[m
+[32m+[m[32m                            Error = OpenIdConnectConstants.Errors.InvalidGrant,[m
+[32m+[m[32m                            ErrorDescription = "The specified user is not allowed to sign in"[m
+[32m+[m[32m                        });[m
+[32m+[m[32m                    }[m
+[32m+[m
+[32m+[m[32m                    // Ensure the user is not already locked out.[m
+[32m+[m[32m                    if (_userManager.SupportsUserLockout && await _userManager.IsLockedOutAsync(user))[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        return BadRequest(new OpenIdConnectResponse[m
+[32m+[m[32m                        {[m
+[32m+[m[32m                            Error = OpenIdConnectConstants.Errors.InvalidGrant,[m
+[32m+[m[32m                            ErrorDescription = "The specified user account has been suspended"[m
+[32m+[m[32m                        });[m
+[32m+[m[32m                    }[m
+[32m+[m
+[32m+[m[32m                    // Ensure the user is enabled.[m
+[32m+[m[32m                    if (!user.IsEnabled)[m
+[32m+[m[32m                    {[m
+[32m+[m[32m                        return BadRequest(new OpenIdConnectResponse[m
+[32m+[m[32m                        {[m
+[32m+[m[32m                            Error = OpenIdConnectConstants.Errors.InvalidGrant,[m
+[32m+[m[32m                            ErrorDescription = "The specified user account is disabled"[m
+[32m+[m[32m                        });[m
+[32m+[m[32m                    }[m
+                 }[m
+ [m
+[31m-                // Ensure the user is allowed to sign in.[m
+[31m-                if (result.IsNotAllowed)[m
+[32m+[m
+[32m+[m[32m                // Ensure the password is valid.[m
+[32m+[m[32m                if (!await _userManager.CheckPasswordAsync(user, request.Password))[m
+                 {[m
+[31m-                    return BadRequest(new OpenIdConnectResponse[m
+[32m+[m[32m                    if (_userManager.SupportsUserLockout)[m
+                     {[m
+[31m-                        Error = OpenIdConnectConstants.Errors.InvalidGrant,[m
+[31m-                        ErrorDescription = "The specified user is not allowed to sign in"[m
+[31m-                    });[m
+[31m-                }[m
+[32m+[m[32m                        await _userManager.AccessFailedAsync(user);[m
+[32m+[m[32m                    }[m
+ [m
+[31m-                if (!result.Succeeded)[m
+[31m-                {[m
+                     return BadRequest(new OpenIdConnectResponse[m
+                     {[m
+                         Error = OpenIdConnectConstants.Errors.InvalidGrant,[m
+[36m@@ -114,7 +147,10 @@[m [mnamespace QuickApp.Controllers[m
+                     });[m
+                 }[m
+ [m
+[31m-[m
+[32m+[m[32m                if (_userManager.SupportsUserLockout)[m
+[32m+[m[32m                {[m
+[32m+[m[32m                    await _userManager.ResetAccessFailedCountAsync(user);[m
+[32m+[m[32m                }[m
+ [m
+                 // Create a new authentication ticket.[m
+                 var ticket = await CreateTicketAsync(request, user);[m
+[36m@@ -124,7 +160,8 @@[m [mnamespace QuickApp.Controllers[m
+             else if (request.IsRefreshTokenGrantType())[m
+             {[m
+                 // Retrieve the claims principal stored in the refresh token.[m
+[31m-                var info = await HttpContext.AuthenticateAsync(OpenIdConnectServerDefaults.AuthenticationScheme);[m
+[32m+[m[32m                var info = await HttpContext.Authentication.GetAuthenticateInfoAsync([m
+[32m+[m[32m                    OpenIdConnectServerDefaults.AuthenticationScheme);[m
+ [m
+                 // Retrieve the user profile corresponding to the refresh token.[m
+                 // Note: if you want to automatically invalidate the refresh token[m
+[36m@@ -152,7 +189,7 @@[m [mnamespace QuickApp.Controllers[m
+ [m
+                 // Create a new authentication ticket, but reuse the properties stored[m
+                 // in the refresh token, including the scopes originally granted.[m
+[31m-                var ticket = await CreateTicketAsync(request, user);[m
+[32m+[m[32m                var ticket = await CreateTicketAsync(request, user, info.Properties);[m
+ [m
+                 return SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);[m
+             }[m
+[36m@@ -163,7 +200,87 @@[m [mnamespace QuickApp.Controllers[m
+             });[m
+         }[m
+ [m
+[31m-        private async Task<AuthenticationTicket> CreateTicketAsync(OpenIdConnectRequest request, ApplicationUser user)[m
+[32m+[m
+[32m+[m
+[32m+[m[32m        private static bool GetIsDemoUser(string userName)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            string loweredUserName = userName?.ToLowerInvariant();[m
+[32m+[m[32m            return loweredUserName == "admin" || loweredUserName == "user";[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m
+[32m+[m[32m        private static bool GetIsAdminDemoUser(string userName) => userName?.ToLowerInvariant() == "admin";[m
+[32m+[m
+[32m+[m
+[32m+[m[32m        private static bool GetIsUserDemoUser(string userName) => userName?.ToLowerInvariant() == "user";[m
+[32m+[m
+[32m+[m
+[32m+[m[32m        private async Task<ApplicationUser> CreateDemoUser(string userName)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            if (!GetIsDemoUser(userName))[m
+[32m+[m[32m                throw new InvalidOperationException($"The user \"{userName}\" is not a demo user");[m
+[32m+[m
+[32m+[m[32m            _logger.LogInformation("Recreating demo user: " + userName);[m
+[32m+[m
+[32m+[m
+[32m+[m[32m            if (GetIsAdminDemoUser(userName))[m
+[32m+[m[32m            {[m
+[32m+[m[32m                const string adminRoleName = "administrator";[m
+[32m+[m[32m                await _databaseInitializer.ensureRoleAsync(adminRoleName, "Default administrator", ApplicationPermissions.GetAllPermissionValues());[m
+[32m+[m
+[32m+[m[32m                await _databaseInitializer.createUserAsync("admin", "tempP@ss123", "Inbuilt Administrator", "admin@ebenmonney.com", "+1 (123) 000-0000", new string[] { adminRoleName });[m
+[32m+[m[32m            }[m
+[32m+[m[32m            else[m
+[32m+[m[32m            {[m
+[32m+[m[32m                const string userRoleName = "user";[m
+[32m+[m[32m                await _databaseInitializer.ensureRoleAsync(userRoleName, "Default user", new string[] { });[m
+[32m+[m
+[32m+[m[32m                await _databaseInitializer.createUserAsync("user", "tempP@ss123", "Inbuilt Standard User", "user@ebenmonney.com", "+1 (123) 000-0001", new string[] { userRoleName });[m
+[32m+[m[32m            }[m
+[32m+[m
+[32m+[m[32m            _logger.LogInformation($"Demo user \"{userName}\" recreation completed.");[m
+[32m+[m
+[32m+[m[32m            return await _userManager.FindByNameAsync(userName);[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m
+[32m+[m[32m        private async Task RefreshDemoUser(ApplicationUser user)[m
+[32m+[m[32m        {[m
+[32m+[m[32m            if (!GetIsDemoUser(user.UserName))[m
+[32m+[m[32m                throw new InvalidOperationException($"The user \"{user.UserName}\" is not a demo user");[m
+[32m+[m
+[32m+[m
+[32m+[m[32m            string roleName = GetIsAdminDemoUser(user.UserName) ? "administrator" : "user";[m
+[32m+[m[32m            ApplicationRole role = await _accountManager.GetRoleByNameAsync(roleName);[m
+[32m+[m
+[32m+[m[32m            if (role == null)[m
+[32m+[m[32m            {[m
+[32m+[m[32m                if (GetIsAdminDemoUser(user.UserName))[m
+[32m+[m[32m                    await _databaseInitializer.ensureRoleAsync(roleName, "Default administrator", ApplicationPermissions.GetAllPermissionValues());[m
+[32m+[m[32m                else[m
+[32m+[m[32m                    await _databaseInitializer.ensureRoleAsync(roleName, "Default user", new string[] { });[m
+[32m+[m
+[32m+[m[32m                role = await _accountManager.GetRoleByNameAsync(roleName);[m
+[32m+[m[32m            }[m
+[32m+[m
+[32m+[m[32m            var result = await _accountManager.UpdateRoleAsync(role, GetIsAdminDemoUser(user.UserName) ? ApplicationPermissions.GetAllPermissionValues() : new string[] { });[m
+[32m+[m[32m            if (!result.Item1)[m
+[32m+[m[32m                _logger.LogError($"An error occurred whilst refreshing role permissions for demo user \"{user.UserName}\". Error: {result.Item2}");[m
+[32m+[m
+[32m+[m
+[32m+[m[32m            user.Email = GetIsAdminDemoUser(user.UserName) ? "admin@ebenmonney.com" : "user@ebenmonney.com";[m
+[32m+[m[32m            result = await _accountManager.UpdateUserAsync(user, new string[] { roleName });[m
+[32m+[m[32m            if (!result.Item1)[m
+[32m+[m[32m                _logger.LogError($"An error occurred whilst refreshing account details for demo user \"{user.UserName}\". Error: {result.Item2}");[m
+[32m+[m
+[32m+[m[32m            result = await _accountManager.ResetPasswordAsync(user, "tempP@ss123");[m
+[32m+[m[32m            if (!result.Item1)[m
+[32m+[m[32m                _logger.LogError($"An error occurred whilst refreshing password for demo user \"{user.UserName}\". Error: {result.Item2}");[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m
+[32m+[m
+[32m+[m[32m        pr

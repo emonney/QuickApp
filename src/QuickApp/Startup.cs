@@ -7,9 +7,6 @@
 // ======================================
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -18,13 +15,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Serialization;
 using DAL;
 using DAL.Models;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using FluentValidation.AspNetCore;
 using AutoMapper;
 using Newtonsoft.Json;
 using DAL.Core;
@@ -33,50 +28,32 @@ using Microsoft.AspNetCore.Authorization;
 using QuickApp.ViewModels;
 using QuickApp.Helpers;
 using QuickApp.Policies;
-using AppPermissions = DAL.Core.ApplicationPermissions;
 using AspNet.Security.OpenIdConnect.Primitives;
-using OpenIddict.Core;
+using AspNet.Security.OAuth.Validation;
+using Microsoft.AspNetCore.Identity;
+using Swashbuckle.AspNetCore.Swagger;
+using AppPermissions = DAL.Core.ApplicationPermissions;
 
 namespace QuickApp
 {
     public class Startup
     {
-        public IConfigurationRoot Configuration { get; }
-        private IHostingEnvironment _hostingEnvironment;
+        public IConfiguration Configuration { get; }
 
 
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
-            _hostingEnvironment = env;
+            Configuration = configuration;
         }
+
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            EmailTemplates.Initialize(_hostingEnvironment);
-
-            EmailSender.Configuration = new SmtpConfig
-            {
-                Host = Configuration["SmtpConfig:Host"],
-                Port = int.Parse(Configuration["SmtpConfig:Port"]),
-                UseSSL = bool.Parse(Configuration["SmtpConfig:UseSSL"]),
-                Name = Configuration["SmtpConfig:Name"],
-                Username = Configuration["SmtpConfig:Username"],
-                EmailAddress = Configuration["SmtpConfig:EmailAddress"],
-                Password = Configuration["SmtpConfig:Password"]
-            };
-
-
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration["Data:ConnectionString:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
+                options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
                 options.UseOpenIddict();
             });
 
@@ -118,19 +95,28 @@ namespace QuickApp
                 options.AllowPasswordFlow();
                 options.AllowRefreshTokenFlow();
                 options.DisableHttpsRequirement();
-                // options.UseJsonWebTokens(); //Use JWT if preferred
-                options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
+                //options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request
+                //options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
             });
 
 
-            // Enable cors if required
-            //services.AddCors();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = OAuthValidationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OAuthValidationDefaults.AuthenticationScheme;
+            }).AddOAuthValidation();
+
+
+            // Add cors
+            services.AddCors();
 
             // Add framework services.
             services.AddMvc();
 
+
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
             //services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+
 
             //.AddJsonOptions(opts =>
             //{
@@ -138,15 +124,18 @@ namespace QuickApp
             //});
 
 
-            services.AddSwaggerGen(o =>
+
+            services.AddSwaggerGen(c =>
             {
-                o.AddSecurityDefinition("BearerAuth", new Swashbuckle.Swagger.Model.ApiKeyScheme
+                c.AddSecurityDefinition("BearerAuth", new ApiKeyScheme
                 {
                     Name = "Authorization",
                     Description = "Login with your bearer authentication token. e.g. Bearer <auth-token>",
                     In = "header",
                     Type = "apiKey"
                 });
+
+                c.SwaggerDoc("v1", new Info { Title = "QuickApp API", Version = "v1" });
             });
 
             services.AddAuthorization(options =>
@@ -174,8 +163,16 @@ namespace QuickApp
             });
 
 
+            // Configurations
+            services.Configure<SmtpConfig>(Configuration.GetSection("SmtpConfig"));
+
+
+            // Business Services
+            services.AddScoped<IEmailer, Emailer>();
+
+
             // Repositories
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
             services.AddScoped<IAccountManager, AccountManager>();
 
             // Auth Policies
@@ -190,13 +187,14 @@ namespace QuickApp
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDatabaseInitializer databaseInitializer, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug(LogLevel.Warning);
             loggerFactory.AddFile(Configuration.GetSection("Logging"));
 
             Utilities.ConfigureLogger(loggerFactory);
+            EmailTemplates.Initialize(env);
 
             if (env.IsDevelopment())
             {
@@ -212,40 +210,15 @@ namespace QuickApp
             }
 
 
-            // Configure Cors if enabled
-            //app.UseCors(builder => builder
-            //    .AllowAnyOrigin()
-            //    .AllowAnyHeader()
-            //    .AllowAnyMethod());
+            //Configure Cors
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod());
 
 
             app.UseStaticFiles();
-            app.UseOAuthValidation();
-            app.UseOpenIddict();
-
-
-
-            // Configure jwt bearer authentication if enabled
-            //app.UseJwtBearerAuthentication(new JwtBearerOptions
-            //{
-            //    AutomaticAuthenticate = true,
-            //    AutomaticChallenge = true,
-            //    RequireHttpsMetadata = false,
-            //    Audience = "http://localhost:58292/",
-            //    Authority = "http://localhost:58292/",
-
-            //    //TokenValidationParameters = new TokenValidationParameters
-            //    //{
-            //    //    ValidateIssuer = true,
-            //    //    ValidIssuer = "http://localhost:58292/",
-
-            //    //    ValidateAudience = true,
-            //    //    ValidAudience = "http://localhost:58292/",
-
-            //    //    ValidateLifetime = true,
-            //    //}
-            //});
-
+            app.UseAuthentication();
 
 
             app.UseExceptionHandler(builder =>
@@ -267,7 +240,11 @@ namespace QuickApp
 
 
             app.UseSwagger();
-            app.UseSwaggerUi();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuickApp API V1");
+            });
+
 
             app.UseMvc(routes =>
             {
@@ -279,17 +256,6 @@ namespace QuickApp
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
-
-
-            try
-            {
-                databaseInitializer.SeedAsync().Wait();
-            }
-            catch (Exception ex)
-            {
-                Utilities.CreateLogger<Startup>().LogCritical(LoggingEvents.INIT_DATABASE, ex, LoggingEvents.INIT_DATABASE.Name);
-                throw;
-            }
         }
     }
 }

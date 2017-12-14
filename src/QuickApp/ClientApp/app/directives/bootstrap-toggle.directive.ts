@@ -34,7 +34,7 @@ export class BootstrapToggleDirective implements OnInit, OnDestroy {
 
 
     constructor(private el: ElementRef) {
-        this.checkedSubscription = Observable.fromEvent($(this.el.nativeElement), 'change')
+        this.checkedSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'change')
             .subscribe((e: any) => this.ngModelChange.emit(e.target.checked));
     }
 

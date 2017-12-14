@@ -53,7 +53,7 @@ namespace QuickApp.Controllers
         [Produces(typeof(UserViewModel))]
         public async Task<IActionResult> GetUserById(string id)
         {
-            if (!await _authorizationService.AuthorizeAsync(this.User, id, AuthPolicies.ViewUserByUserIdPolicy))
+            if (!(await _authorizationService.AuthorizeAsync(this.User, id, AuthPolicies.ViewUserByUserIdPolicy)).Succeeded)
                 return new ChallengeResult();
 
 
@@ -72,7 +72,7 @@ namespace QuickApp.Controllers
         {
             ApplicationUser appUser = await _accountManager.GetUserByUserNameAsync(userName);
 
-            if (!await _authorizationService.AuthorizeAsync(this.User, appUser?.Id ?? "", AuthPolicies.ViewUserByUserIdPolicy))
+            if (!(await _authorizationService.AuthorizeAsync(this.User, appUser?.Id ?? "", AuthPolicies.ViewUserByUserIdPolicy)).Succeeded)
                 return new ChallengeResult();
 
             if (appUser == null)
@@ -131,7 +131,7 @@ namespace QuickApp.Controllers
             var assignRolePolicy = _authorizationService.AuthorizeAsync(this.User, Tuple.Create(user.Roles, currentRoles), AuthPolicies.AssignRolesPolicy);
 
 
-            if ((await Task.WhenAll(manageUsersPolicy, assignRolePolicy)).Any(r => !r))
+            if ((await Task.WhenAll(manageUsersPolicy, assignRolePolicy)).Any(r => !r.Succeeded))
                 return new ChallengeResult();
 
 
@@ -208,7 +208,7 @@ namespace QuickApp.Controllers
         [HttpPatch("users/{id}")]
         public async Task<IActionResult> UpdateUser(string id, [FromBody] JsonPatchDocument<UserPatchViewModel> patch)
         {
-            if (!await _authorizationService.AuthorizeAsync(this.User, id, AuthPolicies.ManageUserByUserIdPolicy))
+            if (!(await _authorizationService.AuthorizeAsync(this.User, id, AuthPolicies.ManageUserByUserIdPolicy)).Succeeded)
                 return new ChallengeResult();
 
 
@@ -368,7 +368,7 @@ namespace QuickApp.Controllers
         {
             var appRole = await _accountManager.GetRoleByIdAsync(id);
 
-            if (!await _authorizationService.AuthorizeAsync(this.User, appRole?.Name ?? "", AuthPolicies.ViewRoleByRoleNamePolicy))
+            if (!(await _authorizationService.AuthorizeAsync(this.User, appRole?.Name ?? "", AuthPolicies.ViewRoleByRoleNamePolicy)).Succeeded)
                 return new ChallengeResult();
 
             if (appRole == null)
@@ -384,7 +384,7 @@ namespace QuickApp.Controllers
         [Produces(typeof(RoleViewModel))]
         public async Task<IActionResult> GetRoleByName(string name)
         {
-            if (!await _authorizationService.AuthorizeAsync(this.User, name, AuthPolicies.ViewRoleByRoleNamePolicy))
+            if (!(await _authorizationService.AuthorizeAsync(this.User, name, AuthPolicies.ViewRoleByRoleNamePolicy)).Succeeded)
                 return new ChallengeResult();
 
 

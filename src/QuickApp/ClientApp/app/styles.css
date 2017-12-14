@@ -18,6 +18,12 @@
 }
 
 
+.disabledContainer {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+
 input.form-control.is-required-status, textarea.form-control.is-required-status, .bootstrap-select.is-required-status > .dropdown-toggle {
     border-left-width: 5px;
 }

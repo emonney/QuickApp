@@ -17,6 +17,7 @@ using AutoMapper;
 using DAL.Models;
 using Microsoft.Extensions.Logging;
 using QuickApp.Helpers;
+using Microsoft.Extensions.Options;
 
 namespace QuickApp.Controllers
 {
@@ -25,12 +26,14 @@ namespace QuickApp.Controllers
     {
         private IUnitOfWork _unitOfWork;
         readonly ILogger _logger;
+        readonly IEmailer _emailer;
 
 
-        public CustomerController(IUnitOfWork unitOfWork, ILogger<CustomerController> logger)
+        public CustomerController(IUnitOfWork unitOfWork, ILogger<CustomerController> logger, IEmailer emailer)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _emailer = emailer;
         }
 
 
@@ -61,7 +64,7 @@ namespace QuickApp.Controllers
 
             string message = EmailTemplates.GetTestEmail(recepientName, DateTime.UtcNow);
 
-            (bool success, string errorMsg) response = await EmailSender.SendEmailAsync(recepientName, recepientEmail, "Test Email from QuickApp", message);
+            (bool success, string errorMsg) response = await _emailer.SendEmailAsync(recepientName, recepientEmail, "Test Email from QuickApp", message);
 
             if (response.success)
                 return "Success";

@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace DAL.Models
 {
-    public class ProductCategory
+    public class ProductCategory : AuditableEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
