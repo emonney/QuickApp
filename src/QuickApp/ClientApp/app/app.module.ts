@@ -81,7 +81,11 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
         FormsModule,
         AppRoutingModule,
         Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
-        AdsenseModule.forRoot({ adClient: 'ca-pub-5040490701169307' }),
+        AdsenseModule.forRoot({
+            adClient: 'ca-pub-5040490701169307',
+            adSlot: 5197254548,
+            adFormat: 'auto'
+        }),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
