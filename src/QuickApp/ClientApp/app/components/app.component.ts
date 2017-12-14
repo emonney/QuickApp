@@ -8,7 +8,7 @@
 
 import { Component, ViewEncapsulation, OnInit, OnDestroy, ViewChildren, AfterViewInit, QueryList, ElementRef } from "@angular/core";
 import { Router, NavigationStart } from '@angular/router';
-import { Angulartics2GoogleAnalytics } from 'angulartics2';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
