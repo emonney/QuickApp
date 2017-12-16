@@ -243,6 +243,7 @@ namespace QuickApp
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuickApp API V1");
+                c.InjectOnCompleteJavaScript("/swagger-ui/swaggerui-snippets.bundle.js");
             });
 
 
