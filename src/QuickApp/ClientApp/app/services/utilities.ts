@@ -94,7 +94,7 @@ export class Utilities {
             return response.body;
 
         if (response instanceof HttpErrorResponse)
-            return response.error;
+            return response.error || response.message || response.statusText;
     }
 
 

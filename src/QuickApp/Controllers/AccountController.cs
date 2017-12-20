@@ -249,6 +249,7 @@ namespace QuickApp.Controllers
 
         [HttpPost("users")]
         [Authorize(AuthPolicies.ManageUsersPolicy)]
+        [Authorize(AuthPolicies.AssignRolesPolicy)]
         public async Task<IActionResult> Register([FromBody] UserEditViewModel user)
         {
             if (ModelState.IsValid)

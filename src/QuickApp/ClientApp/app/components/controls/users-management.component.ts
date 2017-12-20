@@ -215,6 +215,11 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 
 
 
+
+    get canAssignRoles() {
+        return this.accountService.userHasPermission(Permission.assignRolesPermission);
+    }
+
     get canViewRoles() {
         return this.accountService.userHasPermission(Permission.viewRolesPermission)
     }

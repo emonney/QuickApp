@@ -8,7 +8,7 @@
         <div class="col-sm-4">
             <div class="navbar action-box">
                 <ul class="nav navbar-nav navbar-right">
-                    <li *ngIf="canManageUsers" class="toolbaritem">
+                    <li *ngIf="canManageUsers && canAssignRoles" class="toolbaritem">
                         <a href="javascript:;" (click)="newUser(row)">
                             <i class="fa fa-plus-circle"></i> {{'users.management.NewUser' | translate}}
                         </a>
