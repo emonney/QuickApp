@@ -13,6 +13,7 @@ import { AuthService } from "../../services/auth.service";
 import { ConfigurationService } from '../../services/configuration.service';
 import { Utilities } from '../../services/utilities';
 import { UserLogin } from '../../models/user-login.model';
+import { AppTranslationService } from "../../services/app-translation.service";
 
 @Component({
     selector: "app-login",
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     isModal = false;
 
 
-    constructor(private alertService: AlertService, private authService: AuthService, private configurations: ConfigurationService) {
+    constructor(private alertService: AlertService, private authService: AuthService, private configurations: ConfigurationService, private translationService: AppTranslationService) {
 
     }
 
@@ -66,7 +67,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     showErrorAlert(caption: string, message: string) {
-        this.alertService.showMessage(caption, message, MessageSeverity.error);
+        this.alertService.showMessage(this.translationService.getTranslation(caption), this.translationService.getTranslation(message), MessageSeverity.error);
     }
 
     closeModal() {
@@ -78,7 +79,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     login() {
         this.isLoading = true;
-        this.alertService.startLoadingMessage("", "Attempting login...");
+        this.alertService.startLoadingMessage(this.translationService.getTranslation("app.StartLoadingMessage"), this.translationService.getTranslation("app.StartLoadingMessageCaption"));
 
         this.authService.login(this.userLogin.email, this.userLogin.password, this.userLogin.rememberMe)
             .subscribe(
@@ -89,12 +90,12 @@ export class LoginComponent implements OnInit, OnDestroy {
                     this.reset();
 
                     if (!this.isModal) {
-                        this.alertService.showMessage("Login", `Welcome ${user.userName}!`, MessageSeverity.success);
+                        this.alertService.showMessage(this.translationService.getTranslation("app.Login"), `${this.translationService.getTranslation("app.Welcome")} ${user.userName}!`, MessageSeverity.success);
                     }
                     else {
-                        this.alertService.showMessage("Login", `Session for ${user.userName} restored!`, MessageSeverity.success);
+                        this.alertService.showMessage(this.translationService.getTranslation("app.Login"), `${this.translationService.getTranslation("app.SessionRestoredFor")} ${user.userName}!`, MessageSeverity.success);
                         setTimeout(() => {
-                            this.alertService.showStickyMessage("Session Restored", "Please try your last operation again", MessageSeverity.default);
+                            this.alertService.showStickyMessage(this.translationService.getTranslation("app.SessionRestored"), this.translationService.getTranslation("app.TryYourOperationAgain"), MessageSeverity.default);
                         }, 500);
 
                         this.closeModal();
@@ -106,16 +107,16 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.alertService.stopLoadingMessage();
 
                 if (Utilities.checkNoNetwork(error)) {
-                    this.alertService.showStickyMessage(Utilities.noNetworkMessageCaption, Utilities.noNetworkMessageDetail, MessageSeverity.error, error);
+                    this.alertService.showStickyMessage(this.translationService.getTranslation(Utilities.noNetworkMessageCaption), this.translationService.getTranslation(Utilities.noNetworkMessageDetail), MessageSeverity.error, error);
                     this.offerAlternateHost();
                 }
                 else {
                     let errorMessage = Utilities.findHttpResponseMessage("error_description", error);
 
                     if (errorMessage)
-                        this.alertService.showStickyMessage("Unable to login", errorMessage, MessageSeverity.error, error);
+                        this.alertService.showStickyMessage(this.translationService.getTranslation("app.UnableToLogin"), errorMessage, MessageSeverity.error, error);
                     else
-                        this.alertService.showStickyMessage("Unable to login", "An error occured whilst logging in, please try again later.\nError: " + error.statusText || error.status, MessageSeverity.error, error);
+                        this.alertService.showStickyMessage(this.translationService.getTranslation("app.UnableToLogin"), this.translationService.getTranslation("app.AnErrorOccuredWhilstLoggingInTryAgainLater") + error.statusText || error.status, MessageSeverity.error, error);
                 }
 
                 setTimeout(() => {
@@ -126,14 +127,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
     offerAlternateHost() {
-
         if (Utilities.checkIsLocalHost(location.origin) && Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
-            this.alertService.showDialog("Dear Developer!\nIt appears your backend Web API service is not running...\n" +
-                "Would you want to temporarily switch to the online Demo API below?(Or specify another)",
+            this.alertService.showDialog(this.translationService.getTranslation("app.BackendServiceNotRunning"),
                 DialogType.prompt,
                 (value: string) => {
                     this.configurations.baseUrl = value;
-                    this.alertService.showStickyMessage("API Changed!", "The target Web API has been changed to: " + value, MessageSeverity.warn);
+                    this.alertService.showStickyMessage(this.translationService.getTranslation("app.APIChanged"), this.translationService.getTranslation("app.TargetAPIChanged")  + value, MessageSeverity.warn);
                 },
                 null,
                 null,
