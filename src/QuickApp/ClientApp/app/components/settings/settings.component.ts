@@ -8,7 +8,6 @@
 
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Angulartics2 } from 'angulartics2';
 import 'rxjs/add/operator/switchMap';
 
 import { fadeInOut } from '../../services/animations';
@@ -16,6 +15,7 @@ import { BootstrapTabDirective } from "../../directives/bootstrap-tab.directive"
 import { AppTranslationService } from "../../services/app-translation.service";
 import { AccountService, RolesChangedEventArg } from "../../services/account.service";
 import { Permission } from '../../models/permission.model';
+
 
 
 @Component({
@@ -47,7 +47,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     tab: BootstrapTabDirective;
 
 
-    constructor(private route: ActivatedRoute, private angulartics2: Angulartics2, private translationService: AppTranslationService, private accountService: AccountService) {
+    constructor(private route: ActivatedRoute, private translationService: AppTranslationService, private accountService: AccountService) {
     }
 
 
@@ -126,9 +126,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
             default:
                 throw new Error("Selected bootstrap tab is unknown. Selected Tab: " + this.activeTab);
         }
-
-
-        this.angulartics2.eventTrack.next({ action: this.activeTab + 'Tab', properties: { category: 'SettingsPage' } });
     }
 
 

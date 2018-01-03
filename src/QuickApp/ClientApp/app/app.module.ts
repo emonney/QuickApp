@@ -14,8 +14,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import 'bootstrap';
-import { Angulartics2Module } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { AdsenseModule } from 'ng2-adsense';
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -80,7 +78,6 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
         HttpClientModule,
         FormsModule,
         AppRoutingModule,
-        Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]),
         AdsenseModule.forRoot({
             adClient: 'ca-pub-5040490701169307',
             adSlot: 5197254548,

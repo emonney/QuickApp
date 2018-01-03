@@ -7,10 +7,10 @@
 // ======================================
 
 import { Component, ViewEncapsulation, OnInit, OnDestroy, ViewChildren, AfterViewInit, QueryList, ElementRef } from "@angular/core";
-import { Router, NavigationStart } from '@angular/router';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 import { AlertService, AlertDialog, DialogType, AlertMessage, MessageSeverity } from '../services/alert.service';
 import { NotificationService } from "../services/notification.service";
@@ -24,6 +24,7 @@ import { Permission } from '../models/permission.model';
 import { LoginComponent } from "../components/login/login.component";
 
 var alertify: any = require('../assets/scripts/alertify.js');
+declare var gtag: Function;
 
 
 @Component({
@@ -65,7 +66,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
 
-    constructor(angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics, storageManager: LocalStoreManager, private toastyService: ToastyService, private toastyConfig: ToastyConfig,
+    constructor(storageManager: LocalStoreManager, private toastyService: ToastyService, private toastyConfig: ToastyConfig,
         private accountService: AccountService, private alertService: AlertService, private notificationService: NotificationService, private appTitleService: AppTitleService,
         private authService: AuthService, private translationService: AppTranslationService, public configurations: ConfigurationService, public router: Router) {
 
@@ -174,6 +175,15 @@ export class AppComponent implements OnInit, AfterViewInit {
                     this.router.navigateByUrl((<NavigationStart>event).url.toLowerCase());
                 }
             }
+        });
+
+        this.router.events.distinctUntilChanged((previous: any, current: any) => {
+            if (current instanceof NavigationEnd) {
+                return previous.url === current.url;
+            }
+            return true;
+        }).subscribe((x: any) => {
+            gtag('config', 'UA-111610278-2', { 'page_path': x.url });
         });
     }
 

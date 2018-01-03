@@ -79,5 +79,9 @@
     <Content Include="ClientApp\app\assets\locale\pt.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logs\" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties package_1json__JSONSchema="" /></VisualStudio></ProjectExtensions>
 </Project>
