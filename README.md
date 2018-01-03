@@ -1,10 +1,12 @@
-# **QuickApp** - ASPNET Core / Angular5 startup project template
+# **QuickApp** - ASPNET Core 2.0 / Angular 5 startup project template
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 
-A startup **Angular5 / ASP.NET Core** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
+A startup **Angular 5 / ASP.NET Core 2.0** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
 As well as other common functionalities for **Quick Application Development**.
 
 [FOLLOW ME](https://twitter.com/kommand) on twitter for important updates
+
+###### NOTE: Please post support related topics in the [help & support forum](http://www.ebenmonney.com/forum/?view=forum&id=14). For bug reports open an [issue on github](https://github.com/emonney/QuickApp/issues). 
 
 For the older asp.net core 1.x version: [Download](https://github.com/emonney/QuickApp-VSIX/releases/tag/v1.5")
 
@@ -47,7 +49,6 @@ For the older asp.net core 1.x version: [Download](https://github.com/emonney/Qu
 *   [OPTION 1] Clone the [Git Repository](https://github.com/emonney/QuickApp.git) and edit with your favorite editor. e.g. Visual Studio, Visual Studio Code
 *   [OPTION 2] Install Project template from the [Visual Studio Gallery](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate) and follow the usual File -> New Project -> Web -> QuickApp - to create a new Project from this template.
     Lunch with `F5` or `Ctrl+F5` (The usual way)
-*   [OPTION 3] Yeoman generator package coming soon...
 
 
 ## Installation Notes
@@ -67,8 +68,8 @@ For the older asp.net core 1.x version: [Download](https://github.com/emonney/Qu
     4. Try running the application again - Test to make sure it all works  
     
     *When I say "run from the project folder" I mean run the commands on the command line from those folders  
-    If any step fails open an [issue](https://github.com/emonney/QuickApp/issues) on github and I'll help fix it.
-*   You can also get a personal trainer on the technologies used in this template for 100USD/Month. Email [contact@ebenmonney.com](mailto:contact@ebenmonney.com)  
+    If any step fails, post the error details on the [support forum](http://www.ebenmonney.com/forum/?view=forum&id=14) for the needed assistance.
+*   For help and support post in the [support forum](http://www.ebenmonney.com/forum/?view=forum&id=14). For bug reports open an [issue on github](https://github.com/emonney/QuickApp/issues)
 
 
 ## Login
