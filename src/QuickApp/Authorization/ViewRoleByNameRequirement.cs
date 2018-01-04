@@ -8,25 +8,26 @@
 
 using DAL.Core;
 using Microsoft.AspNetCore.Authorization;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickApp.Policies
+namespace QuickApp.Authorization
 {
-    public class ViewRoleByNameRequirement : IAuthorizationRequirement
+    public class ViewRoleAuthorizationRequirement : IAuthorizationRequirement
     {
 
     }
 
 
-    public class ViewRoleByNameHandler : AuthorizationHandler<ViewRoleByNameRequirement, string>
+
+    public class ViewRoleAuthorizationHandler : AuthorizationHandler<ViewRoleAuthorizationRequirement, string>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ViewRoleByNameRequirement requirement, string roleName)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ViewRoleAuthorizationRequirement requirement, string roleName)
         {
+            if (context.User == null)
+                return Task.CompletedTask;
+
             if (context.User.HasClaim(CustomClaimTypes.Permission, ApplicationPermissions.ViewRoles) || context.User.IsInRole(roleName))
                 context.Succeed(requirement);
 

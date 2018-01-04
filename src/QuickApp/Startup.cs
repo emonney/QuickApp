@@ -14,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using DAL;
 using DAL.Models;
 using System.Net;
@@ -27,7 +26,7 @@ using DAL.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using QuickApp.ViewModels;
 using QuickApp.Helpers;
-using QuickApp.Policies;
+using QuickApp.Authorization;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OAuth.Validation;
 using Microsoft.AspNetCore.Identity;
@@ -140,21 +139,17 @@ namespace QuickApp
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(AuthPolicies.ViewUserByUserIdPolicy, policy => policy.Requirements.Add(new ViewUserByIdRequirement()));
+                options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
 
-                options.AddPolicy(AuthPolicies.ViewUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
+                options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
 
-                options.AddPolicy(AuthPolicies.ManageUserByUserIdPolicy, policy => policy.Requirements.Add(new ManageUserByIdRequirement()));
+                options.AddPolicy(Authorization.Policies.ViewAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewRoles));
 
-                options.AddPolicy(AuthPolicies.ManageUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
+                options.AddPolicy(Authorization.Policies.ViewRoleByRoleNamePolicy, policy => policy.Requirements.Add(new ViewRoleAuthorizationRequirement()));
 
-                options.AddPolicy(AuthPolicies.ViewRoleByRoleNamePolicy, policy => policy.Requirements.Add(new ViewRoleByNameRequirement()));
+                options.AddPolicy(Authorization.Policies.ManageAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageRoles));
 
-                options.AddPolicy(AuthPolicies.ViewRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewRoles));
-
-                options.AddPolicy(AuthPolicies.AssignRolesPolicy, policy => policy.Requirements.Add(new AssignRolesRequirement()));
-
-                options.AddPolicy(AuthPolicies.ManageRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageRoles));
+                options.AddPolicy(Authorization.Policies.AssignAllowedRolesPolicy, policy => policy.Requirements.Add(new AssignRolesAuthorizationRequirement()));
             });
 
             Mapper.Initialize(cfg =>
@@ -175,11 +170,11 @@ namespace QuickApp
             services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
             services.AddScoped<IAccountManager, AccountManager>();
 
-            // Auth Policies
-            services.AddSingleton<IAuthorizationHandler, ViewUserByIdHandler>();
-            services.AddSingleton<IAuthorizationHandler, ManageUserByIdHandler>();
-            services.AddSingleton<IAuthorizationHandler, ViewRoleByNameHandler>();
-            services.AddSingleton<IAuthorizationHandler, AssignRolesHandler>();
+            // Auth Handlers
+            services.AddSingleton<IAuthorizationHandler, ViewUserAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ManageUserAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ViewRoleAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, AssignRolesAuthorizationHandler>();
 
             // DB Creation and Seeding
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();

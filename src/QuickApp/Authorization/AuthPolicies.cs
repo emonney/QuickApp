@@ -12,32 +12,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickApp.Policies
+namespace QuickApp.Authorization
 {
-    public class AuthPolicies
+    public class Policies
     {
-        ///<summary>Policy to allow viewing the current user or another user's records (Requires target userId as parameter).</summary>
-        public const string ViewUserByUserIdPolicy = "View User by ID";
-
         ///<summary>Policy to allow viewing all user records.</summary>
-        public const string ViewUsersPolicy = "View Users";
+        public const string ViewAllUsersPolicy = "View All Users";
 
-        ///<summary>Policy to allow updating the current user or managing other user records (Requires target userId as parameter).</summary>
-        public const string ManageUserByUserIdPolicy = "Manage User by ID";
-
-        ///<summary>Policy to allow adding, removing and updating other user records.</summary>
-        public const string ManageUsersPolicy = "Manage Users";
-
-        /// <summary>Policy to allow viewing details of the current user's role or other roles (Requires roleName as parameter).</summary>
-        public const string ViewRoleByRoleNamePolicy = "View Role by RoleName";
+        ///<summary>Policy to allow adding, removing and updating all user records.</summary>
+        public const string ManageAllUsersPolicy = "Manage All Users";
 
         /// <summary>Policy to allow viewing details of all roles.</summary>
-        public const string ViewRolesPolicy = "View Roles";
+        public const string ViewAllRolesPolicy = "View All Roles";
 
-        /// <summary>Policy to allow assigning roles.</summary>
-        public const string AssignRolesPolicy = "Assign Roles";
+        /// <summary>Policy to allow viewing details of all or specific roles (Requires roleName as parameter).</summary>
+        public const string ViewRoleByRoleNamePolicy = "View Role by RoleName";
 
-        /// <summary>Policy to allow adding, removing and updating roles.</summary>
-        public const string ManageRolesPolicy = "Manage Roles";
+        /// <summary>Policy to allow adding, removing and updating all roles.</summary>
+        public const string ManageAllRolesPolicy = "Manage All Roles";
+
+        /// <summary>Policy to allow assigning roles the user has access to (Requires new and current roles as parameter).</summary>
+        public const string AssignAllowedRolesPolicy = "Assign Allowed Roles";
+    }
+
+
+
+    /// <summary>
+    /// Operation Policy to allow adding, viewing, updating and deleting general or specific user records.
+    /// </summary>
+    public static class AccountManagementOperations
+    {
+        public const string CreateOperationName = "Create";
+        public const string ReadOperationName = "Read";
+        public const string UpdateOperationName = "Update";
+        public const string DeleteOperationName = "Delete";
+
+        public static UserAccountAuthorizationRequirement Create = new UserAccountAuthorizationRequirement(CreateOperationName);
+        public static UserAccountAuthorizationRequirement Read = new UserAccountAuthorizationRequirement(ReadOperationName);
+        public static UserAccountAuthorizationRequirement Update = new UserAccountAuthorizationRequirement(UpdateOperationName);
+        public static UserAccountAuthorizationRequirement Delete = new UserAccountAuthorizationRequirement(DeleteOperationName);
     }
 }
