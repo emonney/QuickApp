@@ -463,8 +463,6 @@ export class Utilities {
     }
 
 
-
-
     public static searchArray(searchTerm: string, caseSensitive: boolean, ...values: any[]) {
 
         if (!searchTerm)
@@ -488,6 +486,27 @@ export class Utilities {
         }
 
         return false;
+    }
+
+
+    public static moveArrayItem(array: any[], oldIndex, newIndex) {
+
+        while (oldIndex < 0) {
+            oldIndex += this.length;
+        }
+
+        while (newIndex < 0) {
+            newIndex += this.length;
+        }
+
+        if (newIndex >= this.length) {
+            var k = newIndex - this.length;
+            while ((k--) + 1) {
+                array.push(undefined);
+            }
+        }
+
+        array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
     }
 
 

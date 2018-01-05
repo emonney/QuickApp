@@ -80,9 +80,6 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     }
 
 
-
-
-
     ngAfterViewInit() {
 
         this.userEditor.changesSavedCallback = () => {
@@ -101,6 +98,15 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     addNewUserToList() {
         if (this.sourceUser) {
             Object.assign(this.sourceUser, this.editedUser);
+
+            let sourceIndex = this.rowsCache.indexOf(this.sourceUser, 0);
+            if (sourceIndex > -1)
+                Utilities.moveArrayItem(this.rowsCache, sourceIndex, 0);
+
+            sourceIndex = this.rows.indexOf(this.sourceUser, 0);
+            if (sourceIndex > -1)
+                Utilities.moveArrayItem(this.rows, sourceIndex, 0);
+
             this.editedUser = null;
             this.sourceUser = null;
         }
@@ -123,8 +129,6 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     }
 
 
-
-
     loadData() {
         this.alertService.startLoadingMessage();
         this.loadingIndicator = true;
@@ -133,9 +137,10 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
             this.accountService.getUsersAndRoles().subscribe(results => this.onDataLoadSuccessful(results[0], results[1]), error => this.onDataLoadFailed(error));
         }
         else {
-            this.accountService.getUsers().subscribe(users => this.onDataLoadSuccessful(users, []), error => this.onDataLoadFailed(error));
+            this.accountService.getUsers().subscribe(users => this.onDataLoadSuccessful(users, this.accountService.currentUser.roles.map(x => new Role(x))), error => this.onDataLoadFailed(error));
         }
     }
+
 
     onDataLoadSuccessful(users: User[], roles: Role[]) {
         this.alertService.stopLoadingMessage();
@@ -150,6 +155,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 
         this.allRoles = roles;
     }
+
 
     onDataLoadFailed(error: any) {
         this.alertService.stopLoadingMessage();
@@ -185,6 +191,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
         this.editorModal.show();
     }
 
+
     deleteUser(row: UserEdit) {
         this.alertService.showDialog('Are you sure you want to delete \"' + row.userName + '\"?', DialogType.confirm, () => this.deleteUserHelper(row));
     }
@@ -214,8 +221,6 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 
 
 
-
-
     get canAssignRoles() {
         return this.accountService.userHasPermission(Permission.assignRolesPermission);
     }
@@ -227,5 +232,4 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     get canManageUsers() {
         return this.accountService.userHasPermission(Permission.manageUsersPermission);
     }
-
 }

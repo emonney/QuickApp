@@ -178,7 +178,7 @@
                 </p>
             </div>
             <div *ngIf="isEditMode && canAssignRoles" [class.col-md-9]="isViewOnly" [class.col-md-10]="!isViewOnly" [ngClass]="{'has-success': f.submitted && roles.valid, 'has-error' : f.submitted && !roles.valid}">
-                <select id="roles-user-info" name="roles" [(ngModel)]="userEdit.roles" #roles="ngModel" class="selectpicker form-control" bootstrapSelect required multiple
+                <select id="roles-user-info" name="roles" [(ngModel)]="userEdit.roles" #roles="ngModel" #rolesSelector="bootstrap-select" class="selectpicker form-control" bootstrapSelect required multiple
                         data-live-search="true" data-actions-box="false" data-live-search-placeholder="Search..." title="Select Roles">
                     <option *ngFor="let role of allRoles" attr.data-content="<span title='{{role.description}}' class='badge'>{{role.name}}</span>" attr.value="{{role.name}}">
                         {{role.name}}

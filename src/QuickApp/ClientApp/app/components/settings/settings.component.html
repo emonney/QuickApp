@@ -25,7 +25,7 @@
                 <div class="tab-pane active" id="profile">
                     <h4>{{'settings.header.UserProfile' | translate}}</h4>
                     <hr class="separator-hr" />
-                    <div [@fadeInOut] *ngIf="isProfileActived" class="content-container">
+                    <div [@fadeInOut] *ngIf="isProfileActivated" class="content-container">
                         <user-info></user-info>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="tab-pane" id="preferences">
                     <h4>{{'settings.header.UserPreferences' | translate}}</h4>
                     <hr class="separator-hr" />
-                    <div [@fadeInOut] *ngIf="isPreferencesActived" class="content-container">
+                    <div [@fadeInOut] *ngIf="isPreferencesActivated" class="content-container">
                         <user-preferences></user-preferences>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                 <div class="tab-pane" id="users">
                     <h4>{{'settings.header.UsersManagements' | translate}}</h4>
                     <hr class="separator-hr" />
-                    <div [@fadeInOut] *ngIf="canViewUsers && isUsersActived" class="content-container">
+                    <div [@fadeInOut] *ngIf="canViewUsers && isUsersActivated" class="content-container">
                         <users-management></users-management>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                 <div class="tab-pane" id="roles">
                     <h4>{{'settings.header.RolesManagement' | translate}}</h4>
                     <hr class="separator-hr" />
-                    <div [@fadeInOut] *ngIf="canViewRoles && isRolesActived" class="content-container">
+                    <div [@fadeInOut] *ngIf="canViewRoles && isRolesActivated" class="content-container">
                         <roles-management></roles-management>
                     </div>
                 </div>

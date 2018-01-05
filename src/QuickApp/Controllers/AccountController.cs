@@ -559,12 +559,8 @@ namespace QuickApp.Controllers
 
             return null;
         }
+        
 
-
-        private void AddErrors(IdentityResult result)
-        {
-            AddErrors(result.Errors.Select(e => e.Description));
-        }
 
         private void AddErrors(IEnumerable<string> errors)
         {
