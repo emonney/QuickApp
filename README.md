@@ -14,6 +14,19 @@ For the older asp.net core 1.x version: [Download](https://github.com/emonney/Qu
 
 [![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
 
+___
+## If you like this, then you'll love the PRO Version
+#### Features of QuickApp PRO
+
+* Built with Angular Material 2 (.vs bootstrap)
+* Angular CLI version included (can be used with any server backend technology)
+* IdentityServer4 for authentication (.vs openiddict)
+* etc.
+
+[Get PRO Version](http://www.ebenmonney.com/product/quickapp-pro) | [Live Demo](http://quickapp-pro.ebenmonney.com/)
+___
+
+
 ## This application consists of:
 
 *   Template pages using Angular5 and TypeScript

@@ -135,7 +135,7 @@
       "Edit": "Editar",
       "Details": "Detalhes",
       "Delete": "Excluir",
-      "RoleDetails": "Detalhes da Função",
+      "RoleDetails": "Detalhes da Função \"{{name}}\"",
       "EditRole": "Editar Função \"{{name}}\"",
       "Name": "Nome",
       "Description": "Descrição",

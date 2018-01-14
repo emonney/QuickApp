@@ -25,7 +25,7 @@ namespace DAL.Models
                 string friendlyName = string.IsNullOrWhiteSpace(FullName) ? UserName : FullName;
 
                 if (!string.IsNullOrWhiteSpace(JobTitle))
-                    friendlyName = JobTitle + " " + friendlyName;
+                    friendlyName = $"{JobTitle} {friendlyName}";
 
                 return friendlyName;
             }

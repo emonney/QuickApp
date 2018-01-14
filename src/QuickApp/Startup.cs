@@ -32,17 +32,22 @@ using AspNet.Security.OAuth.Validation;
 using Microsoft.AspNetCore.Identity;
 using Swashbuckle.AspNetCore.Swagger;
 using AppPermissions = DAL.Core.ApplicationPermissions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace QuickApp
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        //private readonly IHostingEnvironment _hostingEnvironment;
 
 
-        public Startup(IConfiguration configuration)
+
+        public Startup(IConfiguration configuration/*, IHostingEnvironment env*/)
         {
             Configuration = configuration;
+            //_hostingEnvironment = env;
         }
 
 
@@ -93,7 +98,10 @@ namespace QuickApp
                 options.EnableTokenEndpoint("/connect/token");
                 options.AllowPasswordFlow();
                 options.AllowRefreshTokenFlow();
+
+                //if (_hostingEnvironment.IsDevelopment()) //Uncomment to only disable Https during development
                 options.DisableHttpsRequirement();
+
                 //options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request
                 //options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
             });
@@ -111,6 +119,11 @@ namespace QuickApp
 
             // Add framework services.
             services.AddMvc();
+
+
+            // Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
+            //if (!_hostingEnvironment.IsDevelopment())
+            //    services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
 
 
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
@@ -140,13 +153,10 @@ namespace QuickApp
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
-
                 options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
 
                 options.AddPolicy(Authorization.Policies.ViewAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewRoles));
-
                 options.AddPolicy(Authorization.Policies.ViewRoleByRoleNamePolicy, policy => policy.Requirements.Add(new ViewRoleAuthorizationRequirement()));
-
                 options.AddPolicy(Authorization.Policies.ManageAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageRoles));
 
                 options.AddPolicy(Authorization.Policies.AssignAllowedRolesPolicy, policy => policy.Requirements.Add(new AssignRolesAuthorizationRequirement()));
@@ -201,6 +211,11 @@ namespace QuickApp
             }
             else
             {
+                // Enforce https during production
+                //var rewriteOptions = new RewriteOptions()
+                //    .AddRedirectToHttps();
+                //app.UseRewriter(rewriteOptions);
+
                 app.UseExceptionHandler("/Home/Error");
             }
 
