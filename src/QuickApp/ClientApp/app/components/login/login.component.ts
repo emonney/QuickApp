@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     formResetToggle = true;
     modalClosedCallback: () => void;
     loginStatusSubscription: any;
-    dedicatedSupport = `Email:<a target="_blank" href="mailto:contact@ebenmonney.com">contact@ebenmonney.com</a> for dedicated support @ 500USD/3Months`;
+    proVersion = `<a target="_blank" href="http://www.ebenmonney.com/product/quickapp-pro"><i class="fa fa-hand-o-right"></i> Get the PRO for 39USD</a>`;
 
 
 
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         setTimeout(() => this.alertService.showStickyMessage("Admin User", "Username: admin<br />Password: tempP@ss123", MessageSeverity.default), 4000);
         setTimeout(() => this.alertService.showStickyMessage("Standard User", "Username: user<br />Password: tempP@ss123", MessageSeverity.default), 4500);
 
-        //setTimeout(() => this.alertService.showStickyMessage("QuickLearn", this.dedicatedSupport, MessageSeverity.info), 5000);
+        setTimeout(() => this.alertService.showStickyMessage("QuickApp PRO", this.proVersion, MessageSeverity.info), 5000);
     }
 
 
@@ -107,7 +107,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
                     if (!this.isModal) {
                         this.alertService.showMessage("Login", `Welcome ${user.userName}!`, MessageSeverity.success);
-                        //setTimeout(() => this.alertService.showStickyMessage("QuickLearn", this.dedicatedSupport, MessageSeverity.info), 2000);
+                        setTimeout(() => this.alertService.showStickyMessage("QuickApp PRO", this.proVersion, MessageSeverity.info), 2000);
                     }
                     else {
                         this.alertService.showMessage("Login", `Session for ${user.userName} restored!`, MessageSeverity.success);
