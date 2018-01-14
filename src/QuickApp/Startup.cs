@@ -14,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using DAL;
 using DAL.Models;
 using System.Net;
@@ -27,23 +26,28 @@ using DAL.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using QuickApp.ViewModels;
 using QuickApp.Helpers;
-using QuickApp.Policies;
+using QuickApp.Authorization;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OAuth.Validation;
 using Microsoft.AspNetCore.Identity;
 using Swashbuckle.AspNetCore.Swagger;
 using AppPermissions = DAL.Core.ApplicationPermissions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace QuickApp
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        //private readonly IHostingEnvironment _hostingEnvironment;
 
 
-        public Startup(IConfiguration configuration)
+
+        public Startup(IConfiguration configuration/*, IHostingEnvironment env*/)
         {
             Configuration = configuration;
+            //_hostingEnvironment = env;
         }
 
 
@@ -94,7 +98,10 @@ namespace QuickApp
                 options.EnableTokenEndpoint("/connect/token");
                 options.AllowPasswordFlow();
                 options.AllowRefreshTokenFlow();
+
+                //if (_hostingEnvironment.IsDevelopment()) //Uncomment to only disable Https during development
                 options.DisableHttpsRequirement();
+
                 //options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request
                 //options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
             });
@@ -112,6 +119,11 @@ namespace QuickApp
 
             // Add framework services.
             services.AddMvc();
+
+
+            // Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
+            //if (!_hostingEnvironment.IsDevelopment())
+            //    services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
 
 
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
@@ -140,21 +152,14 @@ namespace QuickApp
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(AuthPolicies.ViewUserByUserIdPolicy, policy => policy.Requirements.Add(new ViewUserByIdRequirement()));
+                options.AddPolicy(Authorization.Policies.ViewAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
+                options.AddPolicy(Authorization.Policies.ManageAllUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
 
-                options.AddPolicy(AuthPolicies.ViewUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewUsers));
+                options.AddPolicy(Authorization.Policies.ViewAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewRoles));
+                options.AddPolicy(Authorization.Policies.ViewRoleByRoleNamePolicy, policy => policy.Requirements.Add(new ViewRoleAuthorizationRequirement()));
+                options.AddPolicy(Authorization.Policies.ManageAllRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageRoles));
 
-                options.AddPolicy(AuthPolicies.ManageUserByUserIdPolicy, policy => policy.Requirements.Add(new ManageUserByIdRequirement()));
-
-                options.AddPolicy(AuthPolicies.ManageUsersPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageUsers));
-
-                options.AddPolicy(AuthPolicies.ViewRoleByRoleNamePolicy, policy => policy.Requirements.Add(new ViewRoleByNameRequirement()));
-
-                options.AddPolicy(AuthPolicies.ViewRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ViewRoles));
-
-                options.AddPolicy(AuthPolicies.AssignRolesPolicy, policy => policy.Requirements.Add(new AssignRolesRequirement()));
-
-                options.AddPolicy(AuthPolicies.ManageRolesPolicy, policy => policy.RequireClaim(CustomClaimTypes.Permission, AppPermissions.ManageRoles));
+                options.AddPolicy(Authorization.Policies.AssignAllowedRolesPolicy, policy => policy.Requirements.Add(new AssignRolesAuthorizationRequirement()));
             });
 
             Mapper.Initialize(cfg =>
@@ -175,11 +180,11 @@ namespace QuickApp
             services.AddScoped<IUnitOfWork, HttpUnitOfWork>();
             services.AddScoped<IAccountManager, AccountManager>();
 
-            // Auth Policies
-            services.AddSingleton<IAuthorizationHandler, ViewUserByIdHandler>();
-            services.AddSingleton<IAuthorizationHandler, ManageUserByIdHandler>();
-            services.AddSingleton<IAuthorizationHandler, ViewRoleByNameHandler>();
-            services.AddSingleton<IAuthorizationHandler, AssignRolesHandler>();
+            // Auth Handlers
+            services.AddSingleton<IAuthorizationHandler, ViewUserAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ManageUserAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, ViewRoleAuthorizationHandler>();
+            services.AddSingleton<IAuthorizationHandler, AssignRolesAuthorizationHandler>();
 
             // DB Creation and Seeding
             services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
@@ -206,6 +211,11 @@ namespace QuickApp
             }
             else
             {
+                // Enforce https during production
+                //var rewriteOptions = new RewriteOptions()
+                //    .AddRedirectToHttps();
+                //app.UseRewriter(rewriteOptions);
+
                 app.UseExceptionHandler("/Home/Error");
             }
 

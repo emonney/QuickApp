@@ -46,7 +46,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 *ngIf="!canManageRoles" class="modal-title pull-left"><i class="fa fa-shield"></i> {{'roles.management.RoleDetails' | translate}} "{{editingRoleName}}"</h4>
+                    <h4 *ngIf="!canManageRoles" class="modal-title pull-left"><i class="fa fa-shield"></i> {{'roles.management.RoleDetails' | translate:editingRoleName}}</h4>
                     <h4 *ngIf="canManageRoles" class="modal-title pull-left"><i class="fa fa-shield"></i> {{editingRoleName ? ('roles.management.EditRole' | translate:editingRoleName) : ('roles.management.NewRole' | translate)}}</h4>
                     <button type="button" class="close pull-right" title="Close" (click)="editorModal.hide()">
                         <span aria-hidden="true">&times;</span>

@@ -88,6 +88,15 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
     addNewRoleToList() {
         if (this.sourceRole) {
             Object.assign(this.sourceRole, this.editedRole);
+
+            let sourceIndex = this.rowsCache.indexOf(this.sourceRole, 0);
+            if (sourceIndex > -1)
+                Utilities.moveArrayItem(this.rowsCache, sourceIndex, 0);
+
+            sourceIndex = this.rows.indexOf(this.sourceRole, 0);
+            if (sourceIndex > -1)
+                Utilities.moveArrayItem(this.rows, sourceIndex, 0);
+
             this.editedRole = null;
             this.sourceRole = null;
         }

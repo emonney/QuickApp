@@ -30,8 +30,6 @@ namespace DAL.Core
         public static ApplicationPermission AssignRoles = new ApplicationPermission("Assign Roles", "roles.assign", RolesPermissionGroupName, "Permission to assign roles to users");
 
 
-
-
         static ApplicationPermissions()
         {
             List<ApplicationPermission> allPermissions = new List<ApplicationPermission>()
@@ -67,8 +65,6 @@ namespace DAL.Core
             return new string[] { ManageUsers, ManageRoles, AssignRoles };
         }
     }
-
-
 
 
 

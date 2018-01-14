@@ -135,7 +135,7 @@
       "Edit": "Bearb.",
       "Details": "Details",
       "Delete": "Entf.",
-      "RoleDetails": "Rollen Details",
+      "RoleDetails": "Rollen Details \"{{name}}\"",
       "EditRole": "Rolle \"{{name}}\" bearbeiten",
       "Name": "Name",
       "Description": "Beschreibung",

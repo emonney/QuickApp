@@ -77,6 +77,9 @@ export class UserInfoComponent implements OnInit {
     @ViewChild('roles')
     private roles;
 
+    @ViewChild('rolesSelector')
+    private rolesSelector;
+
 
     constructor(private alertService: AlertService, private accountService: AccountService) {
     }
@@ -96,7 +99,7 @@ export class UserInfoComponent implements OnInit {
             this.accountService.getUserAndRoles().subscribe(results => this.onCurrentUserDataLoadSuccessful(results[0], results[1]), error => this.onCurrentUserDataLoadFailed(error));
         }
         else {
-            this.accountService.getUser().subscribe(user => this.onCurrentUserDataLoadSuccessful(user, []), error => this.onCurrentUserDataLoadFailed(error));
+            this.accountService.getUser().subscribe(user => this.onCurrentUserDataLoadSuccessful(user, user.roles.map(x => new Role(x))), error => this.onCurrentUserDataLoadFailed(error));
         }
     }
 
@@ -321,7 +324,7 @@ export class UserInfoComponent implements OnInit {
         this.isGeneralEditor = true;
         this.isNewUser = true;
 
-        this.allRoles = allRoles;
+        this.allRoles = [...allRoles];
         this.editingUserName = null;
         this.user = this.userEdit = new UserEdit();
         this.userEdit.isEnabled = true;
@@ -373,6 +376,9 @@ export class UserInfoComponent implements OnInit {
                     this.allRoles.unshift(new Role(ur));
             }
         }
+
+        if (allRoles == null || this.allRoles.length != allRoles.length)
+            setTimeout(() => this.rolesSelector.refresh());
     }
 
 
