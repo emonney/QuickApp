@@ -135,7 +135,7 @@
       "Edit": "تصحيح",
       "Details": "تفاصيل",
       "Delete": "حذف",
-      "RoleDetails": "تفاصيل الدور",
+      "RoleDetails": "تفاصيل الدور \"{{name}}\"",
       "EditRole": "  تحرير الدور\"{{name}}\"",
       "Name": "اسم",
       "Description": "وصف",

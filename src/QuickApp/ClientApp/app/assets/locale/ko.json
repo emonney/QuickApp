@@ -135,7 +135,7 @@
       "Edit": "편집하다",
       "Details": "세부",
       "Delete": "지우다",
-      "RoleDetails": "역할 세부 정보",
+      "RoleDetails": "역할 세부 정보 \"{{name}}\"",
       "EditRole": "역할 편집 \"{{name}}\"",
       "Name": "이름",
       "Description": "기술",

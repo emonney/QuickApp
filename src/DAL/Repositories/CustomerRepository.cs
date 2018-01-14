@@ -31,7 +31,7 @@ namespace DAL.Repositories
 
         public IEnumerable<Customer> GetAllCustomersData()
         {
-            return appContext.Customers
+            return _appContext.Customers
                 .Include(c => c.Orders).ThenInclude(o => o.OrderDetails).ThenInclude(d => d.Product)
                 .Include(c => c.Orders).ThenInclude(o => o.Cashier)
                 .OrderBy(c => c.Name)
@@ -40,9 +40,6 @@ namespace DAL.Repositories
 
 
 
-        private ApplicationDbContext appContext
-        {
-            get { return (ApplicationDbContext)_context; }
-        }
+        private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
     }
 }

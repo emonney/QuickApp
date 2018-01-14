@@ -25,9 +25,6 @@ namespace DAL.Repositories
 
 
 
-        private ApplicationDbContext appContext
-        {
-            get { return (ApplicationDbContext)_context; }
-        }
+        private ApplicationDbContext _appContext => (ApplicationDbContext)_context;
     }
 }
