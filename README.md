@@ -6,7 +6,7 @@ As well as other common functionalities for **Quick Application Development**.
 
 [FOLLOW ME](https://twitter.com/kommand) on twitter for important updates
 
-###### NOTE: Please post support related topics in the [help & support forum](http://www.ebenmonney.com/forum/?view=forum&id=14). For bug reports open an [issue on github](https://github.com/emonney/QuickApp/issues). 
+###### NOTE: Please post support related topics in the [help & support forum](https://www.ebenmonney.com/forum/?view=forum&id=14). For bug reports open an [issue on github](https://github.com/emonney/QuickApp/issues). 
 
 For the older asp.net core 1.x version: [Download](https://github.com/emonney/QuickApp-VSIX/releases/tag/v1.5")
 
@@ -15,16 +15,16 @@ For the older asp.net core 1.x version: [Download](https://github.com/emonney/Qu
 [![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
 
 ___
-## If you like this, then you'll love the PRO Version
-#### Features of QuickApp PRO
+#### INTRODUCING QUICKAPP PRO
+*   All standard/free features
+*   IdentityServer4
+*   Angular CLI
+*   Angular Material
+*   Dedicated Email Support
 
-* Built with Angular Material 2 (.vs bootstrap)
-* Angular CLI version included (can be used with any server backend technology)
-* IdentityServer4 for authentication (.vs openiddict)
-* etc.
-
-[Get PRO Version](http://www.ebenmonney.com/product/quickapp-pro) | [Live Demo](http://quickapp-pro.ebenmonney.com/)
+[Get PRO Version](https://www.ebenmonney.com/product/quickapp-pro) | [Live Demo](http://quickapp-pro.ebenmonney.com/)
 ___
+
 
 
 ## This application consists of:
@@ -81,8 +81,8 @@ ___
     4. Try running the application again - Test to make sure it all works  
     
     *When I say "run from the project folder" I mean run the commands on the command line from those folders  
-    If any step fails, post the error details on the [support forum](http://www.ebenmonney.com/forum/?view=forum&id=14) for the needed assistance.
-*   For help and support post in the [support forum](http://www.ebenmonney.com/forum/?view=forum&id=14). For bug reports open an [issue on github](https://github.com/emonney/QuickApp/issues)
+    If any step fails, post the error details on the [support forum](https://www.ebenmonney.com/forum/?view=forum&id=14) for the needed assistance.
+*   For help and support post in the [support forum](https://www.ebenmonney.com/forum/?view=forum&id=14). For bug reports open an [issue on github](https://github.com/emonney/QuickApp/issues)
 
 
 ## Login
@@ -100,7 +100,7 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 
 ## Documentation
 
-*   [Overview of QuickApp](http://ebenmonney.com/quickapp)
+*   [Overview of QuickApp](https://www.ebenmonney.com/quickapp)
 *   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
 *   [Angular5 documentation overview](http://angular.io/docs/ts/latest/guide)
 *   [Working with Data](https://go.microsoft.com/fwlink/?LinkId=398602)
