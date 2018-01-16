@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     formResetToggle = true;
     modalClosedCallback: () => void;
     loginStatusSubscription: any;
-    proVersion = `<a target="_blank" href="http://www.ebenmonney.com/product/quickapp-pro"><i class="fa fa-hand-o-right"></i> Get the PRO for 39USD</a>`;
+    proVersion = `<a target="_blank" href="https://www.ebenmonney.com/product/quickapp-pro"><i class="fa fa-hand-o-right"></i> Click here to get the PRO!</a>`;
 
 
 

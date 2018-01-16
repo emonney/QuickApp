@@ -8,7 +8,7 @@
     <Description>ASPNET Core - Angular4 startup template for Quick Application development</Description>
     <Copyright>Copyright © 2017 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://github.com/emonney/QuickApp</PackageProjectUrl>
-    <Company>http://ebenmonney.com</Company>
+    <Company>EBENMONNEY</Company>
   </PropertyGroup>
 
   <ItemGroup>

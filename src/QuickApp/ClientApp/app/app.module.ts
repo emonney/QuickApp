@@ -79,8 +79,8 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
         FormsModule,
         AppRoutingModule,
         AdsenseModule.forRoot({
-            adClient: 'ca-pub-5040490701169307',
-            adSlot: 5197254548,
+            adClient: 'ca-pub-9776974386593596',
+            adSlot: 2895519059,
             adFormat: 'auto'
         }),
         TranslateModule.forRoot({
