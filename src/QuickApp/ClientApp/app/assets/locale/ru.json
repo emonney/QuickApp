@@ -1,0 +1,182 @@
+﻿{
+  "app": {
+    "Welcome": "Добро пожаловать,",
+    "Notifications": "Уведомления",
+    "New": "Новые"
+  },
+  "mainMenu": {
+    "Appointments": "Appointments",
+    "Customers": "Клиенты",
+    "Products": "Продукты",
+    "Orders": "Заказы",
+    "About": "О QuickApp",
+    "Logout": "Выход"
+  },
+  "pageHeader": {
+    "Dashboard": "Панель приборов",
+    "Customers": "Клиенты",
+    "Products": "Продукты",
+    "Orders": "Заказы",
+    "NotFound": "Не-найденные",
+    "About": "О QuickApp",
+    "Settings": "Настройки"
+  },
+  "home": {
+    "NoWidgets1": "Нет элементов управления. Перейти к",
+    "NoWidgets2": "чтобы настроить доступные элементы управления",
+    "StatisticsTitle": "Очень Важные Метрики"
+  },
+  "notFound": {
+    "404": "404",
+    "pageNotFound": "Запрошенная страница не существует",
+    "backToHome": "Домой"
+  },
+  "settings": {
+    "tab": {
+      "Profile": "Профиль",
+      "Preferences": "Настройки",
+      "Users": "Пользователи",
+      "Roles": "Роли"
+    },
+    "header": {
+      "UserProfile": "Профиль пользователя",
+      "UserPreferences": "Предпочтения пользователя",
+      "UserDepartments": "User Departments",
+      "UsersManagements": "Управление пользователями",
+      "RolesManagement": "Управление ролями"
+    }
+  },
+  "preferences": {
+    "ReloadPreferences": "Перезагрузить настройки:",
+    "ReloadPreferencesHint": "Загрузить настройки по умолчанию (сбросить изменения)",
+    "Language": "Язык:",
+    "English": "English",
+    "French": "Français",
+    "German": "Deutsch",
+    "Portuguese": "Português",
+    "Arabic": "العربية",
+    "Korean": "한국어",
+    "Russian": "Русский",
+    "LanguageHint": "Выберите язык",
+    "HomePage": "Домашняя страница:",
+    "Dashboard": "Панель приборов",
+    "Customers": "Клиенты",
+    "Products": "Продукты",
+    "Orders": "Заказы",
+    "About": "О QuickApp",
+    "Settings": "Настройки",
+    "HomePageHint": "После входа в систему открывать выбранную страницу",
+    "Theme": "Оформление:",
+    "DefaultColor": "<span class='default-theme-option'>Стандартная</span>",
+    "RedColor": "<span class='red-theme-option'>Красная</span>",
+    "OrangeColor": "<span class='orange-theme-option'>Оранжевая</span>",
+    "GreenColor": "<span class='green-theme-option'>Зеленая</span>",
+    "GrayColor": "<span class='gray-theme-option'>Серая</span>",
+    "BlackColor": "<span class='black-theme-option'>Черная</span>",
+    "ThemeHint": "Выберите цветовое оформление",
+    "DashboardStatistics": "Статистика на панели приборов:",
+    "DashboardStatisticsHint": "Показывать демо-статистику на панели приборов",
+    "DashboardNotifications": "Уведомления на панели приборов:",
+    "DashboardNotificationsHint": "Показывать уведомления на панели приборов",
+    "DashboardTodo": "Список задач:",
+    "DashboardTodoHint": "Показывать список задач на панели приборов",
+    "DashboardBanner": "Баннер на панели приборов:",
+    "DashboardBannerHint": "Показывать на панели приборов информационный баннер",
+    "ResetDefault": "Сбросить",
+    "SetDefault": "Сделать параметрами по умолчанию"
+  },
+  "users": {
+    "management": {
+      "Search": "Поиск пользователя...",
+      "NewUser": "Новый пользователь",
+      "Edit": "Изменить",
+      "Delete": "Удалить",
+      "EditUser": "Изменить пользователя \"{{name}}\"",
+      "Title": "Обращение",
+      "UserName": "Имя",
+      "FullName": "Полное имя",
+      "Email": "Email",
+      "Roles": "Роли",
+      "PhoneNumber": "Телефон"
+    },
+    "editor": {
+      "JobTitle": "Должность: ",
+      "UserName": "Имя:",
+      "UserNameRequired": "Необходимо ввести имя пользователя (не менее 2 и не более 200 символов)",
+      "Password": "Пароль:",
+      "PasswordHint": "Для изменения имени пользователя необходимо ввести пароль",
+      "CurrentPasswordRequired": "Необходимо ввести пароль",
+      "Email": "Email:",
+      "EmailRequired": "Необходимо ввести адрес Email (не более 200 символов)",
+      "InvalidEmail": "Указанный email не соответствует стандартному формату email",
+      "ChangePassword": "Изменить пароль",
+      "CurrentPassword": "Текущий пароль:",
+      "NewPassword": "Новый пароль:",
+      "NewPasswordRequired": "Необходимо ввести новый пароль (не менее 6 символов)",
+      "ConfirmPassword": "Подтвердить пароль:",
+      "ConfirmationPasswordRequired": "Необходимо повторно вввести новый пароль",
+      "PasswordMismatch": "Введенные значения пароля не совпадают",
+      "Roles": "Роли:",
+      "FullName": " Полное имя:",
+      "RoleRequired": " Необходимо указать роль",
+      "PhoneNumber": "Телефон#:",
+      "Enabled": "Активен",
+      "Unblock": "Разблокировать",
+      "Close": "Закрыть",
+      "Edit": "Изменить",
+      "Cancel": "Отмена",
+      "Save": "Сохранить",
+      "Saving": "Сохранение..."
+    }
+  },
+  "roles": {
+    "management": {
+      "Search": "Поиск роли...",
+      "NewRole": "Новая роль",
+      "Edit": "Изменить",
+      "Details": "Подробно...",
+      "Delete": "Удалить",
+      "RoleDetails": "Подробно о роли \"{{name}}\"",
+      "EditRole": "Изменить роль\"{{name}}\"",
+      "Name": "Название",
+      "Description": "Описание",
+      "Users": "Пользователи"
+    },
+    "editor": {
+      "Name": "Название:",
+      "Description": "Описание:",
+      "RoleNameRequired": "Необходимо ввести название роли (не менее 2 и не более 200 characters)",
+      "SelectAll": "Выбрать все",
+      "SelectNone": "Очистить выбор",
+      "Close": "Закрытьи",
+      "Cancel": "Отмена",
+      "Save": "Сохранить",
+      "Saving": "Сохранение..."
+    }
+  },
+  "notifications": {
+    "Delete": "Удалить уведомление",
+    "Pin": "Закрепить уведомление",
+    "Date": "Дата",
+    "Notification": "Уведомление"
+  },
+  "todoDemo": {
+    "management": {
+      "Search": "Поиск задачи...",
+      "HideCompleted": "Скрыть завершенные",
+      "AddTask": "Добавить задачу",
+      "Delete": "Удалить задачу",
+      "Important": "Пометить как важную",
+      "Task": "Задача",
+      "Description": "Описание"
+    },
+    "editor": {
+      "NewTask": "Новая задача",
+      "Name": "Название",
+      "TaskNameRequired": "Необходимо ввести название",
+      "Description": "Описание",
+      "Important": "Пометить как важную",
+      "AddTask": "Добавить задачу"
+    }
+  }
+}
