@@ -34,6 +34,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using AppPermissions = DAL.Core.ApplicationPermissions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
+using System.Collections.Generic;
 
 namespace QuickApp
 {
@@ -139,15 +140,14 @@ namespace QuickApp
 
             services.AddSwaggerGen(c =>
             {
-                c.AddSecurityDefinition("BearerAuth", new ApiKeyScheme
-                {
-                    Name = "Authorization",
-                    Description = "Login with your bearer authentication token. e.g. Bearer <auth-token>",
-                    In = "header",
-                    Type = "apiKey"
-                });
-
                 c.SwaggerDoc("v1", new Info { Title = "QuickApp API", Version = "v1" });
+
+                c.AddSecurityDefinition("OpenID Connect", new OAuth2Scheme
+                {
+                    Type = "oauth2",
+                    Flow = "password",
+                    TokenUrl = "/connect/token"
+                });
             });
 
             services.AddAuthorization(options =>
