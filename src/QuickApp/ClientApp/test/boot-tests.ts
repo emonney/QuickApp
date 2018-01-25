@@ -1,3 +1,11 @@
+// ======================================
+// Author: Ebenezer Monney
+// Email:  info@ebenmonney.com
+// Copyright (c) 2018 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
+// ======================================
+
 // Load required polyfills and testing libraries
 import 'core-js/client/shim';
 import 'web-animations-js';

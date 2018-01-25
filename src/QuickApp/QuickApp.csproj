@@ -6,7 +6,7 @@
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <IsPackable>false</IsPackable>
     <Description>ASPNET Core - Angular4 startup template for Quick Application development</Description>
-    <Copyright>Copyright © 2017 www.ebenmonney.com</Copyright>
+    <Copyright>Copyright © 2018 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://github.com/emonney/QuickApp</PackageProjectUrl>
     <Company>EBENMONNEY</Company>
   </PropertyGroup>
@@ -29,8 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>

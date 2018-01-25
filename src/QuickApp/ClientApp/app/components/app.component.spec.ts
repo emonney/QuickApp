@@ -1,4 +1,12 @@
 /// <reference path="../../../node_modules/@types/jasmine/index.d.ts" />
+// ======================================
+// Author: Ebenezer Monney
+// Email:  info@ebenmonney.com
+// Copyright (c) 2018 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
+// ======================================
+
 import { assert } from 'chai';
 
 import { TestBed, async } from '@angular/core/testing';
