@@ -38,14 +38,14 @@
     </ng-template>
 
     <ng-template #nameTemplate let-row="row" let-value="value">
-        <span *ngIf="!editing[row.$$index + '-name']" [class.completed]="row.completed" attr.title="{{value}}" (dblclick)="editing[row.$$index + '-name'] = true">
+        <span *ngIf="!editing[row.$$index + '-name']" class="inline-label" [class.completed]="row.completed" attr.title="Double click to edit - {{value}}" (dblclick)="editing[row.$$index + '-name'] = true">
             {{value}}
         </span>
         <input *ngIf="editing[row.$$index + '-name']" class="inline-editor" autofocus (blur)="updateValue($event, 'name', value, row)" type="text" [value]="value" />
     </ng-template>
 
     <ng-template #descriptionTemplate let-row="row" let-value="value">
-        <span *ngIf="!editing[row.$$index + '-description']" [class.completed]="row.completed" attr.title="{{value}}" (dblclick)="editing[row.$$index + '-description'] = true">
+        <span *ngIf="!editing[row.$$index + '-description']" class="inline-label" [class.completed]="row.completed" attr.title="Double click to edit - {{value}}" (dblclick)="editing[row.$$index + '-description'] = true">
             {{value}}
         </span>
         <input *ngIf="editing[row.$$index + '-description']" class="inline-editor" autofocus (blur)="updateValue($event, 'description', value, row)" type="text" [value]="value" />
