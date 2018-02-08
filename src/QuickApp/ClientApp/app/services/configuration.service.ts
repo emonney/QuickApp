@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 
 import { AppTranslationService } from './app-translation.service';
 import { LocalStoreManager } from './local-store-manager.service';
-import { DBkeys } from './db-Keys';
+import { DBkeys } from './db-keys';
 import { Utilities } from './utilities';
 
 
