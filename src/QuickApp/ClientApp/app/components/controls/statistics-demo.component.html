@@ -29,7 +29,9 @@
         </table>
         <button class="refresh-btn" (click)="randomize();showMessage('Manual refresh!');">REFSH</button>
         <div class="chart-type-container" dropdown>
-            <button id="chartType" type="button" dropdownToggle><i class="fa fa-bar-chart dropdown-toggle"></i></button>
+            <button id="chartType" type="button" class="dropdown-toggle" dropdownToggle>
+                <i class="fa fa-bar-chart"></i> <span class="caret"></span>
+            </button>
             <ul *dropdownMenu role="menu" aria-labelledby="chartType" class="dropdown-menu">
                 <li [class.active2]="chartType == 'bar'" role="menuitem"><a class="dropdown-item" (click)="changeChartType('bar')" href="javascript:;">Bar Chart</a></li>
                 <li [class.active2]="chartType == 'pie'" role="menuitem"><a class="dropdown-item" (click)="changeChartType('pie')" href="javascript:;">Pie Chart</a></li>
