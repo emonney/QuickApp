@@ -35,12 +35,6 @@ input.form-control {
     margin: 0;
 }
 
-.inline-label {
-    width: 100%;
-    min-height: 1rem;
-    display: inline-block;
-}
-
 .inline-editor {
     width: 100%;
 }

@@ -8,9 +8,7 @@
     color: #E03930;
 }
 
-.navbar .nav > .active > a,
-.navbar .nav > .active > a:hover,
-.navbar .nav > .active > a:focus {
+.navbar .nav > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > .active > a:focus {
     background-color: #efefef;
 }
 

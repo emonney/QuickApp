@@ -95,7 +95,6 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
         this.loadingIndicator = true;
 
         this.fetch((data) => {
-            this.refreshDataIndexes(data);
             this.rows = data;
             this.rowsCache = [...data];
             this.isDataLoaded = true;
@@ -144,15 +143,6 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
         }
         else {
             cb(data);
-        }
-    }
-
-
-    refreshDataIndexes(data) {
-        let index = 0;
-
-        for (let i of data) {
-            i.$$index = index++;
         }
     }
 
