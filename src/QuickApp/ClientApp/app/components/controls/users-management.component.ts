@@ -125,6 +125,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 
             this.rowsCache.splice(0, 0, user);
             this.rows.splice(0, 0, user);
+            this.rows = [...this.rows];
         }
     }
 

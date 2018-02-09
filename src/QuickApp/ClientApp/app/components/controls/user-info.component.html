@@ -215,7 +215,7 @@
             </div>
         </div>
 
-        <div class="form-group has-feedback">
+        <div class="form-group">
             <label [class.col-md-3]="isViewOnly" [class.col-md-2]="!isViewOnly" class="control-label" for="phoneNumber-{{uniqueId}}">{{'users.editor.PhoneNumber' | translate}}</label>
             <div *ngIf="!isEditMode" [class.col-md-9]="isViewOnly" [class.col-md-10]="!isViewOnly">
                 <p class="form-control-static">{{user.phoneNumber}}</p>

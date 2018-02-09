@@ -115,6 +115,7 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
 
             this.rowsCache.splice(0, 0, role);
             this.rows.splice(0, 0, role);
+            this.rows = [...this.rows];
         }
     }
 
