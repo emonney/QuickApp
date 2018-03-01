@@ -9,7 +9,7 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.SpaServices.Webpack;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -122,6 +122,13 @@ namespace QuickApp
             services.AddMvc();
 
 
+            // In production, the Angular files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
+
+
             // Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
             //if (!_hostingEnvironment.IsDevelopment())
             //    services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
@@ -204,10 +211,6 @@ namespace QuickApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-                {
-                    HotModuleReplacement = true
-                });
             }
             else
             {
@@ -228,25 +231,8 @@ namespace QuickApp
 
 
             app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseAuthentication();
-
-
-            app.UseExceptionHandler(builder =>
-            {
-                builder.Run(async context =>
-                {
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    context.Response.ContentType = MediaTypeNames.ApplicationJson;
-
-                    var error = context.Features.Get<IExceptionHandlerFeature>();
-
-                    if (error != null)
-                    {
-                        string errorMsg = JsonConvert.SerializeObject(new { error = error.Error.Message });
-                        await context.Response.WriteAsync(errorMsg).ConfigureAwait(false);
-                    }
-                });
-            });
 
 
             app.UseSwagger();
@@ -260,11 +246,20 @@ namespace QuickApp
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller}/{action=Index}/{id?}");
+            });
 
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
+            app.UseSpa(spa =>
+            {
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
             });
         }
     }
