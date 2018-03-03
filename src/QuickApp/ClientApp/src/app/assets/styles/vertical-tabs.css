@@ -1,0 +1,39 @@
+
+.vertical-tab > .nav.nav-tabs {
+  border-right: 1px solid #ddd;
+  border-bottom: none;
+  padding-top: 2px;
+}
+
+
+  .vertical-tab > .nav.nav-tabs > li {
+    float: none;
+    margin-right: -1px;
+    margin-bottom: 2px;
+  }
+
+    .vertical-tab > .nav.nav-tabs > li.active > a,
+    .vertical-tab > .nav.nav-tabs > li.active > a:hover,
+    .vertical-tab > .nav.nav-tabs > li.active > a:focus {
+      border-bottom-color: #ddd;
+      border-right-color: transparent;
+    }
+
+    .vertical-tab > .nav.nav-tabs > li > a {
+      border-radius: 4px 0 0 4px;
+      margin-right: 0;
+      display: block;
+    }
+
+
+@media (min-width: 768px) {
+  .vertical-tab > .nav.nav-tabs {
+    float: left;
+    width: 12%;
+  }
+
+  .vertical-tab > .tab-content {
+    float: left;
+    width: 88%;
+  }
+}
