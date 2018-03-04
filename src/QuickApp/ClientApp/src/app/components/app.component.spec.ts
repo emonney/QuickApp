@@ -1,11 +1,8 @@
 /// <reference path="../../../node_modules/@types/jasmine/index.d.ts" />
-// ======================================
-// Author: Ebenezer Monney
-// Email:  info@ebenmonney.com
-// Copyright (c) 2018 www.ebenmonney.com
-// 
-// ==> Gun4Hire: contact@ebenmonney.com
-// ======================================
+// ====================================================
+// More Templates: https://www.ebenmonney.com/templates
+// Email: support@ebenmonney.com
+// ====================================================
 
 import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';

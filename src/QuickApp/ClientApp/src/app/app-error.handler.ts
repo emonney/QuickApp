@@ -1,10 +1,7 @@
-// ======================================
-// Author: Ebenezer Monney
-// Email:  info@ebenmonney.com
-// Copyright (c) 2018 www.ebenmonney.com
-// 
-// ==> Gun4Hire: contact@ebenmonney.com
-// ======================================
+// ====================================================
+// More Templates: https://www.ebenmonney.com/templates
+// Email: support@ebenmonney.com
+// ====================================================
 
 import { Injectable, ErrorHandler } from "@angular/core";
 import { AlertService, MessageSeverity } from './services/alert.service';

@@ -1,10 +1,7 @@
-// ======================================
-// Author: Ebenezer Monney
-// Email:  info@ebenmonney.com
-// Copyright (c) 2018 www.ebenmonney.com
-// 
-// ==> Gun4Hire: contact@ebenmonney.com
-// ======================================
+// ====================================================
+// More Templates: https://www.ebenmonney.com/templates
+// Email: support@ebenmonney.com
+// ====================================================
 
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.

@@ -1,4 +1,4 @@
-﻿<div>
+<div>
     <form *ngIf="formResetToggle" class="form-horizontal" name="roleEditorForm" #f="ngForm" novalidate
           (ngSubmit)="f.form.valid ? save() :
           (!roleName.valid && showErrorAlert('Role name is required', 'Please enter a role name (minimum of 2 and maximum of 200 characters)'));">

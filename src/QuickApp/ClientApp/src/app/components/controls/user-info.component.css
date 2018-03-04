@@ -1,4 +1,4 @@
-﻿.row:not(:last-child) {
+.row:not(:last-child) {
     /*border-bottom: 1px solid #ccc;*/
 }
 

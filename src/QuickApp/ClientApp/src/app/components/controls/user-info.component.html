@@ -1,4 +1,4 @@
-﻿<div>
+<div>
     <form *ngIf="formResetToggle" [attr.autocomplete]="isGeneralEditor ? NaN : null" class="form-horizontal" name="userInfoForm" #f="ngForm" novalidate
           (ngSubmit)="f.form.valid ? save() :
 
