@@ -1,4 +1,4 @@
-﻿// ======================================
+// ======================================
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2018 www.ebenmonney.com
@@ -10,10 +10,8 @@ import { Directive, Attribute, ElementRef, Input, Output, EventEmitter, OnInit, 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/fromEvent';
-import * as $ from 'jquery';
-import 'bootstrap-select/dist/js/bootstrap-select';
 
-
+declare var $: any;
 
 @Directive({
     selector: '[bootstrapSelect]',
@@ -46,18 +44,18 @@ export class BootstrapSelectDirective implements OnInit, OnDestroy {
 
 
     constructor(private el: ElementRef) {
-        this.changedSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'changed.bs.select').subscribe((e: any) => setTimeout(() => this.ngModelChange.emit(this.selected)));
-        this.shownSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'shown.bs.select').subscribe((e: any) => setTimeout(() => this.shown.emit()));
-        this.hiddenSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'hidden.bs.select').subscribe((e: any) => setTimeout(() => this.hidden.emit()));
+        this.changedSubscription = Observable.fromEvent($(this.el.nativeElement), 'changed.bs.select').subscribe((e: any) => setTimeout(() => this.ngModelChange.emit(this.selected)));
+        this.shownSubscription = Observable.fromEvent($(this.el.nativeElement), 'shown.bs.select').subscribe((e: any) => setTimeout(() => this.shown.emit()));
+        this.hiddenSubscription = Observable.fromEvent($(this.el.nativeElement), 'hidden.bs.select').subscribe((e: any) => setTimeout(() => this.hidden.emit()));
     }
 
 
 
     ngOnInit() {
-        (<any>$(this.el.nativeElement)).selectpicker();
+        $(this.el.nativeElement).selectpicker();
 
         if (this.requiredAttribute)
-            (<any>$(this.el.nativeElement)).selectpicker('setStyle', 'required', 'add');
+            $(this.el.nativeElement).selectpicker('setStyle', 'required', 'add');
 
         setTimeout(() => {
             this.refresh();
@@ -77,14 +75,14 @@ export class BootstrapSelectDirective implements OnInit, OnDestroy {
         if (this.hiddenSubscription)
             this.hiddenSubscription.unsubscribe();
 
-        (<any>$(this.el.nativeElement)).selectpicker('destroy');
+        $(this.el.nativeElement).selectpicker('destroy');
     }
 
 
     private doValidation() {
         if (this.requiredAttribute) {
-            (<any>$(this.el.nativeElement)).selectpicker('setStyle', !this.valid ? 'ng-valid' : 'ng-invalid', 'remove');
-            (<any>$(this.el.nativeElement)).selectpicker('setStyle', this.valid ? 'ng-valid' : 'ng-invalid', 'add');
+            $(this.el.nativeElement).selectpicker('setStyle', !this.valid ? 'ng-valid' : 'ng-invalid', 'remove');
+            $(this.el.nativeElement).selectpicker('setStyle', this.valid ? 'ng-valid' : 'ng-invalid', 'add');
         }
     }
 
@@ -95,13 +93,13 @@ export class BootstrapSelectDirective implements OnInit, OnDestroy {
 
     refresh() {
         setTimeout(() => {
-            (<any>$(this.el.nativeElement)).selectpicker('refresh');
+            $(this.el.nativeElement).selectpicker('refresh');
         });
     }
 
     render() {
         setTimeout(() => {
-            (<any>$(this.el.nativeElement)).selectpicker('render');
+            $(this.el.nativeElement).selectpicker('render');
         });
     }
 
@@ -112,11 +110,11 @@ export class BootstrapSelectDirective implements OnInit, OnDestroy {
 
 
     set selected(values: string | string[]) {
-        (<any>$(this.el.nativeElement)).selectpicker('val', values);
+        $(this.el.nativeElement).selectpicker('val', values);
         this.doValidation();
     }
 
     get selected(): string | string[] {
-        return (<any>$(this.el.nativeElement)).selectpicker('val');
+        return $(this.el.nativeElement).selectpicker('val');
     }
 }

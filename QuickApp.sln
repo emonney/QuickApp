@@ -9,7 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		LICENSE = LICENSE
-		NuGet.config = NuGet.config
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -38,5 +37,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4B467D5D-FA6F-412E-8B45-45BF0630180C} = {17070A46-661F-4A01-8B84-CE9C59173779}
 		{C4C99D7C-0A91-418A-AE87-FD4EE43892D8} = {17070A46-661F-4A01-8B84-CE9C59173779}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {46C86587-3EE9-4CF2-966A-9160EF864A31}
 	EndGlobalSection
 EndGlobal

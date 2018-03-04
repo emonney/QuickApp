@@ -1,4 +1,4 @@
-﻿// ======================================
+// ======================================
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2018 www.ebenmonney.com

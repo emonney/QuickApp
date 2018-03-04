@@ -17,79 +17,79 @@ import { Permission } from '../../models/permission.model';
 
 
 @Component({
-    selector: 'settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.css'],
-    animations: [fadeInOut]
+  selector: 'settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.css'],
+  animations: [fadeInOut]
 })
 export class SettingsComponent implements OnInit, OnDestroy {
 
-    isProfileActivated = true;
-    isPreferencesActivated = false;
-    isUsersActivated = false;
-    isRolesActivated = false;
+  isProfileActivated = true;
+  isPreferencesActivated = false;
+  isUsersActivated = false;
+  isRolesActivated = false;
 
-    fragmentSubscription: any;
+  fragmentSubscription: any;
 
-    readonly profileTab = "profile";
-    readonly preferencesTab = "preferences";
-    readonly usersTab = "users";
-    readonly rolesTab = "roles";
-
-    
-    @ViewChild("tab")
-    tab: BootstrapTabDirective;
+  readonly profileTab = "profile";
+  readonly preferencesTab = "preferences";
+  readonly usersTab = "users";
+  readonly rolesTab = "roles";
 
 
-    constructor(private route: ActivatedRoute, private accountService: AccountService) {
-    }
+  @ViewChild("tab")
+  tab: BootstrapTabDirective;
 
 
-    ngOnInit() {
-        this.fragmentSubscription = this.route.fragment.subscribe(anchor => this.showContent(anchor));
-    }
+  constructor(private route: ActivatedRoute, private accountService: AccountService) {
+  }
 
 
-    ngOnDestroy() {
-        this.fragmentSubscription.unsubscribe();
-    }
-
-    showContent(anchor: string) {
-        if ((this.isFragmentEquals(anchor, this.usersTab) && !this.canViewUsers) ||
-            (this.isFragmentEquals(anchor, this.rolesTab) && !this.canViewRoles))
-            return;
-
-        this.tab.show(`#${anchor || this.profileTab}Tab`);
-    }
+  ngOnInit() {
+    this.fragmentSubscription = this.route.fragment.subscribe(anchor => this.showContent(anchor));
+  }
 
 
-    isFragmentEquals(fragment1: string, fragment2: string) {
+  ngOnDestroy() {
+    this.fragmentSubscription.unsubscribe();
+  }
 
-        if (fragment1 == null)
-            fragment1 = "";
+  showContent(anchor: string) {
+    if ((this.isFragmentEquals(anchor, this.usersTab) && !this.canViewUsers) ||
+      (this.isFragmentEquals(anchor, this.rolesTab) && !this.canViewRoles))
+      return;
 
-        if (fragment2 == null)
-            fragment2 = "";
-
-        return fragment1.toLowerCase() == fragment2.toLowerCase();
-    }
-
-
-    onShowTab(event) {
-        let activeTab = event.target.hash.split("#", 2).pop();
-
-        this.isProfileActivated = activeTab == this.profileTab;
-        this.isPreferencesActivated = activeTab == this.preferencesTab;
-        this.isUsersActivated = activeTab == this.usersTab;
-        this.isRolesActivated = activeTab == this.rolesTab;
-    }
+    this.tab.show(`#${anchor || this.profileTab}Tab`);
+  }
 
 
-    get canViewUsers() {
-        return this.accountService.userHasPermission(Permission.viewUsersPermission);
-    }
+  isFragmentEquals(fragment1: string, fragment2: string) {
 
-    get canViewRoles() {
-        return this.accountService.userHasPermission(Permission.viewRolesPermission);
-    }
+    if (fragment1 == null)
+      fragment1 = "";
+
+    if (fragment2 == null)
+      fragment2 = "";
+
+    return fragment1.toLowerCase() == fragment2.toLowerCase();
+  }
+
+
+  onShowTab(event) {
+    let activeTab = event.target.hash.split("#", 2).pop();
+
+    this.isProfileActivated = activeTab == this.profileTab;
+    this.isPreferencesActivated = activeTab == this.preferencesTab;
+    this.isUsersActivated = activeTab == this.usersTab;
+    this.isRolesActivated = activeTab == this.rolesTab;
+  }
+
+
+  get canViewUsers() {
+    return this.accountService.userHasPermission(Permission.viewUsersPermission);
+  }
+
+  get canViewRoles() {
+    return this.accountService.userHasPermission(Permission.viewRolesPermission);
+  }
 }

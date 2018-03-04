@@ -1,4 +1,4 @@
-﻿// ======================================
+// ======================================
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2018 www.ebenmonney.com
@@ -11,10 +11,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/fromEvent';
 
-import * as $ from 'jquery';
-import 'bootstrap-toggle/js/bootstrap-toggle';
-
-
+declare var $: any;
 
 @Directive({
     selector: '[bootstrapToggle]',
@@ -34,7 +31,7 @@ export class BootstrapToggleDirective implements OnInit, OnDestroy {
 
 
     constructor(private el: ElementRef) {
-        this.checkedSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'change')
+        this.checkedSubscription = Observable.fromEvent($(this.el.nativeElement), 'change')
             .subscribe((e: any) => this.ngModelChange.emit(e.target.checked));
     }
 
@@ -52,36 +49,36 @@ export class BootstrapToggleDirective implements OnInit, OnDestroy {
 
 
     initialize(options?: any) {
-        (<any>$(this.el.nativeElement)).bootstrapToggle(options);
+        $(this.el.nativeElement).bootstrapToggle(options);
     }
 
     destroy() {
         if (this.checkedSubscription)
             this.checkedSubscription.unsubscribe();
 
-        (<any>$(this.el.nativeElement)).bootstrapToggle('destroy');
+        $(this.el.nativeElement).bootstrapToggle('destroy');
     }
 
     toggleOn() {
-        (<any>$(this.el.nativeElement)).bootstrapToggle('on');
+        $(this.el.nativeElement).bootstrapToggle('on');
     }
 
     toggleOff() {
-        (<any>$(this.el.nativeElement)).bootstrapToggle('off');
+        $(this.el.nativeElement).bootstrapToggle('off');
     }
 
     toggle(value?: boolean) {
         if (value == null)
-            (<any>$(this.el.nativeElement)).bootstrapToggle('toggle');
+            $(this.el.nativeElement).bootstrapToggle('toggle');
         else
             $(this.el.nativeElement).prop('checked', value).change();
     }
 
     enable() {
-        (<any>$(this.el.nativeElement)).bootstrapToggle('enable');
+        $(this.el.nativeElement).bootstrapToggle('enable');
     }
 
     disable() {
-        (<any>$(this.el.nativeElement)).bootstrapToggle('disable');
+        $(this.el.nativeElement).bootstrapToggle('disable');
     }
 }

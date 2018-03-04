@@ -1,6 +1,13 @@
+// ======================================
+// Author: Ebenezer Monney
+// Email:  info@ebenmonney.com
+// Copyright (c) 2018 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
+// ======================================
+
 export const environment = {
-  production: true,
-  baseUrl: "http://quickapp.ebenmonney.com", //Change this to the address of your backend API
-  tokenUrl: null, //For IdentityServer/Authorization Server API. You can set to null if same as baseUrl
-  loginUrl: "/Login"
+    production: true,
+    baseUrl: null, //Change this to the address of your backend API if different from frontend address
+    loginUrl: "/Login"
 };

@@ -1,4 +1,4 @@
-﻿// ======================================
+// ======================================
 // Author: Ebenezer Monney
 // Email:  info@ebenmonney.com
 // Copyright (c) 2018 www.ebenmonney.com
@@ -10,8 +10,8 @@ import { Directive, ElementRef, Output, EventEmitter, OnDestroy, NgZone } from '
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/observable/fromEvent';
-import * as $ from 'jquery';
 
+declare var $: any;
 
 type eventArg = { type: string, target: Element, relatedTarget: Element };
 
@@ -34,13 +34,13 @@ export class BootstrapTabDirective implements OnDestroy {
 
     constructor(private el: ElementRef, private zone: NgZone) {
 
-        this.tabShownSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'show.bs.tab')
-            .subscribe((e: JQueryEventObject) => {
+        this.tabShownSubscription = Observable.fromEvent($(this.el.nativeElement), 'show.bs.tab')
+            .subscribe((e: any) => {
                 this.runInZone(() => this.showBSTab.emit({ type: e.type, target: e.target, relatedTarget: e.relatedTarget }));
             });
 
-        this.tabHiddenSubscription = Observable.fromEvent(<any>$(this.el.nativeElement), 'hidden.bs.tab')
-            .subscribe((e: JQueryEventObject) => {
+        this.tabHiddenSubscription = Observable.fromEvent($(this.el.nativeElement), 'hidden.bs.tab')
+            .subscribe((e: any) => {
                 this.runInZone(() => this.hideBSTab.emit({ type: e.type, target: e.target, relatedTarget: e.relatedTarget }));
             });
     }
@@ -60,6 +60,6 @@ export class BootstrapTabDirective implements OnDestroy {
 
 
     show(selector: string) {
-        (<any>$(selector)).tab('show');
+        $(selector).tab('show');
     }
 }

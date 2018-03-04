@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'app/assets/styles/styles-vendor.css';
+@import 'app/assets/styles/vertical-tabs.css';
 @import 'app/assets/styles/ngx-datatable.css';
 
 

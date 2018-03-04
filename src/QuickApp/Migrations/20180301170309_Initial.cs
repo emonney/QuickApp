@@ -122,8 +122,11 @@ namespace QuickApp.Migrations
                     ClientId = table.Column<string>(nullable: false),
                     ClientSecret = table.Column<string>(nullable: true),
                     ConcurrencyToken = table.Column<string>(nullable: true),
+                    ConsentType = table.Column<string>(nullable: true),
                     DisplayName = table.Column<string>(nullable: true),
+                    Permissions = table.Column<string>(nullable: true),
                     PostLogoutRedirectUris = table.Column<string>(nullable: true),
+                    Properties = table.Column<string>(nullable: true),
                     RedirectUris = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: false)
                 },
@@ -139,7 +142,10 @@ namespace QuickApp.Migrations
                     Id = table.Column<string>(nullable: false),
                     ConcurrencyToken = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false)
+                    DisplayName = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: false),
+                    Properties = table.Column<string>(nullable: true),
+                    Resources = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -333,6 +339,7 @@ namespace QuickApp.Migrations
                     Id = table.Column<string>(nullable: false),
                     ApplicationId = table.Column<string>(nullable: true),
                     ConcurrencyToken = table.Column<string>(nullable: true),
+                    Properties = table.Column<string>(nullable: true),
                     Scopes = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: false),
                     Subject = table.Column<string>(nullable: false),
@@ -393,6 +400,7 @@ namespace QuickApp.Migrations
                     CreationDate = table.Column<DateTimeOffset>(nullable: true),
                     ExpirationDate = table.Column<DateTimeOffset>(nullable: true),
                     Payload = table.Column<string>(nullable: true),
+                    Properties = table.Column<string>(nullable: true),
                     ReferenceId = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     Subject = table.Column<string>(nullable: false),
@@ -504,6 +512,12 @@ namespace QuickApp.Migrations
                 name: "IX_OpenIddictAuthorizations_ApplicationId",
                 table: "OpenIddictAuthorizations",
                 column: "ApplicationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OpenIddictScopes_Name",
+                table: "OpenIddictScopes",
+                column: "Name",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictTokens_ApplicationId",

@@ -22,7 +22,11 @@
         "styles.css"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.min.js"
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.js",
+        "../node_modules/bootstrap-toggle/js/bootstrap-toggle.js",
+        "../node_modules/bootstrap-select/dist/js/bootstrap-select.js",
+        "../node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
