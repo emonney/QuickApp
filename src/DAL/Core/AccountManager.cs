@@ -1,14 +1,17 @@
-﻿// ======================================
-// Author: Ebenezer Monney
-// Email:  info@ebenmonney.com
-// Copyright (c) 2017 www.ebenmonney.com
-// 
-// ==> Gun4Hire: contact@ebenmonney.com
-// ======================================
+﻿// ====================================================
+// More Templates: https://www.ebenmonney.com/templates
+// Email: support@ebenmonney.com
+// ====================================================
+
+// ==> Get QuickApp PREMIUM TEMPLATES
+// ==> https://www.ebenmonney.com/shop
+// ====================================
 
 using DAL;
 using DAL.Core.Interfaces;
 using DAL.Models;
+using AspNet.Security.OpenIdConnect.Primitives;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,9 +31,14 @@ namespace DAL.Core
         private readonly RoleManager<ApplicationRole> _roleManager;
 
 
-        public AccountManager(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        public AccountManager(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<ApplicationRole> roleManager,
+            IHttpContextAccessor httpAccessor)
         {
             _context = context;
+            _context.CurrentUserId = httpAccessor.HttpContext?.User.FindFirst(OpenIdConnectConstants.Claims.Subject)?.Value?.Trim();
             _userManager = userManager;
             _roleManager = roleManager;
         }

@@ -1,0 +1,176 @@
+.contact-us h4 {
+    margin-top: 22px;
+    margin-bottom: 13px;
+}
+
+.our-values {
+    background-color: #f6f6f6;
+    padding-top: 200px;
+}
+
+.logo {
+    font-size: 200px;
+}
+
+
+.wrapper {
+    padding: 0 50px;
+    max-width: 1200px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+}
+
+
+.parent-container {
+    float: left;
+    width: 45%;
+    margin: 20px;
+}
+
+
+/* Image zoom on hover + Overlay colour */
+.parent {
+    width: 100%;
+    margin: 0;
+    height: 300px;
+    border: 1px solid #b0b1e5;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.child {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+
+/* Several different images */
+.bg-one {
+    background-image: url(../../assets/images/demo/quickapp-pro.png);
+}
+
+.bg-two {
+    background-image: url('../../assets/images/demo/quickapp-standard.png');
+}
+
+
+.showcase {
+    margin-bottom: -200px;
+}
+
+
+    .showcase a {
+        display: none;
+        font-size: 35px;
+        color: #ffffff !important;
+        text-align: center;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 50px;
+        cursor: pointer;
+        /*text-decoration: none;*/
+    }
+
+.parent:hover .child, .parent:focus .child {
+    -ms-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+    .parent:hover .child:before, .parent:focus .child:before {
+        display: block;
+    }
+
+.parent:hover a, .parent:focus a {
+    display: block;
+}
+
+.child:before {
+    content: "";
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(52,73,94,0.75);
+}
+
+
+
+
+.more-templates {
+    display: block;
+    color: #17a2b8;
+    background-color: transparent;
+    background-image: none;
+    border-color: #17a2b8;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+    .more-templates:not(:disabled):not(.disabled).active:focus {
+        box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.5);
+    }
+
+    .more-templates:focus, .more-templates.focus {
+        box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.5);
+    }
+
+    .more-templates:not(:disabled):not(.disabled):active, .more-templates:not(:disabled):not(.disabled).active {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+    .more-templates:hover {
+        color: #fff;
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+    }
+
+
+
+
+
+@media screen and (max-width: 768px) {
+    .col-sm-4 {
+        text-align: center;
+        margin: 25px 0;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .parent-container {
+        width: 100%;
+        margin: 20px 0px
+    }
+
+    .wrapper {
+        padding: 0 20px;
+    }
+
+    .showcase {
+        margin-bottom: 0;
+    }
+
+    .our-values {
+        padding-top: 0;
+    }
+}

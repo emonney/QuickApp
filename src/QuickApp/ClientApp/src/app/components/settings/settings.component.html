@@ -1,0 +1,59 @@
+<div class="container">
+  <header class="pageHeader">
+    <h3><i class="fa fa-cog fa-lg page-caption" aria-hidden="true"></i> {{'pageHeader.Settings' | translate}}</h3>
+  </header>
+
+  <div [@fadeInOut] class="row">
+    <div class="col-sm-2 side-menu">
+      <ul bootstrapTab #tab="bootstrap-tab" class="nav nav-tabs tabs-left" (showBSTab)="onShowTab($event)">
+        <li class="active">
+          <a id="profileTab" [routerLink]="[]" fragment="profile" href="#profile" data-toggle="tab"><i class="fa fa-user-circle-o fa-fw" aria-hidden="true"></i> {{'settings.tab.Profile' | translate}}</a>
+        </li>
+        <li>
+          <a id="preferencesTab" [routerLink]="[]" fragment="preferences" href="#preferences" data-toggle="tab"><i class="fa fa-sliders fa-fw" aria-hidden="true"></i> {{'settings.tab.Preferences' | translate}}</a>
+        </li>
+        <li [hidden]="!canViewUsers">
+          <a id="usersTab" [routerLink]="[]" fragment="users" href="#users" data-toggle="tab"><i class="fa fa-users fa-fw" aria-hidden="true"></i> {{'settings.tab.Users' | translate}}</a>
+        </li>
+        <li [hidden]="!canViewRoles">
+          <a id="rolesTab" [routerLink]="[]" fragment="roles" href="#roles" data-toggle="tab"><i class="fa fa-shield fa-fw" aria-hidden="true"></i> {{'settings.tab.Roles' | translate}}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-10">
+      <div class="tab-content">
+        <div class="tab-pane active" id="profile">
+          <h4>{{'settings.header.UserProfile' | translate}}</h4>
+          <hr class="separator-hr" />
+          <div [@fadeInOut] *ngIf="isProfileActivated" class="content-container">
+            <user-info></user-info>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="preferences">
+          <h4>{{'settings.header.UserPreferences' | translate}}</h4>
+          <hr class="separator-hr" />
+          <div [@fadeInOut] *ngIf="isPreferencesActivated" class="content-container">
+            <user-preferences></user-preferences>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="users">
+          <h4>{{'settings.header.UsersManagements' | translate}}</h4>
+          <hr class="separator-hr" />
+          <div [@fadeInOut] *ngIf="canViewUsers && isUsersActivated" class="content-container">
+            <users-management></users-management>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="roles">
+          <h4>{{'settings.header.RolesManagement' | translate}}</h4>
+          <hr class="separator-hr" />
+          <div [@fadeInOut] *ngIf="canViewRoles && isRolesActivated" class="content-container">
+            <roles-management></roles-management>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

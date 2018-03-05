@@ -1,0 +1,125 @@
+<div>
+    <div class="row control-box">
+        <div class="col-sm-8">
+            <div class="form-group search-box">
+                <search-box (searchChange)="onSearchChanged($event)" placeholder="{{'todoDemo.management.Search' | translate}}"></search-box>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="navbar action-box">
+                <ul class="nav navbar-nav">
+                    <li [class.active]="hideCompletedTasks" class="toolbaritem"><a href="javascript:;" (click)="hideCompletedTasks = !hideCompletedTasks"><i class="fa fa-eye-slash"></i> {{'todoDemo.management.HideCompleted' | translate}}</a></li>
+                    <li class="toolbaritem"><a href="javascript:;" (click)="addTask()"><i class="fa fa-plus"></i> {{'todoDemo.management.AddTask' | translate}}</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <ngx-datatable class="material colored-header sm table-hover"
+                   [loadingIndicator]="loadingIndicator"
+                   [rows]="rows"
+                   [rowHeight]="35"
+                   [headerHeight]="35"
+                   [footerHeight]="35"
+                   [columns]="columns"
+                   [scrollbarV]="verticalScrollbar"
+                   [columnMode]="'force'">
+    </ngx-datatable>
+
+    <ng-template #statusHeaderTemplate>
+        <i class="fa fa-check-square-o"></i>
+    </ng-template>
+
+    <ng-template #statusTemplate let-row="row" let-value="value">
+        <div class="checkbox">
+            <label>
+                <input attr.name="checkboxes-{{value}}" type="checkbox" [(ngModel)]="row.completed">
+            </label>
+        </div>
+    </ng-template>
+
+    <ng-template #nameTemplate let-row="row" let-value="value">
+        <span *ngIf="!editing[row.$$index + '-name']" class="inline-label" [class.completed]="row.completed" attr.title="Double click to edit - {{value}}" (dblclick)="editing[row.$$index + '-name'] = true">
+            {{value}}
+        </span>
+        <input *ngIf="editing[row.$$index + '-name']" class="inline-editor" autofocus (blur)="updateValue($event, 'name', value, row)" type="text" [value]="value" />
+    </ng-template>
+
+    <ng-template #descriptionTemplate let-row="row" let-value="value">
+        <span *ngIf="!editing[row.$$index + '-description']" class="inline-label" [class.completed]="row.completed" attr.title="Double click to edit - {{value}}" (dblclick)="editing[row.$$index + '-description'] = true">
+            {{value}}
+        </span>
+        <input *ngIf="editing[row.$$index + '-description']" class="inline-editor" autofocus (blur)="updateValue($event, 'description', value, row)" type="text" [value]="value" />
+    </ng-template>
+
+
+    <ng-template #actionsTemplate let-row="row">
+        <a class="btn btn-link btn-xs" href="javascript:;" tooltip="{{'todoDemo.management.Delete' | translate}}" container="body" (click)="delete(row)"><i class="fa fa-times"></i></a>
+        <a class="btn btn-link btn-xs" href="javascript:;" tooltip="{{'todoDemo.management.Important' | translate}}" container="body" (click)="row.important = !row.important" (mouseover)="row.isMouseOver=true" (mouseout)="row.isMouseOver=false">
+            <i *ngIf="row.important || row.isMouseOver" class="fa fa-bookmark"></i>
+            <i *ngIf="!row.important && !row.isMouseOver" class="fa fa-bookmark-o"></i>
+        </a>
+    </ng-template>
+
+
+
+
+
+    <div class="modal fade" bsModal #editorModal="bs-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title pull-left"><i class="fa fa-tasks"></i> {{'todoDemo.editor.NewTask' | translate}}</h4>
+                    <button type="button" class="close pull-right" title="Close" (click)="editorModal.hide()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form *ngIf="formResetToggle" class="form-horizontal" name="taskEditorForm" #f="ngForm" novalidate
+                          (ngSubmit)="f.form.valid ? save() :
+                      (!taskName.valid && showErrorAlert('Task name is required', 'Please enter a name for the task'));">
+
+
+                        <div class="form-group has-feedback">
+                            <label class="control-label col-md-2" for="taskName">{{'todoDemo.editor.Name' | translate}}:</label>
+                            <div class="col-md-10" [ngClass]="{'has-success': f.submitted && taskName.valid, 'has-error' : f.submitted && !taskName.valid}">
+                                <input autofocus type="text" id="taskName" name="taskName" placeholder="Enter task name" class="form-control" [(ngModel)]="taskEdit.name" #taskName="ngModel" required />
+                                <span *ngIf="f.submitted" class="glyphicon form-control-feedback" [ngClass]="{'glyphicon-ok ':taskName.valid, 'glyphicon-remove' : !taskName.valid}"></span>
+                                <span *ngIf="f.submitted && !taskName.valid" class="errorMessage">
+                                    {{'todoDemo.editor.TaskNameRequired' | translate}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group description-form-group">
+                            <label class="control-label col-md-2" for="taskDescription">{{'todoDemo.editor.Description' | translate}}:</label>
+                            <div class="col-md-10">
+                                <input type="text" id="taskDescription" name="taskDescription" placeholder="Enter task description" class="form-control" [(ngModel)]="taskEdit.description" />
+                            </div>
+                        </div>
+                        <label class="control-label col-md-2"> </label>
+                        <div class="col-md-7">
+                            <div class="checkbox">
+                                <label>
+                                    <input name="isImportant" type="checkbox" [(ngModel)]="taskEdit.important">
+                                    {{'todoDemo.editor.Important' | translate}}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr class="edit-last-separator-hr" />
+                        </div>
+
+
+                        <div class="form-group actionBtn-form-group">
+                            <div class="pull-right">
+                                <button type="submit" class="btn btn-primary">{{'todoDemo.editor.AddTask' | translate}}</button>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

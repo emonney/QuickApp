@@ -1,0 +1,90 @@
+<div>
+    <form *ngIf="formResetToggle" class="form-horizontal" name="roleEditorForm" #f="ngForm" novalidate
+          (ngSubmit)="f.form.valid ? save() :
+          (!roleName.valid && showErrorAlert('Role name is required', 'Please enter a role name (minimum of 2 and maximum of 200 characters)'));">
+
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group has-feedback">
+                    <label class="control-label col-md-2" for="roleName">{{'roles.editor.Name' | translate}}</label>
+                    <div class="col-md-10" [ngClass]="{'has-success': f.submitted && roleName.valid, 'has-error' : f.submitted && !roleName.valid}">
+                        <input [disabled]="!canManageRoles" type="text" id="roleName" name="roleName" placeholder="Enter role name" class="form-control" [(ngModel)]="roleEdit.name" #roleName="ngModel" required minlength="2" maxlength="200" />
+                        <span *ngIf="showValidationErrors && f.submitted" class="glyphicon form-control-feedback" [ngClass]="{'glyphicon-ok ': roleName.valid, 'glyphicon-remove' : !roleName.valid}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-8">
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="roleDescription">{{'roles.editor.Description' | translate}}</label>
+                    <div class="col-md-10">
+                        <input [disabled]="!canManageRoles" type="text" id="roleDescription" name="roleDescription" placeholder="Enter role description" class="form-control" [(ngModel)]="roleEdit.description" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <span *ngIf="showValidationErrors && f.submitted && !roleName.valid" class="errorMessage roleErrorMessage">
+                    {{'roles.editor.RoleNameRequired' | translate}}
+                </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <hr class="edit-separator-hr" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="row well well-sm permissionsRow">
+
+                <ng-template ngFor let-permissionGroup [ngForOf]="allPermissions | groupBy: 'groupName'" let-i="index">
+                    <div class="form-group col-sm-6 permissionsColumn">
+                        <label class="col-md-5 control-label" for="checkboxes" (click)="toggleGroup(permissionGroup.key)">{{permissionGroup.key}}</label>
+                        <div class="col-md-7">
+                            <div class="checkbox" *ngFor="let permission of permissionGroup.value">
+                                <label tooltip="{{permission.description}}" for="checkboxes-{{permission.value}}">
+                                    <input [disabled]="!canManageRoles" name="checkboxes-{{permission.value}}" id="checkboxes-{{permission.value}}" type="checkbox" [(ngModel)]="selectedValues[permission.value]">
+                                    {{permission.name}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="(i + 1) % 2 === 0" class="clearfix"></div>
+                </ng-template>
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <hr class="edit-last-separator-hr" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-5">
+                <div *ngIf="canManageRoles" class="pull-left">
+                    <a (click)="selectAll()" href="javascript:;" class="btn btn-link">{{'roles.editor.SelectAll' | translate}}</a>|<a (click)="selectNone()" href="javascript:;" class="btn btn-link">{{'roles.editor.SelectNone' | translate}}</a>
+                </div>
+            </div>
+
+            <div class="col-sm-7">
+                <div class="pull-right">
+                    <button *ngIf="!canManageRoles" type="button" (click)="cancel()" class="btn btn-default">{{'roles.editor.Close' | translate}}</button>
+                    <button *ngIf="canManageRoles" type="button" (click)="cancel()" class="btn btn-danger" [disabled]="isSaving"><i class='fa fa-times'></i> {{'roles.editor.Cancel' | translate}}</button>
+                    <button *ngIf="canManageRoles" type="submit" class="btn btn-primary" [disabled]="isSaving">
+                        <i *ngIf="!isSaving" class='fa fa-save'></i><i *ngIf="isSaving" class='fa fa-circle-o-notch fa-spin'></i> {{isSaving ? ('roles.editor.Saving' | translate) : ('roles.editor.Save' | translate)}}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </form>
+</div>

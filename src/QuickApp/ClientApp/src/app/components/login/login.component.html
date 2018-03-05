@@ -1,0 +1,61 @@
+<div class="vertical-center-flex">
+    <div class="login-container center-block">
+        <div class="panel panel-primary boxshadow">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-lock"></span> Login
+                <button *ngIf="isModal" type="button" class="close pull-right" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-8 col-md-offset-2">
+                    <form *ngIf="formResetToggle" class="form-horizontal login" name="loginForm" #f="ngForm" novalidate
+                          (ngSubmit)="f.form.valid ? login() :
+                          (!email.valid && showErrorAlert('Email is required', 'Please enter a valid email'));
+                          (!password.valid && showErrorAlert('Password is required', 'Please enter a valid password'))">
+                        <div class="form-group has-feedback">
+                            <label class="control-label col-md-2" for="login-email">Email:</label>
+                            <div class="col-md-10" [ngClass]="{'has-success': f.submitted && email.valid, 'has-error' : f.submitted && !email.valid}">
+                                <input type="text" id="login-email" name="email" placeholder="Enter email or username" class="form-control" [(ngModel)]="userLogin.email" #email="ngModel" required />
+                                <span *ngIf="f.submitted" class="glyphicon form-control-feedback" [ngClass]="{'glyphicon-ok ': email.valid, 'glyphicon-remove' : !email.valid}" aria-hidden="true"></span>
+                                <span class="errorMessage" *ngIf="f.submitted && !email.valid">
+                                    Email is required
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label class="control-label col-md-2" for="login-password">Password:</label>
+                            <div class="col-md-10" [ngClass]="{'has-success': f.submitted && password.valid, 'has-error' : f.submitted && !password.valid}">
+                                <input type="password" id="login-password" name="password" placeholder="Enter password" class="form-control" [(ngModel)]="userLogin.password" #password="ngModel" required />
+                                <span *ngIf="f.submitted" class="glyphicon form-control-feedback" [ngClass]="{'glyphicon-ok ': password.valid, 'glyphicon-remove' : !password.valid}" aria-hidden="true"></span>
+                                <span class="errorMessage" *ngIf="f.submitted && !password.valid">
+                                    Password is required
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="rememberMe" [(ngModel)]="userLogin.rememberMe"> Remember me</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="submit" class="btn btn-primary" [disabled]="isLoading"><i *ngIf="isLoading" class='fa fa-circle-o-notch fa-spin'></i> {{isLoading ? 'Loggin in...' : 'Login'}}</button>
+                            </div>
+                        </div>
+
+                        <!--<div *ngIf="!isModal" class="col-md-12">
+                            <hr class="separator-hr" />
+                        </div>
+
+                        <div *ngIf="!isModal" class="col-md-12 last-control-group">
+                            <span>Don't have an account?</span><a href="javascript:;" class="btn btn-link" (click)="signUp()">Sign Up</a>
+                        </div>-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

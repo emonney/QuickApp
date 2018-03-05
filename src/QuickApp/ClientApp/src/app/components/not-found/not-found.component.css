@@ -1,0 +1,12 @@
+.vertical-center-flex {
+    min-height: 60vh;
+}
+
+.icon-container {
+    font-size: 5em;
+}
+
+.error-description {
+    font-size: 1.5em;
+    padding-bottom: 10px;
+}

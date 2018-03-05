@@ -1,0 +1,42 @@
+
+.separator-hr {
+    margin: 7px 5px;
+    border-top-style: dashed;
+}
+
+.subseparator-hr {
+    margin: 7px 5px;
+    border-top-style: none;
+}
+
+.last-separator-hr {
+    margin-top: 7px;
+}
+
+.form-group {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.form-control-static {
+    min-height: 0;
+}
+
+.form-horizontal .checkbox {
+    padding-top: 0;
+}
+
+.col-reset-default {
+    padding-right: 0;
+}
+
+.col-set-default {
+    padding-left: 5px;
+}
+
+
+@media (min-width: 768px) {
+    .form-horizontal .control-label {
+        padding-top: 5px;
+    }
+}

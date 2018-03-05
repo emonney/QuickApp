@@ -10,9 +10,25 @@ As well as other common functionalities for **Quick Application Development**.
 
 For the older asp.net core 1.x version: [Download](https://github.com/emonney/QuickApp-VSIX/releases/tag/v1.5")
 
-[live demo](http://quickapp.ebenmonney.com) / [downloadable demo](https://github.com/emonney/tempa/raw/master/QuickApp-PublishOutput.zip)
-
+[LIVE DEMO](http://quickapp.ebenmonney.com) | [MORE TEMPLATES](https://www.ebenmonney.com/templates)
 [![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
+
+___
+## INTRODUCING QUICKAPP PREMIUM TEMPLATES
+*   All free features
+*   IdentityServer4
+*   Angular CLI
+*   Angular Material
+*   Bootstrap4
+*   Priority Email Support
+*   Etc
+
+[Get QuickApp PRO](https://www.ebenmonney.com/product/quickapp-pro) | [Live Demo](http://quickapp-pro.ebenmonney.com/)
+
+[Get QuickApp STANDARD](https://www.ebenmonney.com/product/quickapp-standard) | [Live Demo](http://quickapp-standard.ebenmonney.com/)
+___
+
+
 
 ## This application consists of:
 
