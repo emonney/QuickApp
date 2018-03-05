@@ -1,5 +1,5 @@
 # **QuickApp** - ASPNET Core 2.0 / Angular 5 startup project template
-[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
+[![MIT license](https://cdn.rawgit.com/emonney/tempa/7e9d69ad/MITLicense.png)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 
 A startup **Angular 5 / ASP.NET Core 2.0** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
 As well as other common functionalities for **Quick Application Development**.
@@ -37,8 +37,8 @@ ___
 *   Database using Entity Framework Core
 *   Authentication based on OpenID Connect
 *   API Documentation using Swagger
-*   [Webpack3](https://webpack.js.org) for managing client-side libraries
-*   Theming using [Bootstrap](https://go.microsoft.com/fwlink/?LinkID=398939)
+*   Angular CLI for managing client-side libraries
+*   Theming using Bootstrap
 
 ## You get the benefits of:
 
@@ -58,6 +58,8 @@ ___
 *   Handling Access and Refresh Tokens with WebStorage (Bearer authentication) - No Cookies
 *   Jquery Integration (Ability to use standard Jquery libraries)
 *   CRUD APIs
+*   Responsive Design
+*   Etc.
 
 
 ## Installation
@@ -79,9 +81,8 @@ ___
 *   If you get any other errors, consider running manually the steps to build the project and note where the errors occur.  
     Open command prompt and do the below steps:  
     1. run 'dotnet restore' from the two project folders - Restore nuget packages  
-    2. run 'npm install' from the project with package.json - Restore npm packages  
-    3. run 'npm run dev-build' from the project with package.json - Build webpack vendor packages  
-    4. Try running the application again - Test to make sure it all works  
+    2. run 'npm install' from the project with "ClientApp\\package.json" - Restore npm packages  
+    3. Try running the application again - Test to make sure it all works  
     
     *When I say "run from the project folder" I mean run the commands on the command line from those folders  
     If any step fails, post the error details on the [support forum](https://www.ebenmonney.com/forum/?view=forum&id=14) for the needed assistance.
@@ -105,9 +106,10 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 
 *   [Overview of QuickApp](https://www.ebenmonney.com/quickapp)
 *   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
-*   [Angular5 documentation overview](http://angular.io/docs/ts/latest/guide)
-*   [Working with Data](https://go.microsoft.com/fwlink/?LinkId=398602)
-*   [An introduction to webpack](https://webpack.js.org/guides/get-started/)
+*   [Working with Data](https://docs.microsoft.com/en-us/ef/#pivot=efcore)
+*   [Angular 5 documentation overview](https://angular.io/guide/quickstart)
+*   [Getting started with Angular CLI](https://cli.angular.io)
+*   [Introduction to Bootstrap 3](https://getbootstrap.com/docs/3.3/getting-started)
 
 
 ## Contribution
