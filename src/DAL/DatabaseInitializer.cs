@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Core;
+using DAL.Core.Permissions;
 using DAL.Core.Interfaces;
 
 namespace DAL
@@ -52,7 +53,8 @@ namespace DAL
                 const string adminRoleName = "administrator";
                 const string userRoleName = "user";
 
-                await EnsureRoleAsync(adminRoleName, "Default administrator", ApplicationPermissions.GetAllPermissionValues());
+                await EnsureRoleAsync(adminRoleName, "Default administrator", 
+                  ApplicationPermissions.GetAllPermissionValues());
                 await EnsureRoleAsync(userRoleName, "Default user", new string[] { });
 
                 await CreateUserAsync("admin", "tempP@ss123", "Inbuilt Administrator", "admin@ebenmonney.com", "+1 (123) 000-0000", new string[] { adminRoleName });

@@ -17,7 +17,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Core;
+using DAL.Core.Permissions;
 
 namespace DAL.Core
 {
@@ -28,7 +28,8 @@ namespace DAL.Core
         private readonly RoleManager<ApplicationRole> _roleManager;
 
 
-        public AccountManager(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        public AccountManager(ApplicationDbContext context,
+          UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             _context = context;
             _userManager = userManager;

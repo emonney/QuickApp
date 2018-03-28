@@ -31,7 +31,7 @@ using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OAuth.Validation;
 using Microsoft.AspNetCore.Identity;
 using Swashbuckle.AspNetCore.Swagger;
-using AppPermissions = DAL.Core.ApplicationPermissions;
+using AppPermissions = DAL.Core.Permissions.ApplicationPermissions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 

@@ -119,10 +119,9 @@ namespace DAL
                 {
                     base.Entry(entity).Property(x => x.CreatedBy).IsModified = false;
                     base.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
+                    entity.UpdatedDate = now;
+                    entity.UpdatedBy = CurrentUserId;
                 }
-
-                entity.UpdatedDate = now;
-                entity.UpdatedBy = CurrentUserId;
             }
         }
     }

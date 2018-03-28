@@ -7,6 +7,7 @@
 // ======================================
 
 using DAL.Core;
+using DAL.Core.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using QuickApp.Helpers;
 using System.Collections.Generic;
@@ -31,7 +32,10 @@ namespace QuickApp.Authorization
 
     public class ViewUserAuthorizationHandler : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserAccountAuthorizationRequirement requirement, string targetUserId)
+        protected override Task HandleRequirementAsync(
+          AuthorizationHandlerContext context, 
+          UserAccountAuthorizationRequirement requirement, 
+          string targetUserId)
         {
             if (context.User == null || requirement.OperationName != AccountManagementOperations.ReadOperationName)
                 return Task.CompletedTask;

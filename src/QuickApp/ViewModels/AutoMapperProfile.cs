@@ -7,7 +7,7 @@
 // ======================================
 
 using AutoMapper;
-using DAL.Core;
+using DAL.Core.Permissions;
 using DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using System;

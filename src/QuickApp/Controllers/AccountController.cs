@@ -20,7 +20,7 @@ using DAL.Core.Interfaces;
 using QuickApp.Authorization;
 using QuickApp.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
-using DAL.Core;
+using DAL.Core.Permissions;
 
 namespace QuickApp.Controllers
 {
@@ -52,7 +52,8 @@ namespace QuickApp.Controllers
         [Produces(typeof(UserViewModel))]
         public async Task<IActionResult> GetUserById(string id)
         {
-            if (!(await _authorizationService.AuthorizeAsync(this.User, id, AccountManagementOperations.Read)).Succeeded)
+            if (!(await _authorizationService.AuthorizeAsync(
+              this.User, id, AccountManagementOperations.Read)).Succeeded)
                 return new ChallengeResult();
 
 
