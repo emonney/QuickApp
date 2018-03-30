@@ -6,68 +6,37 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
-
 namespace DAL.Core.Permissions
 {
+  using System.Collections.Generic;
+  using System.Collections.ObjectModel;
+  using System.Linq;
+
   public static class ApplicationPermissions
   {
     public static ReadOnlyCollection<ApplicationPermission> AllPermissions;
 
-    public const string UsersPermissionGroupName = "User Permissions";
-
-    public static ApplicationPermission ViewUsers =>
-      new ApplicationPermission("View Users", "users.view", UsersPermissionGroupName, 
-        "Permission to view other users account details");
-
-    public static ApplicationPermission ManageUsers =>
-      new ApplicationPermission("Manage Users", "users.manage", UsersPermissionGroupName, "Permission to create, delete and modify other users account details");
-
-    public const string RolesPermissionGroupName = "Role Permissions";
-
-    public static ApplicationPermission ViewRoles =>
-      new ApplicationPermission(
-        "View Tenant Roles", 
-        "roles.local.view", 
-        RolesPermissionGroupName, 
-        "Permission to view available roles for tenant users");
-
-    public static ApplicationPermission AssignRoles =>
-      new ApplicationPermission(
-        "Assign Tenant Roles",
-        "roles.local.assign",
-        RolesPermissionGroupName,
-        "Permission to assign roles to users managed by the tenant");
-
-    public static ApplicationPermission ManageRoles =>
-      new ApplicationPermission(
-        "Manage Roles",
-        "roles.global.manage",
-        RolesPermissionGroupName,
-        "Permission to create, delete and modify ALL roles.");
-
-
     static ApplicationPermissions()
     {
-      List<ApplicationPermission> allPermissions = new List<ApplicationPermission>()
-      {
-          ViewUsers,
-          ManageUsers,
+      var allAppPerm = new List<ApplicationPermission>();
 
-          ViewRoles,
-          ManageRoles,
-          AssignRoles,
+      allAppPerm.AddRange(OrgStructurePermissions.AllPermissions);
+      allAppPerm.AddRange(TestDataPermissions.AllPermissions);
+      allAppPerm.AddRange(UserPermissions.AllPermissions);
+      allAppPerm.AddRange(RolePermissions.AllPermissions);
 
+      AllPermissions = allAppPerm.AsReadOnly();
+    }
+
+    public static string[] GetAdministrativePermissionValues()
+    {
+      return new string[] {
+        UserPermissions.Users_GLOBAL_Manage,
+        UserPermissions.Users_GLOBAL_View,
+        RolePermissions.Roles_GLOBAL_Manage,
+        RolePermissions.Roles_GLOBAL_Assign,
+        RolePermissions.Roles_GLOBAL_View
       };
-
-      allPermissions.AddRange(TestDataPermissions.allPermissions);
-
-      AllPermissions = allPermissions.AsReadOnly();
     }
 
     public static ApplicationPermission GetPermissionByName(string permissionName)
@@ -80,14 +49,25 @@ namespace DAL.Core.Permissions
       return AllPermissions.Where(p => p.Value == permissionValue).FirstOrDefault();
     }
 
+    public static ICollection<ApplicationPermission> GetPermissionsByType(string type)
+    {
+      return AllPermissions.Where(p => p.Type == type).ToList();
+    }
+
+    public static ICollection<ApplicationPermission> GetPermissionsByScope(string scope)
+    {
+      return AllPermissions.Where(p => p.Scope == scope).ToList();
+    }
+
+    public static ICollection<ApplicationPermission> GetPermissionsByAction(string action)
+    {
+      return AllPermissions.Where(p => p.Action == action).ToList();
+    }
+
     public static string[] GetAllPermissionValues()
     {
       return AllPermissions.Select(p => p.Value).ToArray();
     }
 
-    public static string[] GetAdministrativePermissionValues()
-    {
-      return new string[] { ManageUsers, ManageRoles, AssignRoles };
-    }
   }
 }

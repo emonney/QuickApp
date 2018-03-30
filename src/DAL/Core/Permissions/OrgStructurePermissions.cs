@@ -1,37 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DAL.Core.Permissions
+﻿namespace DAL.Core.Permissions
 {
+  using System.Collections.Generic;
+  using System.Collections.ObjectModel;
+
   /// <summary>
-  /// defines permissions to submit / view test data
+  /// defines permissions to view / manage organizational structure
   /// </summary>
   class OrgStructurePermissions
   {
     public const string OrgStructurePermissionsGroupName = "Org Structure Permissions";
-    public const string GrouPrefix = "org";
 
-    public static ApplicationPermission OrgManage_Tenant =>
-        new ApplicationPermission(
-            "Manage org structure",
-            GrouPrefix + ".manage.tenant",
-            OrgStructurePermissionsGroupName,
-            "Permission to submit one's own test data");
+    public const string OrgGroupPrefix = "org_struct";
 
-    public static ApplicationPermission OrgRead_Upstream =>
+    public static ReadOnlyCollection<ApplicationPermission> AllPermissions;
+
+    static OrgStructurePermissions()
+    {
+      AllPermissions = new List<ApplicationPermission>
+      {
+        Org_TenantUpstream_Read,
+        Org_Tenant_Manage,
+        Org_Tenant_Read
+      }.AsReadOnly();
+    }
+
+    public static ApplicationPermission Org_TenantUpstream_Read =>
         new ApplicationPermission(
             "View upstream org structure",
-            GrouPrefix + ".read.upstream",
+            OrgGroupPrefix, PermScope.TenantUpstream, PermAction.Read,
             OrgStructurePermissionsGroupName,
-            "Permission to read upstream org structure");
+            "Permission to read upstream org structure within own tenant");
 
-    public static ApplicationPermission OrgRead_Tenant =>
+    public static ApplicationPermission Org_Tenant_Read =>
         new ApplicationPermission(
-            "View tenant org structure",
-            GrouPrefix + ".read.tenant",
+            "View entire tenant org structure",
+            OrgGroupPrefix, PermScope.Tenant, PermAction.Read,
             OrgStructurePermissionsGroupName,
-            "Permission to read tenant org structure");
+            "Permission to read org structure within own tenant");
 
+    public static ApplicationPermission Org_Tenant_Manage =>
+        new ApplicationPermission(
+            "Manage entire tenant org structure",
+            OrgGroupPrefix, PermScope.Tenant, PermAction.Manage,
+            OrgStructurePermissionsGroupName,
+            "Permission to manage org structure within own tenant");
   }
 }
