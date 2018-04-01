@@ -1,11 +1,11 @@
-﻿using DAL.Core;
-using DAL.Core.Permissions;
+﻿using PskOnline.DAL.Core;
+using PskOnline.DAL.Core.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickApp.Authorization
+namespace PskOnline.Service.Authorization
 {
   public class ViewRoleAuthorizationRequirement : IAuthorizationRequirement
   {

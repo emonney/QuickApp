@@ -1,23 +1,15 @@
-// ======================================
-// Author: Ebenezer Monney
-// Email:  info@ebenmonney.com
-// Copyright (c) 2017 www.ebenmonney.com
-// 
-// ==> Gun4Hire: contact@ebenmonney.com
-// ======================================
-
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
-using DAL;
+using PskOnline.DAL;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 
-namespace QuickApp
+namespace PskOnline.Service
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
@@ -33,7 +25,9 @@ namespace QuickApp
 
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-            builder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
+            builder.UseSqlServer(
+              configuration["ConnectionStrings:DefaultConnection"], 
+              b => b.MigrationsAssembly("PskOnline.Service"));
             builder.UseOpenIddict();
 
             return new ApplicationDbContext(builder.Options);

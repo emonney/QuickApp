@@ -3,7 +3,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
-namespace QuickApp.Helpers
+namespace PskOnline.Service.Helpers
 {
     public static class EmailTemplates
     {

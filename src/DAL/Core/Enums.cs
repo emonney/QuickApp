@@ -1,4 +1,4 @@
-﻿namespace DAL.Core
+﻿namespace PskOnline.DAL.Core
 {
     public enum Gender
     {

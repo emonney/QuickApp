@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using AspNet.Security.OpenIdConnect.Primitives;
 
-namespace DAL
+namespace PskOnline.DAL
 {
     public class HttpUnitOfWork : UnitOfWork
     {

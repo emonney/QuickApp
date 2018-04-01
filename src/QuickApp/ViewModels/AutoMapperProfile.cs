@@ -1,8 +1,8 @@
-﻿namespace QuickApp.ViewModels
+﻿namespace PskOnline.Service.ViewModels
 {
   using AutoMapper;
-  using DAL.Core.Permissions;
-  using DAL.Models;
+  using PskOnline.DAL.Core.Permissions;
+  using PskOnline.DAL.Models;
   using Microsoft.AspNetCore.Identity;
 
   public class AutoMapperProfile : Profile

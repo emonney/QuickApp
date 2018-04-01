@@ -1,10 +1,10 @@
-﻿namespace DAL.Repositories
+﻿namespace PskOnline.DAL.Repositories
 {
   using System;
   using System.Collections.Generic;
   using System.Linq;
-  using DAL.Models;
-  using DAL.Repositories.Interfaces;
+  using PskOnline.DAL.Models;
+  using PskOnline.DAL.Repositories.Interfaces;
 
   public class CustomerRepository : Repository<Customer>, ICustomerRepository
   {

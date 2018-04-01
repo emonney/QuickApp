@@ -8,6 +8,8 @@
     <PackageLicenseUrl>https://github.com/emonney/QuickApp/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/emonney/QuickApp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/emonney/QuickApp.git</RepositoryUrl>
+    <AssemblyName>PskOnline.DAL</AssemblyName>
+    <RootNamespace>PskOnline.DAL</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

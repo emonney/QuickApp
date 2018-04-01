@@ -1,6 +1,6 @@
-﻿namespace DAL
+﻿namespace PskOnline.DAL
 {
-  using DAL.Repositories.Interfaces;
+  using PskOnline.DAL.Repositories.Interfaces;
 
   public interface IUnitOfWork
   {

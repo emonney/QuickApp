@@ -26,7 +26,7 @@ var alertify: any = require('../assets/scripts/alertify.js');
 
 
 @Component({
-    selector: "quick-app",
+    selector: "pskonline-app",
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css', '../styles.css', '../themes.css'],
     encapsulation: ViewEncapsulation.None
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     shouldShowLoginModal: boolean;
     removePrebootScreen: boolean;
     newNotificationCount = 0;
-    appTitle = "Quick Application";
+    appTitle = "ПРЕДСМЕННЫЙ КОНТРОЛЬ ОНЛАЙН";
     appLogo = require("../assets/images/logo.png");
 
     stickyToasties: number[] = [];

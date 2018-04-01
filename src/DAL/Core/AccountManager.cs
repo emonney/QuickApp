@@ -1,6 +1,6 @@
-﻿using DAL;
-using DAL.Core.Interfaces;
-using DAL.Models;
+﻿using PskOnline.DAL;
+using PskOnline.DAL.Core.Interfaces;
+using PskOnline.DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,9 +9,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Core.Permissions;
+using PskOnline.DAL.Core.Permissions;
 
-namespace DAL.Core
+namespace PskOnline.DAL.Core
 {
   public class AccountManager : IAccountManager
   {

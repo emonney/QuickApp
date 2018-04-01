@@ -1,4 +1,4 @@
-﻿namespace DAL.Core.Roles
+﻿namespace PskOnline.DAL.Core.Roles
 {
   using System.Collections.Generic;
   using System.Collections.ObjectModel;

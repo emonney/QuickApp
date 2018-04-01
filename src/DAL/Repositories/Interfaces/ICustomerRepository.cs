@@ -1,7 +1,7 @@
-﻿using DAL.Models;
+﻿using PskOnline.DAL.Models;
 using System.Collections.Generic;
 
-namespace DAL.Repositories.Interfaces
+namespace PskOnline.DAL.Repositories.Interfaces
 {
   public interface ICustomerRepository : IRepository<Customer>
   {

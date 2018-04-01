@@ -1,4 +1,4 @@
-﻿namespace QuickApp.Controllers
+﻿namespace PskOnline.Service.Controllers
 {
   using System;
   using System.Collections.Generic;
@@ -7,7 +7,7 @@
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Identity;
-  using QuickApp.ViewModels;
+  using PskOnline.Service.ViewModels;
   using AutoMapper;
   using DAL.Models;
   using DAL.Core.Interfaces;

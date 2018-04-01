@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Core
+namespace PskOnline.DAL.Core
 {
     public static class CustomClaimTypes
     {

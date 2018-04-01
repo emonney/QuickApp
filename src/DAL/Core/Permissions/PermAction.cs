@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL.Core.Permissions
+namespace PskOnline.DAL.Core.Permissions
 {
   /// <summary>
   /// Defines actions, that are in turn used to define permissions

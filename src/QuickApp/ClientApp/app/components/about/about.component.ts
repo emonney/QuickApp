@@ -16,4 +16,11 @@ import { fadeInOut } from '../../services/animations';
     animations: [fadeInOut]
 })
 export class AboutComponent {
+  public contactEmail: string;
+  public webSite: string;
+
+  AboutComponent() {
+    this.contactEmail = "info@psk-online.ru";
+    this.webSite = "www.psk-online.ru";
+  }
 }

@@ -1,4 +1,4 @@
-﻿namespace DAL.Models
+﻿namespace PskOnline.DAL.Models
 {
   using System;
   using System.ComponentModel.DataAnnotations;

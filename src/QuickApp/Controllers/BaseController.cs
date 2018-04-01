@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace QuickApp.Controllers
+namespace PskOnline.Service.Controllers
 {
   using Microsoft.AspNetCore.Mvc;
 

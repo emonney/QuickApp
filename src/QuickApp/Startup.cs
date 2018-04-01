@@ -6,29 +6,29 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using DAL;
-using DAL.Models;
+using PskOnline.DAL;
+using PskOnline.DAL.Models;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using AutoMapper;
 using Newtonsoft.Json;
-using DAL.Core;
-using DAL.Core.Interfaces;
+using PskOnline.DAL.Core;
+using PskOnline.DAL.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using QuickApp.ViewModels;
-using QuickApp.Helpers;
-using QuickApp.Authorization;
+using PskOnline.Service.ViewModels;
+using PskOnline.Service.Helpers;
+using PskOnline.Service.Authorization;
 using AspNet.Security.OpenIdConnect.Primitives;
 using AspNet.Security.OAuth.Validation;
 using Microsoft.AspNetCore.Identity;
 using Swashbuckle.AspNetCore.Swagger;
-using AppPermissions = DAL.Core.Permissions.ApplicationPermissions;
-using DAL.Core.Permissions;
+using AppPermissions = PskOnline.DAL.Core.Permissions.ApplicationPermissions;
+using PskOnline.DAL.Core.Permissions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 
-namespace QuickApp
+namespace PskOnline.Service
 {
   public class Startup
   {
@@ -50,7 +50,7 @@ namespace QuickApp
     {
       services.AddDbContext<ApplicationDbContext>(options =>
       {
-        options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
+        options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("PskOnline.Service"));
         options.UseOpenIddict();
       });
 
@@ -140,7 +140,7 @@ namespace QuickApp
           Type = "apiKey"
         });
 
-        c.SwaggerDoc("v1", new Info { Title = "QuickApp API", Version = "v1" });
+        c.SwaggerDoc("v1", new Info { Title = "Psk.Online API", Version = "v1" });
       });
 
       services.AddAuthorization(options =>
@@ -262,7 +262,7 @@ namespace QuickApp
       app.UseSwagger();
       app.UseSwaggerUI(c =>
       {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuickApp API V1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "PskOnline API V1");
       });
 
 

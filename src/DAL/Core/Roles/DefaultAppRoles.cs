@@ -1,4 +1,4 @@
-﻿namespace DAL.Core.Roles
+﻿namespace PskOnline.DAL.Core.Roles
 {
   using DAL.Core.Permissions;
   using System.Collections.Generic;

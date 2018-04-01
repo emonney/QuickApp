@@ -1,4 +1,4 @@
-﻿namespace DAL.Core.Roles
+﻿namespace PskOnline.DAL.Core.Roles
 {
   using System.Collections.ObjectModel;
   using DAL.Core.Permissions;

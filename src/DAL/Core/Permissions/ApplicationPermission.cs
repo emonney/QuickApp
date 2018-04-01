@@ -1,4 +1,4 @@
-﻿namespace DAL.Core.Permissions
+﻿namespace PskOnline.DAL.Core.Permissions
 {
   public class ApplicationPermission
   {

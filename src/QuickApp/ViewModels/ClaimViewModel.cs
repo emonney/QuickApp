@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace QuickApp.ViewModels
+namespace PskOnline.Service.ViewModels
 {
     public class ClaimViewModel
     {

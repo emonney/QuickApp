@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL.Models.Interfaces
+namespace PskOnline.DAL.Models.Interfaces
 {
     public interface IAuditableEntity
     {

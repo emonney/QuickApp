@@ -1,4 +1,4 @@
-﻿namespace DAL.Core.Permissions
+﻿namespace PskOnline.DAL.Core.Permissions
 {
   using System.Collections.Generic;
   using System.Collections.ObjectModel;

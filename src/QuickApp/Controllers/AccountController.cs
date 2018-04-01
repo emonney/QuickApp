@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using QuickApp.ViewModels;
+using PskOnline.Service.ViewModels;
 using AutoMapper;
-using DAL.Models;
-using DAL.Core.Interfaces;
-using QuickApp.Authorization;
-using QuickApp.Helpers;
+using PskOnline.DAL.Models;
+using PskOnline.DAL.Core.Interfaces;
+using PskOnline.Service.Authorization;
+using PskOnline.Service.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
-using DAL.Core.Permissions;
+using PskOnline.DAL.Core.Permissions;
 
-namespace QuickApp.Controllers
+namespace PskOnline.Service.Controllers
 {
   [Authorize]
   [Route("api/account")]

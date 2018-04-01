@@ -1,4 +1,4 @@
-﻿using QuickApp.ViewModels;
+﻿using PskOnline.Service.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickApp.Helpers
+namespace PskOnline.Service.Helpers
 {
     public static class Extensions
     {

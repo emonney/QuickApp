@@ -1,4 +1,4 @@
-﻿using DAL.Models;
+﻿using PskOnline.DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -7,13 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Core;
-using DAL.Core.Permissions;
-using DAL.Core.Interfaces;
+using PskOnline.DAL.Core;
+using PskOnline.DAL.Core.Permissions;
+using PskOnline.DAL.Core.Interfaces;
 
-namespace DAL
+namespace PskOnline.DAL
 {
-  using DAL.Core.Roles;
+  using PskOnline.DAL.Core.Roles;
 
   public interface IDatabaseInitializer
   {

@@ -1,11 +1,11 @@
-﻿using DAL.Models;
+﻿using PskOnline.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Core.Interfaces
+namespace PskOnline.DAL.Core.Interfaces
 {
     public interface IAccountManager
     {

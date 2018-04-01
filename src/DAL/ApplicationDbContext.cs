@@ -1,18 +1,18 @@
-﻿using DAL.Models;
+﻿using PskOnline.DAL.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
-using DAL.Models.Interfaces;
+using PskOnline.DAL.Models.Interfaces;
 
-namespace DAL
+namespace PskOnline.DAL
 {
   /// <summary>
   /// Create initial migration via Package Manager Console:
   /// 
-  /// Add-Migration Initial -OutputDir Migrations -Context ApplicationDbContext -Project QuickApp
+  /// Add-Migration Initial -OutputDir Migrations -Context ApplicationDbContext -Project PskOnline.Service
   /// </summary>
   public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
   {

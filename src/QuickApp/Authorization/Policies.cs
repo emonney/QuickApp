@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickApp.Authorization
+namespace PskOnline.Service.Authorization
 {
     public class Policies
     {

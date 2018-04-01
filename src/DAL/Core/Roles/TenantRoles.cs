@@ -1,8 +1,8 @@
-﻿namespace DAL.Core.Roles
+﻿namespace PskOnline.DAL.Core.Roles
 {
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
-  using DAL.Core.Permissions;
+  using PskOnline.DAL.Core.Permissions;
 
   public class TenantRoles
   {

@@ -1,13 +1,13 @@
-﻿using DAL.Core;
-using DAL.Core.Permissions;
+﻿using PskOnline.DAL.Core;
+using PskOnline.DAL.Core.Permissions;
 using Microsoft.AspNetCore.Authorization;
-using QuickApp.Helpers;
+using PskOnline.Service.Helpers;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuickApp.Authorization
+namespace PskOnline.Service.Authorization
 {
   public class UserAccountAuthorizationRequirement : IAuthorizationRequirement
   {

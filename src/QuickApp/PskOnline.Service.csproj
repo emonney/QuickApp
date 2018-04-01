@@ -9,6 +9,8 @@
     <Copyright>Copyright © 2017 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://github.com/emonney/QuickApp</PackageProjectUrl>
     <Company>http://ebenmonney.com</Company>
+    <AssemblyName>PskOnline.Service</AssemblyName>
+    <RootNamespace>PskOnline.Service</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,10 +24,6 @@
     <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc2-0783" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DAL\DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -78,5 +76,14 @@
     <Content Include="ClientApp\app\assets\locale\fr.json" />
     <Content Include="ClientApp\app\assets\locale\pt.json" />
     <Content Include="ClientApp\app\assets\locale\ru.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DAL\PskOnline.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Logs\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

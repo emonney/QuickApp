@@ -1,4 +1,4 @@
-﻿namespace DAL.Models
+﻿namespace PskOnline.DAL.Models
 {
   using System;
   using System.Collections.Generic;
@@ -6,7 +6,7 @@
   using System.Text;
   using System.Threading.Tasks;
   using Microsoft.AspNetCore.Identity;
-  using DAL.Models.Interfaces;
+  using PskOnline.DAL.Models.Interfaces;
 
   public class ApplicationUser : IdentityUser, IAuditableEntity
   {

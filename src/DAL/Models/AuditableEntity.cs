@@ -1,8 +1,8 @@
-﻿namespace DAL.Models
+﻿namespace PskOnline.DAL.Models
 {
   using System;
   using System.ComponentModel.DataAnnotations;
-  using DAL.Models.Interfaces;
+  using PskOnline.DAL.Models.Interfaces;
 
   public class AuditableEntity : IAuditableEntity
   {

@@ -7,10 +7,10 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using QuickApp.Helpers;
-using DAL;
+using PskOnline.Service.Helpers;
+using PskOnline.DAL;
 
-namespace QuickApp
+namespace PskOnline.Service
 {
     public class Program
     {

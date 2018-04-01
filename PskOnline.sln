@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.8
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{17070A46-661F-4A01-8B84-CE9C59173779}"
 EndProject
@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickApp", "src\QuickApp\QuickApp.csproj", "{4B467D5D-FA6F-412E-8B45-45BF0630180C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PskOnline.Service", "src\QuickApp\PskOnline.Service.csproj", "{4B467D5D-FA6F-412E-8B45-45BF0630180C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "src\DAL\DAL.csproj", "{C4C99D7C-0A91-418A-AE87-FD4EE43892D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PskOnline.DAL", "src\DAL\PskOnline.DAL.csproj", "{C4C99D7C-0A91-418A-AE87-FD4EE43892D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,5 +38,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4B467D5D-FA6F-412E-8B45-45BF0630180C} = {17070A46-661F-4A01-8B84-CE9C59173779}
 		{C4C99D7C-0A91-418A-AE87-FD4EE43892D8} = {17070A46-661F-4A01-8B84-CE9C59173779}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BBDF07A1-E7AE-491A-932D-571087F47FFE}
 	EndGlobalSection
 EndGlobal

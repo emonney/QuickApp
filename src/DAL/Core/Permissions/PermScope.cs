@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DAL.Core.Permissions
+namespace PskOnline.DAL.Core.Permissions
 {
     public static class PermScope
     {
