@@ -1,12 +1,4 @@
-﻿// ======================================
-// Author: Ebenezer Monney
-// Email:  info@ebenmonney.com
-// Copyright (c) 2017 www.ebenmonney.com
-// 
-// ==> Gun4Hire: contact@ebenmonney.com
-// ======================================
-
-using DAL;
+﻿using DAL;
 using DAL.Core.Interfaces;
 using DAL.Models;
 using Microsoft.AspNetCore.Identity;
@@ -214,12 +206,8 @@ namespace DAL.Core
 
     public async Task<bool> TestCanDeleteUserAsync(string userId)
     {
-      if (await _context.Orders.Where(o => o.CashierId == userId).AnyAsync())
-      {
-        return false;
-      }
-
-      //canDelete = !await ; //Do other tests...
+      // FIXME: Test if user has any inspections / tests
+      // canDelete = !await ; //Do other tests...
 
       return true;
     }
