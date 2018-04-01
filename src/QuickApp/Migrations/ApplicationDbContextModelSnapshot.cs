@@ -41,6 +41,8 @@ namespace QuickApp.Migrations
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256);
 
+                    b.Property<string>("Role_Scope");
+
                     b.Property<string>("UpdatedBy");
 
                     b.Property<DateTime>("UpdatedDate");

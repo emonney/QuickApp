@@ -19,7 +19,12 @@ using DAL.Models.Interfaces;
 
 namespace DAL
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+  /// <summary>
+  /// Create initial migration via Package Manager Console:
+  /// 
+  /// Add-Migration Initial -OutputDir Migrations -Context ApplicationDbContext -Project QuickApp
+  /// </summary>
+  public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public string CurrentUserId { get; set; }
         public DbSet<Customer> Customers { get; set; }

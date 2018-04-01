@@ -65,6 +65,7 @@ namespace QuickApp.Migrations
                     Description = table.Column<string>(nullable: true),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    Role_Scope = table.Column<string>(nullable: true),
                     UpdatedBy = table.Column<string>(nullable: true),
                     UpdatedDate = table.Column<DateTime>(nullable: false)
                 },

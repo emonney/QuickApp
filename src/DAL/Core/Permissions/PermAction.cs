@@ -15,6 +15,6 @@ namespace DAL.Core.Permissions
 
     public const string AssignRole = nameof(AssignRole);
 
-    public const string Read = nameof(Read);
+    public const string View = nameof(View);
   }
 }

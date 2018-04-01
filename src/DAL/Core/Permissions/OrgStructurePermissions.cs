@@ -18,23 +18,23 @@
     {
       AllPermissions = new List<ApplicationPermission>
       {
-        Org_TenantUpstream_Read,
+        Org_TenantUpstream_View,
         Org_Tenant_Manage,
-        Org_Tenant_Read
+        Org_Tenant_View
       }.AsReadOnly();
     }
 
-    public static ApplicationPermission Org_TenantUpstream_Read =>
+    public static ApplicationPermission Org_TenantUpstream_View =>
         new ApplicationPermission(
             "View upstream org structure",
-            OrgGroupPrefix, PermScope.TenantUpstream, PermAction.Read,
+            OrgGroupPrefix, PermScope.TenantUpstream, PermAction.View,
             OrgStructurePermissionsGroupName,
             "Permission to read upstream org structure within own tenant");
 
-    public static ApplicationPermission Org_Tenant_Read =>
+    public static ApplicationPermission Org_Tenant_View =>
         new ApplicationPermission(
             "View entire tenant org structure",
-            OrgGroupPrefix, PermScope.Tenant, PermAction.Read,
+            OrgGroupPrefix, PermScope.Tenant, PermAction.View,
             OrgStructurePermissionsGroupName,
             "Permission to read org structure within own tenant");
 

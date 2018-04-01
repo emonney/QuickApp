@@ -1,8 +1,9 @@
-﻿namespace DAL.Core.Permissions
+﻿namespace DAL.Core.Roles
 {
   using System.Collections.ObjectModel;
+  using DAL.Core.Permissions;
 
-  public static class DefaultGlobalRoles
+  public static class GlobalRoles
   {
     public static ReadOnlyCollection<ApplicationPermission> SiteAdmin
     {

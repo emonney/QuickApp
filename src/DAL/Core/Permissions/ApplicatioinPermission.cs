@@ -9,7 +9,7 @@
       string name, string type, string scope, string action, string groupName, string description)
     {
       Name = name;
-      Value = string.Join(".", new { type, scope, action });
+      Value = string.Join(".", new string[] { type, scope, action });
       Type = type;
       Scope = scope;
       Action = action;

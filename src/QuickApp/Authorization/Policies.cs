@@ -43,7 +43,7 @@ namespace QuickApp.Authorization
     public static class AccountManagementOperations
     {
         public const string CreateOperationName = "Create";
-        public const string ReadOperationName = "Read";
+        public const string ReadOperationName =   "Read";
         public const string UpdateOperationName = "Update";
         public const string DeleteOperationName = "Delete";
 

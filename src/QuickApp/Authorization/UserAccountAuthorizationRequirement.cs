@@ -17,70 +17,103 @@ using System.Threading.Tasks;
 
 namespace QuickApp.Authorization
 {
-    public class UserAccountAuthorizationRequirement : IAuthorizationRequirement
+  public class UserAccountAuthorizationRequirement : IAuthorizationRequirement
+  {
+    public UserAccountAuthorizationRequirement(string operationName)
     {
-        public UserAccountAuthorizationRequirement(string operationName)
-        {
-            this.OperationName = operationName;
-        }
+      this.OperationName = operationName;
+    }
 
+    public string OperationName { get; private set; }
+  }
 
-        public string OperationName { get; private set; }
+  public class ViewUserAuthorizationHandlerUnrestricted : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
+  {
+    protected override Task HandleRequirementAsync(
+      AuthorizationHandlerContext context,
+      UserAccountAuthorizationRequirement requirement,
+      string targetUserId)
+    {
+      context.Succeed(requirement);
+      return Task.CompletedTask;
+    }
+  }
+
+  public class ViewUserAuthorizationHandler : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
+  {
+    protected override Task HandleRequirementAsync(
+      AuthorizationHandlerContext context,
+      UserAccountAuthorizationRequirement requirement,
+      string targetUserId)
+    {
+      if (context.User == null || requirement.OperationName != 
+          AccountManagementOperations.ReadOperationName)
+      {
+        return Task.CompletedTask;
+      }
+
+      if (context.User.HasClaim(CustomClaimTypes.Permission, UserPermissions.Users_GLOBAL_View) ||
+          GetIsSameUser(context.User, targetUserId))
+      {
+        context.Succeed(requirement);
+      }
+
+      return Task.CompletedTask;
     }
 
 
-
-    public class ViewUserAuthorizationHandler : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
+    private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
     {
-        protected override Task HandleRequirementAsync(
-          AuthorizationHandlerContext context, 
-          UserAccountAuthorizationRequirement requirement, 
-          string targetUserId)
-        {
-            if (context.User == null || requirement.OperationName != AccountManagementOperations.ReadOperationName)
-                return Task.CompletedTask;
+      if (string.IsNullOrWhiteSpace(targetUserId))
+      {
+        return false;
+      }
 
-            if (context.User.HasClaim(CustomClaimTypes.Permission, ApplicationPermissions.ViewUsers) || GetIsSameUser(context.User, targetUserId))
-                context.Succeed(requirement);
+      return Utilities.GetUserId(user) == targetUserId;
+    }
+  }
 
-            return Task.CompletedTask;
-        }
+  public class ManageUserAuthorizationHandlerUnrestricted : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
+  {
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserAccountAuthorizationRequirement requirement, string targetUserId)
+    {
+      context.Succeed(requirement);
+      return Task.CompletedTask;
+    }
+  }
 
+  public class ManageUserAuthorizationHandler : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
+  {
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserAccountAuthorizationRequirement requirement, string targetUserId)
+    {
+      if (context.User == null ||
+          (requirement.OperationName != AccountManagementOperations.CreateOperationName &&
+           requirement.OperationName != AccountManagementOperations.UpdateOperationName &&
+           requirement.OperationName != AccountManagementOperations.DeleteOperationName))
+      {
+        return Task.CompletedTask;
+      }
 
-        private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
-        {
-            if (string.IsNullOrWhiteSpace(targetUserId))
-                return false;
+      var canManageGlobalUsers = context.User.HasClaim(
+        CustomClaimTypes.Permission,
+        UserPermissions.Users_GLOBAL_Manage);
 
-            return Utilities.GetUserId(user) == targetUserId;
-        }
+      if (canManageGlobalUsers || GetIsSameUser(context.User, targetUserId))
+      {
+        context.Succeed(requirement);
+      }
+
+      return Task.CompletedTask;
     }
 
-
-
-    public class ManageUserAuthorizationHandler : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
+    private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserAccountAuthorizationRequirement requirement, string targetUserId)
-        {
-            if (context.User == null ||
-                (requirement.OperationName != AccountManagementOperations.CreateOperationName &&
-                 requirement.OperationName != AccountManagementOperations.UpdateOperationName &&
-                 requirement.OperationName != AccountManagementOperations.DeleteOperationName))
-                return Task.CompletedTask;
+      if (string.IsNullOrWhiteSpace(targetUserId))
+      {
+        return false;
+      }
 
-            if (context.User.HasClaim(CustomClaimTypes.Permission, ApplicationPermissions.ManageUsers) || GetIsSameUser(context.User, targetUserId))
-                context.Succeed(requirement);
-
-            return Task.CompletedTask;
-        }
-
-
-        private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
-        {
-            if (string.IsNullOrWhiteSpace(targetUserId))
-                return false;
-
-            return Utilities.GetUserId(user) == targetUserId;
-        }
+      return Utilities.GetUserId(user) == targetUserId;
     }
+  }
 }

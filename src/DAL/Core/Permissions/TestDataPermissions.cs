@@ -19,12 +19,12 @@
       AllPermissions = new List<ApplicationPermission>()
         {
           Test_Self_Submit,
-          Test_Self_Read,
+          Test_Self_View,
           Test_Department_Submit,
-          Test_Department_Read,
-          Test_Org_Read,
+          Test_Department_View,
+          Test_Org_View,
           Test_Tenant_Submit,
-          Test_Tenant_Read
+          Test_Tenant_View
         }.AsReadOnly();
     }
 
@@ -35,10 +35,10 @@
             TestDataPermissionsGroupName,
             "Permission to submit one's own test data");
 
-    public static ApplicationPermission Test_Self_Read =>
+    public static ApplicationPermission Test_Self_View =>
         new ApplicationPermission(
             "View own test data",
-            TestPermGroup, PermScope.Self, PermAction.Read,
+            TestPermGroup, PermScope.Self, PermAction.View,
             TestDataPermissionsGroupName,
             "Permission to view one's own test data");
 
@@ -49,17 +49,17 @@
             TestDataPermissionsGroupName,
             "Permission to submit test data for own department");
 
-    public static ApplicationPermission Test_Department_Read =>
+    public static ApplicationPermission Test_Department_View =>
         new ApplicationPermission(
             "View department test data",
-            TestPermGroup, PermScope.Department, PermAction.Read,
+            TestPermGroup, PermScope.Department, PermAction.View,
             TestDataPermissionsGroupName,
             "Permission to view test data for own department");
 
-    public static ApplicationPermission Test_Org_Read =>
+    public static ApplicationPermission Test_Org_View =>
         new ApplicationPermission(
             "View organization test data",
-            TestPermGroup, PermScope.Organization, PermAction.Read,
+            TestPermGroup, PermScope.Organization, PermAction.View,
             TestDataPermissionsGroupName,
             "Permission to view test data for own organization");
 
@@ -70,10 +70,10 @@
             TestDataPermissionsGroupName,
             "Permission to submit test data for own tenant");
 
-    public static ApplicationPermission Test_Tenant_Read =>
+    public static ApplicationPermission Test_Tenant_View =>
         new ApplicationPermission(
             "View test data for own tenant",
-            TestPermGroup, PermScope.Tenant, PermAction.Read,
+            TestPermGroup, PermScope.Tenant, PermAction.View,
             TestDataPermissionsGroupName,
             "Permission to view test data for own tenant");
 

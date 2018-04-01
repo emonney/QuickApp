@@ -20,6 +20,15 @@ namespace QuickApp.Authorization
 
   }
 
+  public class ViewRoleAuthorizationHandlerUnrestricted : AuthorizationHandler<ViewRoleAuthorizationRequirement, string>
+  {
+    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ViewRoleAuthorizationRequirement requirement, string roleName)
+    {
+      context.Succeed(requirement);
+      return Task.CompletedTask;
+    }
+  }
+
   public class ViewRoleAuthorizationHandler : AuthorizationHandler<ViewRoleAuthorizationRequirement, string>
   {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ViewRoleAuthorizationRequirement requirement, string roleName)
@@ -28,7 +37,7 @@ namespace QuickApp.Authorization
       {
         return Task.CompletedTask;
       }
-      if (context.User.HasClaim(CustomClaimTypes.Permission, ApplicationPermissions.ViewRoles) ||
+      if (context.User.HasClaim(CustomClaimTypes.Permission, RolePermissions.Roles_GLOBAL_View) ||
           context.User.IsInRole(roleName))
       {
         context.Succeed(requirement);

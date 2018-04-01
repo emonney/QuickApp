@@ -12,7 +12,7 @@ using System;
 namespace QuickApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20171212061431_Initial")]
+    [Migration("20180331223334_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,8 @@ namespace QuickApp.Migrations
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("Role_Scope");
 
                     b.Property<string>("UpdatedBy");
 

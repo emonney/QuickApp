@@ -6,7 +6,7 @@
   /// <summary>
   /// Defines permissions related to operation on user roles
   /// </summary>
-  class RolePermissions
+  public class RolePermissions
   {
     public const string RolePermissionsGroupName = "Role Permissions";
     public const string RolePermGroup = "roles";
@@ -28,7 +28,7 @@
     public static ApplicationPermission Roles_Tenant_View =>
       new ApplicationPermission(
         "View Tenant Roles",
-        RolePermGroup, PermScope.Tenant, PermAction.Read,
+        RolePermGroup, PermScope.Tenant, PermAction.View,
         RolePermissionsGroupName,
         "Permission to view available roles for tenant users");
 
@@ -42,7 +42,7 @@
     public static ApplicationPermission Roles_GLOBAL_View =>
       new ApplicationPermission(
         "View GLOBAL Roles",
-        RolePermGroup, PermScope.GLOBAL, PermAction.Read,
+        RolePermGroup, PermScope.GLOBAL, PermAction.View,
         RolePermissionsGroupName,
         "Permission to view available roles for GLOBAL users (site-level)");
 

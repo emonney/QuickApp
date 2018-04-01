@@ -125,8 +125,9 @@ export class AuthService {
 
         let accessToken = response.access_token;
 
-        if (accessToken == null)
-            throw new Error("Received accessToken was empty");
+        if (accessToken == null) {
+          throw new Error("Received accessToken was empty");
+        }
 
         let idToken = response.id_token;
         let refreshToken = response.refresh_token || this.refreshToken;
@@ -140,10 +141,13 @@ export class AuthService {
         let jwtHelper = new JwtHelper();
         let decodedIdToken = <IdToken>jwtHelper.decodeToken(response.id_token);
 
-        let permissions: PermissionValues[] = Array.isArray(decodedIdToken.permission) ? decodedIdToken.permission : [decodedIdToken.permission];
+        let permissions: PermissionValues[] =
+          Array.isArray(decodedIdToken.permission) ?
+            decodedIdToken.permission : [decodedIdToken.permission];
 
-        if (!this.isLoggedIn)
-            this.configurations.import(decodedIdToken.configuration);
+        if (!this.isLoggedIn) {
+          this.configurations.import(decodedIdToken.configuration);
+        }
 
         let user = new User(
             decodedIdToken.sub,
@@ -152,7 +156,8 @@ export class AuthService {
             decodedIdToken.email,
             decodedIdToken.jobtitle,
             decodedIdToken.phone,
-            Array.isArray(decodedIdToken.role) ? decodedIdToken.role : [decodedIdToken.role]);
+            Array.isArray(decodedIdToken.role) ?
+              decodedIdToken.role : [decodedIdToken.role]);
         user.isEnabled = true;
 
         this.saveUserDetails(user, permissions, accessToken, idToken, refreshToken, accessTokenExpiry, rememberMe);

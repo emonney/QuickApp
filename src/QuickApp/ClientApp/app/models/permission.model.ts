@@ -11,17 +11,17 @@ export type PermissionNames =
     "View Roles" | "Manage Roles" | "Assign Roles";
 
 export type PermissionValues =
-    "users.view" | "users.manage" |
-    "roles.view" | "roles.manage" | "roles.assign";
+    "users.GLOBAL.View" | "users.GLOBAL.Manage" |
+    "roles.GLOBAL.View" | "roles.GLOBAL.Manage" | "roles.GLOBAL.AssignRole";
 
 export class Permission {
 
-    public static readonly viewUsersPermission: PermissionValues = "users.view";
-    public static readonly manageUsersPermission: PermissionValues = "users.manage";
+    public static readonly viewUsersPermission: PermissionValues = "users.GLOBAL.View";
+    public static readonly manageUsersPermission: PermissionValues = "users.GLOBAL.Manage";
 
-    public static readonly viewRolesPermission: PermissionValues = "roles.view";
-    public static readonly manageRolesPermission: PermissionValues = "roles.manage";
-    public static readonly assignRolesPermission: PermissionValues = "roles.assign";
+    public static readonly viewRolesPermission: PermissionValues = "roles.GLOBAL.View";
+    public static readonly manageRolesPermission: PermissionValues = "roles.GLOBAL.Manage";
+    public static readonly assignRolesPermission: PermissionValues = "roles.GLOBAL.AssignRole";
 
 
     constructor(name?: PermissionNames, value?: PermissionValues, groupName?: string, description?: string) {
