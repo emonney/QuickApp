@@ -13,7 +13,7 @@
   using DAL.Core.Interfaces;
 
   [Authorize]
-  [Route("api/[controller]")]
+  [Route("api/account")]
   public class RolesController : BaseController
   {
     private readonly IAccountManager _accountManager;

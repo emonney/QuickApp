@@ -122,7 +122,6 @@ export class AccountService {
 
 
     userHasPermission(permissionValue: PermissionValues): boolean {
-        console.warn(this.permissions);
         return this.permissions.some(p => p == permissionValue);
     }
 

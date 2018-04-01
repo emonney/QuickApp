@@ -25,7 +25,7 @@ using DAL.Core.Permissions;
 namespace QuickApp.Controllers
 {
   [Authorize]
-  [Route("api/[controller]")]
+  [Route("api/account")]
   public class AccountController : BaseController
   {
     private readonly IAccountManager _accountManager;
