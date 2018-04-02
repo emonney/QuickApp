@@ -7,21 +7,25 @@
 // ======================================
 
 export type PermissionNames =
-    "View Users" | "Manage Users" |
-    "View Roles" | "Manage Roles" | "Assign Roles";
+    "View GLOBAL Users" | "Manage GLOBAL Users" |
+    "View GLOBAL Roles" | "Manage GLOBAL Roles" | "Assign GLOBAL Roles" |
+    "View Customers" | "Manage Customers";
 
 export type PermissionValues =
     "users.GLOBAL.View" | "users.GLOBAL.Manage" |
-    "roles.GLOBAL.View" | "roles.GLOBAL.Manage" | "roles.GLOBAL.AssignRole";
+    "roles.GLOBAL.View" | "roles.GLOBAL.Manage" | "roles.GLOBAL.AssignRole" |
+    "customers.GLOBAL.View" | "customers.GLOBAL.Manage";
 
 export class Permission {
 
     public static readonly viewUsersPermission: PermissionValues = "users.GLOBAL.View";
     public static readonly manageUsersPermission: PermissionValues = "users.GLOBAL.Manage";
+    public static readonly viewCustomersPermission: PermissionValues = "customers.GLOBAL.View";
+    public static readonly manageCustomersPermission: PermissionValues = "customers.GLOBAL.Manage";
 
     public static readonly viewRolesPermission: PermissionValues = "roles.GLOBAL.View";
-    public static readonly manageRolesPermission: PermissionValues = "roles.GLOBAL.Manage";
     public static readonly assignRolesPermission: PermissionValues = "roles.GLOBAL.AssignRole";
+    public static readonly manageRolesPermission: PermissionValues = "roles.GLOBAL.Manage";
 
 
     constructor(name?: PermissionNames, value?: PermissionValues, groupName?: string, description?: string) {

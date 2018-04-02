@@ -68,7 +68,7 @@ namespace PskOnline.DAL
         {
           Name = "FAKE_Irkutskenergo",
           PrimaryContactEmail = "contact@irkutskenergo.ru",
-          ServiceMaxPatients = 10,
+          ServiceMaxUsers = 10,
           ServiceExpireDate = DateTime.Now + TimeSpan.FromDays(30),
           ServiceMaxStorageMegabytes = 1000, // 1 Gigabyte by default
           DateCreated = DateTime.UtcNow,
@@ -79,7 +79,7 @@ namespace PskOnline.DAL
         {
           Name = "FAKE_Mosenergo",
           PrimaryContactEmail = "contact@mosenergo.ru",
-          ServiceMaxPatients = 10,
+          ServiceMaxUsers = 10,
           ServiceExpireDate = DateTime.Now + TimeSpan.FromDays(60),
           ServiceMaxStorageMegabytes = 1000, // 1 Gigabyte by default
           DateCreated = DateTime.UtcNow,
@@ -90,7 +90,7 @@ namespace PskOnline.DAL
         {
           Name = "FAKE_RusHydro",
           PrimaryContactEmail = "contact@rushydro.ru",
-          ServiceMaxPatients = 10,
+          ServiceMaxUsers = 10,
           ServiceExpireDate = DateTime.Now + TimeSpan.FromDays(60),
           ServiceMaxStorageMegabytes = 1000, // 1 Gigabyte by default
           DateCreated = DateTime.UtcNow,

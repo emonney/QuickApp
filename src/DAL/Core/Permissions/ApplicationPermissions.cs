@@ -16,6 +16,7 @@
       allAppPerm.AddRange(TestDataPermissions.AllPermissions);
       allAppPerm.AddRange(UserPermissions.AllPermissions);
       allAppPerm.AddRange(RolePermissions.AllPermissions);
+      allAppPerm.AddRange(CustomerPermissions.AllPermissions);
 
       AllPermissions = allAppPerm.AsReadOnly();
     }
@@ -27,7 +28,9 @@
         UserPermissions.Users_GLOBAL_View,
         RolePermissions.Roles_GLOBAL_Manage,
         RolePermissions.Roles_GLOBAL_Assign,
-        RolePermissions.Roles_GLOBAL_View
+        RolePermissions.Roles_GLOBAL_View,
+        CustomerPermissions.Customers_GLOBAL_Manage,
+        CustomerPermissions.Customers_GLOBAL_View
       };
     }
 

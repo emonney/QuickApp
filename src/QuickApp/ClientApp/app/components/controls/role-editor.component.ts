@@ -196,6 +196,7 @@ export class RoleEditorComponent {
             this.editingRoleName = role.name;
             this.allPermissions = allPermissions;
             this.selectedValues = {};
+            console.info(role);
             role.permissions.forEach(p => this.selectedValues[p.value] = true);
             this.roleEdit = new Role();
             Object.assign(this.roleEdit, role);

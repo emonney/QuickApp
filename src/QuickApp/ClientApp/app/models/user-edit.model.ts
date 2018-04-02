@@ -9,7 +9,7 @@
 import { User } from './user.model';
 
 
-export class UserEdit extends User {
+export class CustomerEdit extends User {
     constructor(currentPassword?: string, newPassword?: string, confirmPassword?: string) {
         super();
 

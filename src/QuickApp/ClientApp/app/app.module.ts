@@ -36,6 +36,8 @@ import { NotificationService } from './services/notification.service';
 import { NotificationEndpoint } from './services/notification-endpoint.service';
 import { AccountService } from './services/account.service';
 import { AccountEndpoint } from './services/account-endpoint.service';
+import { CustomerService } from './services/customer.service';
+import { CustomerEndpoint } from './services/customer-endpoint.service';
 
 import { EqualValidator } from './directives/equal-validator.directive';
 import { LastElementDirective } from './directives/last-element.directive';
@@ -127,6 +129,8 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
         NotificationEndpoint,
         AccountService,
         AccountEndpoint,
+        CustomerService,
+        CustomerEndpoint,
         LocalStoreManager,
         EndpointFactory
     ],

@@ -12,7 +12,7 @@ import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { AccountService } from "../../services/account.service";
 import { Utilities } from '../../services/utilities';
 import { User } from '../../models/user.model';
-import { UserEdit } from '../../models/user-edit.model';
+import { CustomerEdit } from '../../models/user-edit.model';
 import { Role } from '../../models/role.model';
 import { Permission } from '../../models/permission.model';
 
@@ -33,7 +33,7 @@ export class UserInfoComponent implements OnInit {
     private editingUserName: string;
     private uniqueId: string = Utilities.uniqueId();
     private user: User = new User();
-    private userEdit: UserEdit;
+    private userEdit: CustomerEdit;
     private allRoles: Role[] = [];
 
     public formResetToggle = true;
@@ -131,8 +131,8 @@ export class UserInfoComponent implements OnInit {
     }
 
 
-    public deletePasswordFromUser(user: UserEdit | User) {
-        let userEdit = <UserEdit>user;
+    public deletePasswordFromUser(user: CustomerEdit | User) {
+        let userEdit = <CustomerEdit>user;
 
         delete userEdit.currentPassword;
         delete userEdit.newPassword;
@@ -143,12 +143,12 @@ export class UserInfoComponent implements OnInit {
     private edit() {
         if (!this.isGeneralEditor) {
             this.isEditingSelf = true;
-            this.userEdit = new UserEdit();
+            this.userEdit = new CustomerEdit();
             Object.assign(this.userEdit, this.user);
         }
         else {
             if (!this.userEdit)
-                this.userEdit = new UserEdit();
+                this.userEdit = new CustomerEdit();
 
             this.isEditingSelf = this.accountService.currentUser ? this.userEdit.id == this.accountService.currentUser.id : false;
         }
@@ -185,7 +185,7 @@ export class UserInfoComponent implements OnInit {
 
         this.deletePasswordFromUser(this.userEdit);
         Object.assign(this.user, this.userEdit);
-        this.userEdit = new UserEdit();
+        this.userEdit = new CustomerEdit();
         this.resetForm();
 
 
@@ -236,9 +236,9 @@ export class UserInfoComponent implements OnInit {
 
     private cancel() {
         if (this.isGeneralEditor)
-            this.userEdit = this.user = new UserEdit();
+            this.userEdit = this.user = new CustomerEdit();
         else
-            this.userEdit = new UserEdit();
+            this.userEdit = new CustomerEdit();
 
         this.showValidationErrors = false;
         this.resetForm();
@@ -255,7 +255,7 @@ export class UserInfoComponent implements OnInit {
 
 
     private close() {
-        this.userEdit = this.user = new UserEdit();
+        this.userEdit = this.user = new CustomerEdit();
         this.showValidationErrors = false;
         this.resetForm();
         this.isEditMode = false;
@@ -326,7 +326,7 @@ export class UserInfoComponent implements OnInit {
 
         this.allRoles = [...allRoles];
         this.editingUserName = null;
-        this.user = this.userEdit = new UserEdit();
+        this.user = this.userEdit = new CustomerEdit();
         this.userEdit.isEnabled = true;
         this.edit();
 
@@ -341,7 +341,7 @@ export class UserInfoComponent implements OnInit {
             this.setRoles(user, allRoles);
             this.editingUserName = user.userName;
             this.user = new User();
-            this.userEdit = new UserEdit();
+            this.userEdit = new CustomerEdit();
             Object.assign(this.user, user);
             Object.assign(this.userEdit, user);
             this.edit();

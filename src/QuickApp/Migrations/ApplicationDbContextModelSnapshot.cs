@@ -336,8 +336,12 @@ namespace PskOnline.Service.Migrations
                     b.Property<string>("AlternateContactEmail")
                         .HasMaxLength(100);
 
+                    b.Property<string>("AlternateContactPhoneNumber");
+
                     b.Property<string>("City")
                         .HasMaxLength(50);
+
+                    b.Property<string>("Comment");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(256);
@@ -361,11 +365,13 @@ namespace PskOnline.Service.Migrations
 
                     b.Property<string>("PrimaryContactName");
 
+                    b.Property<string>("PrimaryContactPhoneNumber");
+
                     b.Property<DateTime>("ServiceExpireDate");
 
-                    b.Property<int>("ServiceMaxPatients");
-
                     b.Property<int>("ServiceMaxStorageMegabytes");
+
+                    b.Property<int>("ServiceMaxUsers");
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(256);

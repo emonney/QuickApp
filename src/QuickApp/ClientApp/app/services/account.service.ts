@@ -20,7 +20,7 @@ import { AuthService } from './auth.service';
 import { User } from '../models/user.model';
 import { Role } from '../models/role.model';
 import { Permission, PermissionNames, PermissionValues } from '../models/permission.model';
-import { UserEdit } from '../models/user-edit.model';
+import { CustomerEdit } from '../models/user-edit.model';
 
 
 
@@ -69,7 +69,7 @@ export class AccountService {
     }
 
 
-    updateUser(user: UserEdit) {
+    updateUser(user: CustomerEdit) {
         if (user.id) {
             return this.accountEndpoint.getUpdateUserEndpoint(user, user.id);
         }
@@ -83,7 +83,7 @@ export class AccountService {
     }
 
 
-    newUser(user: UserEdit) {
+    newUser(user: CustomerEdit) {
         return this.accountEndpoint.getNewUserEndpoint<User>(user);
     }
 
@@ -97,7 +97,7 @@ export class AccountService {
     }
 
 
-    deleteUser(userOrUserId: string | UserEdit): Observable<User> {
+    deleteUser(userOrUserId: string | CustomerEdit): Observable<User> {
 
         if (typeof userOrUserId === 'string' || userOrUserId instanceof String) {
             return this.accountEndpoint.getDeleteUserEndpoint<User>(<string>userOrUserId)

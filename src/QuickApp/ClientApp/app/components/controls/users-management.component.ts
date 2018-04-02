@@ -16,7 +16,7 @@ import { Utilities } from "../../services/utilities";
 import { User } from '../../models/user.model';
 import { Role } from '../../models/role.model';
 import { Permission } from '../../models/permission.model';
-import { UserEdit } from '../../models/user-edit.model';
+import { CustomerEdit } from '../../models/user-edit.model';
 import { UserInfoComponent } from "./user-info.component";
 
 
@@ -29,8 +29,8 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     columns: any[] = [];
     rows: User[] = [];
     rowsCache: User[] = [];
-    editedUser: UserEdit;
-    sourceUser: UserEdit;
+    editedUser: CustomerEdit;
+    sourceUser: CustomerEdit;
     editingUserName: { name: string };
     loadingIndicator: boolean;
 
@@ -184,7 +184,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     }
 
 
-    editUser(row: UserEdit) {
+    editUser(row: CustomerEdit) {
         this.editingUserName = { name: row.userName };
         this.sourceUser = row;
         this.editedUser = this.userEditor.editUser(row, this.allRoles);
@@ -192,12 +192,12 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     }
 
 
-    deleteUser(row: UserEdit) {
+    deleteUser(row: CustomerEdit) {
         this.alertService.showDialog('Are you sure you want to delete \"' + row.userName + '\"?', DialogType.confirm, () => this.deleteUserHelper(row));
     }
 
 
-    deleteUserHelper(row: UserEdit) {
+    deleteUserHelper(row: CustomerEdit) {
 
         this.alertService.startLoadingMessage("Deleting...");
         this.loadingIndicator = true;
@@ -232,4 +232,13 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     get canManageUsers() {
         return this.accountService.userHasPermission(Permission.manageUsersPermission);
     }
+
+    get canViewCustomers() {
+      return this.accountService.userHasPermission(Permission.viewCustomersPermission);
+    }
+
+    get canManageCustomers() {
+      return this.accountService.userHasPermission(Permission.manageCustomersPermission);
+    }
+
 }

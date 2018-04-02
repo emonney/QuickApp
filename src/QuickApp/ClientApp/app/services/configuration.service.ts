@@ -31,7 +31,7 @@ export class ConfigurationService {
     public static readonly appVersion: string = "1.0.0";
 
     public baseUrl: string = Utilities.baseUrl();
-    public fallbackBaseUrl: string = "http://quickapp.ebenmonney.com";
+    public fallbackBaseUrl: string = "http://psk-online.ru";
     public loginUrl: string = "/Login";
 
     //***Specify default configurations here***
