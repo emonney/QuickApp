@@ -14,7 +14,7 @@ using Microsoft.Extensions.Options;
 
 namespace QuickApp.Helpers
 {
-    public interface IEmailer
+    public interface IEmailSender
     {
         Task<(bool success, string errorMsg)> SendEmailAsync(MailboxAddress sender, MailboxAddress[] recepients, string subject, string body, SmtpConfig config = null, bool isHtml = true);
         Task<(bool success, string errorMsg)> SendEmailAsync(string recepientName, string recepientEmail, string subject, string body, SmtpConfig config = null, bool isHtml = true);
@@ -23,12 +23,12 @@ namespace QuickApp.Helpers
 
 
 
-    public class Emailer : IEmailer
+    public class EmailSender : IEmailSender
     {
         private SmtpConfig _config;
 
 
-        public Emailer(IOptions<SmtpConfig> config)
+        public EmailSender(IOptions<SmtpConfig> config)
         {
             _config = config.Value;
         }
@@ -90,7 +90,7 @@ namespace QuickApp.Helpers
             }
             catch (Exception ex)
             {
-                Utilities.CreateLogger<Emailer>().LogError(LoggingEvents.SEND_EMAIL, ex, "An error occurred whilst sending email");
+                Utilities.CreateLogger<EmailSender>().LogError(LoggingEvents.SEND_EMAIL, ex, "An error occurred whilst sending email");
                 return (false, ex.Message);
             }
         }

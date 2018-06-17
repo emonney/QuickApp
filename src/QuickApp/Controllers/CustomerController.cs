@@ -23,10 +23,10 @@ namespace QuickApp.Controllers
     {
         private IUnitOfWork _unitOfWork;
         readonly ILogger _logger;
-        readonly IEmailer _emailer;
+        readonly IEmailSender _emailer;
 
 
-        public CustomerController(IUnitOfWork unitOfWork, ILogger<CustomerController> logger, IEmailer emailer)
+        public CustomerController(IUnitOfWork unitOfWork, ILogger<CustomerController> logger, IEmailSender emailer)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;

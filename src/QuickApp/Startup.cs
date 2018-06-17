@@ -177,7 +177,7 @@ namespace QuickApp
 
 
             // Business Services
-            services.AddScoped<IEmailer, Emailer>();
+            services.AddScoped<IEmailSender, EmailSender>();
 
 
             // Repositories
