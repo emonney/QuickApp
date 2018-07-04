@@ -18,6 +18,8 @@ using DAL.Models;
 using DAL.Core;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
+using OpenIddict.Abstractions;
+using OpenIddict.Server;
 
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -121,7 +123,7 @@ namespace QuickApp.Controllers
             else if (request.IsRefreshTokenGrantType())
             {
                 // Retrieve the claims principal stored in the refresh token.
-                var info = await HttpContext.AuthenticateAsync(OpenIdConnectServerDefaults.AuthenticationScheme);
+                var info = await HttpContext.AuthenticateAsync(OpenIddictServerDefaults.AuthenticationScheme);
 
                 // Retrieve the user profile corresponding to the refresh token.
                 // Note: if you want to automatically invalidate the refresh token
@@ -167,7 +169,7 @@ namespace QuickApp.Controllers
             var principal = await _signInManager.CreateUserPrincipalAsync(user);
 
             // Create a new authentication ticket holding the user identity.
-            var ticket = new AuthenticationTicket(principal, new AuthenticationProperties(), OpenIdConnectServerDefaults.AuthenticationScheme);
+            var ticket = new AuthenticationTicket(principal, new AuthenticationProperties(), OpenIddictServerDefaults.AuthenticationScheme);
 
 
             //if (!request.IsRefreshTokenGrantType())
@@ -186,7 +188,7 @@ namespace QuickApp.Controllers
             }.Intersect(request.GetScopes()));
             //}
 
-            ticket.SetResources(request.GetResources());
+            //ticket.SetResources("quickapp-api");
 
             // Note: by default, claims are NOT automatically included in the access and identity tokens.
             // To allow OpenIddict to serialize them, you must attach them a destination, that specifies

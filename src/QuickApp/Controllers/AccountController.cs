@@ -18,10 +18,11 @@ using QuickApp.Authorization;
 using QuickApp.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using DAL.Core;
+using OpenIddict.Validation;
 
 namespace QuickApp.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = OpenIddictValidationDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
@@ -38,7 +39,7 @@ namespace QuickApp.Controllers
 
 
         [HttpGet("users/me")]
-        [Produces(typeof(UserViewModel))]
+        [ProducesResponseType(200, Type = typeof(UserViewModel))]
         public async Task<IActionResult> GetCurrentUser()
         {
             return await GetUserByUserName(this.User.Identity.Name);
@@ -46,7 +47,9 @@ namespace QuickApp.Controllers
 
 
         [HttpGet("users/{id}", Name = GetUserByIdActionName)]
-        [Produces(typeof(UserViewModel))]
+        [ProducesResponseType(200, Type = typeof(UserViewModel))]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetUserById(string id)
         {
             if (!(await _authorizationService.AuthorizeAsync(this.User, id, AccountManagementOperations.Read)).Succeeded)
@@ -63,7 +66,9 @@ namespace QuickApp.Controllers
 
 
         [HttpGet("users/username/{userName}")]
-        [Produces(typeof(UserViewModel))]
+        [ProducesResponseType(200, Type = typeof(UserViewModel))]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetUserByUserName(string userName)
         {
             ApplicationUser appUser = await _accountManager.GetUserByUserNameAsync(userName);
@@ -79,20 +84,20 @@ namespace QuickApp.Controllers
 
 
         [HttpGet("users")]
-        [Produces(typeof(List<UserViewModel>))]
         [Authorize(Authorization.Policies.ViewAllUsersPolicy)]
+        [ProducesResponseType(200, Type = typeof(List<UserViewModel>))]
         public async Task<IActionResult> GetUsers()
         {
             return await GetUsers(-1, -1);
         }
 
 
-        [HttpGet("users/{page:int}/{pageSize:int}")]
-        [Produces(typeof(List<UserViewModel>))]
+        [HttpGet("users/{pageNumber:int}/{pageSize:int}")]
         [Authorize(Authorization.Policies.ViewAllUsersPolicy)]
-        public async Task<IActionResult> GetUsers(int page, int pageSize)
+        [ProducesResponseType(200, Type = typeof(List<UserViewModel>))]
+        public async Task<IActionResult> GetUsers(int pageNumber, int pageSize)
         {
-            var usersAndRoles = await _accountManager.GetUsersAndRolesAsync(page, pageSize);
+            var usersAndRoles = await _accountManager.GetUsersAndRolesAsync(pageNumber, pageSize);
 
             List<UserViewModel> usersVM = new List<UserViewModel>();
 
@@ -108,9 +113,10 @@ namespace QuickApp.Controllers
         }
 
 
-
-
         [HttpPut("users/me")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(403)]
         public async Task<IActionResult> UpdateCurrentUser([FromBody] UserEditViewModel user)
         {
             return await UpdateUser(Utilities.GetUserId(this.User), user);
@@ -118,6 +124,10 @@ namespace QuickApp.Controllers
 
 
         [HttpPut("users/{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> UpdateUser(string id, [FromBody] UserEditViewModel user)
         {
             ApplicationUser appUser = await _accountManager.GetUserByIdAsync(id);
@@ -191,17 +201,20 @@ namespace QuickApp.Controllers
         }
 
 
-
-
         [HttpPatch("users/me")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> UpdateCurrentUser([FromBody] JsonPatchDocument<UserPatchViewModel> patch)
         {
             return await UpdateUser(Utilities.GetUserId(this.User), patch);
         }
 
 
-
         [HttpPatch("users/{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> UpdateUser(string id, [FromBody] JsonPatchDocument<UserPatchViewModel> patch)
         {
             if (!(await _authorizationService.AuthorizeAsync(this.User, id, AccountManagementOperations.Update)).Succeeded)
@@ -241,10 +254,11 @@ namespace QuickApp.Controllers
         }
 
 
-
-
         [HttpPost("users")]
         [Authorize(Authorization.Policies.ManageAllUsersPolicy)]
+        [ProducesResponseType(201, Type = typeof(UserViewModel))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(403)]
         public async Task<IActionResult> Register([FromBody] UserEditViewModel user)
         {
             if (!(await _authorizationService.AuthorizeAsync(this.User, Tuple.Create(user.Roles, new string[] { }), Authorization.Policies.AssignAllowedRolesPolicy)).Succeeded)
@@ -273,9 +287,11 @@ namespace QuickApp.Controllers
         }
 
 
-
         [HttpDelete("users/{id}")]
-        [Produces(typeof(UserViewModel))]
+        [ProducesResponseType(200, Type = typeof(UserViewModel))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteUser(string id)
         {
             if (!(await _authorizationService.AuthorizeAsync(this.User, id, AccountManagementOperations.Delete)).Succeeded)
@@ -304,9 +320,10 @@ namespace QuickApp.Controllers
         }
 
 
-
         [HttpPut("users/unblock/{id}")]
         [Authorize(Authorization.Policies.ManageAllUsersPolicy)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> UnblockUser(string id)
         {
             ApplicationUser appUser = await this._accountManager.GetUserByIdAsync(id);
@@ -324,9 +341,9 @@ namespace QuickApp.Controllers
         }
 
 
-
         [HttpGet("users/me/preferences")]
-        [Produces(typeof(string))]
+        [ProducesResponseType(200, Type = typeof(string))]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> UserPreferences()
         {
             var userId = Utilities.GetUserId(this.User);
@@ -340,6 +357,8 @@ namespace QuickApp.Controllers
 
 
         [HttpPut("users/me/preferences")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> UserPreferences([FromBody] string data)
         {
             var userId = Utilities.GetUserId(this.User);
@@ -361,11 +380,10 @@ namespace QuickApp.Controllers
 
 
 
-
-
-
         [HttpGet("roles/{id}", Name = GetRoleByIdActionName)]
-        [Produces(typeof(RoleViewModel))]
+        [ProducesResponseType(200, Type = typeof(RoleViewModel))]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetRoleById(string id)
         {
             var appRole = await _accountManager.GetRoleByIdAsync(id);
@@ -380,10 +398,10 @@ namespace QuickApp.Controllers
         }
 
 
-
-
         [HttpGet("roles/name/{name}")]
-        [Produces(typeof(RoleViewModel))]
+        [ProducesResponseType(200, Type = typeof(RoleViewModel))]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> GetRoleByName(string name)
         {
             if (!(await _authorizationService.AuthorizeAsync(this.User, name, Authorization.Policies.ViewRoleByRoleNamePolicy)).Succeeded)
@@ -399,31 +417,30 @@ namespace QuickApp.Controllers
         }
 
 
-
-
         [HttpGet("roles")]
-        [Produces(typeof(List<RoleViewModel>))]
         [Authorize(Authorization.Policies.ViewAllRolesPolicy)]
+        [ProducesResponseType(200, Type = typeof(List<RoleViewModel>))]
         public async Task<IActionResult> GetRoles()
         {
             return await GetRoles(-1, -1);
         }
 
 
-
-        [HttpGet("roles/{page:int}/{pageSize:int}")]
-        [Produces(typeof(List<RoleViewModel>))]
+        [HttpGet("roles/{pageNumber:int}/{pageSize:int}")]
         [Authorize(Authorization.Policies.ViewAllRolesPolicy)]
-        public async Task<IActionResult> GetRoles(int page, int pageSize)
+        [ProducesResponseType(200, Type = typeof(List<RoleViewModel>))]
+        public async Task<IActionResult> GetRoles(int pageNumber, int pageSize)
         {
-            var roles = await _accountManager.GetRolesLoadRelatedAsync(page, pageSize);
+            var roles = await _accountManager.GetRolesLoadRelatedAsync(pageNumber, pageSize);
             return Ok(Mapper.Map<List<RoleViewModel>>(roles));
         }
 
 
-
         [HttpPut("roles/{id}")]
         [Authorize(Authorization.Policies.ManageAllRolesPolicy)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> UpdateRole(string id, [FromBody] RoleViewModel role)
         {
             if (ModelState.IsValid)
@@ -456,10 +473,10 @@ namespace QuickApp.Controllers
         }
 
 
-
-
         [HttpPost("roles")]
         [Authorize(Authorization.Policies.ManageAllRolesPolicy)]
+        [ProducesResponseType(201, Type = typeof(RoleViewModel))]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> CreateRole([FromBody] RoleViewModel role)
         {
             if (ModelState.IsValid)
@@ -484,11 +501,11 @@ namespace QuickApp.Controllers
         }
 
 
-
-
         [HttpDelete("roles/{id}")]
-        [Produces(typeof(RoleViewModel))]
         [Authorize(Authorization.Policies.ManageAllRolesPolicy)]
+        [ProducesResponseType(200, Type = typeof(RoleViewModel))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteRole(string id)
         {
             if (!await _accountManager.TestCanDeleteRoleAsync(id))
@@ -514,21 +531,13 @@ namespace QuickApp.Controllers
         }
 
 
-
         [HttpGet("permissions")]
-        [Produces(typeof(List<PermissionViewModel>))]
         [Authorize(Authorization.Policies.ViewAllRolesPolicy)]
+        [ProducesResponseType(200, Type = typeof(List<PermissionViewModel>))]
         public IActionResult GetAllPermissions()
         {
             return Ok(Mapper.Map<List<PermissionViewModel>>(ApplicationPermissions.AllPermissions));
         }
-
-
-
-
-
-
-
 
 
 
@@ -556,7 +565,6 @@ namespace QuickApp.Controllers
 
             return null;
         }
-        
 
 
         private void AddErrors(IEnumerable<string> errors)

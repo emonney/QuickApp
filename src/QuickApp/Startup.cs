@@ -3,51 +3,40 @@
 // Email: support@ebenmonney.com
 // ====================================================
 
-using System;
+using AspNet.Security.OpenIdConnect.Primitives;
+using AutoMapper;
+using DAL;
+using DAL.Core;
+using DAL.Core.Interfaces;
+using DAL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using DAL;
-using DAL.Models;
-using System.Net;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using AutoMapper;
-using Newtonsoft.Json;
-using DAL.Core;
-using DAL.Core.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using QuickApp.ViewModels;
-using QuickApp.Helpers;
+using OpenIddict.Abstractions;
 using QuickApp.Authorization;
-using AspNet.Security.OpenIdConnect.Primitives;
-using AspNet.Security.OAuth.Validation;
-using Microsoft.AspNetCore.Identity;
+using QuickApp.Helpers;
+using QuickApp.ViewModels;
 using Swashbuckle.AspNetCore.Swagger;
 using AppPermissions = DAL.Core.ApplicationPermissions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Rewrite;
-using System.Collections.Generic;
 
 namespace QuickApp
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        //private readonly IHostingEnvironment _hostingEnvironment;
 
 
-
-        public Startup(IConfiguration configuration/*, IHostingEnvironment env*/)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            //_hostingEnvironment = env;
         }
-
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -88,35 +77,42 @@ namespace QuickApp
 
 
 
+
             // Register the OpenIddict services.
-            services.AddOpenIddict(options =>
-            {
-                options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
-                options.AddMvcBinders();
-                options.EnableTokenEndpoint("/connect/token");
-                options.AllowPasswordFlow();
-                options.AllowRefreshTokenFlow();
+            services.AddOpenIddict()
+                .AddCore(options =>
+                {
+                    options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
+                })
+                .AddServer(options =>
+                {
+                    options.UseMvc();
+                    options.EnableTokenEndpoint("/connect/token");
+                    options.AllowPasswordFlow();
+                    options.AllowRefreshTokenFlow();
+                    options.AcceptAnonymousClients();
+                    options.DisableHttpsRequirement(); // Note: Comment this out in production
+                    options.RegisterScopes(
+                        OpenIdConnectConstants.Scopes.OpenId,
+                        OpenIdConnectConstants.Scopes.Email,
+                        OpenIdConnectConstants.Scopes.Phone,
+                        OpenIdConnectConstants.Scopes.Profile,
+                        OpenIdConnectConstants.Scopes.OfflineAccess,
+                        OpenIddictConstants.Scopes.Roles);
 
-                //if (_hostingEnvironment.IsDevelopment()) //Uncomment to only disable Https during development
-                options.DisableHttpsRequirement();
+                    // options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request
+                    // Note: to use JWT access tokens instead of the default encrypted format, the following lines are required:
+                    // options.UseJsonWebTokens();
+                })
+                .AddValidation(); //Only compatible with the default token format. For JWT tokens, use the Microsoft JWT bearer handler.
 
-                //options.UseRollingTokens(); //Uncomment to renew refresh tokens on every refreshToken request
-                //options.AddSigningKey(new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["STSKey"])));
-            });
-
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = OAuthValidationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OAuthValidationDefaults.AuthenticationScheme;
-            }).AddOAuthValidation();
 
 
             // Add cors
             services.AddCors();
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 
             // In production, the Angular files will be served from this directory
@@ -124,11 +120,6 @@ namespace QuickApp
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
-
-            // Enforce https during production. To quickly enable ssl during development. Go to: Project Properties->Debug->Enable SSL
-            //if (!_hostingEnvironment.IsDevelopment())
-            //    services.Configure<MvcOptions>(options => options.Filters.Add(new RequireHttpsAttribute()));
 
 
             //Todo: ***Using DataAnnotations for validation until Swashbuckle supports FluentValidation***
@@ -145,12 +136,13 @@ namespace QuickApp
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "QuickApp API", Version = "v1" });
-
-                c.AddSecurityDefinition("OpenID Connect", new OAuth2Scheme
+                c.OperationFilter<AuthorizeCheckOperationFilter>();
+                c.AddSecurityDefinition("oauth2", new OAuth2Scheme
                 {
                     Type = "oauth2",
                     Flow = "password",
-                    TokenUrl = "/connect/token"
+                    TokenUrl = "/connect/token",
+                    Description = "Note: Leave client_id and client_secret blank"
                 });
             });
 
@@ -211,12 +203,8 @@ namespace QuickApp
             }
             else
             {
-                // Enforce https during production
-                //var rewriteOptions = new RewriteOptions()
-                //    .AddRedirectToHttps();
-                //app.UseRewriter(rewriteOptions);
-
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
             }
 
 
@@ -227,6 +215,7 @@ namespace QuickApp
                 .AllowAnyMethod());
 
 
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseAuthentication();
@@ -235,6 +224,7 @@ namespace QuickApp
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
+                c.DocumentTitle = "Swagger UI - Quick Application";
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "QuickApp API V1");
             });
 
@@ -256,6 +246,8 @@ namespace QuickApp
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
+                    //spa.Options.StartupTimeout = TimeSpan.FromSeconds(60); // Increase the timeout if angular app is taking longer to startup
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Use this instead to use the angular cli server
                 }
             });
         }

@@ -61,12 +61,12 @@ namespace QuickApp.Controllers
 
             string message = EmailTemplates.GetTestEmail(recepientName, DateTime.UtcNow);
 
-            (bool success, string errorMsg) response = await _emailer.SendEmailAsync(recepientName, recepientEmail, "Test Email from QuickApp", message);
+            (bool success, string errorMsg) = await _emailer.SendEmailAsync(recepientName, recepientEmail, "Test Email from QuickApp", message);
 
-            if (response.success)
+            if (success)
                 return "Success";
 
-            return "Error: " + response.errorMsg;
+            return "Error: " + errorMsg;
         }
 
 
