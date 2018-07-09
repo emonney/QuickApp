@@ -5,155 +5,146 @@
 
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/catch';
+import { Observable, Subject, throwError } from 'rxjs';
+import { mergeMap, switchMap, catchError } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 import { ConfigurationService } from './configuration.service';
 
-
 @Injectable()
 export class EndpointFactory {
+  static readonly apiVersion: string = "1";
 
-    static readonly apiVersion: string = "1";
+  private readonly _loginUrl: string = "/connect/token";
 
-    private readonly _loginUrl: string = "/connect/token";
+  private get loginUrl() { return this.configurations.baseUrl + this._loginUrl; }
 
-    private get loginUrl() { return this.configurations.baseUrl + this._loginUrl; }
+  private taskPauser: Subject<any>;
+  private isRefreshingLogin: boolean;
 
+  private _authService: AuthService;
 
+  private get authService() {
+    if (!this._authService)
+      this._authService = this.injector.get(AuthService);
 
-    private taskPauser: Subject<any>;
-    private isRefreshingLogin: boolean;
-
-    private _authService: AuthService;
-
-    private get authService() {
-        if (!this._authService)
-            this._authService = this.injector.get(AuthService);
-
-        return this._authService;
-    }
+    return this._authService;
+  }
 
 
 
-    constructor(protected http: HttpClient, protected configurations: ConfigurationService, private injector: Injector) {
+  constructor(protected http: HttpClient, protected configurations: ConfigurationService, private injector: Injector) {
 
-    }
-
-
-    getLoginEndpoint<T>(userName: string, password: string): Observable<T> {
-
-        let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
-
-        let params = new HttpParams()
-            .append('username', userName)
-            .append('password', password)
-            .append('grant_type', 'password')
-            .append('scope', 'openid email phone profile offline_access roles')
-            .append('resource', window.location.origin);
-
-        let requestBody = params.toString();
-
-        return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
-    }
+  }
 
 
-    getRefreshLoginEndpoint<T>(): Observable<T> {
+  getLoginEndpoint<T>(userName: string, password: string): Observable<T> {
 
-        let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
-        let params = new HttpParams()
-            .append('refresh_token', this.authService.refreshToken)
-            .append('grant_type', 'refresh_token')
-            .append('scope', 'openid email phone profile offline_access roles');
+    let params = new HttpParams()
+      .append('username', userName)
+      .append('password', password)
+      .append('grant_type', 'password')
+      .append('scope', 'openid email phone profile offline_access roles');
 
-        let requestBody = params.toString();
+    let requestBody = params.toString();
 
-        return this.http.post<T>(this.loginUrl, requestBody, { headers: header })
-            .catch(error => {
-                return this.handleError(error, () => this.getRefreshLoginEndpoint());
-            });
-    }
+    return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
+  }
 
 
+  getRefreshLoginEndpoint<T>(): Observable<T> {
 
-    protected getRequestHeaders(): { headers: HttpHeaders | { [header: string]: string | string[]; } } {
-        let headers = new HttpHeaders({
-            'Authorization': 'Bearer ' + this.authService.accessToken,
-            'Content-Type': 'application/json',
-            'Accept': `application/vnd.iman.v${EndpointFactory.apiVersion}+json, application/json, text/plain, */*`,
-            'App-Version': ConfigurationService.appVersion
-        });
+    let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
-        return { headers: headers };
-    }
+    let params = new HttpParams()
+      .append('refresh_token', this.authService.refreshToken)
+      .append('grant_type', 'refresh_token')
+      .append('scope', 'openid email phone profile offline_access roles');
+
+    let requestBody = params.toString();
+
+    return this.http.post<T>(this.loginUrl, requestBody, { headers: header }).pipe<T>(
+      catchError(error => {
+        return this.handleError(error, () => this.getRefreshLoginEndpoint());
+      }));
+  }
 
 
 
-    protected handleError(error, continuation: () => Observable<any>) {
+  protected getRequestHeaders(): { headers: HttpHeaders | { [header: string]: string | string[]; } } {
+    let headers = new HttpHeaders({
+      'Authorization': 'Bearer ' + this.authService.accessToken,
+      'Content-Type': 'application/json',
+      'Accept': `application/vnd.iman.v${EndpointFactory.apiVersion}+json, application/json, text/plain, */*`,
+      'App-Version': ConfigurationService.appVersion
+    });
 
-        if (error.status == 401) {
-            if (this.isRefreshingLogin) {
-                return this.pauseTask(continuation);
-            }
+    return { headers: headers };
+  }
 
-            this.isRefreshingLogin = true;
 
-            return this.authService.refreshLogin()
-                .mergeMap(data => {
-                    this.isRefreshingLogin = false;
-                    this.resumeTasks(true);
 
-                    return continuation();
-                })
-                .catch(refreshLoginError => {
-                    this.isRefreshingLogin = false;
-                    this.resumeTasks(false);
+  protected handleError(error, continuation: () => Observable<any>) {
 
-                    if (refreshLoginError.status == 401 || (refreshLoginError.url && refreshLoginError.url.toLowerCase().includes(this.loginUrl.toLowerCase()))) {
-                        this.authService.reLogin();
-                        return Observable.throw('session expired');
-                    }
-                    else {
-                        return Observable.throw(refreshLoginError || 'server error');
-                    }
-                });
-        }
+    if (error.status == 401) {
+      if (this.isRefreshingLogin) {
+        return this.pauseTask(continuation);
+      }
 
-        if (error.url && error.url.toLowerCase().includes(this.loginUrl.toLowerCase())) {
+      this.isRefreshingLogin = true;
+
+      return this.authService.refreshLogin().pipe(
+        mergeMap(data => {
+          this.isRefreshingLogin = false;
+          this.resumeTasks(true);
+
+          return continuation();
+        }),
+        catchError(refreshLoginError => {
+          this.isRefreshingLogin = false;
+          this.resumeTasks(false);
+
+          if (refreshLoginError.status == 401 || (refreshLoginError.url && refreshLoginError.url.toLowerCase().includes(this.loginUrl.toLowerCase()))) {
             this.authService.reLogin();
-
-            return Observable.throw((error.error && error.error.error_description) ? `session expired (${error.error.error_description})` : 'session expired');
-        }
-        else {
-            return Observable.throw(error);
-        }
+            return throwError('session expired');
+          }
+          else {
+            return throwError(refreshLoginError || 'server error');
+          }
+        }));
     }
 
+    if (error.url && error.url.toLowerCase().includes(this.loginUrl.toLowerCase())) {
+      this.authService.reLogin();
 
-
-    private pauseTask(continuation: () => Observable<any>) {
-        if (!this.taskPauser)
-            this.taskPauser = new Subject();
-
-        return this.taskPauser.switchMap(continueOp => {
-            return continueOp ? continuation() : Observable.throw('session expired');
-        });
+      return throwError((error.error && error.error.error_description) ? `session expired (${error.error.error_description})` : 'session expired');
     }
-
-
-    private resumeTasks(continueOp: boolean) {
-        setTimeout(() => {
-            if (this.taskPauser) {
-                this.taskPauser.next(continueOp);
-                this.taskPauser.complete();
-                this.taskPauser = null;
-            }
-        });
+    else {
+      return throwError(error);
     }
+  }
+
+
+
+  private pauseTask(continuation: () => Observable<any>) {
+    if (!this.taskPauser)
+      this.taskPauser = new Subject();
+
+    return this.taskPauser.pipe(switchMap(continueOp => {
+      return continueOp ? continuation() : throwError('session expired');
+    }));
+  }
+
+
+  private resumeTasks(continueOp: boolean) {
+    setTimeout(() => {
+      if (this.taskPauser) {
+        this.taskPauser.next(continueOp);
+        this.taskPauser.complete();
+        this.taskPauser = null;
+      }
+    });
+  }
 }

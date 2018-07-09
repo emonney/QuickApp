@@ -5,7 +5,7 @@
 
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import 'rxjs/add/operator/switchMap';
+
 
 import { fadeInOut } from '../../services/animations';
 import { BootstrapTabDirective } from "../../directives/bootstrap-tab.directive";

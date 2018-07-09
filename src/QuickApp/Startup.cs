@@ -24,6 +24,7 @@ using QuickApp.Authorization;
 using QuickApp.Helpers;
 using QuickApp.ViewModels;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
 using AppPermissions = DAL.Core.ApplicationPermissions;
 
 namespace QuickApp
@@ -246,7 +247,7 @@ namespace QuickApp
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
-                    //spa.Options.StartupTimeout = TimeSpan.FromSeconds(60); // Increase the timeout if angular app is taking longer to startup
+                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(60); // Increase the timeout if angular app is taking longer to startup
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Use this instead to use the angular cli server
                 }
             });

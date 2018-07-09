@@ -5,15 +5,15 @@
 
 import { AppPage } from './app.po';
 
-describe('QuickApp', () => {
+describe('QuickApp App', () => {
   let page: AppPage;
 
   beforeEach(() => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display application title: Quick Application', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getAppTitle()).toEqual('Quick Application');
   });
 });
