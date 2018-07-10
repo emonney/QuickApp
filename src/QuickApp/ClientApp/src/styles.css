@@ -110,6 +110,13 @@ i.page-caption {
     font-size: 1.04em;
   }
 
+#toasta .toast-text .toast-msg {
+  max-width: 1000px;
+  max-height: 800px;
+  display: inline-block;
+  overflow: auto;
+}
+
 
 
 
