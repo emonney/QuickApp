@@ -26,7 +26,7 @@ type UserConfiguration = {
 @Injectable()
 export class ConfigurationService {
 
-    public static readonly appVersion: string = "2.6.0";
+    public static readonly appVersion: string = "2.6.1";
 
     public baseUrl = environment.baseUrl || Utilities.baseUrl();
     public loginUrl = environment.loginUrl;

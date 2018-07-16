@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.6.0</Version>
+    <Version>2.6.1</Version>
     <Description>Data Access Layer for the Quick Application template</Description>
     <Copyright>Copyright © 2018 www.ebenmonney.com</Copyright>
     <PackageLicenseUrl>https://github.com/emonney/QuickApp/blob/master/LICENSE</PackageLicenseUrl>
@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.2" />
     <PackageReference Include="OpenIddict" Version="2.0.0-rc3-final" />
     <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc3-final" />
   </ItemGroup>

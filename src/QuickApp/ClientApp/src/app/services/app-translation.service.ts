@@ -81,11 +81,6 @@ export class AppTranslationService {
 
 export class TranslateLanguageLoader implements TranslateLoader {
 
-  /**
-   * Gets the translations from webpack
-   * @param lang
-   * @returns {any}
-   */
   public getTranslation(lang: string): any {
 
     //Note Dynamic require(variable) will not work. Require is always at compile time
