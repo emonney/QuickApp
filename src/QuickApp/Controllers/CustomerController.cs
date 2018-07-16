@@ -23,10 +23,10 @@ namespace QuickApp.Controllers
     {
         private IUnitOfWork _unitOfWork;
         readonly ILogger _logger;
-        readonly IEmailer _emailer;
+        readonly IEmailSender _emailer;
 
 
-        public CustomerController(IUnitOfWork unitOfWork, ILogger<CustomerController> logger, IEmailer emailer)
+        public CustomerController(IUnitOfWork unitOfWork, ILogger<CustomerController> logger, IEmailSender emailer)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
@@ -61,12 +61,12 @@ namespace QuickApp.Controllers
 
             string message = EmailTemplates.GetTestEmail(recepientName, DateTime.UtcNow);
 
-            (bool success, string errorMsg) response = await _emailer.SendEmailAsync(recepientName, recepientEmail, "Test Email from QuickApp", message);
+            (bool success, string errorMsg) = await _emailer.SendEmailAsync(recepientName, recepientEmail, "Test Email from QuickApp", message);
 
-            if (response.success)
+            if (success)
                 return "Success";
 
-            return "Error: " + response.errorMsg;
+            return "Error: " + errorMsg;
         }
 
 

@@ -4,78 +4,74 @@
 // ====================================================
 
 import { Directive, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/fromEvent';
+import { Observable, Subscription, fromEvent } from 'rxjs';
+
 
 declare var $: any;
 
 @Directive({
-    selector: '[bootstrapToggle]',
-    exportAs: 'bootstrap-toggle'
+  selector: '[bootstrapToggle]',
+  exportAs: 'bootstrap-toggle'
 })
 export class BootstrapToggleDirective implements OnInit, OnDestroy {
 
-    private checkedSubscription: Subscription;
+  private checkedSubscription: Subscription;
 
-    @Input()
-    set ngModel(value) {
-        this.toggle(value);
-    }
+  @Input()
+  set ngModel(value) {
+    this.toggle(value);
+  }
 
-    @Output()
-    ngModelChange = new EventEmitter();
-
-
-    constructor(private el: ElementRef) {
-        this.checkedSubscription = Observable.fromEvent($(this.el.nativeElement), 'change')
-            .subscribe((e: any) => this.ngModelChange.emit(e.target.checked));
-    }
+  @Output()
+  ngModelChange = new EventEmitter();
 
 
-
-    ngOnInit() {
-        this.initialize();
-    }
-
-    ngOnDestroy() {
-        this.destroy();
-    }
+  constructor(private el: ElementRef) {
+    this.checkedSubscription = fromEvent($(this.el.nativeElement), 'change')
+      .subscribe((e: any) => this.ngModelChange.emit(e.target.checked));
+  }
 
 
+  ngOnInit() {
+    this.initialize();
+  }
+
+  ngOnDestroy() {
+    this.destroy();
+  }
 
 
-    initialize(options?: any) {
-        $(this.el.nativeElement).bootstrapToggle(options);
-    }
+  initialize(options?: any) {
+    $(this.el.nativeElement).bootstrapToggle(options);
+  }
 
-    destroy() {
-        if (this.checkedSubscription)
-            this.checkedSubscription.unsubscribe();
+  destroy() {
+    if (this.checkedSubscription)
+      this.checkedSubscription.unsubscribe();
 
-        $(this.el.nativeElement).bootstrapToggle('destroy');
-    }
+    $(this.el.nativeElement).bootstrapToggle('destroy');
+  }
 
-    toggleOn() {
-        $(this.el.nativeElement).bootstrapToggle('on');
-    }
+  toggleOn() {
+    $(this.el.nativeElement).bootstrapToggle('on');
+  }
 
-    toggleOff() {
-        $(this.el.nativeElement).bootstrapToggle('off');
-    }
+  toggleOff() {
+    $(this.el.nativeElement).bootstrapToggle('off');
+  }
 
-    toggle(value?: boolean) {
-        if (value == null)
-            $(this.el.nativeElement).bootstrapToggle('toggle');
-        else
-            $(this.el.nativeElement).prop('checked', value).change();
-    }
+  toggle(value?: boolean) {
+    if (value == null)
+      $(this.el.nativeElement).bootstrapToggle('toggle');
+    else
+      $(this.el.nativeElement).prop('checked', value).change();
+  }
 
-    enable() {
-        $(this.el.nativeElement).bootstrapToggle('enable');
-    }
+  enable() {
+    $(this.el.nativeElement).bootstrapToggle('enable');
+  }
 
-    disable() {
-        $(this.el.nativeElement).bootstrapToggle('disable');
-    }
+  disable() {
+    $(this.el.nativeElement).bootstrapToggle('disable');
+  }
 }

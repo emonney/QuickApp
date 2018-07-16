@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 //import { AdsenseModule } from 'ng2-adsense';
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { ToastyModule } from 'ng2-toasty';
+import { ToastaModule } from 'ngx-toasta';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { PopoverModule } from "ngx-bootstrap/popover";
@@ -68,71 +68,71 @@ import { RoleEditorComponent } from "./components/controls/role-editor.component
 
 
 @NgModule({
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        FormsModule,
-        AppRoutingModule,
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
+    AppRoutingModule,
         //AdsenseModule.forRoot({
         //    adClient: 'ca-pub-9776974386593596',
         //    adSlot: 2895519059,
         //    adFormat: 'auto'
         //}),
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useClass: TranslateLanguageLoader
-            }
-        }),
-        NgxDatatableModule,
-        ToastyModule.forRoot(),
-        TooltipModule.forRoot(),
-        PopoverModule.forRoot(),
-        BsDropdownModule.forRoot(),
-        CarouselModule.forRoot(),
-        ModalModule.forRoot(),
-        ChartsModule
-    ],
-    declarations: [
-        AppComponent,
-        LoginComponent,
-        HomeComponent,
-        CustomersComponent,
-        ProductsComponent,
-        OrdersComponent,
-        SettingsComponent,
-        UsersManagementComponent, UserInfoComponent, UserPreferencesComponent,
-        RolesManagementComponent, RoleEditorComponent,
-        AboutComponent,
-        NotFoundComponent,
-        NotificationsViewerComponent,
-        SearchBoxComponent,
-        StatisticsDemoComponent, TodoDemoComponent, BannerDemoComponent,
-        EqualValidator,
-        LastElementDirective,
-        AutofocusDirective,
-        BootstrapTabDirective,
-        BootstrapToggleDirective,
-        BootstrapSelectDirective,
-        BootstrapDatepickerDirective,
-        GroupByPipe
-    ],
-    providers: [
-        { provide: 'BASE_URL', useFactory: getBaseUrl },
-        { provide: ErrorHandler, useClass: AppErrorHandler },
-        AlertService,
-        ConfigurationService,
-        AppTitleService,
-        AppTranslationService,
-        NotificationService,
-        NotificationEndpoint,
-        AccountService,
-        AccountEndpoint,
-        LocalStoreManager,
-        EndpointFactory
-    ],
-    bootstrap: [AppComponent]
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: TranslateLanguageLoader
+      }
+    }),
+    NgxDatatableModule,
+    ToastaModule.forRoot(),
+    TooltipModule.forRoot(),
+    PopoverModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    CarouselModule.forRoot(),
+    ModalModule.forRoot(),
+    ChartsModule
+  ],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    CustomersComponent,
+    ProductsComponent,
+    OrdersComponent,
+    SettingsComponent,
+    UsersManagementComponent, UserInfoComponent, UserPreferencesComponent,
+    RolesManagementComponent, RoleEditorComponent,
+    AboutComponent,
+    NotFoundComponent,
+    NotificationsViewerComponent,
+    SearchBoxComponent,
+    StatisticsDemoComponent, TodoDemoComponent, BannerDemoComponent,
+    EqualValidator,
+    LastElementDirective,
+    AutofocusDirective,
+    BootstrapTabDirective,
+    BootstrapToggleDirective,
+    BootstrapSelectDirective,
+    BootstrapDatepickerDirective,
+    GroupByPipe
+  ],
+  providers: [
+    { provide: 'BASE_URL', useFactory: getBaseUrl },
+    { provide: ErrorHandler, useClass: AppErrorHandler },
+    AlertService,
+    ConfigurationService,
+    AppTitleService,
+    AppTranslationService,
+    NotificationService,
+    NotificationEndpoint,
+    AccountService,
+    AccountEndpoint,
+    LocalStoreManager,
+    EndpointFactory
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }
@@ -141,5 +141,5 @@ export class AppModule {
 
 
 export function getBaseUrl() {
-    return document.getElementsByTagName('base')[0].href;
+  return document.getElementsByTagName('base')[0].href;
 }

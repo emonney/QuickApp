@@ -12,157 +12,157 @@ import { Utilities } from '../../services/utilities';
 import { UserLogin } from '../../models/user-login.model';
 
 @Component({
-    selector: "app-login",
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
+  selector: "app-login",
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 
 export class LoginComponent implements OnInit, OnDestroy {
 
-    userLogin = new UserLogin();
-    isLoading = false;
-    formResetToggle = true;
-    modalClosedCallback: () => void;
-    loginStatusSubscription: any;
-    proVersion = `<a target="_blank" href="https://www.ebenmonney.com/product/quickapp-pro"><i class="fa fa-hand-o-right"></i> Click here to get the PRO!</a>`;
+  userLogin = new UserLogin();
+  isLoading = false;
+  formResetToggle = true;
+  modalClosedCallback: () => void;
+  loginStatusSubscription: any;
+  proVersion = `<a target="_blank" href="https://www.ebenmonney.com/product/quickapp-pro"><i class="fa fa-hand-o-right"></i> Click here to get the PRO!</a>`;
 
 
 
-    @Input()
-    isModal = false;
+  @Input()
+  isModal = false;
 
 
-    constructor(private alertService: AlertService, private authService: AuthService, private configurations: ConfigurationService) {
+  constructor(private alertService: AlertService, private authService: AuthService, private configurations: ConfigurationService) {
 
+  }
+
+
+  ngOnInit() {
+
+    this.userLogin.rememberMe = this.authService.rememberMe;
+
+    if (this.getShouldRedirect()) {
+      this.authService.redirectLoginUser();
     }
+    else {
+      this.displayDemoUserAssistant();
 
-
-    ngOnInit() {
-
-        this.userLogin.rememberMe = this.authService.rememberMe;
-
+      this.loginStatusSubscription = this.authService.getLoginStatusEvent().subscribe(isLoggedIn => {
         if (this.getShouldRedirect()) {
-            this.authService.redirectLoginUser();
+          this.authService.redirectLoginUser();
         }
-        else {
-            this.displayDemoUserAssistant();
-
-            this.loginStatusSubscription = this.authService.getLoginStatusEvent().subscribe(isLoggedIn => {
-                if (this.getShouldRedirect()) {
-                    this.authService.redirectLoginUser();
-                }
-            });
-        }
+      });
     }
+  }
 
 
-    ngOnDestroy() {
-        if (this.loginStatusSubscription)
-            this.loginStatusSubscription.unsubscribe();
+  ngOnDestroy() {
+    if (this.loginStatusSubscription)
+      this.loginStatusSubscription.unsubscribe();
+  }
+
+
+  getShouldRedirect() {
+    return !this.isModal && this.authService.isLoggedIn && !this.authService.isSessionExpired;
+  }
+
+
+  displayDemoUserAssistant() {
+    if (this.isModal)
+      return;
+
+    setTimeout(() => this.alertService.showMessage("Hello tester!", "Please login with any of the demo credentials below", MessageSeverity.info), 2000);
+    setTimeout(() => this.alertService.showStickyMessage("Admin User", "Username: admin<br />Password: tempP@ss123", MessageSeverity.default), 4000);
+    setTimeout(() => this.alertService.showStickyMessage("Standard User", "Username: user<br />Password: tempP@ss123", MessageSeverity.default), 4500);
+
+    setTimeout(() => this.alertService.showStickyMessage("QuickApp PRO", this.proVersion, MessageSeverity.info), 5000);
+  }
+
+
+  showErrorAlert(caption: string, message: string) {
+    this.alertService.showMessage(caption, message, MessageSeverity.error);
+  }
+
+  closeModal() {
+    if (this.modalClosedCallback) {
+      this.modalClosedCallback();
     }
+  }
 
 
-    getShouldRedirect() {
-        return !this.isModal && this.authService.isLoggedIn && !this.authService.isSessionExpired;
-    }
+  login() {
+    this.isLoading = true;
+    this.alertService.startLoadingMessage("", "Attempting login...");
 
+    this.authService.login(this.userLogin.email, this.userLogin.password, this.userLogin.rememberMe)
+      .subscribe(
+        user => {
+          setTimeout(() => {
+            this.alertService.stopLoadingMessage();
+            this.isLoading = false;
+            this.reset();
 
-    displayDemoUserAssistant() {
-        if (this.isModal)
-            return;
+            if (!this.isModal) {
+              this.alertService.showMessage("Login", `Welcome ${user.userName}!`, MessageSeverity.success);
+              setTimeout(() => this.alertService.showStickyMessage("QuickApp PRO", this.proVersion, MessageSeverity.info), 2000);
+            }
+            else {
+              this.alertService.showMessage("Login", `Session for ${user.userName} restored!`, MessageSeverity.success);
+              setTimeout(() => {
+                this.alertService.showStickyMessage("Session Restored", "Please try your last operation again", MessageSeverity.default);
+              }, 500);
 
-        setTimeout(() => this.alertService.showMessage("Hello tester!", "Please login with any of the demo credentials below", MessageSeverity.info), 2000);
-        setTimeout(() => this.alertService.showStickyMessage("Admin User", "Username: admin<br />Password: tempP@ss123", MessageSeverity.default), 4000);
-        setTimeout(() => this.alertService.showStickyMessage("Standard User", "Username: user<br />Password: tempP@ss123", MessageSeverity.default), 4500);
+              this.closeModal();
+            }
+          }, 500);
+        },
+        error => {
 
-        setTimeout(() => this.alertService.showStickyMessage("QuickApp PRO", this.proVersion, MessageSeverity.info), 5000);
-    }
+          this.alertService.stopLoadingMessage();
 
+          if (Utilities.checkNoNetwork(error)) {
+            this.alertService.showStickyMessage(Utilities.noNetworkMessageCaption, Utilities.noNetworkMessageDetail, MessageSeverity.error, error);
+            this.offerAlternateHost();
+          }
+          else {
+            let errorMessage = Utilities.findHttpResponseMessage("error_description", error);
 
-    showErrorAlert(caption: string, message: string) {
-        this.alertService.showMessage(caption, message, MessageSeverity.error);
-    }
+            if (errorMessage)
+              this.alertService.showStickyMessage("Unable to login", errorMessage, MessageSeverity.error, error);
+            else
+              this.alertService.showStickyMessage("Unable to login", "An error occured whilst logging in, please try again later.\nError: " + Utilities.getResponseBody(error), MessageSeverity.error, error);
+          }
 
-    closeModal() {
-        if (this.modalClosedCallback) {
-            this.modalClosedCallback();
-        }
-    }
-
-
-    login() {
-        this.isLoading = true;
-        this.alertService.startLoadingMessage("", "Attempting login...");
-
-        this.authService.login(this.userLogin.email, this.userLogin.password, this.userLogin.rememberMe)
-            .subscribe(
-            user => {
-                setTimeout(() => {
-                    this.alertService.stopLoadingMessage();
-                    this.isLoading = false;
-                    this.reset();
-
-                    if (!this.isModal) {
-                        this.alertService.showMessage("Login", `Welcome ${user.userName}!`, MessageSeverity.success);
-                        setTimeout(() => this.alertService.showStickyMessage("QuickApp PRO", this.proVersion, MessageSeverity.info), 2000);
-                    }
-                    else {
-                        this.alertService.showMessage("Login", `Session for ${user.userName} restored!`, MessageSeverity.success);
-                        setTimeout(() => {
-                            this.alertService.showStickyMessage("Session Restored", "Please try your last operation again", MessageSeverity.default);
-                        }, 500);
-
-                        this.closeModal();
-                    }
-                }, 500);
-            },
-            error => {
-
-                this.alertService.stopLoadingMessage();
-
-                if (Utilities.checkNoNetwork(error)) {
-                    this.alertService.showStickyMessage(Utilities.noNetworkMessageCaption, Utilities.noNetworkMessageDetail, MessageSeverity.error, error);
-                    this.offerAlternateHost();
-                }
-                else {
-                    let errorMessage = Utilities.findHttpResponseMessage("error_description", error);
-
-                    if (errorMessage)
-                        this.alertService.showStickyMessage("Unable to login", errorMessage, MessageSeverity.error, error);
-                    else
-                        this.alertService.showStickyMessage("Unable to login", "An error occured whilst logging in, please try again later.\nError: " + error.statusText || error.status, MessageSeverity.error, error);
-                }
-
-                setTimeout(() => {
-                    this.isLoading = false;
-                }, 500);
-            });
-    }
-
-
-    offerAlternateHost() {
-
-        if (Utilities.checkIsLocalHost(location.origin) && Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
-            this.alertService.showDialog("Dear Developer!\nIt appears your backend Web API service is not running...\n" +
-                "Would you want to temporarily switch to the online Demo API below?(Or specify another)",
-                DialogType.prompt,
-                (value: string) => {
-                    this.configurations.baseUrl = value;
-                    this.alertService.showStickyMessage("API Changed!", "The target Web API has been changed to: " + value, MessageSeverity.warn);
-                },
-                null,
-                null,
-                null,
-                this.configurations.fallbackBaseUrl);
-        }
-    }
-
-
-    reset() {
-        this.formResetToggle = false;
-
-        setTimeout(() => {
-            this.formResetToggle = true;
+          setTimeout(() => {
+            this.isLoading = false;
+          }, 500);
         });
+  }
+
+
+  offerAlternateHost() {
+
+    if (Utilities.checkIsLocalHost(location.origin) && Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
+      this.alertService.showDialog("Dear Developer!\nIt appears your backend Web API service is not running...\n" +
+        "Would you want to temporarily switch to the online Demo API below?(Or specify another)",
+        DialogType.prompt,
+        (value: string) => {
+          this.configurations.baseUrl = value;
+          this.alertService.showStickyMessage("API Changed!", "The target Web API has been changed to: " + value, MessageSeverity.warn);
+        },
+        null,
+        null,
+        null,
+        this.configurations.fallbackBaseUrl);
     }
+  }
+
+
+  reset() {
+    this.formResetToggle = false;
+
+    setTimeout(() => {
+      this.formResetToggle = true;
+    });
+  }
 }

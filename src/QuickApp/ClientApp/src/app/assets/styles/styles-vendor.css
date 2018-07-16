@@ -1,5 +1,5 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
-@import '~ng2-toasty/bundles/style-bootstrap.css';
+@import '~ngx-toasta/styles/style-bootstrap.css';
 @import '~@swimlane/ngx-datatable/release/assets/icons.css';
 @import '~bootstrap-toggle/css/bootstrap-toggle.css';
 @import '~bootstrap-select/dist/css/bootstrap-select.css';

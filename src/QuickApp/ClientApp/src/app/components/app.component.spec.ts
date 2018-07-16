@@ -15,7 +15,7 @@ import { NotificationsViewerComponent } from "../components/controls/notificatio
 
 import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { ToastyModule } from 'ng2-toasty';
+import { ToastaModule } from 'ngx-toasta';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { PopoverModule } from "ngx-bootstrap/popover";
@@ -33,61 +33,61 @@ import { AccountService } from '../services/account.service';
 import { AccountEndpoint } from '../services/account-endpoint.service';
 
 describe('AppComponent', () => {
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                HttpClientModule,
-                FormsModule,
-                RouterTestingModule,
-                TranslateModule.forRoot({
-                    loader: {
-                        provide: TranslateLoader,
-                        useClass: TranslateLanguageLoader
-                    }
-                }),
-                NgxDatatableModule,
-                ToastyModule.forRoot(),
-                TooltipModule.forRoot(),
-                PopoverModule.forRoot(),
-                ModalModule.forRoot()
-            ],
-            declarations: [
-                AppComponent,
-                LoginComponent,
-                NotificationsViewerComponent
-            ],
-            providers: [
-                AuthService,
-                AlertService,
-                ConfigurationService,
-                AppTitleService,
-                AppTranslationService,
-                NotificationService,
-                NotificationEndpoint,
-                AccountService,
-                AccountEndpoint,
-                LocalStoreManager,
-                EndpointFactory
-            ]
-        }).compileComponents();
-    }));
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule,
+        FormsModule,
+        RouterTestingModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateLanguageLoader
+          }
+        }),
+        NgxDatatableModule,
+        ToastaModule.forRoot(),
+        TooltipModule.forRoot(),
+        PopoverModule.forRoot(),
+        ModalModule.forRoot()
+      ],
+      declarations: [
+        AppComponent,
+        LoginComponent,
+        NotificationsViewerComponent
+      ],
+      providers: [
+        AuthService,
+        AlertService,
+        ConfigurationService,
+        AppTitleService,
+        AppTranslationService,
+        NotificationService,
+        NotificationEndpoint,
+        AccountService,
+        AccountEndpoint,
+        LocalStoreManager,
+        EndpointFactory
+      ]
+    }).compileComponents();
+  }));
 
-    it('should create the app', async(() => {
-        const fixture = TestBed.createComponent(AppComponent);
-        const app = fixture.debugElement.componentInstance;
-        expect(app).toBeTruthy();
-    }));
+  it('should create the app', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(app).toBeTruthy();
+  }));
 
-    it(`should have as title 'Quick Application'`, async(() => {
-        const fixture = TestBed.createComponent(AppComponent);
-        const app = <AppComponent>fixture.debugElement.componentInstance;
-        expect(app.appTitle).toEqual('Quick Application');
-    }));
+  it(`should have as title 'Quick Application'`, async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = <AppComponent>fixture.debugElement.componentInstance;
+    expect(app.appTitle).toEqual('Quick Application');
+  }));
 
-    it('should render Loaded! in a h1 tag', async(() => {
-        const fixture = TestBed.createComponent(AppComponent);
-        fixture.detectChanges();
-        const compiled = fixture.debugElement.nativeElement;
-        expect(compiled.querySelector('h1').textContent).toContain('Loaded!');
-    }));
+  it('should render Loaded! in a h1 tag', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('h1').textContent).toContain('Loaded!');
+  }));
 });

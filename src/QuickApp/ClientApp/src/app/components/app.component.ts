@@ -5,7 +5,7 @@
 
 import { Component, ViewEncapsulation, OnInit, OnDestroy, ViewChildren, AfterViewInit, QueryList, ElementRef } from "@angular/core";
 import { Router, NavigationStart } from '@angular/router';
-import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
+import { ToastaService, ToastaConfig, ToastOptions, ToastData } from 'ngx-toasta';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { AlertService, AlertDialog, DialogType, AlertMessage, MessageSeverity } from '../services/alert.service';
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   removePrebootScreen: boolean;
   newNotificationCount = 0;
   appTitle = "Quick Application";
-  appLogo = require("../assets/images/logo.png");
+  appLogo = require("../assets/images/logo-white.png");
 
   stickyToasties: number[] = [];
 
@@ -61,7 +61,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
 
-  constructor(storageManager: LocalStoreManager, private toastyService: ToastyService, private toastyConfig: ToastyConfig,
+  constructor(storageManager: LocalStoreManager, private toastaService: ToastaService, private toastaConfig: ToastaConfig,
     private accountService: AccountService, private alertService: AlertService, private notificationService: NotificationService, private appTitleService: AppTitleService,
     private authService: AuthService, private translationService: AppTranslationService, public configurations: ConfigurationService, public router: Router) {
 
@@ -71,10 +71,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     translationService.setDefaultLanguage('en');
 
 
-    this.toastyConfig.theme = 'bootstrap';
-    this.toastyConfig.position = 'top-right';
-    this.toastyConfig.limit = 100;
-    this.toastyConfig.showClose = true;
+    this.toastaConfig.theme = 'bootstrap';
+    this.toastaConfig.position = 'top-right';
+    this.toastaConfig.limit = 100;
+    this.toastaConfig.showClose = true;
 
     this.appTitleService.appName = this.appTitle;
   }
@@ -193,14 +193,14 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.dataLoadingConsecutiveFailurs = 0;
         this.newNotificationCount = notifications.filter(n => !n.isRead).length;
       },
-      error => {
-        this.alertService.logError(error);
+        error => {
+          this.alertService.logError(error);
 
-        if (this.dataLoadingConsecutiveFailurs++ < 20)
-          setTimeout(() => this.initNotificationsLoading(), 5000);
-        else
-          this.alertService.showStickyMessage("Load Error", "Loading new notifications from the server failed!", MessageSeverity.error);
-      });
+          if (this.dataLoadingConsecutiveFailurs++ < 20)
+            setTimeout(() => this.initNotificationsLoading(), 5000);
+          else
+            this.alertService.showStickyMessage("Load Error", "Loading new notifications from the server failed!", MessageSeverity.error);
+        });
   }
 
 
@@ -217,11 +217,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
           this.newNotificationCount = recentNotifications.filter(n => !n.isRead).length;
         },
-        error => {
-          this.alertService.logError(error);
-          this.alertService.showMessage("Notification Error", "Marking read notifications failed", MessageSeverity.error);
+          error => {
+            this.alertService.logError(error);
+            this.alertService.showMessage("Notification Error", "Marking read notifications failed", MessageSeverity.error);
 
-        });
+          });
     }
   }
 
@@ -278,7 +278,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     if (message == null) {
       for (let id of this.stickyToasties.slice(0)) {
-        this.toastyService.clear(id);
+        this.toastaService.clear(id);
       }
 
       return;
@@ -308,12 +308,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
     switch (message.severity) {
-      case MessageSeverity.default: this.toastyService.default(toastOptions); break
-      case MessageSeverity.info: this.toastyService.info(toastOptions); break;
-      case MessageSeverity.success: this.toastyService.success(toastOptions); break;
-      case MessageSeverity.error: this.toastyService.error(toastOptions); break
-      case MessageSeverity.warn: this.toastyService.warning(toastOptions); break;
-      case MessageSeverity.wait: this.toastyService.wait(toastOptions); break;
+      case MessageSeverity.default: this.toastaService.default(toastOptions); break;
+      case MessageSeverity.info: this.toastaService.info(toastOptions); break;
+      case MessageSeverity.success: this.toastaService.success(toastOptions); break;
+      case MessageSeverity.error: this.toastaService.error(toastOptions); break;
+      case MessageSeverity.warn: this.toastaService.warning(toastOptions); break;
+      case MessageSeverity.wait: this.toastaService.wait(toastOptions); break;
     }
   }
 
