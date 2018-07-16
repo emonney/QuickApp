@@ -205,7 +205,7 @@ namespace QuickApp
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
+                //app.UseHsts();
             }
 
 
@@ -216,7 +216,7 @@ namespace QuickApp
                 .AllowAnyMethod());
 
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseAuthentication();
