@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  quickapp:
+    image: ${DOCKER_REGISTRY}quickapp
+    build:
+      context: .
+      dockerfile: src/QuickApp/Dockerfile
+    depends_on:
+     - quickapp.sqldb
+     - quickapp.mail
+  
+  quickapp.sqldb:
+    image: microsoft/mssql-server-linux:2017-latest
+    
+  quickapp.mail:
+     image: mailhog/mailhog
+     ports:
+      - "8025:8025"
+      - "1025:1025"
