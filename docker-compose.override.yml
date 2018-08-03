@@ -9,6 +9,7 @@ services:
       - ConnectionStrings:DefaultConnection=Server=quickapp.sqldb;Database=QuickApp;User Id=sa;Password=Pass@word
       - SmtpConfig:Host=quickapp.mail
       - SmtpConfig:Port=1025
+      - SmtpConfig:Username=
       # fix for docker ssl issue
       # RUN THIS Command in Command prompt
       # dotnet dev-certs https -ep C:\Users\{user}\AppData\Roaming\ASP.NET\Https\QuickApp.pfx -p 348ff0ae-db78-4801-9094-52b065a1aa3b
