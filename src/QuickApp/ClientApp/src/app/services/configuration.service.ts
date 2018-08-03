@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 
 import { AppTranslationService } from './app-translation.service';
 import { LocalStoreManager } from './local-store-manager.service';
-import { DBkeys } from './db-Keys';
+import { DBkeys } from './db-keys';
 import { Utilities } from './utilities';
 import { environment } from '../../environments/environment';
 
@@ -40,7 +40,7 @@ export class ConfigurationService {
     public static readonly defaultShowDashboardNotifications: boolean = true;
     public static readonly defaultShowDashboardTodo: boolean = false;
     public static readonly defaultShowDashboardBanner: boolean = true;
-    //***End of defaults***  
+    //***End of defaults***
 
     private _language: string = null;
     private _homeUrl: string = null;

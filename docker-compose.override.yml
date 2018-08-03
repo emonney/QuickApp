@@ -11,13 +11,13 @@ services:
       - SmtpConfig:Port=1025
       # fix for docker ssl issue
       # RUN THIS Command in Command prompt
-      # dotnet dev-certs https -ep C:\Users\{user}\AppData\Roaming\ASP.NET\Https\QuickApp.pfx -p EEC316E2-29A4-4E0C-995A-1E1EC4ABBB99
-      - ASPNETCORE_Kestrel__Certificates__Default__Password="EEC316E2-29A4-4E0C-995A-1E1EC4ABBB99" 
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/QuickApp.pfx
+      # dotnet dev-certs https -ep C:\Users\{user}\AppData\Roaming\ASP.NET\Https\QuickApp.pfx -p 348ff0ae-db78-4801-9094-52b065a1aa3b
+      #- ASPNETCORE_Kestrel__Certificates__Default__Password="EEC316E2-29A4-4E0C-995A-1E1EC4ABBB99" 
+      #- ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/QuickApp.pfx
 
     ports:
       - "6780:80"
-      - "44367:44367"
+      - "44367:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
