@@ -1,0 +1,182 @@
+{
+  "app": {
+    "Welcome": "Velkommen",
+    "Notifications": "Notifikationer",
+    "New": "Ny"
+  },
+  "mainMenu": {
+    "Appointments": "Aftaler",
+    "Customers": "Kunder",
+    "Products": "Produkter",
+    "Orders": "Ordre",
+    "About": "Om",
+    "Logout": "Logout"
+  },
+  "pageHeader": {
+    "Dashboard": "Nøgletal",
+    "Customers": "Kunder",
+    "Products": "Produkter",
+    "Orders": "Ordre",
+    "NotFound": "Ikke-fundet",
+    "About": "Om",
+    "Settings": "Indstillinger"
+  },
+  "home": {
+    "NoWidgets1": "Ingen rapporter vises nu. Gå til ",
+    "NoWidgets2": "for at konfigurere viste rapporter",
+    "StatisticsTitle": "Omsætning"
+  },
+  "notFound": {
+    "404": "404",
+    "pageNotFound": "Siden findes ikke",
+    "backToHome": "Tilbage til forsiden"
+  },
+  "settings": {
+    "tab": {
+      "Profile": "Profil",
+      "Preferences": "Præferencer",
+      "Users": "Brugere",
+      "Roles": "Roller"
+    },
+    "header": {
+      "UserProfile": "Brugerprofil",
+      "UserPreferences": "Brugerpræferencer",
+      "UserDepartments": "Brugerafdelinger",
+      "UsersManagements": "Brugeradministration",
+      "RolesManagement": "Rolleadministration"
+    }
+  },
+  "preferences": {
+    "ReloadPreferences": "Genindlæs præferencer:",
+    "ReloadPreferencesHint": "Indlæs standardindstillinger (Dine ændringer nulstilles)",
+    "Language": "Sprog:",
+    "English": "Engelsk",
+    "French": "Fransk",
+    "German": "Tysk",
+    "Portuguese": "Portugesisk",
+    "Arabic": "Arabisk",
+    "Korean": "Koreansk",
+    "Danish": "Dansk",
+    "LanguageHint": "Vælg det foretrukne sprog for din konto",
+    "HomePage": "Forside:",
+    "Dashboard": "Dashboard",
+    "Customers": "Kunder",
+    "Products": "Produkter",
+    "Orders": "Ordre",
+    "About": "Om",
+    "Settings": "Indstillinger",
+    "HomePageHint": "Vælg hviklen forside der skal navigeres til efter login",
+    "Theme": "Tema:",
+    "DefaultColor": "<span class='default-theme-option'>Standard</span>",
+    "RedColor": "<span class='red-theme-option'>Rød</span>",
+    "OrangeColor": "<span class='orange-theme-option'>Orange</span>",
+    "GreenColor": "<span class='green-theme-option'>Grøn</span>",
+    "GrayColor": "<span class='gray-theme-option'>Grå</span>",
+    "BlackColor": "<span class='black-theme-option'>Sort</span>",
+    "ThemeHint": "Vælg dit foretrukne farve tema for din konto",
+    "DashboardStatistics": "Dashboard-statistik:",
+    "DashboardStatisticsHint": "Vis demo-graf widget på dashboard",
+    "DashboardNotifications": "Dashboard-notifikationer:",
+    "DashboardNotificationsHint": "Vi notifikationer på dashboard",
+    "DashboardTodo": "Dashboard huskeliste:",
+    "DashboardTodoHint": "Vis demo huskeliste på dashboard",
+    "DashboardBanner": "Dashboard-banner:",
+    "DashboardBannerHint": "Vis demo-informationsbanner widget på dashboardet",
+    "ResetDefault": "Nulstil præferencer",
+    "SetDefault": "Angiv som standard præferencer"
+  },
+  "users": {
+    "management": {
+      "Search": "Søg efter bruger...",
+      "NewUser": "Ny bruger",
+      "Edit": "Rediger",
+      "Delete": "Slet",
+      "EditUser": "Rediger brugeren \"{{name}}\"",
+      "Title": "Titel",
+      "UserName": "Brugernavn",
+      "FullName": "Fulde navn",
+      "Email": "Email",
+      "Roles": "Roller",
+      "PhoneNumber": "Telefon nummer"
+    },
+    "editor": {
+      "JobTitle": "Jobtitel: ",
+      "UserName": "Brugernavn:",
+      "UserNameRequired": "Brugernavn er påkrævet (mindst 2 og maksimalt 200 tegn)",
+      "Password": "Kodeord:",
+      "PasswordHint": "Dit kodeord er krævet når du ændrer brugernavn",
+      "CurrentPasswordRequired": "Nuværende kodeord er krævet",
+      "Email": "Email:",
+      "EmailRequired": "E-mail adressen er krævet (maksimalt 200 tegn)",
+      "InvalidEmail": "Den angivne e-mail er ikke gyldig",
+      "ChangePassword": "Skift kodeord",
+      "CurrentPassword": "Nuværende kodeord:",
+      "NewPassword": "Nyt kodeord:",
+      "NewPasswordRequired": "Nyt kodeord er krævet (minimum 6 tegn)",
+      "ConfirmPassword": "Bekræft kodeord:",
+      "ConfirmationPasswordRequired": "Bekræftelseskodeord er krævet",
+      "PasswordMismatch": "Det nye kodeord og bekræftelseskodeordet stemmer ikke overens",
+      "Roles": "Roller:",
+      "FullName": " Fulde navn:",
+      "RoleRequired": " Rolle er krævet",
+      "PhoneNumber": "Telefonnummer:",
+      "Enabled": "Aktiveret",
+      "Unblock": "Åbn",
+      "Close": "Luk",
+      "Edit": "Rediger",
+      "Cancel": "Annuller",
+      "Save": "Gem",
+      "Saving": "Gemmer..."
+    }
+  },
+  "roles": {
+    "management": {
+      "Search": "Søg efter rolle...",
+      "NewRole": "Ny rolle",
+      "Edit": "Rediger",
+      "Details": "Detaljer",
+      "Delete": "Slet",
+      "RoleDetails": "Detaljer for rollen \"{{name}}\"",
+      "EditRole": "Rediger rollen \"{{name}}\"",
+      "Name": "Navn",
+      "Description": "Beskrivelse",
+      "Users": "Brugere"
+    },
+    "editor": {
+      "Name": "Navn:",
+      "Description": "Beskrivelse:",
+      "RoleNameRequired": "Rolle navn er krævet (mindst 2 tegn og meksimalt 200 tegn)",
+      "SelectAll": "Vælg alt",
+      "SelectNone": "Fravælg alt",
+      "Close": "Luk",
+      "Cancel": "Annuller",
+      "Save": "Gem",
+      "Saving": "Gemmer..."
+    }
+  },
+  "notifications": {
+    "Delete": "Slet notifikation",
+    "Pin": "Pin notifikation",
+    "Date": "Dato",
+    "Notification": "Notifikation"
+  },
+  "todoDemo": {
+    "management": {
+      "Search": "Søg efter opgave...",
+      "HideCompleted": "Skjul afsluttede",
+      "AddTask": "Tilføj opgave",
+      "Delete": "Slet opgave",
+      "Important": "Marker som vigtig",
+      "Task": "Opgave",
+      "Description": "Beskrivelse"
+    },
+    "editor": {
+      "NewTask": "Ny opgave",
+      "Name": "Navn",
+      "TaskNameRequired": "Opgavens navn er krævet",
+      "Description": "Beskrivelse",
+      "Important": "Marker som vigtig",
+      "AddTask": "Tilføj opgave"
+    }
+  }
+}

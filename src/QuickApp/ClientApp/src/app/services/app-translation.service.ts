@@ -98,6 +98,8 @@ export class TranslateLanguageLoader implements TranslateLoader {
         return of(require("../assets/locale/ar.json"));
       case "ko":
         return of(require("../assets/locale/ko.json"));
+      case "da":
+        return of(require("../assets/locale/da.json"));
       default:
     }
   }
