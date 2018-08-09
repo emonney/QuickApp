@@ -189,7 +189,7 @@ namespace QuickApp
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ILogger<Startup> logger, IDatabaseInitializer databaseInitializer)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug(LogLevel.Warning);
@@ -206,6 +206,16 @@ namespace QuickApp
             {
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
+            }
+
+            try
+            {
+                //Having database seeding here rather than in Program.Main() ensures logger is configured before seeding occurs
+                databaseInitializer.SeedAsync().Wait();
+            }
+            catch (Exception ex)
+            {
+                logger.LogCritical(LoggingEvents.INIT_DATABASE, ex, LoggingEvents.INIT_DATABASE.Name);
             }
 
 
