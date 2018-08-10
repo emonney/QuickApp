@@ -43,7 +43,7 @@ export class AppTranslationService {
   useBrowserLanguage(): string | void {
     let browserLang = this.getBrowserLanguage();
 
-    if (browserLang.match(/en|fr|de|ar|ko|pt/)) {
+    if (browserLang.match(/en|fr|de|ar|ko|pt|da/)) {
       this.changeLanguage(browserLang);
       return browserLang;
     }
