@@ -130,8 +130,8 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
                         { "completed": true, "important": true, "name": "Create visual studio extension", "description": "Create a visual studio VSIX extension package that will add this project as an aspnet-core project template" },
                         { "completed": false, "important": true, "name": "Do a quick how-to writeup", "description": "" },
                         {
-                            "completed": false, "important": false, "name": "Create aspnet-core/angular6 tutorials based on this project", "description": "Create tutorials (blog/video/youtube) on how to build applications (full stack)" +
-                            " using aspnet-core/angular6. The tutorial will focus on getting productive with the technology right away rather than the details on how and why they work so audience can get onboard quickly."
+                            "completed": false, "important": false, "name": "Create aspnet-core/angular7 tutorials based on this project", "description": "Create tutorials (blog/video/youtube) on how to build applications (full stack)" +
+                            " using aspnet-core/angular7. The tutorial will focus on getting productive with the technology right away rather than the details on how and why they work so audience can get onboard quickly."
                         },
                     ];
                 }

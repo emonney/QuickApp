@@ -150,7 +150,7 @@ export class AccountService {
         tap(data => this.onRolesChanged([role], AccountService.roleModifiedOperation)));
     }
     else {
-      return this.accountEndpoint.getRoleByRoleNameEndpoint<Role>(role.name).pipe<Role>(
+      return this.accountEndpoint.getRoleByRoleNameEndpoint<Role>(role.name).pipe(
         mergeMap(foundRole => {
           role.id = foundRole.id;
           return this.accountEndpoint.getUpdateRoleEndpoint(role, role.id)
