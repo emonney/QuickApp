@@ -1,9 +1,4 @@
-﻿// ====================================================
-// More Templates: https://www.ebenmonney.com/templates
-// Email: support@ebenmonney.com
-// ====================================================
-
-using System;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -114,9 +109,9 @@ namespace QuickApp.Migrations
                 name: "OpenIddictApplications",
                 columns: table => new
                 {
-                    ClientId = table.Column<string>(nullable: false),
+                    ClientId = table.Column<string>(maxLength: 100, nullable: false),
                     ClientSecret = table.Column<string>(nullable: true),
-                    ConcurrencyToken = table.Column<string>(nullable: true),
+                    ConcurrencyToken = table.Column<string>(maxLength: 50, nullable: true),
                     ConsentType = table.Column<string>(nullable: true),
                     DisplayName = table.Column<string>(nullable: true),
                     Id = table.Column<string>(nullable: false),
@@ -124,7 +119,7 @@ namespace QuickApp.Migrations
                     PostLogoutRedirectUris = table.Column<string>(nullable: true),
                     Properties = table.Column<string>(nullable: true),
                     RedirectUris = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: false)
+                    Type = table.Column<string>(maxLength: 25, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,11 +130,11 @@ namespace QuickApp.Migrations
                 name: "OpenIddictScopes",
                 columns: table => new
                 {
-                    ConcurrencyToken = table.Column<string>(nullable: true),
+                    ConcurrencyToken = table.Column<string>(maxLength: 50, nullable: true),
                     Description = table.Column<string>(nullable: true),
                     DisplayName = table.Column<string>(nullable: true),
                     Id = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 200, nullable: false),
                     Properties = table.Column<string>(nullable: true),
                     Resources = table.Column<string>(nullable: true)
                 },
@@ -161,8 +156,8 @@ namespace QuickApp.Migrations
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     Description = table.Column<string>(maxLength: 500, nullable: true),
                     Icon = table.Column<string>(unicode: false, maxLength: 256, nullable: true),
-                    BuyingPrice = table.Column<decimal>(nullable: false),
-                    SellingPrice = table.Column<decimal>(nullable: false),
+                    BuyingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    SellingPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     UnitsInStock = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     IsDiscontinued = table.Column<bool>(nullable: false),
@@ -219,7 +214,7 @@ namespace QuickApp.Migrations
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Discount = table.Column<decimal>(nullable: false),
+                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Comments = table.Column<string>(maxLength: 500, nullable: true),
                     DateCreated = table.Column<DateTime>(nullable: false),
                     DateModified = table.Column<DateTime>(nullable: false),
@@ -333,13 +328,13 @@ namespace QuickApp.Migrations
                 columns: table => new
                 {
                     ApplicationId = table.Column<string>(nullable: true),
-                    ConcurrencyToken = table.Column<string>(nullable: true),
+                    ConcurrencyToken = table.Column<string>(maxLength: 50, nullable: true),
                     Id = table.Column<string>(nullable: false),
                     Properties = table.Column<string>(nullable: true),
                     Scopes = table.Column<string>(nullable: true),
-                    Status = table.Column<string>(nullable: false),
-                    Subject = table.Column<string>(nullable: false),
-                    Type = table.Column<string>(nullable: false)
+                    Status = table.Column<string>(maxLength: 25, nullable: false),
+                    Subject = table.Column<string>(maxLength: 450, nullable: false),
+                    Type = table.Column<string>(maxLength: 25, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -362,9 +357,9 @@ namespace QuickApp.Migrations
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UnitPrice = table.Column<decimal>(nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Quantity = table.Column<int>(nullable: false),
-                    Discount = table.Column<decimal>(nullable: false),
+                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ProductId = table.Column<int>(nullable: false),
                     OrderId = table.Column<int>(nullable: false)
                 },
@@ -393,14 +388,14 @@ namespace QuickApp.Migrations
                     AuthorizationId = table.Column<string>(nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(nullable: true),
                     ExpirationDate = table.Column<DateTimeOffset>(nullable: true),
-                    ConcurrencyToken = table.Column<string>(nullable: true),
+                    ConcurrencyToken = table.Column<string>(maxLength: 50, nullable: true),
                     Id = table.Column<string>(nullable: false),
                     Payload = table.Column<string>(nullable: true),
                     Properties = table.Column<string>(nullable: true),
-                    ReferenceId = table.Column<string>(nullable: true),
-                    Status = table.Column<string>(nullable: true),
-                    Subject = table.Column<string>(nullable: false),
-                    Type = table.Column<string>(nullable: false)
+                    ReferenceId = table.Column<string>(maxLength: 100, nullable: true),
+                    Status = table.Column<string>(maxLength: 25, nullable: false),
+                    Subject = table.Column<string>(maxLength: 450, nullable: false),
+                    Type = table.Column<string>(maxLength: 25, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -505,20 +500,15 @@ namespace QuickApp.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_OpenIddictAuthorizations_ApplicationId",
+                name: "IX_OpenIddictAuthorizations_ApplicationId_Status_Subject_Type",
                 table: "OpenIddictAuthorizations",
-                column: "ApplicationId");
+                columns: new[] { "ApplicationId", "Status", "Subject", "Type" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictScopes_Name",
                 table: "OpenIddictScopes",
                 column: "Name",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OpenIddictTokens_ApplicationId",
-                table: "OpenIddictTokens",
-                column: "ApplicationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictTokens_AuthorizationId",
@@ -531,6 +521,11 @@ namespace QuickApp.Migrations
                 column: "ReferenceId",
                 unique: true,
                 filter: "[ReferenceId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OpenIddictTokens_ApplicationId_Status_Subject_Type",
+                table: "OpenIddictTokens",
+                columns: new[] { "ApplicationId", "Status", "Subject", "Type" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
