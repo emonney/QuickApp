@@ -44,12 +44,12 @@ namespace DAL.Core
 
         public static ApplicationPermission GetPermissionByName(string permissionName)
         {
-            return AllPermissions.Where(p => p.Name == permissionName).FirstOrDefault();
+            return AllPermissions.Where(p => p.Name == permissionName).SingleOrDefault();
         }
 
         public static ApplicationPermission GetPermissionByValue(string permissionValue)
         {
-            return AllPermissions.Where(p => p.Value == permissionValue).FirstOrDefault();
+            return AllPermissions.Where(p => p.Value == permissionValue).SingleOrDefault();
         }
 
         public static string[] GetAllPermissionValues()

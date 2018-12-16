@@ -16,7 +16,7 @@
                         <div class="form-group has-feedback">
                             <label class="control-label col-md-2" for="login-email">Email:</label>
                             <div class="col-md-10" [ngClass]="{'has-success': f.submitted && email.valid, 'has-error' : f.submitted && !email.valid}">
-                                <input type="text" id="login-email" name="email" placeholder="Enter email or username" class="form-control" [(ngModel)]="userLogin.email" #email="ngModel" required />
+                                <input type="text" id="login-email" name="email" placeholder="Enter email or username" autocomplete="username email" class="form-control" [(ngModel)]="userLogin.email" #email="ngModel" required />
                                 <span *ngIf="f.submitted" class="glyphicon form-control-feedback" [ngClass]="{'glyphicon-ok ': email.valid, 'glyphicon-remove' : !email.valid}" aria-hidden="true"></span>
                                 <span class="errorMessage" *ngIf="f.submitted && !email.valid">
                                     Email is required
@@ -26,7 +26,7 @@
                         <div class="form-group has-feedback">
                             <label class="control-label col-md-2" for="login-password">Password:</label>
                             <div class="col-md-10" [ngClass]="{'has-success': f.submitted && password.valid, 'has-error' : f.submitted && !password.valid}">
-                                <input type="password" id="login-password" name="password" placeholder="Enter password" class="form-control" [(ngModel)]="userLogin.password" #password="ngModel" required />
+                                <input type="password" id="login-password" name="password" placeholder="Enter password" autocomplete="current-password" class="form-control" [(ngModel)]="userLogin.password" #password="ngModel" required />
                                 <span *ngIf="f.submitted" class="glyphicon form-control-feedback" [ngClass]="{'glyphicon-ok ': password.valid, 'glyphicon-remove' : !password.valid}" aria-hidden="true"></span>
                                 <span class="errorMessage" *ngIf="f.submitted && !password.valid">
                                     Password is required
