@@ -216,6 +216,7 @@ namespace QuickApp
             catch (Exception ex)
             {
                 logger.LogCritical(LoggingEvents.INIT_DATABASE, ex, LoggingEvents.INIT_DATABASE.Name);
+                throw new Exception(LoggingEvents.INIT_DATABASE.Name, ex);
             }
 
 

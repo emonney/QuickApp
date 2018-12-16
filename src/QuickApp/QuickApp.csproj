@@ -10,11 +10,11 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
-    <Description>ASPNET Core 2.1 - Angular6 startup template for Quick Application Development</Description>
+    <Description>ASPNET Core 2.1 - Angular7 startup template for Quick Application Development</Description>
     <Copyright>Copyright © 2018 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://github.com/emonney/QuickApp</PackageProjectUrl>
     <Company>EBENMONNEY</Company>
-    <Version>2.6.1</Version>
+    <Version>2.7.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,9 +34,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="ClientApp\dist\**" />
+    <Compile Remove="Logs\**" />
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\dist\**" />
+    <Content Remove="Logs\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!--Include email templates in the publish output-->
+    <Content Include="Helpers\Templates\*.template" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ClientApp\dist\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="ClientApp\dist\**" />
+    <None Remove="Logs\**" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
