@@ -72,22 +72,22 @@ describe('AppComponent', () => {
     }).compileComponents();
   }));
 
-  it('should create the app', async(() => {
+  it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  }));
+  });
 
-  it(`should have as title 'Quick Application'`, async(() => {
+  it(`should have as title 'Quick Application'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = <AppComponent>fixture.debugElement.componentInstance;
     expect(app.appTitle).toEqual('Quick Application');
-  }));
+  });
 
-  it('should render Loaded! in a h1 tag', async(() => {
+  it('should render Loaded! in a h1 tag', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain('Loaded!');
-  }));
+  });
 });

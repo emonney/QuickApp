@@ -72,7 +72,7 @@ namespace DAL.Core
             var user = await _context.Users
                 .Include(u => u.Roles)
                 .Where(u => u.Id == userId)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
             if (user == null)
                 return null;
@@ -267,7 +267,7 @@ namespace DAL.Core
                 .Include(r => r.Claims)
                 .Include(r => r.Users)
                 .Where(r => r.Name == roleName)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
             return role;
         }
