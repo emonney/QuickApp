@@ -24,7 +24,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   formResetToggle = true;
   modalClosedCallback: () => void;
   loginStatusSubscription: any;
-  proVersion = `<a target="_blank" href="https://www.ebenmonney.com/product/quickapp-pro"><i class="fa fa-hand-o-right"></i> Click here to get the PRO!</a>`;
+  proVersion = '<a target="_blank" href="https://www.ebenmonney.com/product/quickapp-pro">' +
+    '<i class="fa fa-hand-o-right"></i> Click here to get the PRO!</a>';
 
 
 
@@ -71,11 +72,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.isModal)
       return;
 
-    setTimeout(() => this.alertService.showMessage("Hello tester!", "Please login with any of the demo credentials below", MessageSeverity.info), 2000);
-    setTimeout(() => this.alertService.showStickyMessage("Admin User", "Username: admin<br />Password: tempP@ss123", MessageSeverity.default), 4000);
-    setTimeout(() => this.alertService.showStickyMessage("Standard User", "Username: user<br />Password: tempP@ss123", MessageSeverity.default), 4500);
-
-    setTimeout(() => this.alertService.showStickyMessage("QuickApp PRO", this.proVersion, MessageSeverity.info), 5000);
+    setTimeout(() =>
+      this.alertService.showMessage('Hello tester!', 'Please login with any of the demo credentials below', MessageSeverity.info), 2000);
+    setTimeout(() =>
+      this.alertService.showStickyMessage('Admin User', 'Username: admin<br />Password: tempP@ss123', MessageSeverity.default), 4000);
+    setTimeout(() =>
+      this.alertService.showStickyMessage('Standard User', 'Username: user<br />Password: tempP@ss123', MessageSeverity.default), 4500);
+    setTimeout(() =>
+      this.alertService.showStickyMessage('QuickApp PRO', this.proVersion, MessageSeverity.info), 5000);
   }
 
 
@@ -104,7 +108,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
             if (!this.isModal) {
               this.alertService.showMessage('Login', `Welcome ${user.userName}!`, MessageSeverity.success);
-              setTimeout(() => this.alertService.showStickyMessage("QuickApp PRO", this.proVersion, MessageSeverity.info), 2000);
+              setTimeout(() => this.alertService.showStickyMessage('QuickApp PRO', this.proVersion, MessageSeverity.info), 2000);
             }
             else {
               this.alertService.showMessage('Login', `Session for ${user.userName} restored!`, MessageSeverity.success);

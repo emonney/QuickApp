@@ -10,7 +10,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
-//import { AdsenseModule } from 'ng2-adsense';
+// import { AdsenseModule } from 'ng2-adsense';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastaModule } from 'ngx-toasta';
@@ -74,11 +74,11 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-        //AdsenseModule.forRoot({
+        // AdsenseModule.forRoot({
         //    adClient: 'ca-pub-9776974386593596',
         //    adSlot: 2895519059,
         //    adFormat: 'auto'
-        //}),
+        // }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
