@@ -8,13 +8,13 @@ import { ActivatedRoute } from '@angular/router';
 
 
 import { fadeInOut } from '../../services/animations';
-import { BootstrapTabDirective } from "../../directives/bootstrap-tab.directive";
-import { AccountService } from "../../services/account.service";
+import { BootstrapTabDirective } from '../../directives/bootstrap-tab.directive';
+import { AccountService } from '../../services/account.service';
 import { Permission } from '../../models/permission.model';
 
 
 @Component({
-  selector: 'settings',
+  selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css'],
   animations: [fadeInOut]
@@ -28,13 +28,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   fragmentSubscription: any;
 
-  readonly profileTab = "profile";
-  readonly preferencesTab = "preferences";
-  readonly usersTab = "users";
-  readonly rolesTab = "roles";
+  readonly profileTab = 'profile';
+  readonly preferencesTab = 'preferences';
+  readonly usersTab = 'users';
+  readonly rolesTab = 'roles';
 
 
-  @ViewChild("tab")
+  @ViewChild('tab')
   tab: BootstrapTabDirective;
 
 
@@ -63,17 +63,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
   isFragmentEquals(fragment1: string, fragment2: string) {
 
     if (fragment1 == null)
-      fragment1 = "";
+      fragment1 = '';
 
     if (fragment2 == null)
-      fragment2 = "";
+      fragment2 = '';
 
     return fragment1.toLowerCase() == fragment2.toLowerCase();
   }
 
 
   onShowTab(event) {
-    let activeTab = event.target.hash.split("#", 2).pop();
+    const activeTab = event.target.hash.split('#', 2).pop();
 
     this.isProfileActivated = activeTab == this.profileTab;
     this.isPreferencesActivated = activeTab == this.preferencesTab;

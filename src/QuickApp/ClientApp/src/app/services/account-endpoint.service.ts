@@ -15,14 +15,14 @@ import { ConfigurationService } from './configuration.service';
 @Injectable()
 export class AccountEndpoint extends EndpointFactory {
 
-  private readonly _usersUrl: string = "/api/account/users";
-  private readonly _userByUserNameUrl: string = "/api/account/users/username";
-  private readonly _currentUserUrl: string = "/api/account/users/me";
-  private readonly _currentUserPreferencesUrl: string = "/api/account/users/me/preferences";
-  private readonly _unblockUserUrl: string = "/api/account/users/unblock";
-  private readonly _rolesUrl: string = "/api/account/roles";
-  private readonly _roleByRoleNameUrl: string = "/api/account/roles/name";
-  private readonly _permissionsUrl: string = "/api/account/permissions";
+  private readonly _usersUrl: string = '/api/account/users';
+  private readonly _userByUserNameUrl: string = '/api/account/users/username';
+  private readonly _currentUserUrl: string = '/api/account/users/me';
+  private readonly _currentUserPreferencesUrl: string = '/api/account/users/me/preferences';
+  private readonly _unblockUserUrl: string = '/api/account/users/unblock';
+  private readonly _rolesUrl: string = '/api/account/roles';
+  private readonly _roleByRoleNameUrl: string = '/api/account/roles/name';
+  private readonly _permissionsUrl: string = '/api/account/permissions';
 
   get usersUrl() { return this.configurations.baseUrl + this._usersUrl; }
   get userByUserNameUrl() { return this.configurations.baseUrl + this._userByUserNameUrl; }
@@ -44,7 +44,7 @@ export class AccountEndpoint extends EndpointFactory {
 
 
   getUserEndpoint<T>(userId?: string): Observable<T> {
-    let endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;
+    const endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;
 
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe<T>(
       catchError(error => {
@@ -54,7 +54,7 @@ export class AccountEndpoint extends EndpointFactory {
 
 
   getUserByUserNameEndpoint<T>(userName: string): Observable<T> {
-    let endpointUrl = `${this.userByUserNameUrl}/${userName}`;
+    const endpointUrl = `${this.userByUserNameUrl}/${userName}`;
 
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe<T>(
       catchError(error => {
@@ -64,7 +64,7 @@ export class AccountEndpoint extends EndpointFactory {
 
 
   getUsersEndpoint<T>(page?: number, pageSize?: number): Observable<T> {
-    let endpointUrl = page && pageSize ? `${this.usersUrl}/${page}/${pageSize}` : this.usersUrl;
+    const endpointUrl = page && pageSize ? `${this.usersUrl}/${page}/${pageSize}` : this.usersUrl;
 
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe<T>(
       catchError(error => {
@@ -82,7 +82,7 @@ export class AccountEndpoint extends EndpointFactory {
   }
 
   getUpdateUserEndpoint<T>(userObject: any, userId?: string): Observable<T> {
-    let endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;
+    const endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;
 
     return this.http.put<T>(endpointUrl, JSON.stringify(userObject), this.getRequestHeaders()).pipe<T>(
       catchError(error => {
@@ -90,8 +90,8 @@ export class AccountEndpoint extends EndpointFactory {
       }));
   }
 
-  getPatchUpdateUserEndpoint<T>(patch: {}, userId?: string): Observable<T>
-  getPatchUpdateUserEndpoint<T>(value: any, op: string, path: string, from?: any, userId?: string): Observable<T>
+  getPatchUpdateUserEndpoint<T>(patch: {}, userId?: string): Observable<T>;
+  getPatchUpdateUserEndpoint<T>(value: any, op: string, path: string, from?: any, userId?: string): Observable<T>;
   getPatchUpdateUserEndpoint<T>(valueOrPatch: any, opOrUserId?: string, path?: string, from?: any, userId?: string): Observable<T> {
     let endpointUrl: string;
     let patchDocument: {};
@@ -99,8 +99,8 @@ export class AccountEndpoint extends EndpointFactory {
     if (path) {
       endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;
       patchDocument = from ?
-        [{ "value": valueOrPatch, "path": path, "op": opOrUserId, "from": from }] :
-        [{ "value": valueOrPatch, "path": path, "op": opOrUserId }];
+        [{ 'value': valueOrPatch, 'path': path, 'op': opOrUserId, 'from': from }] :
+        [{ 'value': valueOrPatch, 'path': path, 'op': opOrUserId }];
     }
     else {
       endpointUrl = opOrUserId ? `${this.usersUrl}/${opOrUserId}` : this.currentUserUrl;
@@ -130,7 +130,7 @@ export class AccountEndpoint extends EndpointFactory {
   }
 
   getUnblockUserEndpoint<T>(userId: string): Observable<T> {
-    let endpointUrl = `${this.unblockUserUrl}/${userId}`;
+    const endpointUrl = `${this.unblockUserUrl}/${userId}`;
 
     return this.http.put<T>(endpointUrl, null, this.getRequestHeaders()).pipe<T>(
       catchError(error => {
@@ -139,7 +139,7 @@ export class AccountEndpoint extends EndpointFactory {
   }
 
   getDeleteUserEndpoint<T>(userId: string): Observable<T> {
-    let endpointUrl = `${this.usersUrl}/${userId}`;
+    const endpointUrl = `${this.usersUrl}/${userId}`;
 
     return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe<T>(
       catchError(error => {
@@ -152,7 +152,7 @@ export class AccountEndpoint extends EndpointFactory {
 
 
   getRoleEndpoint<T>(roleId: string): Observable<T> {
-    let endpointUrl = `${this.rolesUrl}/${roleId}`;
+    const endpointUrl = `${this.rolesUrl}/${roleId}`;
 
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe<T>(
       catchError(error => {
@@ -162,7 +162,7 @@ export class AccountEndpoint extends EndpointFactory {
 
 
   getRoleByRoleNameEndpoint<T>(roleName: string): Observable<T> {
-    let endpointUrl = `${this.roleByRoleNameUrl}/${roleName}`;
+    const endpointUrl = `${this.roleByRoleNameUrl}/${roleName}`;
 
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe<T>(
       catchError(error => {
@@ -173,7 +173,7 @@ export class AccountEndpoint extends EndpointFactory {
 
 
   getRolesEndpoint<T>(page?: number, pageSize?: number): Observable<T> {
-    let endpointUrl = page && pageSize ? `${this.rolesUrl}/${page}/${pageSize}` : this.rolesUrl;
+    const endpointUrl = page && pageSize ? `${this.rolesUrl}/${page}/${pageSize}` : this.rolesUrl;
 
     return this.http.get<T>(endpointUrl, this.getRequestHeaders()).pipe<T>(
       catchError(error => {
@@ -190,7 +190,7 @@ export class AccountEndpoint extends EndpointFactory {
   }
 
   getUpdateRoleEndpoint<T>(roleObject: any, roleId: string): Observable<T> {
-    let endpointUrl = `${this.rolesUrl}/${roleId}`;
+    const endpointUrl = `${this.rolesUrl}/${roleId}`;
 
     return this.http.put<T>(endpointUrl, JSON.stringify(roleObject), this.getRequestHeaders()).pipe<T>(
       catchError(error => {
@@ -199,7 +199,7 @@ export class AccountEndpoint extends EndpointFactory {
   }
 
   getDeleteRoleEndpoint<T>(roleId: string): Observable<T> {
-    let endpointUrl = `${this.rolesUrl}/${roleId}`;
+    const endpointUrl = `${this.rolesUrl}/${roleId}`;
 
     return this.http.delete<T>(endpointUrl, this.getRequestHeaders()).pipe<T>(
       catchError(error => {

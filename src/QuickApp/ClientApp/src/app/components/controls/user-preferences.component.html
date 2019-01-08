@@ -20,7 +20,7 @@
   <div class="form-group">
     <label for="language" class="col-sm-3 control-label">{{'preferences.Language' | translate}} </label>
     <div class="col-sm-4">
-      <select id="language" [(ngModel)]="configurations.language" #languageSelector="bootstrap-select" bootstrapSelect class="selectpicker form-control">
+      <select id="language" [(ngModel)]="configurations.language" #languageSelector="bootstrap-select" appBootstrapSelect class="selectpicker form-control">
         <option data-subtext="(Default)" value="en">{{'preferences.English' | translate}}</option>
         <option value="fr">{{'preferences.French' | translate}}</option>
         <option value="de">{{'preferences.German' | translate}}</option>
@@ -43,7 +43,7 @@
   <div class="form-group">
     <label for="homePage" class="col-sm-3 control-label">{{'preferences.HomePage' | translate}} </label>
     <div class="col-sm-4">
-      <select id="homePage" [(ngModel)]="configurations.homeUrl" #homePageSelector="bootstrap-select" bootstrapSelect class="selectpicker form-control">
+      <select id="homePage" [(ngModel)]="configurations.homeUrl" #homePageSelector="bootstrap-select" appBootstrapSelect class="selectpicker form-control">
         <option data-icon="fa fa-tachometer" data-subtext="(Default)" value="/">{{'preferences.Dashboard' | translate}}</option>
         <option *ngIf="canViewCustomers" data-icon="fa fa-handshake-o" value="/customers">{{'preferences.Customers' | translate}}</option>
         <option *ngIf="canViewProducts" data-icon="fa fa-truck" value="/products">{{'preferences.Products' | translate}}</option>
@@ -66,7 +66,7 @@
   <div class="form-group">
     <label for="defaultTheme" class="col-sm-3 control-label">{{'preferences.Theme' | translate}} </label>
     <div *ngIf="themeSelectorToggle" class="col-sm-4">
-      <select id="defaultTheme" [(ngModel)]="configurations.theme" bootstrapSelect class="selectpicker form-control">
+      <select id="defaultTheme" [(ngModel)]="configurations.theme" appBootstrapSelect class="selectpicker form-control">
         <option attr.data-content="{{'preferences.DefaultColor' | translate}}">Default</option>
         <option attr.data-content="{{'preferences.RedColor' | translate}}">Red</option>
         <option attr.data-content="{{'preferences.OrangeColor' | translate}}">Orange</option>
@@ -90,7 +90,7 @@
     <label class="col-sm-3 control-label" for="dashboardStatistics">{{'preferences.DashboardStatistics' | translate}} </label>
     <div class="col-sm-4">
       <div class="checkbox">
-        <input name="dashboardStatistics" [(ngModel)]="configurations.showDashboardStatistics" class="form-control" type="checkbox" bootstrapToggle data-size="small">
+        <input name="dashboardStatistics" [(ngModel)]="configurations.showDashboardStatistics" class="form-control" type="checkbox" appBootstrapToggle data-size="small">
       </div>
     </div>
     <div class="col-sm-5">
@@ -109,7 +109,7 @@
     <label class="col-sm-3 control-label" for="dashboardTodo">{{'preferences.DashboardNotifications' | translate}} </label>
     <div class="col-sm-4">
       <div class="checkbox">
-        <input name="dashboardNotifications" [(ngModel)]="configurations.showDashboardNotifications" class="form-control" type="checkbox" bootstrapToggle data-size="small">
+        <input name="dashboardNotifications" [(ngModel)]="configurations.showDashboardNotifications" class="form-control" type="checkbox" appBootstrapToggle data-size="small">
       </div>
     </div>
     <div class="col-sm-5">
@@ -128,7 +128,7 @@
     <label class="col-sm-3 control-label" for="dashboardTodo">{{'preferences.DashboardTodo' | translate}} </label>
     <div class="col-sm-4">
       <div class="checkbox">
-        <input name="dashboardTodo" [(ngModel)]="configurations.showDashboardTodo" class="form-control" type="checkbox" bootstrapToggle data-size="small">
+        <input name="dashboardTodo" [(ngModel)]="configurations.showDashboardTodo" class="form-control" type="checkbox" appBootstrapToggle data-size="small">
       </div>
     </div>
     <div class="col-sm-5">
@@ -148,7 +148,7 @@
     <label class="col-sm-3 control-label" for="dashboardBanner">{{'preferences.DashboardBanner' | translate}}</label>
     <div class="col-sm-4">
       <div class="checkbox">
-        <input name="dashboardBanner" [(ngModel)]="configurations.showDashboardBanner" class="form-control" type="checkbox" bootstrapToggle data-size="small">
+        <input name="dashboardBanner" [(ngModel)]="configurations.showDashboardBanner" class="form-control" type="checkbox" appBootstrapToggle data-size="small">
       </div>
     </div>
     <div class="col-sm-5">

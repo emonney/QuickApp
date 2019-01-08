@@ -14,6 +14,9 @@ import { Utilities } from './utilities';
 */
 export class LocalStoreManager {
 
+  public static readonly DBKEY_USER_DATA = 'user_data';
+  private static readonly DBKEY_SYNC_KEYS = 'sync_keys';
+
   private static syncListenerInitialised = false;
   private syncKeys: string[] = [];
   private initEvent = new Subject();
@@ -30,16 +33,13 @@ export class LocalStoreManager {
       'clearAllSessionsStorage'
     ];
 
-  public static readonly DBKEY_USER_DATA = "user_data";
-  private static readonly DBKEY_SYNC_KEYS = "sync_keys";
-
 
   public initialiseStorageSyncListener() {
     if (LocalStoreManager.syncListenerInitialised == true)
       return;
 
     LocalStoreManager.syncListenerInitialised = true;
-    window.addEventListener("storage", this.sessionStorageTransferHandler, false);
+    window.addEventListener('storage', this.sessionStorageTransferHandler, false);
     this.syncSessionStorage();
   }
 
@@ -47,7 +47,7 @@ export class LocalStoreManager {
 
   public deinitialiseStorageSyncListener() {
 
-    window.removeEventListener("storage", this.sessionStorageTransferHandler, false);
+    window.removeEventListener('storage', this.sessionStorageTransferHandler, false);
 
     LocalStoreManager.syncListenerInitialised = false;
   }
@@ -72,10 +72,10 @@ export class LocalStoreManager {
       if (!this.syncKeys.length)
         this.loadSyncKeys();
 
-      let data = JSON.parse(event.newValue);
-      //console.info("Set => Key: Transfer setSessionStorage" + ",  data: " + JSON.stringify(data));
+      const data = JSON.parse(event.newValue);
+      // console.info("Set => Key: Transfer setSessionStorage" + ",  data: " + JSON.stringify(data));
 
-      for (let key in data) {
+      for (const key in data) {
 
         if (this.syncKeysContains(key))
           this.sessionStorageSetItem(key, JSON.parse(data[key]));
@@ -85,11 +85,11 @@ export class LocalStoreManager {
     }
     else if (event.key == 'addToSessionStorage') {
 
-      let data = JSON.parse(event.newValue);
+      const data = JSON.parse(event.newValue);
 
-      //console.warn("Set => Key: Transfer addToSessionStorage" + ",  data: " + JSON.stringify(data));
+      // console.warn("Set => Key: Transfer addToSessionStorage" + ",  data: " + JSON.stringify(data));
 
-      this.addToSessionStorageHelper(data["data"], data["key"]);
+      this.addToSessionStorageHelper(data['data'], data['key']);
     }
     else if (event.key == 'removeFromSessionStorage') {
 
@@ -187,7 +187,7 @@ export class LocalStoreManager {
   private testForInvalidKeys(key: string) {
 
     if (!key)
-      throw new Error("key cannot be empty")
+      throw new Error('key cannot be empty');
 
     if (this.reservedKeys.some(x => x == key))
       throw new Error(`The storage key "${key}" is reserved and cannot be used. Please use a different key`);
@@ -211,7 +211,7 @@ export class LocalStoreManager {
 
   private getSyncKeysFromStorage(defaultValue: string[] = []): string[] {
 
-    let data = this.localStorageGetItem(LocalStoreManager.DBKEY_SYNC_KEYS);
+    const data = this.localStorageGetItem(LocalStoreManager.DBKEY_SYNC_KEYS);
 
     if (data == null)
       return defaultValue;
@@ -232,7 +232,7 @@ export class LocalStoreManager {
 
   private addToSyncKeysBackup(key: string) {
 
-    let storedSyncKeys = this.getSyncKeysFromStorage();
+    const storedSyncKeys = this.getSyncKeysFromStorage();
 
     if (!storedSyncKeys.some(x => x == key)) {
       storedSyncKeys.push(key);
@@ -242,9 +242,9 @@ export class LocalStoreManager {
 
   private removeFromSyncKeysBackup(key: string) {
 
-    let storedSyncKeys = this.getSyncKeysFromStorage();
+    const storedSyncKeys = this.getSyncKeysFromStorage();
 
-    let index = storedSyncKeys.indexOf(key);
+    const index = storedSyncKeys.indexOf(key);
 
     if (index > -1) {
       storedSyncKeys.splice(index, 1);
@@ -273,7 +273,7 @@ export class LocalStoreManager {
 
   private removeFromSyncKeysHelper(key: string) {
 
-    let index = this.syncKeys.indexOf(key);
+    const index = this.syncKeys.indexOf(key);
 
     if (index > -1) {
       this.syncKeys.splice(index, 1);
@@ -314,7 +314,7 @@ export class LocalStoreManager {
 
     this.testForInvalidKeys(key);
 
-    let data = this.getData(key);
+    const data = this.getData(key);
 
     if (data == null)
       return;
@@ -327,7 +327,7 @@ export class LocalStoreManager {
 
     this.testForInvalidKeys(key);
 
-    let data = this.getData(key);
+    const data = this.getData(key);
 
     if (data == null)
       return;
@@ -340,7 +340,7 @@ export class LocalStoreManager {
 
     this.testForInvalidKeys(key);
 
-    let data = this.getData(key);
+    const data = this.getData(key);
 
     if (data == null)
       return;

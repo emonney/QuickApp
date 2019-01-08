@@ -6,16 +6,16 @@
 import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, Input } from '@angular/core';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
-import { AppTranslationService } from "../../services/app-translation.service";
-import { NotificationService } from "../../services/notification.service";
-import { AccountService } from "../../services/account.service";
+import { AppTranslationService } from '../../services/app-translation.service';
+import { NotificationService } from '../../services/notification.service';
+import { AccountService } from '../../services/account.service';
 import { Permission } from '../../models/permission.model';
-import { Utilities } from "../../services/utilities";
+import { Utilities } from '../../services/utilities';
 import { Notification } from '../../models/notification.model';
 
 
 @Component({
-  selector: 'notifications-viewer',
+  selector: 'app-notifications-viewer',
   templateUrl: './notifications-viewer.component.html',
   styleUrls: ['./notifications-viewer.component.css']
 })
@@ -32,7 +32,7 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
   isViewOnly: boolean;
 
   @Input()
-  verticalScrollbar: boolean = false;
+  verticalScrollbar = false;
 
 
   @ViewChild('statusHeaderTemplate')
@@ -53,7 +53,8 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
   @ViewChild('actionsTemplate')
   actionsTemplate: TemplateRef<any>;
 
-  constructor(private alertService: AlertService, private translationService: AppTranslationService, private accountService: AccountService, private notificationService: NotificationService) {
+  constructor(private alertService: AlertService, private translationService: AppTranslationService,
+    private accountService: AccountService, private notificationService: NotificationService) {
   }
 
 
@@ -61,18 +62,27 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
 
     if (this.isViewOnly) {
       this.columns = [
-        { prop: 'date', cellTemplate: this.dateTemplate, width: 100, resizeable: false, canAutoResize: false, sortable: false, draggable: false },
+        {
+          prop: 'date', cellTemplate: this.dateTemplate, width: 100, resizeable: false, canAutoResize: false,
+          sortable: false, draggable: false
+        },
         { prop: 'header', cellTemplate: this.contentHeaderTemplate, width: 200, resizeable: false, sortable: false, draggable: false },
       ];
     }
     else {
-      let gT = (key: string) => this.translationService.getTranslation(key);
+      const gT = (key: string) => this.translationService.getTranslation(key);
 
       this.columns = [
-        { prop: "", name: '', width: 10, headerTemplate: this.statusHeaderTemplate, cellTemplate: this.statusTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false },
+        {
+          prop: '', name: '', width: 10, headerTemplate: this.statusHeaderTemplate, cellTemplate: this.statusTemplate,
+          resizeable: false, canAutoResize: false, sortable: false, draggable: false
+        },
         { prop: 'date', name: gT('notifications.Date'), cellTemplate: this.dateTemplate, width: 30 },
         { prop: 'body', name: gT('notifications.Notification'), cellTemplate: this.contenBodytTemplate, width: 500 },
-        { name: '', width: 80, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false }
+        {
+          name: '', width: 80, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false, sortable: false,
+          draggable: false
+        }
       ];
     }
 
@@ -97,7 +107,8 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
 
     this.loadingIndicator = true;
 
-    let dataLoadTask = this.isViewOnly ? this.notificationService.getNewNotifications() : this.notificationService.getNewNotificationsPeriodically()
+    const dataLoadTask = this.isViewOnly ? this.notificationService.getNewNotifications() :
+      this.notificationService.getNewNotificationsPeriodically();
 
     this.dataLoadingSubscription = dataLoadTask
       .subscribe(notifications => {
@@ -109,13 +120,13 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
         error => {
           this.loadingIndicator = false;
 
-          this.alertService.showMessage("Load Error", "Loading new notifications from the server failed!", MessageSeverity.warn);
+          this.alertService.showMessage('Load Error', 'Loading new notifications from the server failed!', MessageSeverity.warn);
           this.alertService.logError(error);
 
           if (this.dataLoadingConsecutiveFailurs++ < 5)
             setTimeout(() => this.initDataLoading(), 5000);
           else
-            this.alertService.showStickyMessage("Load Error", "Loading new notifications from the server failed!", MessageSeverity.error);
+            this.alertService.showStickyMessage('Load Error', 'Loading new notifications from the server failed!', MessageSeverity.error);
 
         });
 
@@ -140,18 +151,19 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
 
   getPrintedDate(value: Date) {
     if (value)
-      return Utilities.printTimeOnly(value) + " on " + Utilities.printDateOnly(value);
+      return Utilities.printTimeOnly(value) + ' on ' + Utilities.printDateOnly(value);
   }
 
 
   deleteNotification(row: Notification) {
-    this.alertService.showDialog('Are you sure you want to delete the notification \"' + row.header + '\"?', DialogType.confirm, () => this.deleteNotificationHelper(row));
+    this.alertService.showDialog('Are you sure you want to delete the notification \"' + row.header + '\"?', DialogType.confirm,
+      () => this.deleteNotificationHelper(row));
   }
 
 
   deleteNotificationHelper(row: Notification) {
 
-    this.alertService.startLoadingMessage("Deleting...");
+    this.alertService.startLoadingMessage('Deleting...');
     this.loadingIndicator = true;
 
     this.notificationService.deleteNotification(row)
@@ -159,13 +171,14 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
         this.alertService.stopLoadingMessage();
         this.loadingIndicator = false;
 
-        this.rows = this.rows.filter(item => item.id != row.id)
+        this.rows = this.rows.filter(item => item.id != row.id);
       },
         error => {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
-          this.alertService.showStickyMessage("Delete Error", `An error occured whilst deleting the notification.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
+          this.alertService.showStickyMessage('Delete Error',
+            `An error occured whilst deleting the notification.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
             MessageSeverity.error, error);
         });
   }
@@ -173,10 +186,10 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
 
   togglePin(row: Notification) {
 
-    let pin = !row.isPinned;
-    let opText = pin ? "Pinning" : "Unpinning";
+    const pin = !row.isPinned;
+    const opText = pin ? 'Pinning' : 'Unpinning';
 
-    this.alertService.startLoadingMessage(opText + "...");
+    this.alertService.startLoadingMessage(opText + '...');
     this.loadingIndicator = true;
 
     this.notificationService.pinUnpinNotification(row, pin)
@@ -190,14 +203,16 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
-          this.alertService.showStickyMessage(opText + " Error", `An error occured whilst ${opText} the notification.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
+          this.alertService.showStickyMessage(opText + ' Error',
+            `An error occured whilst ${opText} the notification.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
             MessageSeverity.error, error);
         });
   }
 
 
   get canManageNotifications() {
-    return this.accountService.userHasPermission(Permission.manageRolesPermission); //Todo: Consider creating separate permission for notifications
+    // Todo: Consider creating separate permission for notifications
+    return this.accountService.userHasPermission(Permission.manageRolesPermission);
   }
 
 }

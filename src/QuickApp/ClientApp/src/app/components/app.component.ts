@@ -3,40 +3,40 @@
 // Email: support@ebenmonney.com
 // ====================================================
 
-import { Component, ViewEncapsulation, OnInit, OnDestroy, ViewChildren, AfterViewInit, QueryList, ElementRef } from "@angular/core";
+import { Component, ViewEncapsulation, OnInit, OnDestroy, ViewChildren, AfterViewInit, QueryList, ElementRef } from '@angular/core';
 import { Router, NavigationStart } from '@angular/router';
 import { ToastaService, ToastaConfig, ToastOptions, ToastData } from 'ngx-toasta';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 import { AlertService, AlertDialog, DialogType, AlertMessage, MessageSeverity } from '../services/alert.service';
-import { NotificationService } from "../services/notification.service";
-import { AppTranslationService } from "../services/app-translation.service";
+import { NotificationService } from '../services/notification.service';
+import { AppTranslationService } from '../services/app-translation.service';
 import { AccountService } from '../services/account.service';
 import { LocalStoreManager } from '../services/local-store-manager.service';
 import { AppTitleService } from '../services/app-title.service';
 import { AuthService } from '../services/auth.service';
 import { ConfigurationService } from '../services/configuration.service';
 import { Permission } from '../models/permission.model';
-import { LoginComponent } from "../components/login/login.component";
+import { LoginComponent } from '../components/login/login.component';
 
-var alertify: any = require('../assets/scripts/alertify.js');
+const alertify: any = require('../assets/scripts/alertify.js');
 
 
 @Component({
-  selector: "app-root",
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   isAppLoaded: boolean;
   isUserLoggedIn: boolean;
   shouldShowLoginModal: boolean;
   removePrebootScreen: boolean;
   newNotificationCount = 0;
-  appTitle = "Quick Application";
-  appLogo = require("../assets/images/logo-white.png");
+  appTitle = 'Quick Application';
+  appLogo = require('../assets/images/logo-white.png');
 
   stickyToasties: number[] = [];
 
@@ -52,22 +52,23 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   get notificationsTitle() {
 
-    let gT = (key: string) => this.translationService.getTranslation(key);
+    const gT = (key: string) => this.translationService.getTranslation(key);
 
     if (this.newNotificationCount)
-      return `${gT("app.Notifications")} (${this.newNotificationCount} ${gT("app.New")})`;
+      return `${gT('app.Notifications')} (${this.newNotificationCount} ${gT('app.New')})`;
     else
-      return gT("app.Notifications");
+      return gT('app.Notifications');
   }
 
 
   constructor(storageManager: LocalStoreManager, private toastaService: ToastaService, private toastaConfig: ToastaConfig,
-    private accountService: AccountService, private alertService: AlertService, private notificationService: NotificationService, private appTitleService: AppTitleService,
-    private authService: AuthService, private translationService: AppTranslationService, public configurations: ConfigurationService, public router: Router) {
+    private accountService: AccountService, private alertService: AlertService, private notificationService: NotificationService,
+    private appTitleService: AppTitleService, private authService: AuthService, private translationService: AppTranslationService,
+    public configurations: ConfigurationService, public router: Router) {
 
     storageManager.initialiseStorageSyncListener();
 
-    translationService.addLanguages(["en", "fr", "de", "pt", "ar", "ko"]);
+    translationService.addLanguages(['en', 'fr', 'de', 'pt', 'ar', 'ko']);
     translationService.setDefaultLanguage('en');
 
 
@@ -100,7 +101,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
   onLoginModalShown() {
-    this.alertService.showStickyMessage("Session Expired", "Your Session has expired. Please log in again", MessageSeverity.info);
+    this.alertService.showStickyMessage('Session Expired', 'Your Session has expired. Please log in again', MessageSeverity.info);
   }
 
 
@@ -109,8 +110,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.loginControl.reset();
     this.shouldShowLoginModal = false;
 
-    if (this.authService.isSessionExpired)
-      this.alertService.showStickyMessage("Session Expired", "Your Session has expired. Please log in again to renew your session", MessageSeverity.warn);
+    if (this.authService.isSessionExpired) {
+      this.alertService.showStickyMessage('Session Expired', 'Your Session has expired. Please log in again to renew your session',
+        MessageSeverity.warn);
+    }
   }
 
 
@@ -130,9 +133,9 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (this.isUserLoggedIn) {
         this.alertService.resetStickyMessage();
 
-        //if (!this.authService.isSessionExpired)
-        this.alertService.showMessage("Login", `Welcome back ${this.userName}!`, MessageSeverity.default);
-        //else
+        // if (!this.authService.isSessionExpired)
+        this.alertService.showMessage('Login', `Welcome back ${this.userName}!`, MessageSeverity.default);
+        // else
         //    this.alertService.showStickyMessage("Session Expired", "Your Session has expired. Please log in again", MessageSeverity.warn);
       }
     }, 2000);
@@ -157,14 +160,14 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       setTimeout(() => {
         if (!this.isUserLoggedIn) {
-          this.alertService.showMessage("Session Ended!", "", MessageSeverity.default);
+          this.alertService.showMessage('Session Ended!', '', MessageSeverity.default);
         }
       }, 500);
     });
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        let url = (<NavigationStart>event).url;
+        const url = (<NavigationStart>event).url;
 
         if (url !== url.toLowerCase()) {
           this.router.navigateByUrl((<NavigationStart>event).url.toLowerCase());
@@ -199,19 +202,19 @@ export class AppComponent implements OnInit, AfterViewInit {
           if (this.dataLoadingConsecutiveFailurs++ < 20)
             setTimeout(() => this.initNotificationsLoading(), 5000);
           else
-            this.alertService.showStickyMessage("Load Error", "Loading new notifications from the server failed!", MessageSeverity.error);
+            this.alertService.showStickyMessage('Load Error', 'Loading new notifications from the server failed!', MessageSeverity.error);
         });
   }
 
 
   markNotificationsAsRead() {
 
-    let recentNotifications = this.notificationService.recentNotifications;
+    const recentNotifications = this.notificationService.recentNotifications;
 
     if (recentNotifications.length) {
       this.notificationService.readUnreadNotification(recentNotifications.map(n => n.id), true)
         .subscribe(response => {
-          for (let n of recentNotifications) {
+          for (const n of recentNotifications) {
             n.isRead = true;
           }
 
@@ -219,7 +222,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         },
           error => {
             this.alertService.logError(error);
-            this.alertService.showMessage("Notification Error", "Marking read notifications failed", MessageSeverity.error);
+            this.alertService.showMessage('Notification Error', 'Marking read notifications failed', MessageSeverity.error);
 
           });
     }
@@ -231,8 +234,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     alertify.set({
       labels: {
-        ok: dialog.okLabel || "OK",
-        cancel: dialog.cancelLabel || "Cancel"
+        ok: dialog.okLabel || 'OK',
+        cancel: dialog.cancelLabel || 'Cancel'
       }
     });
 
@@ -240,7 +243,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       case DialogType.alert:
         alertify.alert(dialog.message);
 
-        break
+        break;
       case DialogType.confirm:
         alertify
           .confirm(dialog.message, (e) => {
@@ -277,14 +280,14 @@ export class AppComponent implements OnInit, AfterViewInit {
   showToast(message: AlertMessage, isSticky: boolean) {
 
     if (message == null) {
-      for (let id of this.stickyToasties.slice(0)) {
+      for (const id of this.stickyToasties.slice(0)) {
         this.toastaService.clear(id);
       }
 
       return;
     }
 
-    let toastOptions: ToastOptions = {
+    const toastOptions: ToastOptions = {
       title: message.summary,
       msg: message.detail,
       timeout: isSticky ? 0 : 4000
@@ -295,7 +298,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       toastOptions.onAdd = (toast: ToastData) => this.stickyToasties.push(toast.id);
 
       toastOptions.onRemove = (toast: ToastData) => {
-        let index = this.stickyToasties.indexOf(toast.id, 0);
+        const index = this.stickyToasties.indexOf(toast.id, 0);
 
         if (index > -1) {
           this.stickyToasties.splice(index, 1);
@@ -333,25 +336,25 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
   get userName(): string {
-    return this.authService.currentUser ? this.authService.currentUser.userName : "";
+    return this.authService.currentUser ? this.authService.currentUser.userName : '';
   }
 
 
   get fullName(): string {
-    return this.authService.currentUser ? this.authService.currentUser.fullName : "";
+    return this.authService.currentUser ? this.authService.currentUser.fullName : '';
   }
 
 
 
   get canViewCustomers() {
-    return this.accountService.userHasPermission(Permission.viewUsersPermission); //eg. viewCustomersPermission
+    return this.accountService.userHasPermission(Permission.viewUsersPermission); // eg. viewCustomersPermission
   }
 
   get canViewProducts() {
-    return this.accountService.userHasPermission(Permission.viewUsersPermission); //eg. viewProductsPermission
+    return this.accountService.userHasPermission(Permission.viewUsersPermission); // eg. viewProductsPermission
   }
 
   get canViewOrders() {
-    return true; //eg. viewOrdersPermission
+    return true; // eg. viewOrdersPermission
   }
 }
