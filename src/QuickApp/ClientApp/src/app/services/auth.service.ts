@@ -4,7 +4,7 @@
 // ====================================================
 
 import { Injectable } from '@angular/core';
-import { Router, NavigationExtras } from "@angular/router";
+import { Router, NavigationExtras } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -33,7 +33,8 @@ export class AuthService {
   private _loginStatus = new Subject<boolean>();
 
 
-  constructor(private router: Router, private configurations: ConfigurationService, private endpointFactory: EndpointFactory, private localStorage: LocalStoreManager) {
+  constructor(private router: Router, private configurations: ConfigurationService, private endpointFactory: EndpointFactory,
+    private localStorage: LocalStoreManager) {
     this.initializeLoginStatus();
   }
 
@@ -47,8 +48,8 @@ export class AuthService {
 
   gotoPage(page: string, preserveParams = true) {
 
-    let navigationExtras: NavigationExtras = {
-      queryParamsHandling: preserveParams ? "merge" : "", preserveFragment: preserveParams
+    const navigationExtras: NavigationExtras = {
+      queryParamsHandling: preserveParams ? 'merge' : '', preserveFragment: preserveParams
     };
 
 
@@ -57,17 +58,18 @@ export class AuthService {
 
 
   redirectLoginUser() {
-    let redirect = this.loginRedirectUrl && this.loginRedirectUrl != '/' && this.loginRedirectUrl != ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
+    const redirect = this.loginRedirectUrl && this.loginRedirectUrl != '/' && this.loginRedirectUrl != ConfigurationService.defaultHomeUrl ?
+      this.loginRedirectUrl : this.homeUrl;
     this.loginRedirectUrl = null;
 
 
-    let urlParamsAndFragment = Utilities.splitInTwo(redirect, '#');
-    let urlAndParams = Utilities.splitInTwo(urlParamsAndFragment.firstPart, '?');
+    const urlParamsAndFragment = Utilities.splitInTwo(redirect, '#');
+    const urlAndParams = Utilities.splitInTwo(urlParamsAndFragment.firstPart, '?');
 
-    let navigationExtras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       fragment: urlParamsAndFragment.secondPart,
       queryParams: Utilities.getQueryParamsFromString(urlAndParams.secondPart),
-      queryParamsHandling: "merge"
+      queryParamsHandling: 'merge'
     };
 
     this.router.navigate([urlAndParams.firstPart], navigationExtras);
@@ -75,7 +77,7 @@ export class AuthService {
 
 
   redirectLogoutUser() {
-    let redirect = this.logoutRedirectUrl ? this.logoutRedirectUrl : this.loginUrl;
+    const redirect = this.logoutRedirectUrl ? this.logoutRedirectUrl : this.loginUrl;
     this.logoutRedirectUrl = null;
 
     this.router.navigate([redirect]);
@@ -119,29 +121,30 @@ export class AuthService {
 
   private processLoginResponse(response: LoginResponse, rememberMe: boolean) {
 
-    let accessToken = response.access_token;
+    const accessToken = response.access_token;
 
     if (accessToken == null)
-      throw new Error("Received accessToken was empty");
+      throw new Error('Received accessToken was empty');
 
-    let idToken = response.id_token;
-    let refreshToken = response.refresh_token || this.refreshToken;
-    let expiresIn = response.expires_in;
+    const idToken = response.id_token;
+    const refreshToken = response.refresh_token || this.refreshToken;
+    const expiresIn = response.expires_in;
 
-    let tokenExpiryDate = new Date();
+    const tokenExpiryDate = new Date();
     tokenExpiryDate.setSeconds(tokenExpiryDate.getSeconds() + expiresIn);
 
-    let accessTokenExpiry = tokenExpiryDate;
+    const accessTokenExpiry = tokenExpiryDate;
 
-    let jwtHelper = new JwtHelper();
-    let decodedIdToken = <IdToken>jwtHelper.decodeToken(response.id_token);
+    const jwtHelper = new JwtHelper();
+    const decodedIdToken = <IdToken>jwtHelper.decodeToken(response.id_token);
 
-    let permissions: PermissionValues[] = Array.isArray(decodedIdToken.permission) ? decodedIdToken.permission : [decodedIdToken.permission];
+    const permissions: PermissionValues[] = Array.isArray(decodedIdToken.permission) ? decodedIdToken.permission :
+      [decodedIdToken.permission];
 
     if (!this.isLoggedIn)
       this.configurations.import(decodedIdToken.configuration);
 
-    let user = new User(
+    const user = new User(
       decodedIdToken.sub,
       decodedIdToken.name,
       decodedIdToken.fullname,
@@ -159,7 +162,8 @@ export class AuthService {
   }
 
 
-  private saveUserDetails(user: User, permissions: PermissionValues[], accessToken: string, idToken: string, refreshToken: string, expiresIn: Date, rememberMe: boolean) {
+  private saveUserDetails(user: User, permissions: PermissionValues[], accessToken: string, idToken: string, refreshToken: string,
+    expiresIn: Date, rememberMe: boolean) {
 
     if (rememberMe) {
       this.localStorage.savePermanentData(accessToken, DBkeys.ACCESS_TOKEN);
@@ -199,8 +203,8 @@ export class AuthService {
 
   private reevaluateLoginStatus(currentUser?: User) {
 
-    let user = currentUser || this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
-    let isLoggedIn = user != null;
+    const user = currentUser || this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
+    const isLoggedIn = user != null;
 
     if (this.previousIsLoggedInCheck != isLoggedIn) {
       setTimeout(() => {
@@ -219,7 +223,7 @@ export class AuthService {
 
   get currentUser(): User {
 
-    let user = this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
+    const user = this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
     this.reevaluateLoginStatus(user);
 
     return user;
