@@ -4,7 +4,7 @@
 // ====================================================
 
 import { Injectable } from '@angular/core';
-import { Router, NavigationExtras } from "@angular/router";
+import { Router, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, forkJoin } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
@@ -21,17 +21,17 @@ import { UserEdit } from '../models/user-edit.model';
 
 
 
-export type RolesChangedOperation = "add" | "delete" | "modify";
-export type RolesChangedEventArg = { roles: Role[] | string[], operation: RolesChangedOperation };
+export type RolesChangedOperation = 'add' | 'delete' | 'modify';
+export interface RolesChangedEventArg { roles: Role[] | string[]; operation: RolesChangedOperation; }
 
 
 
 @Injectable()
 export class AccountService {
 
-  public static readonly roleAddedOperation: RolesChangedOperation = "add";
-  public static readonly roleDeletedOperation: RolesChangedOperation = "delete";
-  public static readonly roleModifiedOperation: RolesChangedOperation = "modify";
+  public static readonly roleAddedOperation: RolesChangedOperation = 'add';
+  public static readonly roleDeletedOperation: RolesChangedOperation = 'delete';
+  public static readonly roleModifiedOperation: RolesChangedOperation = 'modify';
 
   private _rolesChanged = new Subject<RolesChangedEventArg>();
 
@@ -74,7 +74,7 @@ export class AccountService {
       return this.accountEndpoint.getUserByUserNameEndpoint<User>(user.userName).pipe<User>(
         mergeMap(foundUser => {
           user.id = foundUser.id;
-          return this.accountEndpoint.getUpdateUserEndpoint(user, user.id)
+          return this.accountEndpoint.getUpdateUserEndpoint(user, user.id);
         }));
     }
   }
@@ -153,7 +153,7 @@ export class AccountService {
       return this.accountEndpoint.getRoleByRoleNameEndpoint<Role>(role.name).pipe(
         mergeMap(foundRole => {
           role.id = foundRole.id;
-          return this.accountEndpoint.getUpdateRoleEndpoint(role, role.id)
+          return this.accountEndpoint.getUpdateRoleEndpoint(role, role.id);
         }),
         tap(data => this.onRolesChanged([role], AccountService.roleModifiedOperation)));
     }

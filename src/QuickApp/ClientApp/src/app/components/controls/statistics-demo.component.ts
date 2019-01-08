@@ -13,7 +13,7 @@ require('chart.js');
 
 
 @Component({
-  selector: 'statistics-demo',
+  selector: 'app-statistics-demo',
   templateUrl: './statistics-demo.component.html',
   styleUrls: ['./statistics-demo.component.css']
 })
@@ -75,8 +75,8 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.timerReference = setInterval(() => this.randomize(), 5000);
 
-    let initialWidth$ = of(window.innerWidth);
-    let resizedWidth$ = fromEvent(window, 'resize').pipe(map((event: any) => <number>event.target.innerWidth));
+    const initialWidth$ = of(window.innerWidth);
+    const resizedWidth$ = fromEvent(window, 'resize').pipe(map((event: any) => <number>event.target.innerWidth));
     this.windowWidth$ = merge(initialWidth$, resizedWidth$).pipe(distinctUntilChanged());
 
     this.windowWidthSub = this.windowWidth$.subscribe(width => this.chartLegend = width < 600 ? false : true);
@@ -90,7 +90,7 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
 
 
   randomize(): void {
-    let _chartData = new Array(this.chartData.length);
+    const _chartData = new Array(this.chartData.length);
     for (let i = 0; i < this.chartData.length; i++) {
       _chartData[i] = { data: new Array(this.chartData[i].data.length), label: this.chartData[i].label };
 
@@ -107,7 +107,7 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
   }
 
   showMessage(msg: string): void {
-    this.alertService.showMessage("Demo", msg, MessageSeverity.info);
+    this.alertService.showMessage('Demo', msg, MessageSeverity.info);
   }
 
   showDialog(msg: string): void {
@@ -118,16 +118,16 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
 
     if (response) {
 
-      this.alertService.showStickyMessage("Simulating...", "", MessageSeverity.wait);
+      this.alertService.showStickyMessage('Simulating...', '', MessageSeverity.wait);
 
       setTimeout(() => {
 
         this.alertService.resetStickyMessage();
-        this.alertService.showMessage("Demo", `Your settings was successfully configured to \"${value}\"`, MessageSeverity.success);
+        this.alertService.showMessage('Demo', `Your settings was successfully configured to \"${value}\"`, MessageSeverity.success);
       }, 2000);
     }
     else {
-      this.alertService.showMessage("Demo", "Operation cancelled by user", MessageSeverity.default);
+      this.alertService.showMessage('Demo', 'Operation cancelled by user', MessageSeverity.default);
     }
   }
 

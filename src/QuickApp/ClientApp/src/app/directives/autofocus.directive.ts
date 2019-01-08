@@ -7,12 +7,12 @@ import { Directive, ElementRef, OnInit } from '@angular/core';
 
 
 @Directive({
-    selector: '[autofocus]'
+  selector: '[appAutofocus]'
 })
 export class AutofocusDirective implements OnInit {
-    constructor(public elementRef: ElementRef) { }
+  constructor(public elementRef: ElementRef) { }
 
-    ngOnInit() {
-        setTimeout(() => this.elementRef.nativeElement['focus'](), 500);
-    }
+  ngOnInit() {
+    setTimeout(() => this.elementRef.nativeElement['focus'](), 500);
+  }
 }

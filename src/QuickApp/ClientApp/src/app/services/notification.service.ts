@@ -96,7 +96,7 @@ export class NotificationService {
 
   deleteNotification(notificationOrNotificationId: number | Notification): Observable<Notification> {
 
-    if (typeof notificationOrNotificationId === 'number' || notificationOrNotificationId instanceof Number) { //Todo: Test me if its check is valid
+    if (typeof notificationOrNotificationId === 'number' || notificationOrNotificationId instanceof Number) {
       return this.notificationEndpoint.getDeleteNotificationEndpoint(<number>notificationOrNotificationId).pipe(
         map(response => {
           this.recentNotifications = this.recentNotifications.filter(n => n.id != notificationOrNotificationId);
@@ -112,9 +112,9 @@ export class NotificationService {
 
 
   private processNewNotificationsFromResponse(response) {
-    let notifications = this.getNotificationsFromResponse(response);
+    const notifications = this.getNotificationsFromResponse(response);
 
-    for (let n of notifications) {
+    for (const n of notifications) {
       if (n.date > this.lastNotificationDate)
         this.lastNotificationDate = n.date;
     }
@@ -124,10 +124,11 @@ export class NotificationService {
 
 
   private getNotificationsFromResponse(response) {
-    let notifications: Notification[] = [];
+    const notifications: Notification[] = [];
 
-    for (let i in response) {
-      notifications[i] = Notification.Create(response[i]);
+    for (const i in response) {
+      if (response.hasOwnProperty(i))
+        notifications[i] = Notification.Create(response[i]);
     }
 
     notifications.sort((a, b) => b.date.valueOf() - a.date.valueOf());

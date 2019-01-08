@@ -24,7 +24,7 @@
         <p class="form-control-static">{{user.jobTitle}}</p>
       </div>
       <div *ngIf="isEditMode" [class.col-md-9]="isViewOnly" [class.col-md-10]="!isViewOnly">
-        <input autofocus type="text" attr.id="jobTitle-{{uniqueId}}" name="jobTitle" placeholder="Enter Job Title" class="form-control" [(ngModel)]="userEdit.jobTitle" />
+        <input appAutofocus type="text" attr.id="jobTitle-{{uniqueId}}" name="jobTitle" placeholder="Enter Job Title" class="form-control" [(ngModel)]="userEdit.jobTitle" />
       </div>
     </div>
 
@@ -128,7 +128,7 @@
             <label class="control-label col-md-3" for="newPassword-{{uniqueId}}">{{'users.editor.NewPassword' | translate}}</label>
             <div class="col-md-9" [ngClass]="{'has-success': f.submitted && newPassword.valid, 'has-error' : f.submitted && !newPassword.valid}">
               <input type="password" attr.id="newPassword-{{uniqueId}}" name="newPassword" [attr.autocomplete]="isGeneralEditor ? new-password : null" placeholder="Enter new password" class="form-control" [(ngModel)]="userEdit.newPassword" #newPassword="ngModel"
-                     required minlength="6" validateEqual="confirmPassword" reverse="true" />
+                     required minlength="6" appValidateEqual="confirmPassword" reverse="true" />
               <span *ngIf="showValidationErrors && f.submitted" class="glyphicon form-control-feedback" [ngClass]="{'glyphicon-ok ': newPassword.valid, 'glyphicon-remove' : !newPassword.valid}"></span>
               <span *ngIf="showValidationErrors && f.submitted && !newPassword.valid" class="errorMessage">
                 {{'users.editor.NewPasswordRequired' | translate}}
@@ -146,7 +146,7 @@
             <label class="control-label col-md-3" for="confirmPassword-{{uniqueId}}">{{'users.editor.ConfirmPassword' | translate}}</label>
             <div class="col-md-9" [ngClass]="{'has-success': f.submitted && confirmPassword.valid, 'has-error' : f.submitted && !confirmPassword.valid}">
               <input type="password" attr.id="confirmPassword-{{uniqueId}}" name="confirmPassword" [attr.autocomplete]="isGeneralEditor ? new-password : null" placeholder="Confirm new password" class="form-control" [(ngModel)]="userEdit.confirmPassword" #confirmPassword="ngModel"
-                     required validateEqual="newPassword" />
+                     required appValidateEqual="newPassword" />
               <span *ngIf="showValidationErrors && f.submitted" class="glyphicon form-control-feedback" [ngClass]="{'glyphicon-ok ': confirmPassword.valid, 'glyphicon-remove' : !confirmPassword.valid}"></span>
               <span *ngIf="showValidationErrors && f.submitted && confirmPassword.errors?.required" class="errorMessage">
                 {{'users.editor.ConfirmationPasswordRequired' | translate}}
@@ -178,7 +178,7 @@
         </p>
       </div>
       <div *ngIf="isEditMode && canAssignRoles" [class.col-md-9]="isViewOnly" [class.col-md-10]="!isViewOnly" [ngClass]="{'has-success': f.submitted && roles.valid, 'has-error' : f.submitted && !roles.valid}">
-        <select id="roles-user-info" name="roles" [(ngModel)]="userEdit.roles" #roles="ngModel" #rolesSelector="bootstrap-select" class="selectpicker form-control" bootstrapSelect required multiple
+        <select id="roles-user-info" name="roles" [(ngModel)]="userEdit.roles" #roles="ngModel" #rolesSelector="bootstrap-select" class="selectpicker form-control" appBootstrapSelect required multiple
                 data-live-search="true" data-actions-box="false" data-live-search-placeholder="Search..." title="Select Roles">
           <option *ngFor="let role of allRoles" attr.data-content="<span title='{{role.description}}' class='badge'>{{role.name}}</span>" attr.value="{{role.name}}">
             {{role.name}}
