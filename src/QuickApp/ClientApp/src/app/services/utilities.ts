@@ -542,15 +542,15 @@ export class Utilities {
   public static moveArrayItem(array: any[], oldIndex, newIndex) {
 
     while (oldIndex < 0) {
-      oldIndex += this.length;
+      oldIndex += array.length;
     }
 
     while (newIndex < 0) {
-      newIndex += this.length;
+      newIndex += array.length;
     }
 
-    if (newIndex >= this.length) {
-      let k = newIndex - this.length;
+    if (newIndex >= array.length) {
+      let k = newIndex - array.length;
       while ((k--) + 1) {
         array.push(undefined);
       }
