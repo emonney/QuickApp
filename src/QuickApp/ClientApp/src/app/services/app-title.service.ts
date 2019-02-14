@@ -33,10 +33,10 @@ export class AppTitleService {
         let title = data['title'];
 
         if (title) {
-          let fragment = this.router.url.split('#')[1]
+          const fragment = this.router.url.split('#')[1];
 
           if (fragment)
-            title += " | " + Utilities.toTitleCase(fragment);
+            title += ' | ' + Utilities.toTitleCase(fragment);
         }
 
         if (title && this.appName)

@@ -3,16 +3,16 @@
 // Email: support@ebenmonney.com
 // ====================================================
 
-import { Component, OnInit, OnDestroy, Input } from "@angular/core";
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 
 import { AlertService, MessageSeverity, DialogType } from '../../services/alert.service';
-import { AuthService } from "../../services/auth.service";
+import { AuthService } from '../../services/auth.service';
 import { ConfigurationService } from '../../services/configuration.service';
 import { Utilities } from '../../services/utilities';
 import { UserLogin } from '../../models/user-login.model';
 
 @Component({
-  selector: "app-login",
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   login() {
     this.isLoading = true;
-    this.alertService.startLoadingMessage("", "Attempting login...");
+    this.alertService.startLoadingMessage('', 'Attempting login...');
 
     this.authService.login(this.userLogin.email, this.userLogin.password, this.userLogin.rememberMe)
       .subscribe(
@@ -86,12 +86,12 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.reset();
 
             if (!this.isModal) {
-              this.alertService.showMessage("Login", `Welcome ${user.userName}!`, MessageSeverity.success);
+              this.alertService.showMessage('Login', `Welcome ${user.userName}!`, MessageSeverity.success);
             }
             else {
-              this.alertService.showMessage("Login", `Session for ${user.userName} restored!`, MessageSeverity.success);
+              this.alertService.showMessage('Login', `Session for ${user.userName} restored!`, MessageSeverity.success);
               setTimeout(() => {
-                this.alertService.showStickyMessage("Session Restored", "Please try your last operation again", MessageSeverity.default);
+                this.alertService.showStickyMessage('Session Restored', 'Please try your last operation again', MessageSeverity.default);
               }, 500);
 
               this.closeModal();
@@ -103,16 +103,19 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.alertService.stopLoadingMessage();
 
           if (Utilities.checkNoNetwork(error)) {
-            this.alertService.showStickyMessage(Utilities.noNetworkMessageCaption, Utilities.noNetworkMessageDetail, MessageSeverity.error, error);
+            this.alertService.showStickyMessage(Utilities.noNetworkMessageCaption, Utilities.noNetworkMessageDetail,
+              MessageSeverity.error, error);
             this.offerAlternateHost();
           }
           else {
-            let errorMessage = Utilities.findHttpResponseMessage("error_description", error);
+            const errorMessage = Utilities.findHttpResponseMessage('error_description', error);
 
             if (errorMessage)
-              this.alertService.showStickyMessage("Unable to login", errorMessage, MessageSeverity.error, error);
+              this.alertService.showStickyMessage('Unable to login', errorMessage, MessageSeverity.error, error);
             else
-              this.alertService.showStickyMessage("Unable to login", "An error occured whilst logging in, please try again later.\nError: " + Utilities.getResponseBody(error), MessageSeverity.error, error);
+              this.alertService.showStickyMessage('Unable to login',
+                'An error occured whilst logging in, please try again later.\nError: ' + Utilities.getResponseBody(error),
+                MessageSeverity.error, error);
           }
 
           setTimeout(() => {
@@ -125,12 +128,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   offerAlternateHost() {
 
     if (Utilities.checkIsLocalHost(location.origin) && Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
-      this.alertService.showDialog("Dear Developer!\nIt appears your backend Web API service is not running...\n" +
-        "Would you want to temporarily switch to the online Demo API below?(Or specify another)",
+      this.alertService.showDialog('Dear Developer!\nIt appears your backend Web API service is not running...\n' +
+        'Would you want to temporarily switch to the online Demo API below?(Or specify another)',
         DialogType.prompt,
         (value: string) => {
           this.configurations.baseUrl = value;
-          this.alertService.showStickyMessage("API Changed!", "The target Web API has been changed to: " + value, MessageSeverity.warn);
+          this.alertService.showStickyMessage('API Changed!', 'The target Web API has been changed to: ' + value, MessageSeverity.warn);
         },
         null,
         null,

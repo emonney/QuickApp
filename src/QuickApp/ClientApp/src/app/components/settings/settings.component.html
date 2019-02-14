@@ -5,7 +5,7 @@
 
   <div [@fadeInOut] class="row">
     <div class="col-sm-2 side-menu">
-      <ul bootstrapTab #tab="bootstrap-tab" class="nav nav-tabs tabs-left" (showBSTab)="onShowTab($event)">
+      <ul appBootstrapTab #tab="bootstrap-tab" class="nav nav-tabs tabs-left" (showBSTab)="onShowTab($event)">
         <li class="active">
           <a id="profileTab" [routerLink]="[]" fragment="profile" href="#profile" data-toggle="tab"><i class="fa fa-user-circle-o fa-fw" aria-hidden="true"></i> {{'settings.tab.Profile' | translate}}</a>
         </li>
@@ -26,7 +26,7 @@
           <h4>{{'settings.header.UserProfile' | translate}}</h4>
           <hr class="separator-hr" />
           <div [@fadeInOut] *ngIf="isProfileActivated" class="content-container">
-            <user-info></user-info>
+            <app-user-info></app-user-info>
           </div>
         </div>
 
@@ -34,7 +34,7 @@
           <h4>{{'settings.header.UserPreferences' | translate}}</h4>
           <hr class="separator-hr" />
           <div [@fadeInOut] *ngIf="isPreferencesActivated" class="content-container">
-            <user-preferences></user-preferences>
+            <app-user-preferences></app-user-preferences>
           </div>
         </div>
 
@@ -42,7 +42,7 @@
           <h4>{{'settings.header.UsersManagements' | translate}}</h4>
           <hr class="separator-hr" />
           <div [@fadeInOut] *ngIf="canViewUsers && isUsersActivated" class="content-container">
-            <users-management></users-management>
+            <app-users-management></app-users-management>
           </div>
         </div>
 
@@ -50,7 +50,7 @@
           <h4>{{'settings.header.RolesManagement' | translate}}</h4>
           <hr class="separator-hr" />
           <div [@fadeInOut] *ngIf="canViewRoles && isRolesActivated" class="content-container">
-            <roles-management></roles-management>
+            <app-roles-management></app-roles-management>
           </div>
         </div>
       </div>

@@ -3,19 +3,19 @@
 // Email: support@ebenmonney.com
 // ====================================================
 
-import { NgModule, ErrorHandler } from "@angular/core";
-import { RouterModule } from "@angular/router";
-import { FormsModule } from "@angular/forms";
+import { NgModule, ErrorHandler } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
-import { TranslateModule, TranslateLoader } from "@ngx-translate/core";
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastaModule } from 'ngx-toasta';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { TooltipModule } from "ngx-bootstrap/tooltip";
-import { PopoverModule } from "ngx-bootstrap/popover";
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ChartsModule } from 'ng2-charts';
@@ -42,26 +42,26 @@ import { BootstrapSelectDirective } from './directives/bootstrap-select.directiv
 import { BootstrapDatepickerDirective } from './directives/bootstrap-datepicker.directive';
 import { GroupByPipe } from './pipes/group-by.pipe';
 
-import { AppComponent } from "./components/app.component";
-import { LoginComponent } from "./components/login/login.component";
-import { HomeComponent } from "./components/home/home.component";
-import { CustomersComponent } from "./components/customers/customers.component";
-import { ProductsComponent } from "./components/products/products.component";
-import { OrdersComponent } from "./components/orders/orders.component";
-import { SettingsComponent } from "./components/settings/settings.component";
-import { AboutComponent } from "./components/about/about.component";
-import { NotFoundComponent } from "./components/not-found/not-found.component";
+import { AppComponent } from './components/app.component';
+import { LoginComponent } from './components/login/login.component';
+import { HomeComponent } from './components/home/home.component';
+import { CustomersComponent } from './components/customers/customers.component';
+import { ProductsComponent } from './components/products/products.component';
+import { OrdersComponent } from './components/orders/orders.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { AboutComponent } from './components/about/about.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
-import { BannerDemoComponent } from "./components/controls/banner-demo.component";
-import { TodoDemoComponent } from "./components/controls/todo-demo.component";
-import { StatisticsDemoComponent } from "./components/controls/statistics-demo.component";
-import { NotificationsViewerComponent } from "./components/controls/notifications-viewer.component";
-import { SearchBoxComponent } from "./components/controls/search-box.component";
-import { UserInfoComponent } from "./components/controls/user-info.component";
-import { UserPreferencesComponent } from "./components/controls/user-preferences.component";
-import { UsersManagementComponent } from "./components/controls/users-management.component";
-import { RolesManagementComponent } from "./components/controls/roles-management.component";
-import { RoleEditorComponent } from "./components/controls/role-editor.component";
+import { BannerDemoComponent } from './components/controls/banner-demo.component';
+import { TodoDemoComponent } from './components/controls/todo-demo.component';
+import { StatisticsDemoComponent } from './components/controls/statistics-demo.component';
+import { NotificationsViewerComponent } from './components/controls/notifications-viewer.component';
+import { SearchBoxComponent } from './components/controls/search-box.component';
+import { UserInfoComponent } from './components/controls/user-info.component';
+import { UserPreferencesComponent } from './components/controls/user-preferences.component';
+import { UsersManagementComponent } from './components/controls/users-management.component';
+import { RolesManagementComponent } from './components/controls/roles-management.component';
+import { RoleEditorComponent } from './components/controls/role-editor.component';
 
 
 

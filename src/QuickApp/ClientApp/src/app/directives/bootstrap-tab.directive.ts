@@ -9,20 +9,20 @@ import { Observable, Subscription, fromEvent } from 'rxjs';
 
 declare var $: any;
 
-type eventArg = { type: string, target: Element, relatedTarget: Element };
+interface EventArg { type: string; target: Element; relatedTarget: Element; }
 
 @Directive({
-  selector: '[bootstrapTab]',
+  selector: '[appBootstrapTab]',
   exportAs: 'bootstrap-tab'
 })
 export class BootstrapTabDirective implements OnDestroy {
 
 
   @Output()
-  showBSTab = new EventEmitter<eventArg>();
+  showBSTab = new EventEmitter<EventArg>();
 
   @Output()
-  hideBSTab = new EventEmitter<eventArg>();
+  hideBSTab = new EventEmitter<EventArg>();
 
   private tabShownSubscription: Subscription;
   private tabHiddenSubscription: Subscription;

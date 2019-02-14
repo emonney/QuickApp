@@ -3,26 +3,25 @@
 // Email: support@ebenmonney.com
 // ====================================================
 
-import { Utilities } from "../services/utilities";
+import { Utilities } from '../services/utilities';
 
 
 export class Notification {
 
-    public static Create(data: {}) {
-        let n = new Notification();
-        Object.assign(n, data);
+  public id: number;
+  public header: string;
+  public body: string;
+  public isRead: boolean;
+  public isPinned: boolean;
+  public date: Date;
 
-        if (n.date)
-            n.date = Utilities.parseDate(n.date);
+  public static Create(data: {}) {
+    const n = new Notification();
+    Object.assign(n, data);
 
-        return n;
-    }
+    if (n.date)
+      n.date = Utilities.parseDate(n.date);
 
-
-    public id: number;
-    public header: string;
-    public body: string;
-    public isRead: boolean;
-    public isPinned: boolean;
-    public date: Date;
+    return n;
+  }
 }
