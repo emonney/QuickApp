@@ -6,16 +6,15 @@
 import { Directive, Attribute, ElementRef, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription, fromEvent } from 'rxjs';
 
-
 declare var $: any;
 
 @Directive({
-  selector: '[bootstrapSelect]',
+  selector: '[appBootstrapSelect]',
   exportAs: 'bootstrap-select'
 })
 export class BootstrapSelectDirective implements OnInit, OnDestroy {
 
-  private oldValues: string | string[] = "";
+  private oldValues: string | string[] = '';
 
   private changedSubscription: Subscription;
   private shownSubscription: Subscription;
@@ -41,12 +40,16 @@ export class BootstrapSelectDirective implements OnInit, OnDestroy {
 
 
   constructor(private el: ElementRef) {
-    this.changedSubscription = fromEvent($(this.el.nativeElement), 'changed.bs.select').subscribe((e: any) => setTimeout(() => {
+    this.changedSubscription = fromEvent($(this.el.nativeElement), 'changed.bs.select').subscribe(e => setTimeout(() => {
       if (this.checkIsValuesChanged(this.selected))
         this.ngModelChange.emit(this.selected);
     }));
-    this.shownSubscription = fromEvent($(this.el.nativeElement), 'shown.bs.select').subscribe((e: any) => setTimeout(() => this.shown.emit()));
-    this.hiddenSubscription = fromEvent($(this.el.nativeElement), 'hidden.bs.select').subscribe((e: any) => setTimeout(() => this.hidden.emit()));
+
+    this.shownSubscription = fromEvent($(this.el.nativeElement), 'shown.bs.select')
+      .subscribe(e => setTimeout(() => this.shown.emit()));
+
+    this.hiddenSubscription = fromEvent($(this.el.nativeElement), 'hidden.bs.select')
+      .subscribe(e => setTimeout(() => this.hidden.emit()));
   }
 
 
@@ -89,7 +92,7 @@ export class BootstrapSelectDirective implements OnInit, OnDestroy {
   }
 
   private get requiredAttribute() {
-    return this.required === "" || this.required == "true";
+    return this.required === '' || this.required == 'true';
   }
 
 

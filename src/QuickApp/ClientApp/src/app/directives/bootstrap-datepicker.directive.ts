@@ -10,7 +10,7 @@ import { Observable, Subscription, fromEvent } from 'rxjs';
 declare var $: any;
 
 @Directive({
-  selector: '[bootstrapDatepicker]',
+  selector: '[appBootstrapDatepicker]',
   exportAs: 'bootstrap-datepicker'
 })
 export class BootstrapDatepickerDirective implements OnInit, OnDestroy {
@@ -39,7 +39,8 @@ export class BootstrapDatepickerDirective implements OnInit, OnDestroy {
 
 
   constructor(private el: ElementRef) {
-    this.changedSubscription = fromEvent($(this.el.nativeElement), 'change').subscribe((e: any) => setTimeout(() => this.ngModelChange.emit(e.target.value)));
+    this.changedSubscription = fromEvent($(this.el.nativeElement), 'change')
+      .subscribe((e: any) => setTimeout(() => this.ngModelChange.emit(e.target.value)));
     this.shownSubscription = fromEvent($(this.el.nativeElement), 'show').subscribe((e: any) => this._isShown = true);
     this.hiddenSubscription = fromEvent($(this.el.nativeElement), 'hide').subscribe((e: any) => this._isShown = false);
   }
@@ -92,7 +93,7 @@ export class BootstrapDatepickerDirective implements OnInit, OnDestroy {
 
     clearTimeout(this.updateTimeout);
 
-    if (!$(this.el.nativeElement).is(":focus")) {
+    if (!$(this.el.nativeElement).is(':focus')) {
       this.update(value);
     } else {
       this.updateTimeout = setTimeout(() => {

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace QuickApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180708133354_Initial")]
+    [Migration("20181126180130_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -189,7 +189,8 @@ namespace QuickApp.Migrations
 
                     b.Property<DateTime>("DateModified");
 
-                    b.Property<decimal>("Discount");
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(256);
@@ -216,7 +217,8 @@ namespace QuickApp.Migrations
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<decimal>("Discount");
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("OrderId");
 
@@ -224,7 +226,8 @@ namespace QuickApp.Migrations
 
                     b.Property<int>("Quantity");
 
-                    b.Property<decimal>("UnitPrice");
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("UpdatedBy")
                         .HasMaxLength(256);
@@ -246,7 +249,8 @@ namespace QuickApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("BuyingPrice");
+                    b.Property<decimal>("BuyingPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(256);
@@ -276,7 +280,8 @@ namespace QuickApp.Migrations
 
                     b.Property<int>("ProductCategoryId");
 
-                    b.Property<decimal>("SellingPrice");
+                    b.Property<decimal>("SellingPrice")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UnitsInStock");
 
@@ -422,12 +427,14 @@ namespace QuickApp.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ClientId")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<string>("ClientSecret");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<string>("ConsentType");
 
@@ -442,7 +449,8 @@ namespace QuickApp.Migrations
                     b.Property<string>("RedirectUris");
 
                     b.Property<string>("Type")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.HasKey("Id");
 
@@ -460,24 +468,28 @@ namespace QuickApp.Migrations
                     b.Property<string>("ApplicationId");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<string>("Properties");
 
                     b.Property<string>("Scopes");
 
                     b.Property<string>("Status")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.Property<string>("Subject")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(450);
 
                     b.Property<string>("Type")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationId");
+                    b.HasIndex("ApplicationId", "Status", "Subject", "Type");
 
                     b.ToTable("OpenIddictAuthorizations");
                 });
@@ -488,14 +500,16 @@ namespace QuickApp.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<string>("Description");
 
                     b.Property<string>("DisplayName");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(200);
 
                     b.Property<string>("Properties");
 
@@ -519,7 +533,8 @@ namespace QuickApp.Migrations
                     b.Property<string>("AuthorizationId");
 
                     b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
+                        .IsConcurrencyToken()
+                        .HasMaxLength(50);
 
                     b.Property<DateTimeOffset?>("CreationDate");
 
@@ -529,25 +544,30 @@ namespace QuickApp.Migrations
 
                     b.Property<string>("Properties");
 
-                    b.Property<string>("ReferenceId");
+                    b.Property<string>("ReferenceId")
+                        .HasMaxLength(100);
 
-                    b.Property<string>("Status");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.Property<string>("Subject")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(450);
 
                     b.Property<string>("Type")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(25);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId");
 
                     b.HasIndex("AuthorizationId");
 
                     b.HasIndex("ReferenceId")
                         .IsUnique()
                         .HasFilter("[ReferenceId] IS NOT NULL");
+
+                    b.HasIndex("ApplicationId", "Status", "Subject", "Type");
 
                     b.ToTable("OpenIddictTokens");
                 });

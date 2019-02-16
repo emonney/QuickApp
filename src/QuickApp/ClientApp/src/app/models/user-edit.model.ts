@@ -12,7 +12,7 @@ export class UserEdit extends User {
 
         this.currentPassword = currentPassword;
         this.newPassword = newPassword;
-        this.confirmPassword = confirmPassword
+        this.confirmPassword = confirmPassword;
     }
 
     public currentPassword: string;

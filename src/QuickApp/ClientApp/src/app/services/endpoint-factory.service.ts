@@ -13,9 +13,9 @@ import { ConfigurationService } from './configuration.service';
 
 @Injectable()
 export class EndpointFactory {
-  static readonly apiVersion: string = "1";
+  static readonly apiVersion: string = '1';
 
-  private readonly _loginUrl: string = "/connect/token";
+  private readonly _loginUrl: string = '/connect/token';
 
   private get loginUrl() { return this.configurations.baseUrl + this._loginUrl; }
 
@@ -40,15 +40,15 @@ export class EndpointFactory {
 
   getLoginEndpoint<T>(userName: string, password: string): Observable<T> {
 
-    let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    const header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
-    let params = new HttpParams()
+    const params = new HttpParams()
       .append('username', userName)
       .append('password', password)
       .append('grant_type', 'password')
       .append('scope', 'openid email phone profile offline_access roles');
 
-    let requestBody = params.toString();
+    const requestBody = params.toString();
 
     return this.http.post<T>(this.loginUrl, requestBody, { headers: header });
   }
@@ -56,14 +56,14 @@ export class EndpointFactory {
 
   getRefreshLoginEndpoint<T>(): Observable<T> {
 
-    let header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
+    const header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
 
-    let params = new HttpParams()
+    const params = new HttpParams()
       .append('refresh_token', this.authService.refreshToken)
       .append('grant_type', 'refresh_token')
       .append('scope', 'openid email phone profile offline_access roles');
 
-    let requestBody = params.toString();
+    const requestBody = params.toString();
 
     return this.http.post<T>(this.loginUrl, requestBody, { headers: header }).pipe<T>(
       catchError(error => {
@@ -74,7 +74,7 @@ export class EndpointFactory {
 
 
   protected getRequestHeaders(): { headers: HttpHeaders | { [header: string]: string | string[]; } } {
-    let headers = new HttpHeaders({
+    const headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.authService.accessToken,
       'Content-Type': 'application/json',
       'Accept': `application/vnd.iman.v${EndpointFactory.apiVersion}+json, application/json, text/plain, */*`,
@@ -106,7 +106,8 @@ export class EndpointFactory {
           this.isRefreshingLogin = false;
           this.resumeTasks(false);
 
-          if (refreshLoginError.status == 401 || (refreshLoginError.url && refreshLoginError.url.toLowerCase().includes(this.loginUrl.toLowerCase()))) {
+          if (refreshLoginError.status == 401 || (refreshLoginError.url && refreshLoginError.url.toLowerCase()
+            .includes(this.loginUrl.toLowerCase()))) {
             this.authService.reLogin();
             return throwError('session expired');
           }
@@ -119,7 +120,8 @@ export class EndpointFactory {
     if (error.url && error.url.toLowerCase().includes(this.loginUrl.toLowerCase())) {
       this.authService.reLogin();
 
-      return throwError((error.error && error.error.error_description) ? `session expired (${error.error.error_description})` : 'session expired');
+      return throwError((error.error && error.error.error_description) ? `session expired (${error.error.error_description})` :
+        'session expired');
     }
     else {
       return throwError(error);

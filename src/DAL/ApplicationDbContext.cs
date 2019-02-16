@@ -34,6 +34,7 @@ namespace DAL
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            const string priceDecimalType = "decimal(18,2)";
 
             builder.Entity<ApplicationUser>().HasMany(u => u.Claims).WithOne().HasForeignKey(c => c.UserId).IsRequired().OnDelete(DeleteBehavior.Cascade);
             builder.Entity<ApplicationUser>().HasMany(u => u.Roles).WithOne().HasForeignKey(r => r.UserId).IsRequired().OnDelete(DeleteBehavior.Cascade);
@@ -58,11 +59,16 @@ namespace DAL
             builder.Entity<Product>().Property(p => p.Icon).IsUnicode(false).HasMaxLength(256);
             builder.Entity<Product>().HasOne(p => p.Parent).WithMany(p => p.Children).OnDelete(DeleteBehavior.Restrict);
             builder.Entity<Product>().ToTable($"App{nameof(this.Products)}");
+            builder.Entity<Product>().Property(p => p.BuyingPrice).HasColumnType(priceDecimalType);
+            builder.Entity<Product>().Property(p => p.SellingPrice).HasColumnType(priceDecimalType);
 
             builder.Entity<Order>().Property(o => o.Comments).HasMaxLength(500);
             builder.Entity<Order>().ToTable($"App{nameof(this.Orders)}");
+            builder.Entity<Order>().Property(p => p.Discount).HasColumnType(priceDecimalType);
 
             builder.Entity<OrderDetail>().ToTable($"App{nameof(this.OrderDetails)}");
+            builder.Entity<OrderDetail>().Property(p => p.UnitPrice).HasColumnType(priceDecimalType);
+            builder.Entity<OrderDetail>().Property(p => p.Discount).HasColumnType(priceDecimalType);
         }
 
 

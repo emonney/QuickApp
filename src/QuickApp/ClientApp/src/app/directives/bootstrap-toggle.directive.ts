@@ -10,7 +10,7 @@ import { Observable, Subscription, fromEvent } from 'rxjs';
 declare var $: any;
 
 @Directive({
-  selector: '[bootstrapToggle]',
+  selector: '[appBootstrapToggle]',
   exportAs: 'bootstrap-toggle'
 })
 export class BootstrapToggleDirective implements OnInit, OnDestroy {

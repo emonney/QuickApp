@@ -189,7 +189,7 @@ namespace QuickApp
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ILogger<Startup> logger, IDatabaseInitializer databaseInitializer)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug(LogLevel.Warning);
@@ -206,6 +206,17 @@ namespace QuickApp
             {
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
+            }
+
+            try
+            {
+                //Having database seeding here rather than in Program.Main() ensures logger is configured before seeding occurs
+                databaseInitializer.SeedAsync().Wait();
+            }
+            catch (Exception ex)
+            {
+                logger.LogCritical(LoggingEvents.INIT_DATABASE, ex, LoggingEvents.INIT_DATABASE.Name);
+                throw new Exception(LoggingEvents.INIT_DATABASE.Name, ex);
             }
 
 
@@ -247,7 +258,7 @@ namespace QuickApp
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
-                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(60); // Increase the timeout if angular app is taking longer to startup
+                    spa.Options.StartupTimeout = TimeSpan.FromSeconds(120); // Increase the timeout if angular app is taking longer to startup
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200"); // Use this instead to use the angular cli server
                 }
             });
