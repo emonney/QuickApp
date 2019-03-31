@@ -68,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
     storageManager.initialiseStorageSyncListener();
 
-    translationService.addLanguages(['en', 'fr', 'de', 'pt', 'ar', 'ko']);
+    translationService.addLanguages(["en", "fr", "de", "pt", "ar", "ko", "da"]);
     translationService.setDefaultLanguage('en');
 
 

@@ -43,7 +43,7 @@ export class AppTranslationService {
   useBrowserLanguage(): string | void {
     const browserLang = this.getBrowserLanguage();
 
-    if (browserLang.match(/en|fr|de|ar|ko|pt/)) {
+    if (browserLang.match(/en|fr|de|ar|ko|pt|da/)) {
       this.changeLanguage(browserLang);
       return browserLang;
     }
@@ -86,18 +86,20 @@ export class TranslateLanguageLoader implements TranslateLoader {
     // Note Dynamic require(variable) will not work. Require is always at compile time
 
     switch (lang) {
-      case 'en':
-        return of(require('../assets/locale/en.json'));
-      case 'fr':
-        return of(require('../assets/locale/fr.json'));
-      case 'de':
-        return of(require('../assets/locale/de.json'));
-      case 'pt':
-        return of(require('../assets/locale/pt.json'));
-      case 'ar':
-        return of(require('../assets/locale/ar.json'));
-      case 'ko':
-        return of(require('../assets/locale/ko.json'));
+      case "en":
+        return of(require("../assets/locale/en.json"));
+      case "fr":
+        return of(require("../assets/locale/fr.json"));
+      case "de":
+        return of(require("../assets/locale/de.json"));
+      case "pt":
+        return of(require("../assets/locale/pt.json"));
+      case "ar":
+        return of(require("../assets/locale/ar.json"));
+      case "ko":
+        return of(require("../assets/locale/ko.json"));
+      case "da":
+        return of(require("../assets/locale/da.json"));
       default:
     }
   }
