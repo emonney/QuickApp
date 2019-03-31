@@ -14,6 +14,8 @@
     <Copyright>Copyright © 2018 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://github.com/emonney/QuickApp</PackageProjectUrl>
     <Company>EBENMONNEY</Company>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>c814aea9-7333-4acc-9f16-4a12e3f64322</UserSecretsId>
     <Version>2.7.1</Version>
   </PropertyGroup>
 
