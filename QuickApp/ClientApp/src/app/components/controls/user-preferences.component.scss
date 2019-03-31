@@ -1,42 +1,46 @@
-﻿
+
 .separator-hr {
-    margin: 7px 5px;
-    border-top-style: dashed;
+  margin: 7px 5px;
+  border-top-style: dashed;
 }
 
 .subseparator-hr {
-    margin: 7px 5px;
-    border-top-style: none;
+  margin: 7px 5px;
+  border-top-style: none;
 }
 
 .last-separator-hr {
-    margin-top: 7px;
+  margin-top: 7px;
 }
 
 .form-group {
-    margin-top: 0;
-    margin-bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .form-control-plaintext {
-    min-height: 0;
+  min-height: 0;
 }
 
 .checkbox {
-    padding-top: 0;
+  padding-top: 0;
 }
 
 .col-reset-default {
-    padding-right: 0;
+  padding-right: 0;
 }
 
 .col-set-default {
-    padding-left: 5px;
+  padding-left: 5px;
 }
 
+.col-reset-default .btn,
+.col-set-default .btn {
+  min-width: 150px;
+}
 
 @media (min-width: 768px) {
-    .col-form-label {
-        padding-top: 5px;
-    }
+  .col-form-label {
+    padding-top: 5px;
+  }
 }
