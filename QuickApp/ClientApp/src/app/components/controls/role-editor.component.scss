@@ -1,0 +1,60 @@
+.row:not(:last-child) {
+  /*border-bottom: 1px solid #ccc;*/
+}
+
+.separator-hr {
+  margin: 0 5px;
+  border-top-style: dashed;
+}
+
+.edit-separator-hr {
+  margin: 10px 5px;
+  border-top-style: dashed;
+}
+
+.last-separator-hr {
+  margin-top: 5px;
+}
+
+.edit-last-separator-hr {
+  margin-top: 15px;
+}
+
+
+.form-group {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+input.form-control {
+  border-left-width: 5px;
+}
+
+.invalid-feedback {
+  display: block;
+}
+
+.group-name {
+  padding-top: 0;
+  font-weight: 500;
+  padding-right: 0;
+}
+
+.permissionsColumn {
+  margin-bottom: 20px;
+}
+
+.permissionsRow {
+  margin: 0 15px;
+}
+
+
+.well-sm {
+  padding: 0.5rem;
+}
+
+@media (min-width: 992px) {
+  .user-enabled {
+    margin-left: 40px;
+  }
+}

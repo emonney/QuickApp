@@ -1,4 +1,4 @@
-# **QuickApp** - ASPNET Core 2.1 / Angular 7 startup project template
+# **QuickApp** - ASPNET Core 2.1 / Angular 7 project template
 [![MIT license](https://cdn.rawgit.com/emonney/tempa/7e9d69ad/MITLicense.png)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 
 A startup **Angular 7 / ASP.NET Core 2.1** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
@@ -16,10 +16,9 @@ For the older asp.net core 1.x version: [Download](https://github.com/emonney/Qu
 ___
 ## INTRODUCING QUICKAPP PREMIUM TEMPLATES
 *   All free features
-*   IdentityServer4
-*   Angular CLI
 *   Angular Material
-*   Bootstrap4
+*	Reactive forms
+*	Public Registration, Password Recovery & Reset, Email Confirmation
 *   Priority Email Support
 *   Etc
 
@@ -38,7 +37,7 @@ ___
 *   Authentication based on OpenID Connect
 *   API Documentation using Swagger
 *   Angular CLI for managing client-side libraries
-*   Theming using Bootstrap
+*   Theming using Bootstrap 4
 
 ## You get the benefits of:
 
@@ -71,22 +70,18 @@ ___
 
 ## Installation Notes
 
-*   When creating a new project please wait for all dependencies ("dotnet restore" & "npm install") to be restored.  
+*   When creating a new project please wait for all dependencies to be restored; "dotnet restore" for asp.net project & "npm install" for angular project.
     When using VisualStudio this is automatic, check the output window or status bar to know that the package/dependencies restore process is complete before launching your program for the first time.
-*   If you get this error: Unable to resolve 'OpenIddict', do the below steps to add myget.org to nuget package sources;  
-    Copy the "NuGet.config" from the project folder to the solution's folder (i.e. copy to the same folder location as your solutions file) and restart your IDE  
-    OR  
-    Add myget.org to your package sources in VisualStudio.  
-    Visual Studio -> Tools -> Options -> NuGet Package Manager -> Package Sources, Add "aspnet-contrib", this URL "https://www.myget.org/F/aspnet-contrib/api/v3/index.json"
-*   If you get any other errors, consider running manually the steps to build the project and note where the errors occur.  
+*   If you get any errors, consider running manually the steps to build the project and note where the errors occur.
     Open command prompt and do the below steps:  
-    1. run 'dotnet restore' from the two project folders - Restore nuget packages  
-    2. run 'npm install' from the project with "ClientApp\\package.json" - Restore npm packages  
-    3. Try running the application again - Test to make sure it all works  
-    
-    *When I say "run from the project folder" I mean run the commands on the command line from those folders  
-    If any step fails, post the error details on the [support forum](https://www.ebenmonney.com/forum/?view=forum&id=14) for the needed assistance.
-*   For help and support post in the [support forum](https://www.ebenmonney.com/forum/?view=forum&id=14). For bug reports open an [issue on github](https://github.com/emonney/QuickApp/issues)
+    1. run 'dotnet restore' from the two project folders - Restore nuget packages
+	2. run 'npm install' from the project with package.json - Restore npm packages
+	3. Try running the application again - Test to make sure it all works
+*	When running the client(angular) project on a different address/domain from the backend, configure the baseUrl of the client to match that of the server.
+	You do this from environment.ts in the ClientApp/Angular project.
+	Example: baseUrl: "http://yourbackendserver.com" OR baseUrl: "http://localhost:5050"
+*	For help and support post in the [support forum](https://www.ebenmonney.com/forum/?view=forum&id=14)
+*	For bug reports open an [issue on github](https://github.com/emonney/QuickApp/issues)
 
 
 ## Login

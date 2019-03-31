@@ -1,0 +1,16 @@
+﻿@import '../styles/custom-vendor';
+
+@import 'node_modules/bootswatch/dist/journal/variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootswatch/dist/journal/bootswatch';
+
+@import "app-theme";
+
+
+.about-page {
+    .bg-features {
+        .logo {
+            color: $primary !important;
+        }
+    }
+}

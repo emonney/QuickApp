@@ -1,0 +1,58 @@
+<div class="d-flex h-90">
+  <div class="login-container m-auto">
+    <div class="card boxshadow">
+      <div class="card-header bg-primary dark text-white clearfix">
+        <i class="fa fa-lock" aria-hidden="true"></i> Login
+        <button *ngIf="isModal" type="button" class="close float-right text-light" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="card-body">
+        <div class="col-md-8 offset-md-2">
+          <form *ngIf="formResetToggle" class="login" name="loginForm" #f="ngForm" novalidate
+                (ngSubmit)="f.form.valid ? login() :
+                          (!username.valid && showErrorAlert('Username is required', 'Please enter a valid username'));
+                          (!password.valid && showErrorAlert('Password is required', 'Please enter a valid password'))">
+            <div class="form-group row has-feedback-icon">
+              <label class="col-form-label col-md-3" for="login-username">Username:</label>
+              <div class="col-md-9">
+                <input type="text" id="login-username" name="username" placeholder="Enter username" autocomplete="username" class="form-control" [ngClass]="{'is-valid': f.submitted && username.valid, 'is-invalid' : f.submitted && !username.valid}"
+                       [(ngModel)]="userLogin.userName" #username="ngModel" required />
+                <i *ngIf="f.submitted" class="fa form-control-feedback" [ngClass]="{'fa-check': username.valid, 'fa-times' : !username.valid}" aria-hidden="true"></i>
+                <span class="invalid-feedback" *ngIf="f.submitted && !username.valid">
+                  Username is required
+                </span>
+              </div>
+            </div>
+            <div class="form-group row has-feedback-icon">
+              <label class="col-form-label col-md-3" for="login-password">Password:</label>
+              <div class="col-md-9">
+                <input type="password" id="login-password" name="password" placeholder="Enter password" autocomplete="current-password" class="form-control" [ngClass]="{'is-valid': f.submitted && password.valid, 'is-invalid' : f.submitted && !password.valid}"
+                       [(ngModel)]="userLogin.password" #password="ngModel" required />
+                <i *ngIf="f.submitted" class="fa form-control-feedback" [ngClass]="{'fa-check': password.valid, 'fa-times' : !password.valid}" aria-hidden="true"></i>
+                <span class="invalid-feedback" *ngIf="f.submitted && !password.valid">
+                  Password is required
+                </span>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="offset-md-3 col-md-9">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="login-rememberme" name="rememberMe" [(ngModel)]="userLogin.rememberMe">
+                  <label class="form-check-label" for="login-rememberme">Remember me</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="offset-md-3 col-md-9">
+                <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+                  <i *ngIf="isLoading" class='fa fa-circle-o-notch fa-spin'></i> {{isLoading ? 'Logging in...' : 'Login'}}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

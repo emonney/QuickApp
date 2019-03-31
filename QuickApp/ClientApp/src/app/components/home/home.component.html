@@ -1,0 +1,53 @@
+<div class="container">
+    <header class="pageHeader">
+        <h3><i class="fa fa-tachometer fa-lg page-caption" aria-hidden="true"></i> {{'pageHeader.Dashboard' | translate}}</h3>
+    </header>
+
+    <div [@fadeInOut]>
+        <div class="row">
+            <div *ngIf="!configurations.showDashboardStatistics && !configurations.showDashboardNotifications && !configurations.showDashboardTodo && !configurations.showDashboardBanner" class="col-12 my-5">
+                <div class="card card-body bg-light">
+                    <h4 class="text-muted text-center">
+                        {{'home.NoWidgets1' | translate}} <a routerLink="/settings" fragment="preferences"><i class="fa fa-sliders"></i> {{'settings.tab.Preferences' | translate}}</a>
+                        {{'home.NoWidgets2' | translate}}
+                    </h4>
+                </div>
+            </div>
+
+            <div *ngIf="configurations.showDashboardStatistics" class="col-12 my-3">
+                <button type="button" class="close" aria-label="Close" title="Close" (click)="configurations.showDashboardStatistics = false">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="clearfix"></div>
+                <div class="card card-body bg-light">
+                    <h5 class="text-muted d-inline-block">{{'home.StatisticsTitle' | translate}}</h5>
+                    <statistics-demo></statistics-demo>
+                </div>
+            </div>
+
+            <div *ngIf="configurations.showDashboardNotifications" class="col-12 my-3">
+                <button type="button" class="close" aria-label="Close" title="Close" (click)="configurations.showDashboardNotifications = false">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="clearfix"></div>
+                <notifications-viewer></notifications-viewer>
+            </div>
+
+            <div *ngIf="configurations.showDashboardTodo" class="col-12 my-3">
+                <button type="button" class="close" aria-label="Close" title="Close" (click)="configurations.showDashboardTodo = false">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="clearfix"></div>
+                <todo-demo></todo-demo>
+            </div>
+
+            <div *ngIf="configurations.showDashboardBanner" class="col-12 my-3">
+                <button type="button" class="close" aria-label="Close" title="Close" (click)="configurations.showDashboardBanner = false">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="clearfix"></div>
+                <banner-demo></banner-demo>
+            </div>
+        </div>
+    </div>
+</div>

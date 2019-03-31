@@ -1,0 +1,16 @@
+﻿@import '../styles/custom-vendor';
+
+@import 'node_modules/bootswatch/dist/lumen/variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootswatch/dist/lumen/bootswatch';
+
+@import "app-theme";
+
+
+.about-page {
+    .bg-features {
+        .logo {
+            color: #fbfbfb !important;
+        }
+    }
+}

@@ -1,0 +1,106 @@
+<div class="app-component app-container">
+  <ngx-toasta></ngx-toasta>
+
+  <nav id="header" class="app-component navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <div class="container">
+      <a ngPreserveWhitespaces class="app-component navbar-brand" routerLink="/">
+        <img [src]="appLogo" class="d-inline-block align-top" alt="logo">
+        <span class="app-component appTitle">{{appTitle}}</span>
+      </a>
+      <button type="button" class="app-component navbar-toggler" data-toggle="collapse" data-target=".menuItemsContainer.app-component">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div *ngIf="isUserLoggedIn" class="app-component collapse navbar-collapse menuItemsContainer">
+        <ul class="app-component nav nav-pills flex-column flex-lg-row mr-auto">
+          <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a class="nav-link" routerLink=""><i class="fa fa-home"></i></a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *ngIf="canViewCustomers">
+            <a class="nav-link" routerLink="/customers">{{'mainMenu.Customers' | translate}}</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *ngIf="canViewProducts">
+            <a class="nav-link" routerLink="/products">{{'mainMenu.Products' | translate}}</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active" *ngIf="canViewOrders">
+            <a class="nav-link" routerLink="/orders">{{'mainMenu.Orders' | translate}}</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/about">{{'mainMenu.About' | translate}}</a>
+          </li>
+        </ul>
+        <ul class="app-component nav nav-pills flex-column flex-lg-row mr-md-2">
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/settings"><i class="fa fa-cog"></i></a>
+          </li>
+        </ul>
+        <span class="app-component navbar-text notifications-popup">{{'app.Welcome' | translate}}</span>
+        <a class="app-component nav-link user-name d-inline-block px-1" [popover]="popTemplate" (onHidden)="markNotificationsAsRead()" placement="bottom" [popoverTitle]="notificationsTitle" href="javascript:;" triggers="focus">
+          {{userName}}
+          <span *ngIf="newNotificationCount > 0" class="badge badge-pill badge-secondary">{{newNotificationCount}}</span>
+        </a>
+        <ng-template #popTemplate>
+          <notifications-viewer [isViewOnly]="true"></notifications-viewer>
+        </ng-template>
+        <span class="app-component navbar-text">, </span>
+        <ul class="app-component nav nav-pills ml-lg-2 flex-column flex-lg-row">
+          <li class="nav-item" (click)="logout()">
+            <a class="nav-link" href="javascript:;"><i class="fa fa-sign-out"></i> {{'mainMenu.Logout' | translate}}</a>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="!isUserLoggedIn && router.isActive('/about', false)" class="app-component collapse navbar-collapse menuItemsContainer">
+        <ul class="app-component nav nav-pills flex-column flex-lg-row ml-auto">
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/login"><i class="fa fa-sign-in"></i></a>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="!isUserLoggedIn && !router.isActive('/about', false) || false" class="app-component collapse navbar-collapse menuItemsContainer">
+        <ul class="app-component nav nav-pills flex-column flex-lg-row ml-auto">
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/about"><i class="fa fa-info-circle"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div id="pre-bootstrap" *ngIf="!removePrebootScreen" [class.prebootShow.app-component]="!isAppLoaded" class="app-component prebootStep">
+    <div class="messaging">
+      <h1>
+        Loaded!
+      </h1>
+      <p>
+        QUICK APPLICATION SYSTEM - <span style="font-style:italic">quick</span>App &copy; <a href="https://www.ebenmonney.com">WWW.EBENMONNEY.COM</a>
+      </p>
+
+    </div>
+  </div>
+
+  <main class="app-component container">
+    <router-outlet></router-outlet>
+    <div class="app-component footer-height"></div>
+  </main>
+
+  <footer class="app-component footer fixed-bottom">
+    <div class="container">
+      <p class="text-center text-muted">
+        <span style="font-style:italic">quick</span>App &copy; {{getYear()}}
+        <a href="https://www.ebenmonney.com" target="_blank">www.ebenmonney.com</a>
+        <!--<span class="small display-none">- Powered by <a href="https://www.ebenmonney.com/quickapp" target="_blank"><span style="font-style:italic">quick</span>App</a></span>-->
+      </p>
+    </div>
+  </footer>
+
+  <div *ngIf="shouldShowLoginModal" class="modal fade login-control" bsModal #loginModal="bs-modal" (onShown)="onLoginModalShown()" (onHidden)="onLoginModalHidden()" (onHide)="onLoginModalHide()"
+       [config]="{backdrop: 'static'}" tabindex="-1">
+    <div class="modal-dialog modal-lg h-75 d-flex flex-column justify-content-center my-0">
+      <div class="modal-content">
+        <div class="modal-body">
+          <app-login #loginControl isModal="true"></app-login>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

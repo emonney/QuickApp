@@ -1,0 +1,189 @@
+{
+    "app": {
+        "Welcome": "Bem-vindo!",
+        "Notifications": "Notificações",
+        "New": "Novo"
+    },
+    "mainMenu": {
+        "Appointments": "Compromissos",
+        "Customers": "Clientes",
+        "Products": "Produtos",
+        "Orders": "Pedidos",
+        "About": "Sobre",
+        "Logout": "Sair"
+    },
+    "pageHeader": {
+        "Dashboard": "Painel de Controle",
+        "Customers": "Clientes",
+        "Products": "Produtos",
+        "Orders": "Pedidos",
+        "NotFound": "Não Encontrado",
+        "About": "Sobre",
+        "Settings": "Configurações"
+    },
+    "home": {
+        "NoWidgets1": "Você não possui widgets a serem mostrados. Ir para",
+        "NoWidgets2": "configurar widgets disponíveis",
+        "StatisticsTitle": "Alguma coisa importante"
+    },
+    "notFound": {
+        "404": "404",
+        "pageNotFound": "A página que você está procurando não foi encontrada",
+        "backToHome": "Voltar para a página principal"
+    },
+    "settings": {
+        "tab": {
+            "Profile": "Perfil",
+            "Preferences": "Preferências",
+            "Users": "Usuários",
+            "Roles": "Funções"
+        },
+        "header": {
+            "UserProfile": "Perfil de Usuário",
+            "UserPreferences": "Preferências de Usuário",
+            "UserDepartments": "Departamentos de Usuários",
+            "UsersManagements": "Gerenciamento de Usuários",
+            "RolesManagement": "Gerenciamento de Funções"
+        }
+    },
+    "preferences": {
+        "ReloadPreferences": "Recarregar Preferências:",
+        "ReloadPreferencesHint": "Carregar as preferências padrão (as alterações atuais serão descartadas)",
+        "Language": "Idioma:",
+        "English": "English",
+        "French": "Français",
+        "German": "Deutsche",
+        "Portuguese": "Português",
+        "Arabic": "عربى",
+        "Korean": "한국어",
+        "LanguageHint": "Selecione seu idioma",
+        "HomePage": "Principal:",
+        "Dashboard": "Painel de Controle",
+        "Customers": "Clientes",
+        "Products": "Produtos",
+        "Orders": "Pedidos",
+        "About": "Sobre",
+        "Settings": "Configurações",
+        "HomePageHint": "Selecione a página padrão para acessar após o login",
+        "Theme": "Tema:",
+        "DefaultTheme": "Padrão",
+        "CosmoTheme": "Cosmo",
+        "SolarTheme": "Solar",
+        "CeruleanTheme": "Cerulean",
+        "FlatlyTheme": "Solitariamente",
+        "SketchyTheme": "Esboçado",
+        "SlateTheme": "Ardósia",
+        "SpacelabTheme": "Laboratórioespacial",
+        "SuperheroTheme": "Superheroi",
+        "UnitedTheme": "Unidos",
+        "JournalTheme": "Diário",
+        "LumenTheme": "Lúmen",
+        "MintyTheme": "Minty",
+        "PulseTheme": "Pulso",
+        "ThemeHint": "Selecione o tema padrão",
+        "DashboardStatistics": "Estatísticas do Painel de Controle:",
+        "DashboardStatisticsHint": "Mostrar o widget gráfico demonstrativo no Painel de Controle",
+        "DashboardNotifications": "Notificações no Painel de Controle:",
+        "DashboardNotificationsHint": "Mostra as notificações no painel de controle",
+        "DashboardTodo": "Tarefas no Painel de Controle:",
+        "DashboardTodoHint": "Mostra o widget demonstrativo de Tarefas no painel de controle",
+        "DashboardBanner": "Banner no Painel de Controle:",
+        "DashboardBannerHint": "Mostra o widget demonstrativo de informações no painle de controle",
+        "ResetDefault": "Resetar",
+        "SetDefault": "Definir como Padrão"
+    },
+    "users": {
+        "management": {
+            "Search": "Procurar usuário...",
+            "NewUser": "Novo Usuário",
+            "Edit": "Editar",
+            "Delete": "Excluir",
+            "EditUser": "Editar usuário \"{{name}}\"",
+            "Title": "Título",
+            "UserName": "Nome de Usuário",
+            "FullName": "Nome Completo",
+            "Email": "E-mail",
+            "Roles": "Funções",
+            "PhoneNumber": "Telefone"
+        },
+        "editor": {
+            "JobTitle": "Cargo: ",
+            "UserName": "Nome de Usuário:",
+            "UserNameRequired": "Nome de usuário é obrigatório (mínimo de 2 máximo de 200 caracteres)",
+            "Password": "Senha:",
+            "PasswordHint": "Sua senha é necessária ao alterar o nome do usuário",
+            "CurrentPasswordRequired": "A senha atual é necessária",
+            "Email": "Email:",
+            "EmailRequired": "Email é obrigatório (máximo de 200 caracteres)",
+            "InvalidEmail": "O email especificado não é válido",
+            "ChangePassword": "Trocar senha",
+            "CurrentPassword": "Senha Atual:",
+            "NewPassword": "Nova senha:",
+            "NewPasswordRequired": "Nova senha é obrigatória (mínimo de 6 caracteres)",
+            "ConfirmPassword": "Confirme a senha:",
+            "ConfirmationPasswordRequired": "Confirmação de senha é obrigatória",
+            "PasswordMismatch": "Nova senha e Confirmação de senha não são iguais",
+            "Roles": "Perfis:",
+            "FullName": " Nome Completo:",
+            "RoleRequired": " Perfil é Obrigatório",
+            "PhoneNumber": "Telefone:",
+            "Enabled": "Habilitado",
+            "Unblock": "Desbloquear",
+            "Close": "Fechar",
+            "Edit": "Editar",
+            "Cancel": "Cancela",
+            "Save": "Salvar",
+            "Saving": "Salvando..."
+        }
+    },
+    "roles": {
+        "management": {
+            "Search": "rocurar por Função...",
+            "NewRole": "Nova Função",
+            "Edit": "Editar",
+            "Details": "Detalhes",
+            "Delete": "Excluir",
+            "RoleDetails": "Detalhes da Função \"{{name}}\"",
+            "EditRole": "Editar Função \"{{name}}\"",
+            "Name": "Nome",
+            "Description": "Descrição",
+            "Users": "Usuários"
+        },
+        "editor": {
+            "Name": "Nome:",
+            "Description": "Descrição:",
+            "RoleNameRequired": "Nome da Função é Obrigatório (mínimo de 2 máximo de 200 caracteres)",
+            "SelectAll": "Selecionar Todos",
+            "SelectNone": "Nenhum",
+            "Close": "Fechar",
+            "Cancel": "Cancelar",
+            "Save": "Salvar",
+            "Saving": "Salvando..."
+        }
+    },
+    "notifications": {
+        "Delete": "Excluir Notificação",
+        "Pin": "Fixar notificação",
+        "Date": "Data",
+        "Notification": "Notificação"
+    },
+    "todoDemo": {
+        "management": {
+            "Search": "Procurar por Tarefa...",
+            "HideCompleted": "Esconder Completas",
+            "AddTask": "Adicionar tarefa",
+            "Delete": "Excluir tarefa",
+            "Important": "Marcar como importante",
+            "Task": "Tarefa",
+            "Description": "Descrição"
+        },
+        "editor": {
+            "NewTask": "Nova Tarefa",
+            "Name": "Nome",
+            "TaskNameRequired": "Título da tarefa é obrigatório",
+            "Description": "Descrição",
+            "Important": "Marcar como importante",
+            "AddTask": "Adicionar Tarefa"
+        }
+    }
+}

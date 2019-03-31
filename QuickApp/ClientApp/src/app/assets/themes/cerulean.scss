@@ -1,0 +1,17 @@
+﻿@import '../styles/custom-vendor';
+
+@import 'node_modules/bootswatch/dist/cerulean/variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootswatch/dist/cerulean/bootswatch';
+
+@import "app-theme";
+
+
+
+.app-component {
+    .navbar {
+        .popover-header {
+            color: $headings-color !important;
+        }
+    }
+}

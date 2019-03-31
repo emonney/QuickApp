@@ -1,0 +1,70 @@
+<div>
+  <div class="row control-box">
+    <div class="col-lg-8">
+      <div class="form-group search-box">
+        <search-box (searchChange)="onSearchChanged($event)" placeholder="{{'users.management.Search' | translate}}">></search-box>
+      </div>
+    </div>
+    <div class="col-lg-4 pr-lg-5">
+      <ul class="nav flex-column flex-lg-row justify-content-end">
+        <li *ngIf="canManageUsers && canAssignRoles" class="nav-item toolbaritem">
+          <a class="nav-link" href="javascript:;" (click)="newUser(row)">
+            <i class="fa fa-plus-circle"></i> {{'users.management.NewUser' | translate}}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <ngx-datatable class="material colored-header sm table table-striped table-hover"
+                 [loadingIndicator]="loadingIndicator"
+                 [rows]="rows"
+                 [rowHeight]="35"
+                 [headerHeight]="35"
+                 [footerHeight]="35"
+                 [columns]="columns"
+                 [scrollbarV]="true"
+                 [columnMode]="'force'">
+  </ngx-datatable>
+
+  <ng-template #indexTemplate let-value="value">
+    <strong>{{value}}</strong>
+  </ng-template>
+
+  <ng-template #userNameTemplate let-row="row" let-value="value">
+    <span [class.locked-out]="row.isLockedOut" [class.user-disabled]="!row.isEnabled">
+      <i *ngIf="row.isLockedOut" class="fa fa-exclamation-triangle"> </i>
+      <i *ngIf="!row.isEnabled" class="fa fa-exclamation"> </i>
+      {{value}}
+    </span>
+  </ng-template>
+
+  <ng-template #rolesTemplate let-row="row" let-value="value" let-i="index">
+    <span class="user-role badge badge-pill badge-secondary" *ngFor="let role of value">{{role}}</span>
+  </ng-template>
+
+  <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
+    <div *ngIf="canManageUsers">
+      <a class="btn btn-link btn-sm" href="javascript:;" (click)="editUser(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'users.management.Edit' | translate}}</a>|
+      <a class="btn btn-link btn-sm" href="javascript:;" (click)="deleteUser(row)"><i class="fa fa-trash-o" aria-hidden="true"></i> {{'users.management.Delete' | translate}}</a>
+    </div>
+  </ng-template>
+
+
+  <div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 *ngIf="!editingUserName" class="modal-title float-left"><i class="fa fa-user-plus"></i> {{'users.management.NewUser' | translate}}</h4>
+          <h4 *ngIf="editingUserName" class="modal-title float-left"><i class="fa fa-user-circle-o"></i> {{'users.management.EditUser' | translate:editingUserName}}</h4>
+          <button type="button" class="close float-right" title="Close" (click)="editorModal.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <user-info #userEditor [isGeneralEditor]="true"></user-info>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

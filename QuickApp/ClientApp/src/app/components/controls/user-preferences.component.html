@@ -1,0 +1,185 @@
+﻿<div>
+    <div class="form-group row">
+        <label for="refreshButton" class="col-sm-3 col-form-label">{{'preferences.ReloadPreferences' | translate}} </label>
+        <div class="col-sm-4">
+            <button id="refreshButton" class="btn btn-outline-secondary" (click)="reloadFromServer()">
+                <i class="fa fa-refresh"></i>
+            </button>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-plaintext text-muted small">{{'preferences.ReloadPreferencesHint' | translate}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="separator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="language" class="col-sm-3 col-form-label">{{'preferences.Language' | translate}} </label>
+        <div class="col-sm-4">
+            <select id="language" [(ngModel)]="configurations.language" #languageSelector="bootstrap-select" bootstrapSelect class="selectpicker form-control">
+                <option data-subtext="(Default)" value="en">{{'preferences.English' | translate}}</option>
+                <option value="fr">{{'preferences.French' | translate}}</option>
+                <option value="de">{{'preferences.German' | translate}}</option>
+                <option value="pt">{{'preferences.Portuguese' | translate}}</option>
+                <option value="ar">{{'preferences.Arabic' | translate}}</option>
+                <option value="ko">{{'preferences.Korean' | translate}}</option>
+            </select>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-plaintext text-muted small">{{'preferences.LanguageHint' | translate}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="separator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="homePage" class="col-sm-3 col-form-label">{{'preferences.HomePage' | translate}} </label>
+        <div class="col-sm-4">
+            <select id="homePage" [(ngModel)]="configurations.homeUrl" #homePageSelector="bootstrap-select" bootstrapSelect class="selectpicker form-control">
+                <option data-icon="fa fa-tachometer" data-subtext="(Default)" value="/">{{'preferences.Dashboard' | translate}}</option>
+                <option *ngIf="canViewCustomers" data-icon="fa fa-handshake-o" value="/customers">{{'preferences.Customers' | translate}}</option>
+                <option *ngIf="canViewProducts" data-icon="fa fa-truck" value="/products">{{'preferences.Products' | translate}}</option>
+                <option *ngIf="canViewOrders" data-icon="fa fa-shopping-cart" value="/orders">{{'preferences.Orders' | translate}}</option>
+                <option data-icon="fa fa-info-circle" value="/about">{{'preferences.About' | translate}}</option>
+                <option data-icon="fa fa-cog" value="/settings">{{'preferences.Settings' | translate}}</option>
+            </select>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-plaintext text-muted small">{{'preferences.HomePageHint' | translate}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="separator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="defaultTheme" class="col-sm-3 col-form-label">{{'preferences.Theme' | translate}} </label>
+        <div *ngIf="themeSelectorToggle" class="col-sm-4">
+            <select id="defaultTheme" [(ngModel)]="configurations.themeId" bootstrapSelect class="selectpicker theme-picker form-control">
+                <option *ngFor="let theme of themeManager.themes"
+                attr.data-content="<div class='theme-item' style='background-color: {{theme.background}}; color: {{theme.color}}'>{{'preferences.' + theme.name + 'Theme' | translate}}
+                <span class='small'>{{theme.isDark ? '(Dark)' : ''}}</span></div>">
+                {{theme.id}}
+                </option>
+            </select>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-plaintext text-muted small">{{'preferences.ThemeHint' | translate}}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="separator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="dashboardStatistics">{{'preferences.DashboardStatistics' | translate}} </label>
+        <div class="col-sm-4">
+            <div class="checkbox">
+                <input name="dashboardStatistics" [(ngModel)]="configurations.showDashboardStatistics" class="form-control" type="checkbox" bootstrapToggle data-size="small">
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-plaintext text-muted small">{{'preferences.DashboardStatisticsHint' | translate}}</p>
+        </div>
+    </div>
+    <!--  -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="subseparator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="dashboardTodo">{{'preferences.DashboardNotifications' | translate}} </label>
+        <div class="col-sm-4">
+            <div class="checkbox">
+                <input name="dashboardNotifications" [(ngModel)]="configurations.showDashboardNotifications" class="form-control" type="checkbox" bootstrapToggle data-size="small">
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-plaintext text-muted small">{{'preferences.DashboardNotificationsHint' | translate}}</p>
+        </div>
+    </div>
+    <!--  -->
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="subseparator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="dashboardTodo">{{'preferences.DashboardTodo' | translate}} </label>
+        <div class="col-sm-4">
+            <div class="checkbox">
+                <input name="dashboardTodo" [(ngModel)]="configurations.showDashboardTodo" class="form-control" type="checkbox" bootstrapToggle data-size="small">
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-plaintext text-muted small">{{'preferences.DashboardTodoHint' | translate}}</p>
+        </div>
+    </div>
+    <!--  -->
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="subseparator-hr" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="dashboardBanner">{{'preferences.DashboardBanner' | translate}}</label>
+        <div class="col-sm-4">
+            <div class="checkbox">
+                <input name="dashboardBanner" [(ngModel)]="configurations.showDashboardBanner" class="form-control" type="checkbox" bootstrapToggle data-size="small">
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <p class="form-control-plaintext text-muted small">{{'preferences.DashboardBannerHint' | translate}}</p>
+        </div>
+    </div>
+    <!--  -->
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <hr class="last-separator-hr" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3">
+
+        </div>
+        <div class="col-sm-9">
+            <div class="row float-left">
+                <div class="col-sm-6 col-reset-default">
+                    <button type="button" (click)="resetDefault()" class="btn btn-success">
+                        <i class='fa fa-circle-o-notch'></i> {{'preferences.ResetDefault' | translate}}
+                    </button>
+                </div>
+                <div class="col-sm-6 col-set-default">
+                    <button type="button" (click)="setAsDefault()" class="btn btn-primary">
+                        <i class='fa fa-hdd-o'></i> {{'preferences.SetDefault' | translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

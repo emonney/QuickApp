@@ -1,0 +1,60 @@
+<div class="row statistics-container">
+  <div class="col-md-6">
+    <div class="chart-container">
+      <canvas baseChart width="600" height="250"
+              [datasets]="chartData"
+              [labels]="chartLabels"
+              [options]="chartOptions"
+              [colors]="chartColors"
+              [legend]="chartLegend"
+              [chartType]="chartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"></canvas>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="d-none d-sm-block table-responsive">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th class="border-top-0"></th>
+            <th class="border-top-0" *ngFor="let label of chartLabels">{{label}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let d of chartData">
+            <th>{{d && d.label.split(' ').pop()}}</th>
+            <td *ngFor="let label of chartLabels; let j=index">{{d && d.data[j]}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="refresh-btn" (click)="randomize();showMessage('Manual refresh!');">REFSH</button>
+    <div class="chart-type-container" dropdown>
+      <button id="chartType" type="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bar-chart"></i></button>
+      <ul class="dropdown-menu">
+        <li [class.active]="chartType == 'bar'">
+          <a class="dropdown-item" (click)="changeChartType('bar')" href="javascript:;">Bar Chart</a>
+        </li>
+        <li [class.active]="chartType == 'pie'">
+          <a class="dropdown-item" (click)="changeChartType('pie')" href="javascript:;">Pie Chart</a>
+        </li>
+        <li [class.active]="chartType == 'doughnut'">
+          <a class="dropdown-item" (click)="changeChartType('doughnut')" href="javascript:;">Doughnut Chart</a>
+        </li>
+        <li [class.active]="chartType == 'polarArea'">
+          <a class="dropdown-item" (click)="changeChartType('polarArea')" href="javascript:;">Polar Area Chart</a>
+        </li>
+        <li [class.active]="chartType == 'radar'">
+          <a class="dropdown-item" (click)="changeChartType('radar')" href="javascript:;">Radar Chart</a>
+        </li>
+        <li class="dropdown-divider"></li>
+        <li [class.active]="chartType == 'line'">
+          <a class="dropdown-item" (click)="changeChartType('line')" href="javascript:;">Line Chart</a>
+        </li>
+      </ul>
+    </div>
+    <button (click)="showMessage('You\'ve clicked on the menu')"><i class="fa fa-bars"></i></button>
+    <button (click)="showDialog('Enter some value to do serious configuration...')"><i class="fa fa-cogs"></i></button>
+  </div>
+</div>

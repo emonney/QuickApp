@@ -1,0 +1,189 @@
+{
+    "app": {
+        "Welcome": "Welcome",
+        "Notifications": "Notifications",
+        "New": "New"
+    },
+    "mainMenu": {
+        "Appointments": "Appointments",
+        "Customers": "Customers",
+        "Products": "Products",
+        "Orders": "Orders",
+        "About": "About",
+        "Logout": "Logout"
+    },
+    "pageHeader": {
+        "Dashboard": "Dashboard",
+        "Customers": "Customers",
+        "Products": "Products",
+        "Orders": "Orders",
+        "NotFound": "Not-Found",
+        "About": "About",
+        "Settings": "Settings"
+    },
+    "home": {
+        "NoWidgets1": "You have no widgets displayed. Goto",
+        "NoWidgets2": "to configure available widgets",
+        "StatisticsTitle": "Some Important Stuff"
+    },
+    "notFound": {
+        "404": "404",
+        "pageNotFound": "The page you are looking for does not exist",
+        "backToHome": "Back to home"
+    },
+    "settings": {
+        "tab": {
+            "Profile": "Profile",
+            "Preferences": "Preferences",
+            "Users": "Users",
+            "Roles": "Roles"
+        },
+        "header": {
+            "UserProfile": "User Profile",
+            "UserPreferences": "User Preferences",
+            "UserDepartments": "User Departments",
+            "UsersManagements": "Users Managements",
+            "RolesManagement": "Roles Management"
+        }
+    },
+    "preferences": {
+        "ReloadPreferences": "Reload Preferences:",
+        "ReloadPreferencesHint": "Load default preferences (local changes are discarded)",
+        "Language": "Language:",
+        "English": "English",
+        "French": "French",
+        "German": "German",
+        "Portuguese": "Portuguese",
+        "Arabic": "Arabic",
+        "Korean": "Korean",
+        "LanguageHint": "Select the preferred language for your account",
+        "HomePage": "Home Page:",
+        "Dashboard": "Dashboard",
+        "Customers": "Customers",
+        "Products": "Products",
+        "Orders": "Orders",
+        "About": "About",
+        "Settings": "Settings",
+        "HomePageHint": "Select the default page to navigate to on login",
+        "Theme": "Theme:",
+        "DefaultTheme": "Default",
+        "CosmoTheme": "Cosmo",
+        "SolarTheme": "Solar",
+        "CeruleanTheme": "Cerulean",
+        "FlatlyTheme": "Flatly",
+        "SketchyTheme": "Sketchy",
+        "SlateTheme": "Slate",
+        "SpacelabTheme": "Spacelab",
+        "SuperheroTheme": "Superhero",
+        "UnitedTheme": "United",
+        "JournalTheme": "Journal",
+        "LumenTheme": "Lumen",
+        "MintyTheme": "Minty",
+        "PulseTheme": "Pulse",
+        "ThemeHint": "Select the default color theme for your account",
+        "DashboardStatistics": "Dashboard Statistics:",
+        "DashboardStatisticsHint": "Show demo graph widget on the dashboard",
+        "DashboardNotifications": "Dashboard Notifications:",
+        "DashboardNotificationsHint": "Show application notifications on the dashboard",
+        "DashboardTodo": "Dashboard Todo:",
+        "DashboardTodoHint": "Shows demo todo widget on the dashboard",
+        "DashboardBanner": "Dashboard Banner:",
+        "DashboardBannerHint": "Show demo information banner widget on the dashboard",
+        "ResetDefault": "Reset default",
+        "SetDefault": "Set as default"
+    },
+    "users": {
+        "management": {
+            "Search": "Search for user...",
+            "NewUser": "New User",
+            "Edit": "Edit",
+            "Delete": "Delete",
+            "EditUser": "Edit User \"{{name}}\"",
+            "Title": "Title",
+            "UserName": "User Name",
+            "FullName": "Full Name",
+            "Email": "Email",
+            "Roles": "Roles",
+            "PhoneNumber": "Phone Number"
+        },
+        "editor": {
+            "JobTitle": "Job Title: ",
+            "UserName": "User Name:",
+            "UserNameRequired": "User name is required (minimum of 2 and maximum of 200 characters)",
+            "Password": "Password:",
+            "PasswordHint": "Your password is required when changing user name",
+            "CurrentPasswordRequired": "Current password is required",
+            "Email": "Email:",
+            "EmailRequired": "Email address is required (maximum of 200 characters)",
+            "InvalidEmail": "Specified email is not valid",
+            "ChangePassword": "Change Password",
+            "CurrentPassword": "Current Password:",
+            "NewPassword": "New Password:",
+            "NewPasswordRequired": "New password is required (minimum of 6 characters)",
+            "ConfirmPassword": "Confirm Password:",
+            "ConfirmationPasswordRequired": "Confirmation password is required",
+            "PasswordMismatch": "New password and confirmation password do not match",
+            "Roles": "Roles:",
+            "FullName": " Full Name:",
+            "RoleRequired": " Role is required",
+            "PhoneNumber": "Phone #:",
+            "Enabled": "Enabled",
+            "Unblock": "Unblock",
+            "Close": "Close",
+            "Edit": "Edit",
+            "Cancel": "Cancel",
+            "Save": "Save",
+            "Saving": "Saving..."
+        }
+    },
+    "roles": {
+        "management": {
+            "Search": "Search for role...",
+            "NewRole": "New Role",
+            "Edit": "Edit",
+            "Details": "Details",
+            "Delete": "Delete",
+            "RoleDetails": "Role Details \"{{name}}\"",
+            "EditRole": "Edit Role \"{{name}}\"",
+            "Name": "Name",
+            "Description": "Description",
+            "Users": "Users"
+        },
+        "editor": {
+            "Name": "Name:",
+            "Description": "Description:",
+            "RoleNameRequired": "Role name is required (minimum of 2 and maximum of 200 characters)",
+            "SelectAll": "Select all",
+            "SelectNone": "Select none",
+            "Close": "Close",
+            "Cancel": "Cancel",
+            "Save": "Save",
+            "Saving": "Saving..."
+        }
+    },
+    "notifications": {
+        "Delete": "Delete notification",
+        "Pin": "Pin notification",
+        "Date": "Date",
+        "Notification": "Notification"
+    },
+    "todoDemo": {
+        "management": {
+            "Search": "Search for task...",
+            "HideCompleted": "Hide Completed",
+            "AddTask": "Add Task",
+            "Delete": "Delete task",
+            "Important": "Mark as important",
+            "Task": "Task",
+            "Description": "Description"
+        },
+        "editor": {
+            "NewTask": "New Task",
+            "Name": "Name",
+            "TaskNameRequired": "Task name is required",
+            "Description": "Description",
+            "Important": "Mark as important",
+            "AddTask": "Add Task"
+        }
+    }
+}

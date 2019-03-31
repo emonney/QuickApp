@@ -1,0 +1,32 @@
+﻿
+.user-role {
+    font-size: 0.8em !important;
+    margin-right: 1px;
+}
+
+.control-box {
+    margin-bottom: 5px;
+}
+
+.search-box {
+    margin: 0;
+}
+
+.nav-item.toolbaritem a {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    min-width: 100px;
+}
+
+.user-disabled {
+    color: #777;
+    font-style: italic;
+}
+
+.locked-out {
+    background-color: orangered;
+    color: whitesmoke;
+    width: 100%;
+    display: inline-block;
+    padding-left: 5px;
+}

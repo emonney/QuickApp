@@ -1,0 +1,19 @@
+@import '../styles/custom-vendor';
+
+@import 'node_modules/bootswatch/dist/pulse/variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootswatch/dist/pulse/bootswatch';
+
+@import "app-theme";
+
+
+.form-group .icon-addon #searchInput.form-control {
+    border-radius: 0;
+}
+
+
+.app-component {
+    main {
+        padding-top: 90px !important;
+    }
+}

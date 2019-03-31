@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>QuickApp - ASPNET Core 2.1 / Angular 7 startup project template</title>
+    <style type="text/css">
+        body {
+            margin: 0 50px 2em 50px;
+            padding: 0;
+            border: 0;
+            color: #1E1E1E;
+            font-size: 13px;
+            font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+            line-height: 1.45;
+        }
+
+        .footer {
+            position: fixed;
+            height: 2em;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+            .footer h3 {
+                margin: 0;
+            }
+
+            .footer a {
+                text-decoration: none;
+            }
+
+        .logo {
+            float: right
+        }
+
+            .logo img {
+                position: fixed;
+                margin: 0;
+                right: 20px;
+                bottom: 20px;
+                height: 139px;
+                width: 150px;
+                border: 0;
+                opacity: 0.5;
+            }
+
+                .logo img:hover {
+                    opacity: 1.0;
+                }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <div class="logo">
+                <a target="_blank" href="https://github.com/emonney/QuickApp">
+                    <img alt="Logo" src="ClientApp/src/app/assets/images/logo-black.png" />
+                </a>
+            </div>
+            <div>
+                <h1 id="header"><strong>Welcome to QuickApp - ASP.NET Core / Angular project template</strong></h1>
+                <p>
+                    This application template provides a quick and convenient way to create ASP.NET Core 2.1 / Angular 7 applications with common features such as login, user management, role management, etc already implemented
+                </p>
+                <p>
+                    <a target="_blank" href="http://quickapp.ebenmonney.com">LIVE DEMO</a> | <a target="_blank" href="https://www.ebenmonney.com/shop">MORE TEMPLATES</a>
+                </p>
+                <p>
+                    <a target="_blank" href="https://twitter.com/kommand">FOLLOW ME</a> on twitter for important updates
+                </p>
+            </div>
+        </div>
+        <div>
+            <h2 id="technologies">Technologies:</h2>
+            <ul>
+                <li>Template pages with <a href="https://angular.io" target="_blank" rel="nofollow">Angular7</a> and <a href="https://www.typescriptlang.org" target="_blank" rel="nofollow">TypeScript</a></li>
+                <li>RESTful API Backend using <a href="https://docs.microsoft.com/en-us/aspnet/core" target="_blank" rel="nofollow">ASP.NET Core 2.1</a> MVC Web API</li>
+                <li>Database using <a href="https://docs.microsoft.com/en-us/ef/core" target="_blank" rel="nofollow">Entity Framework Core</a></li>
+                <li>Authentication based on <a href="http://docs.identityserver.io/en/release" target="_blank" rel="nofollow">IdentityServer4</a> and <a href="https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity-configuration?tabs=aspnetcore2x" target="_blank" rel="nofollow">ASP.NET Core Identity</a></li>
+                <li>API Documentation using <a href="https://swagger.io" target="_blank" rel="nofollow">Swagger</a></li>
+                <li>Client-side built on <a href="https://cli.angular.io" target="_blank" rel="nofollow">Angular CLI</a></li>
+                <li>Theming using <a href="http://getbootstrap.com" target="_blank" rel="nofollow">Bootstrap 4</a></li>
+            </ul>
+        </div>
+        <div>
+            <h2 id="features">Features:</h2>
+            <ul>
+                <li>A complete backend and frontend project structure to build on, with login, user and permission-based role management integrated</li>
+                <li>Clean and simple Angular/ASP.NET Core code to serve as a guide</li>
+                <li>Data Access Layer built with the Repository and Unit of Work Pattern</li>
+                <li>Code First Database</li>
+                <li>A RESTful API Design</li>
+                <li>Dialog and Notification Services</li>
+                <li>Configuration Page and Configuration Service</li>
+                <li>Integrated Internationaliztion</li>
+                <li>Theming with SASS</li>
+                <li>Ready-to-use email API</li>
+                <li>Handling Access and Refresh Tokens with WebStorage (Bearer authentication) - No Cookies</li>
+                <li>CRUD APIs</li>
+                <li>etc.</li>
+            </ul>
+        </div>
+        <div>
+            <h2 id="installation">Installation</h2>
+            <ul>
+                <li>
+                    [OPTION 1] Clone the <a target="_blank" href="https://github.com/emonney/QuickApp.git">Git Repository</a> and edit with your favorite editor. e.g. Visual Studio, Visual Studio Code
+                </li>
+                <li>
+                    [OPTION 2] Install Project template from the <a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate">Visual Studio Gallery</a> and follow the usual File -&gt; New Project -&gt; Web -&gt; QuickApp - to create a new Project from this template.
+                    Lunch with <code>F5</code> or <code>Ctrl+F5</code> (The usual way)
+                </li>
+            </ul>
+        </div>
+        <div>
+            <h2 id="installation-notes">Installation Notes</h2>
+            <ul>
+                <li>
+                    When creating a new project please wait for all dependencies to be restored; "dotnet restore" for asp.net project & "npm install" for angular project<br />
+                    When using VisualStudio this is automatic, check the output window or status bar to know that the package/dependencies restore process is complete before launching your program for the first time
+                </li>
+                <li>
+                    If you get any errors, consider running manually the steps to build the project and note where the errors occur.<br />
+                    Open command prompt and do the below steps:<br />
+                    1. run 'dotnet restore' from the two project folders - Restore nuget packages<br />
+                    2. run 'npm install' from the project with package.json - Restore npm packages<br />
+                    3. Try running the application again - Test to make sure it all works<br />
+                </li>
+                <li>
+                    When running the client(angular) project on a different address/domain from the backend, configure the <code>baseUrl</code> of the client to match that of the server.<br />
+                    You do this from <em>environment.ts</em> in the ClientApp/Angular project.<br />
+                    Example: <code>baseUrl: &#34;http://yourbackendserver.com&#34;</code> OR <code>baseUrl: &#34;http://localhost:5050&#34;</code>
+                </li>
+                <li>
+                    For help and support post in the <a target="_blank" href="https://www.ebenmonney.com/forum/?view=forum&id=14">support forum</a>
+                </li>
+				 <li>
+                    For bug reports open an <a target="_blank" href="https://github.com/emonney/QuickApp/issues">issue on github</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <h2 id="login">Login</h2>
+            <p>LOGIN WITH USERNAME OR EMAIL ADDRESS</p>
+            <blockquote>
+                <ul>
+                    <li>
+                        <strong>Default Administrator Account</strong>
+                        <ul>
+                            <li>Username: admin</li>
+                            <li>Email:    admin@ebenmonney.com</li>
+                            <li>Password: tempP@ss123</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <strong>Default Standard Account</strong>
+                        <ul>
+                            <li>Username: user</li>
+                            <li>Email:    user@ebenmonney.com</li>
+                            <li>Password: tempP@ss123</li>
+                        </ul>
+                    </li>
+                </ul>
+            </blockquote>
+        </div>
+        <div>
+            <h2 id="documentation">Documentation</h2>
+            <ul>
+                <li><a target="_blank" href="https://www.ebenmonney.com/quickapp">Overview of QuickApp</a></li>
+                <li><a target="_blank" href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
+                <li><a target="_blank" href="https://docs.microsoft.com/en-us/ef/#pivot=efcore">Working with Data</a></li>
+                <li><a target="_blank" href="http://docs.identityserver.io/en/release/intro/big_picture.html">IdentityServer overview</a></li>
+                <li><a target="_blank" href="https://angular.io/docs">Angular7 documentation</a></li>
+                <li><a target="_blank" href="https://github.com/angular/angular-cli/wiki">Angular Cli Wiki</a></li>
+                <li><a target="_blank" href="http://getbootstrap.com/docs/4.0/getting-started/introduction">Introduction to Bootstrap 4</a></li>
+                <li><a target="_blank" href="http://sass-lang.com/guide">Sass Basics</a></li>
+            </ul>
+        </div>
+        <div>
+            <h2 id="license">License</h2>
+            <p>Released under the <a target="_blank" href="https://github.com/emonney/QuickApp/blob/master/LICENSE">MIT License</a>.</p>
+            <a target="_blank" href="mailto:contact@ebenmonney.com">YOUR FEEDBACK</a>
+            |
+            <a target="_blank" href="https://twitter.com/kommand">FOLLOW ME</a>
+        </div>
+        <div class="footer">
+            <h3 id="rate-it">
+                <em>
+                    If you found this template useful, please take a minute to
+                    <a target="_blank" href="https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate#review-details">rate it</a>.
+                    Appreciated!
+                </em>
+            </h3>
+        </div>
+    </div>
+</body>
+</html>

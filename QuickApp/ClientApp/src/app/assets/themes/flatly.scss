@@ -1,0 +1,14 @@
+@import '../styles/custom-vendor';
+
+@import 'node_modules/bootswatch/dist/flatly/variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootswatch/dist/flatly/bootswatch';
+
+@import "app-theme";
+
+
+.app-component {
+    main {
+        padding-top: 80px !important;
+    }
+}

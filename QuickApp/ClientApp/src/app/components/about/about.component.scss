@@ -1,0 +1,25 @@
+.pageHeader {
+    margin-bottom: 30px;
+}
+
+.reduced-font {
+    line-height: 1.4;
+}
+
+.bg-features {
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.bg-features ul {
+    position: relative;
+    z-index: 100;
+}
+
+.bg-features .logo {
+    font-size: 200px;
+    position: absolute;
+    top: 2rem;
+    right: 10px;
+}

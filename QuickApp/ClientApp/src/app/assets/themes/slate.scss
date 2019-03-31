@@ -1,0 +1,37 @@
+@import '../styles/custom-vendor';
+
+@import 'node_modules/bootswatch/dist/slate/variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootswatch/dist/slate/bootswatch';
+
+@import "app-theme";
+
+
+.bg-light {
+    background-color: $primary !important;
+}
+
+
+.ngx-datatable.material.table-striped {
+    .datatable-row-even {
+        background: $gray-700;
+    }
+}
+
+
+.app-component {
+    .navbar {
+
+        a.user-name {
+            border: none;
+        }
+
+        .popover-header {
+            color: $body-color !important;
+        }
+    }
+
+    footer {
+        background-color: $primary !important;
+    }
+}

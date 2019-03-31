@@ -1,0 +1,37 @@
+@import '../styles/custom-vendor';
+
+@import 'node_modules/bootswatch/dist/superhero/variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootswatch/dist/superhero/bootswatch';
+
+@import "app-theme";
+
+
+
+.ngx-datatable.material {
+    &.table-striped {
+        .datatable-row-even {
+            background: $secondary;
+        }
+    }
+
+    &.table-hover:not(.cell-selection) {
+        .datatable-body-row:hover,
+        .datatable-body-row:hover .datatable-row-group {
+            background-color: $gray-600 !important;
+        }
+    }
+
+    &.colored-header {
+        .datatable-header {
+            color: $body-bg;
+        }
+    }
+}
+
+
+.app-component {
+    footer {
+        background-color: $gray-700 !important;
+    }
+}

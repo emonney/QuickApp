@@ -1,0 +1,32 @@
+﻿@import '../styles/custom-vendor';
+
+@import 'node_modules/bootswatch/dist/sketchy/variables';
+@import 'node_modules/bootstrap/scss/bootstrap';
+@import 'node_modules/bootswatch/dist/sketchy/bootswatch';
+
+@import "app-theme";
+
+
+input[type="radio"], input[type="checkbox"] {
+    width: 0;
+    height: 0;
+    margin-right: -40px;
+    margin-left: 0;
+}
+
+.card {
+    overflow: visible;
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+
+.about-page {
+    .bg-features {
+        .logo {
+            color: #f1f1f1 !important;
+        }
+    }
+}
