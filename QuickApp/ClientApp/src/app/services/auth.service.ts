@@ -5,22 +5,26 @@
 
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subject, from, throwError } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 import { LocalStoreManager } from './local-store-manager.service';
-import { EndpointFactory } from './endpoint-factory.service';
+import { AuthStorage } from './auth-storage';
 import { ConfigurationService } from './configuration.service';
 import { DBkeys } from './db-Keys';
 import { JwtHelper } from './jwt-helper';
 import { Utilities } from './utilities';
-import { LoginResponse, AccessToken } from '../models/login-response.model';
+import { AccessToken } from '../models/access-token.model';
 import { User } from '../models/user.model';
-import { UserLogin } from '../models/user-login.model';
-import { Permission, PermissionNames, PermissionValues } from '../models/permission.model';
+import { PermissionValues } from '../models/permission.model';
 
 @Injectable()
 export class AuthService {
+  private readonly _discoveryDocUrl: string = '/.well-known/openid-configuration';
+
+  private get discoveryDocUrl() { return this.configurations.tokenUrl + this._discoveryDocUrl; }
+  public get baseUrl() { return this.configurations.baseUrl; }
   public get loginUrl() { return this.configurations.loginUrl; }
   public get homeUrl() { return this.configurations.homeUrl; }
 
@@ -32,7 +36,12 @@ export class AuthService {
   private previousIsLoggedInCheck = false;
   private _loginStatus = new Subject<boolean>();
 
-  constructor(private router: Router, private configurations: ConfigurationService, private endpointFactory: EndpointFactory, private localStorage: LocalStoreManager) {
+  constructor(
+    private router: Router,
+    private oauthService: OAuthService,
+    private configurations: ConfigurationService,
+    private localStorage: LocalStoreManager) {
+
     this.initializeLoginStatus();
   }
 
@@ -84,7 +93,7 @@ export class AuthService {
   }
 
   reLogin() {
-    this.localStorage.deleteData(DBkeys.TOKEN_EXPIRES_IN);
+    this.oauthService.logOut();
 
     if (this.reLoginDelegate) {
       this.reLoginDelegate();
@@ -94,10 +103,9 @@ export class AuthService {
   }
 
   refreshLogin() {
-    return this.endpointFactory.getRefreshLoginEndpoint<LoginResponse>().pipe(
-      map(response => this.processLoginResponse(response, this.rememberMe)));
+    return from(this.oauthService.refreshToken()).pipe(
+      map(() => this.processLoginResponse(this.oauthService.getAccessToken(), this.rememberMe)));
   }
-
 
   login(userName: string, password: string, rememberMe?: boolean) {
 
@@ -105,30 +113,30 @@ export class AuthService {
       this.logout();
     }
 
-    return this.endpointFactory.getLoginEndpoint<LoginResponse>(userName, password).pipe(
-      map(response => this.processLoginResponse(response, rememberMe)));
+    AuthStorage.RememberMe = rememberMe;
+
+    this.oauthService.issuer = this.baseUrl;
+    this.oauthService.clientId = "quickapp_spa";
+    this.oauthService.scope = "openid email phone profile offline_access roles quickapp_api";
+    this.oauthService.skipSubjectCheck = true;
+    this.oauthService.dummyClientSecret = "not_used";
+
+    return from(this.oauthService.loadDiscoveryDocument(this.discoveryDocUrl)).pipe(mergeMap(() => {
+      return from(this.oauthService.fetchTokenUsingPasswordFlow(userName, password)).pipe(
+        map(() => this.processLoginResponse(this.oauthService.getAccessToken(), rememberMe))
+      )
+    }));
   }
 
 
-  private processLoginResponse(response: LoginResponse, rememberMe: boolean) {
-
-    const accessToken = response.access_token;
+  private processLoginResponse(accessToken: string, rememberMe: boolean) {
 
     if (accessToken == null) {
-      throw new Error('Received accessToken was empty');
-
+      throw new Error('accessToken cannot be null');
     }
 
-    const refreshToken = response.refresh_token || this.refreshToken;
-    const expiresIn = response.expires_in;
-
-    const tokenExpiryDate = new Date();
-    tokenExpiryDate.setSeconds(tokenExpiryDate.getSeconds() + expiresIn);
-
-    const accessTokenExpiry = tokenExpiryDate;
-
     const jwtHelper = new JwtHelper();
-    const decodedAccessToken = <AccessToken>jwtHelper.decodeToken(response.access_token);
+    const decodedAccessToken = <AccessToken>jwtHelper.decodeToken(accessToken);
 
     const permissions: PermissionValues[] = Array.isArray(decodedAccessToken.permission) ? decodedAccessToken.permission : [decodedAccessToken.permission];
 
@@ -146,24 +154,18 @@ export class AuthService {
       Array.isArray(decodedAccessToken.role) ? decodedAccessToken.role : [decodedAccessToken.role]);
     user.isEnabled = true;
 
-    this.saveUserDetails(user, permissions, accessToken, refreshToken, accessTokenExpiry, rememberMe);
+    this.saveUserDetails(user, permissions, rememberMe);
 
     this.reevaluateLoginStatus(user);
 
     return user;
   }
 
-  private saveUserDetails(user: User, permissions: PermissionValues[], accessToken: string, refreshToken: string, expiresIn: Date, rememberMe: boolean) {
+  private saveUserDetails(user: User, permissions: PermissionValues[], rememberMe: boolean) {
     if (rememberMe) {
-      this.localStorage.savePermanentData(accessToken, DBkeys.ACCESS_TOKEN);
-      this.localStorage.savePermanentData(refreshToken, DBkeys.REFRESH_TOKEN);
-      this.localStorage.savePermanentData(expiresIn, DBkeys.TOKEN_EXPIRES_IN);
       this.localStorage.savePermanentData(permissions, DBkeys.USER_PERMISSIONS);
       this.localStorage.savePermanentData(user, DBkeys.CURRENT_USER);
     } else {
-      this.localStorage.saveSyncedSessionData(accessToken, DBkeys.ACCESS_TOKEN);
-      this.localStorage.saveSyncedSessionData(refreshToken, DBkeys.REFRESH_TOKEN);
-      this.localStorage.saveSyncedSessionData(expiresIn, DBkeys.TOKEN_EXPIRES_IN);
       this.localStorage.saveSyncedSessionData(permissions, DBkeys.USER_PERMISSIONS);
       this.localStorage.saveSyncedSessionData(user, DBkeys.CURRENT_USER);
     }
@@ -172,13 +174,11 @@ export class AuthService {
   }
 
   logout(): void {
-    this.localStorage.deleteData(DBkeys.ACCESS_TOKEN);
-    this.localStorage.deleteData(DBkeys.REFRESH_TOKEN);
-    this.localStorage.deleteData(DBkeys.TOKEN_EXPIRES_IN);
     this.localStorage.deleteData(DBkeys.USER_PERMISSIONS);
     this.localStorage.deleteData(DBkeys.CURRENT_USER);
 
     this.configurations.clearLocalChanges();
+    this.oauthService.logOut();
 
     this.reevaluateLoginStatus();
   }
@@ -213,15 +213,11 @@ export class AuthService {
   }
 
   get accessToken(): string {
-
-    this.reevaluateLoginStatus();
-    return this.localStorage.getData(DBkeys.ACCESS_TOKEN);
+    return this.oauthService.getAccessToken();
   }
 
   get accessTokenExpiryDate(): Date {
-
-    this.reevaluateLoginStatus();
-    return this.localStorage.getDataObject<Date>(DBkeys.TOKEN_EXPIRES_IN, true);
+    return new Date(this.oauthService.getAccessTokenExpiration());
   }
 
   get isSessionExpired(): boolean {
@@ -233,9 +229,7 @@ export class AuthService {
   }
 
   get refreshToken(): string {
-
-    this.reevaluateLoginStatus();
-    return this.localStorage.getData(DBkeys.REFRESH_TOKEN);
+    return this.oauthService.getRefreshToken();
   }
 
   get isLoggedIn(): boolean {

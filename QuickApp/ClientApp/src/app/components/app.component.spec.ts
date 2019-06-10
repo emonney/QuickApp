@@ -26,11 +26,11 @@ import { ConfigurationService } from '../services/configuration.service';
 import { ThemeManager } from '../services/theme-manager';
 import { AlertService } from '../services/alert.service';
 import { LocalStoreManager } from '../services/local-store-manager.service';
-import { EndpointFactory } from '../services/endpoint-factory.service';
 import { NotificationService } from '../services/notification.service';
 import { NotificationEndpoint } from '../services/notification-endpoint.service';
 import { AccountService } from '../services/account.service';
 import { AccountEndpoint } from '../services/account-endpoint.service';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -46,6 +46,7 @@ describe('AppComponent', () => {
           }
         }),
         NgxDatatableModule,
+        OAuthModule.forRoot(),
         ToastaModule.forRoot(),
         TooltipModule.forRoot(),
         PopoverModule.forRoot(),
@@ -67,8 +68,7 @@ describe('AppComponent', () => {
         NotificationEndpoint,
         AccountService,
         AccountEndpoint,
-        LocalStoreManager,
-        EndpointFactory
+        LocalStoreManager
       ]
     }).compileComponents();
   }));

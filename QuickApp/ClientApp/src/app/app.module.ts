@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 import { ToastaModule } from 'ngx-toasta';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -27,7 +28,7 @@ import { ConfigurationService } from './services/configuration.service';
 import { AlertService } from './services/alert.service';
 import { ThemeManager } from './services/theme-manager';
 import { LocalStoreManager } from './services/local-store-manager.service';
-import { EndpointFactory } from './services/endpoint-factory.service';
+import { AuthStorage } from './services/auth-storage';
 import { NotificationService } from './services/notification.service';
 import { NotificationEndpoint } from './services/notification-endpoint.service';
 import { AccountService } from './services/account.service';
@@ -64,8 +65,6 @@ import { RolesManagementComponent } from './components/controls/roles-management
 import { RoleEditorComponent } from './components/controls/role-editor.component';
 
 
-
-
 @NgModule({
   imports: [
     BrowserModule,
@@ -80,6 +79,7 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
       }
     }),
     NgxDatatableModule,
+    OAuthModule.forRoot(),
     ToastaModule.forRoot(),
     TooltipModule.forRoot(),
     PopoverModule.forRoot(),
@@ -114,6 +114,7 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
+    { provide: OAuthStorage, useClass: AuthStorage },
     AlertService,
     ThemeManager,
     ConfigurationService,
@@ -123,8 +124,7 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
     NotificationEndpoint,
     AccountService,
     AccountEndpoint,
-    LocalStoreManager,
-    EndpointFactory
+    LocalStoreManager
   ],
   bootstrap: [AppComponent]
 })

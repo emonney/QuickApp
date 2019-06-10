@@ -109,7 +109,7 @@ export class AccountService {
 
 
   refreshLoggedInUser() {
-    return this.authService.refreshLogin();
+    return this.accountEndpoint.refreshLogin();
   }
 
   getRoles(page?: number, pageSize?: number) {

@@ -32,6 +32,7 @@
     "@angular/router": "~7.2.0",
     "@ngx-translate/core": "^11.0.1",
     "@swimlane/ngx-datatable": "^14.0.0",
+    "angular-oauth2-oidc": "^5.0.2",
     "bootstrap": "^4.3.1",
     "bootstrap-datepicker": "^1.8.0",
     "bootstrap-select": "^1.13.8",
