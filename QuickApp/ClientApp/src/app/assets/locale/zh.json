@@ -1,0 +1,190 @@
+{
+  "app": {
+    "Welcome": "欢迎",
+    "Notifications": "通知",
+    "New": "新的"
+  },
+  "mainMenu": {
+    "Appointments": "约定职位",
+    "Customers": "客户",
+    "Products": "产品",
+    "Orders": "订购",
+    "About": "关于",
+    "Logout": "退出"
+  },
+  "pageHeader": {
+    "Dashboard": "仪表板",
+    "Customers": "客户",
+    "Products": "产品",
+    "Orders": "订购",
+    "NotFound": "未发现",
+    "About": "关于",
+    "Settings": "设置"
+  },
+  "home": {
+    "NoWidgets1": "您没有显示任何部件. 转到",
+    "NoWidgets2": "配置可用的小部件",
+    "StatisticsTitle": "一些重要的东西"
+  },
+  "notFound": {
+    "404": "404",
+    "pageNotFound": "您要查找的页面不存在",
+    "backToHome": "返回主页"
+  },
+  "settings": {
+    "tab": {
+      "Profile": "人物简介",
+      "Preferences": "参数选择",
+      "Users": "用户",
+      "Roles": "角色"
+    },
+    "header": {
+      "UserProfile": "用户简介",
+      "UserPreferences": "用户参数选择",
+      "UserDepartments": "用户部门",
+      "UsersManagements": "用户管理",
+      "RolesManagement": "角色管理"
+    }
+  },
+  "preferences": {
+    "ReloadPreferences": "重新加载首选项:",
+    "ReloadPreferencesHint": "加载默认首选项（放弃本地更改）",
+    "Language": "语言:",
+    "English": "英语",
+    "French": "法语",
+    "German": "德语",
+    "Portuguese": "葡萄牙语",
+    "Arabic": "阿拉伯语",
+    "Korean": "朝鲜语",
+    "China": "中文",
+    "LanguageHint": "为您的帐户选择首选语言",
+    "HomePage": "主 页:",
+    "Dashboard": "仪表板",
+    "Customers": "客户",
+    "Products": "产品",
+    "Orders": "订单",
+    "About": "关于",
+    "Settings": "设置",
+    "HomePageHint": "选择登录时导航到的默认页面",
+    "Theme": "主题:",
+    "DefaultTheme": "默认",
+    "CosmoTheme": "Cosmo",
+    "SolarTheme": "太阳能",
+    "CeruleanTheme": "Cerulean",
+    "FlatlyTheme": "Flatly",
+    "SketchyTheme": "草图",
+    "SlateTheme": "Slate",
+    "SpacelabTheme": "空间实验室",
+    "SuperheroTheme": "超级英雄",
+    "UnitedTheme": "联合",
+    "JournalTheme": "日志",
+    "LumenTheme": "Lumen",
+    "MintyTheme": "Minty",
+    "PulseTheme": "脉冲",
+    "ThemeHint": "为您的帐户选择默认颜色主题",
+    "DashboardStatistics": "仪表板统计:",
+    "DashboardStatisticsHint": "在仪表板上显示演示图小部件",
+    "DashboardNotifications": "仪表板通知:",
+    "DashboardNotificationsHint": "在仪表板上显示应用程序通知",
+    "DashboardTodo": "Dashboard Todo:",
+    "DashboardTodoHint": "在仪表板上显示演示todo小部件",
+    "DashboardBanner": "仪表板横幅:",
+    "DashboardBannerHint": "在仪表板上显示演示信息横幅小部件",
+    "ResetDefault": "重置默认值",
+    "SetDefault": "设为默认值"
+  },
+  "users": {
+    "management": {
+      "Search": "搜索用户...",
+      "NewUser": "新用户",
+      "Edit": "编辑",
+      "Delete": "删除",
+      "EditUser": "编辑用户 \"{{name}}\"",
+      "Title": "标题",
+      "UserName": "用户名",
+      "FullName": "全名",
+      "Email": "电子邮件",
+      "Roles": "角色",
+      "PhoneNumber": "电话号码"
+    },
+    "editor": {
+      "JobTitle": "职务: ",
+      "UserName": "用户名:",
+      "UserNameRequired": "需要用户名（最少2个，最多200个字符）",
+      "Password": "密码:",
+      "PasswordHint": "更改用户名时需要密码",
+      "CurrentPasswordRequired": "需要当前密码",
+      "Email": "电子邮件:",
+      "EmailRequired": "需要电子邮件地址（最多200个字符）",
+      "InvalidEmail": "指定的电子邮件无效",
+      "ChangePassword": "更改密码",
+      "CurrentPassword": "当前密码:",
+      "NewPassword": "新密码:",
+      "NewPasswordRequired": "需要新密码（最少6个字符）",
+      "ConfirmPassword": "确认密码:",
+      "ConfirmationPasswordRequired": "需要确认密码",
+      "PasswordMismatch": "新密码与确认密码不匹配",
+      "Roles": "角色:",
+      "FullName": " 全名:",
+      "RoleRequired": " 需要角色",
+      "PhoneNumber": "电话号码:",
+      "Enabled": "已启用",
+      "Unblock": "解锁",
+      "Close": "关闭",
+      "Edit": "编辑",
+      "Cancel": "取消",
+      "Save": "保存",
+      "Saving": "正在保存..."
+    }
+  },
+  "roles": {
+    "management": {
+      "Search": "搜索角色...",
+      "NewRole": "新角色",
+      "Edit": "编辑",
+      "Details": "详细信息",
+      "Delete": "删除",
+      "RoleDetails": "编辑详细信息 \"{{name}}\"",
+      "EditRole": "编辑角色 \"{{name}}\"",
+      "Name": "名称",
+      "Description": "说明",
+      "Users": "用户"
+    },
+    "editor": {
+      "Name": "名称:",
+      "Description": "说明:",
+      "RoleNameRequired": "需要角色名（最少2个字符，最多200个字符）",
+      "SelectAll": "全选",
+      "SelectNone": "不选",
+      "Close": "关闭",
+      "Cancel": "取消",
+      "Save": "保存",
+      "Saving": "正在保存..."
+    }
+  },
+  "notifications": {
+    "Delete": "删除通知",
+    "Pin": "Pin 通知",
+    "Date": "日期",
+    "Notification": "通知"
+  },
+  "todoDemo": {
+    "management": {
+      "Search": "搜索任务...",
+      "HideCompleted": "隐藏完成",
+      "AddTask": "添加任务",
+      "Delete": "删除任务",
+      "Important": "标记为重要",
+      "Task": "任务",
+      "Description": "说明"
+    },
+    "editor": {
+      "NewTask": "新建任务",
+      "Name": "名称",
+      "TaskNameRequired": "需要任务名",
+      "Description": "说明",
+      "Important": "标记为重要",
+      "AddTask": "添加任务"
+    }
+  }
+}
