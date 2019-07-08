@@ -93,8 +93,6 @@ export class AuthService {
   }
 
   reLogin() {
-    this.oauthService.logOut();
-
     if (this.reLoginDelegate) {
       this.reLoginDelegate();
     } else {

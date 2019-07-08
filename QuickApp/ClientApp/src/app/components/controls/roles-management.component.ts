@@ -32,16 +32,16 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
 
 
 
-    @ViewChild('indexTemplate')
+    @ViewChild('indexTemplate', { static: true })
     indexTemplate: TemplateRef<any>;
 
-    @ViewChild('actionsTemplate')
+    @ViewChild('actionsTemplate', { static: true })
     actionsTemplate: TemplateRef<any>;
 
-    @ViewChild('editorModal')
+    @ViewChild('editorModal', { static: true })
     editorModal: ModalDirective;
 
-    @ViewChild('roleEditor')
+    @ViewChild('roleEditor', { static: true })
     roleEditor: RoleEditorComponent;
 
     constructor(private alertService: AlertService, private translationService: AppTranslationService, private accountService: AccountService) {

@@ -49,32 +49,32 @@ export class UserInfoComponent implements OnInit {
 
 
 
-  @ViewChild('f')
+  @ViewChild('f', { static: false })
   private form;
 
   // ViewChilds Required because ngIf hides template variables from global scope
-  @ViewChild('userName')
+  @ViewChild('userName', { static: false })
   private userName;
 
-  @ViewChild('userPassword')
+  @ViewChild('userPassword', { static: false })
   private userPassword;
 
-  @ViewChild('email')
+  @ViewChild('email', { static: false })
   private email;
 
-  @ViewChild('currentPassword')
+  @ViewChild('currentPassword', { static: false })
   private currentPassword;
 
-  @ViewChild('newPassword')
+  @ViewChild('newPassword', { static: false })
   private newPassword;
 
-  @ViewChild('confirmPassword')
+  @ViewChild('confirmPassword', { static: false })
   private confirmPassword;
 
-  @ViewChild('roles')
+  @ViewChild('roles', { static: false })
   private roles;
 
-  @ViewChild('rolesSelector')
+  @ViewChild('rolesSelector', { static: false })
   private rolesSelector;
 
 

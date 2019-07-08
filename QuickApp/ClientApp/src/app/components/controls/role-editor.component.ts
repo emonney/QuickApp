@@ -33,7 +33,7 @@ export class RoleEditorComponent {
     public changesCancelledCallback: () => void;
 
 
-    @ViewChild('f')
+    @ViewChild('f', { static: false })
     private form;
 
 

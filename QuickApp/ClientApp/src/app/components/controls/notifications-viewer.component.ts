@@ -35,22 +35,22 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
     verticalScrollbar = false;
 
 
-    @ViewChild('statusHeaderTemplate')
+    @ViewChild('statusHeaderTemplate', { static: true })
     statusHeaderTemplate: TemplateRef<any>;
 
-    @ViewChild('statusTemplate')
+    @ViewChild('statusTemplate', { static: true })
     statusTemplate: TemplateRef<any>;
 
-    @ViewChild('dateTemplate')
+    @ViewChild('dateTemplate', { static: true })
     dateTemplate: TemplateRef<any>;
 
-    @ViewChild('contentHeaderTemplate')
+    @ViewChild('contentHeaderTemplate', { static: true })
     contentHeaderTemplate: TemplateRef<any>;
 
-    @ViewChild('contenBodytTemplate')
+    @ViewChild('contenBodytTemplate', { static: true })
     contenBodytTemplate: TemplateRef<any>;
 
-    @ViewChild('actionsTemplate')
+    @ViewChild('actionsTemplate', { static: true })
     actionsTemplate: TemplateRef<any>;
 
     constructor(private alertService: AlertService, private translationService: AppTranslationService, private accountService: AccountService, private notificationService: NotificationService) {

@@ -34,7 +34,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   readonly rolesTab = 'roles';
 
 
-  @ViewChild('tab')
+  @ViewChild('tab', { static: true })
   tab: BootstrapTabDirective;
 
 

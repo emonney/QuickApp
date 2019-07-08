@@ -57,13 +57,12 @@ export class EndpointBase {
         catchError(refreshLoginError => {
           this.isRefreshingLogin = false;
           this.resumeTasks(false);
+          this.authService.reLogin();
 
-          if (refreshLoginError.status == 401 || (refreshLoginError.error && refreshLoginError.error.error == 'invalid_grant')) {
-            this.authService.reLogin();
+          if (refreshLoginError.status == 401 || (refreshLoginError.error && refreshLoginError.error.error == 'invalid_grant'))
             return throwError('session expired');
-          } else {
+          else
             return throwError(refreshLoginError || 'server error');
-          }
         }));
     }
 

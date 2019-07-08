@@ -78,6 +78,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.toastaConfig.position = 'top-right';
     this.toastaConfig.limit = 100;
     this.toastaConfig.showClose = true;
+    this.toastaConfig.showDuration = false;
 
     this.appTitleService.appName = this.appTitle;
   }

@@ -18,7 +18,7 @@ export class SearchBoxComponent {
     @Output()
     searchChange = new EventEmitter<string>();
 
-    @ViewChild('searchInput')
+    @ViewChild('searchInput', { static: true })
     searchInput: ElementRef;
 
 

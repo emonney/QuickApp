@@ -26,10 +26,10 @@ export class UserPreferencesComponent implements OnInit, OnDestroy {
 
     languageChangedSubscription: any;
 
-    @ViewChild('languageSelector')
+    @ViewChild('languageSelector', { static: true })
     languageSelector: BootstrapSelectDirective;
 
-    @ViewChild('homePageSelector')
+    @ViewChild('homePageSelector', { static: true })
     homePageSelector: BootstrapSelectDirective;
 
     constructor(
