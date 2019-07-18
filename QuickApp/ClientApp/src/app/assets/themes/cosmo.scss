@@ -1,8 +1,8 @@
-﻿@import '../styles/custom-vendor';
+@import '../styles/custom-vendor';
 
-@import 'node_modules/bootswatch/dist/cosmo/variables';
-@import 'node_modules/bootstrap/scss/bootstrap';
-@import 'node_modules/bootswatch/dist/cosmo/bootswatch';
+@import '../../../../node_modules/bootswatch/dist/cosmo/variables';
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+@import '../../../../node_modules/bootswatch/dist/cosmo/bootswatch';
 
 @import "app-theme";
 

@@ -2,7 +2,7 @@
 Make bootstrap-select corrections
 */
 .bootstrap-select .dropdown-menu li a span.text {
-    width: 95% !important; /*To prevent horizontal scrollbars in some scenarios. Eg when ticks are shown*/
+  width: 95% !important; /*To prevent horizontal scrollbars in some scenarios. Eg when ticks are shown*/
 }
 
 
@@ -10,18 +10,18 @@ Make bootstrap-select corrections
 
 /* Bootstrap Toggle v2.2.2 corrections for Bootsrtap 4*/
 .toggle-off {
-    box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
 }
 
 .toggle.off {
-    border-color: rgba(0, 0, 0, .25);
+  border-color: rgba(0, 0, 0, .25);
 }
 
 .toggle-handle {
-    background-color: white;
-    border: thin rgba(0, 0, 0, .25) solid;
+  background-color: white !important;
+  border: thin rgba(0, 0, 0, .25) solid !important;
 }
 
 .toggle-group .toggle-on, .toggle-group .toggle-off {
-    padding-top: 0.2rem;
+  padding-top: 0.2rem;
 }
