@@ -26,13 +26,15 @@ namespace QuickApp.Controllers
     [Route("api/[controller]")]
     public class AccountController : Controller
     {
+        private readonly IMapper _mapper;
         private readonly IAccountManager _accountManager;
         private readonly IAuthorizationService _authorizationService;
         private const string GetUserByIdActionName = "GetUserById";
         private const string GetRoleByIdActionName = "GetRoleById";
 
-        public AccountController(IAccountManager accountManager, IAuthorizationService authorizationService)
+        public AccountController(IMapper mapper, IAccountManager accountManager, IAuthorizationService authorizationService)
         {
+            _mapper = mapper;
             _accountManager = accountManager;
             _authorizationService = authorizationService;
         }
@@ -103,7 +105,7 @@ namespace QuickApp.Controllers
 
             foreach (var item in usersAndRoles)
             {
-                var userVM = Mapper.Map<UserViewModel>(item.User);
+                var userVM = _mapper.Map<UserViewModel>(item.User);
                 userVM.Roles = item.Roles;
 
                 usersVM.Add(userVM);
@@ -174,7 +176,7 @@ namespace QuickApp.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    Mapper.Map<UserEditViewModel, ApplicationUser>(user, appUser);
+                    _mapper.Map<UserEditViewModel, ApplicationUser>(user, appUser);
 
                     var result = await _accountManager.UpdateUserAsync(appUser, user.Roles);
                     if (result.Succeeded)
@@ -231,13 +233,13 @@ namespace QuickApp.Controllers
                     return NotFound(id);
 
 
-                UserPatchViewModel userPVM = Mapper.Map<UserPatchViewModel>(appUser);
+                UserPatchViewModel userPVM = _mapper.Map<UserPatchViewModel>(appUser);
                 patch.ApplyTo(userPVM, ModelState);
 
 
                 if (ModelState.IsValid)
                 {
-                    Mapper.Map<UserPatchViewModel, ApplicationUser>(userPVM, appUser);
+                    _mapper.Map<UserPatchViewModel, ApplicationUser>(userPVM, appUser);
 
                     var result = await _accountManager.UpdateUserAsync(appUser);
                     if (result.Succeeded)
@@ -269,7 +271,7 @@ namespace QuickApp.Controllers
                     return BadRequest($"{nameof(user)} cannot be null");
 
 
-                ApplicationUser appUser = Mapper.Map<ApplicationUser>(user);
+                ApplicationUser appUser = _mapper.Map<ApplicationUser>(user);
 
                 var result = await _accountManager.CreateUserAsync(appUser, user.Roles, user.NewPassword);
                 if (result.Succeeded)
@@ -420,7 +422,7 @@ namespace QuickApp.Controllers
         public async Task<IActionResult> GetRoles(int pageNumber, int pageSize)
         {
             var roles = await _accountManager.GetRolesLoadRelatedAsync(pageNumber, pageSize);
-            return Ok(Mapper.Map<List<RoleViewModel>>(roles));
+            return Ok(_mapper.Map<List<RoleViewModel>>(roles));
         }
 
 
@@ -447,7 +449,7 @@ namespace QuickApp.Controllers
                     return NotFound(id);
 
 
-                Mapper.Map<RoleViewModel, ApplicationRole>(role, appRole);
+                _mapper.Map<RoleViewModel, ApplicationRole>(role, appRole);
 
                 var result = await _accountManager.UpdateRoleAsync(appRole, role.Permissions?.Select(p => p.Value).ToArray());
                 if (result.Succeeded)
@@ -473,7 +475,7 @@ namespace QuickApp.Controllers
                     return BadRequest($"{nameof(role)} cannot be null");
 
 
-                ApplicationRole appRole = Mapper.Map<ApplicationRole>(role);
+                ApplicationRole appRole = _mapper.Map<ApplicationRole>(role);
 
                 var result = await _accountManager.CreateRoleAsync(appRole, role.Permissions?.Select(p => p.Value).ToArray());
                 if (result.Succeeded)
@@ -521,7 +523,7 @@ namespace QuickApp.Controllers
         [ProducesResponseType(200, Type = typeof(List<PermissionViewModel>))]
         public IActionResult GetAllPermissions()
         {
-            return Ok(Mapper.Map<List<PermissionViewModel>>(ApplicationPermissions.AllPermissions));
+            return Ok(_mapper.Map<List<PermissionViewModel>>(ApplicationPermissions.AllPermissions));
         }
 
 
@@ -532,7 +534,7 @@ namespace QuickApp.Controllers
             if (userAndRoles == null)
                 return null;
 
-            var userVM = Mapper.Map<UserViewModel>(userAndRoles.Value.User);
+            var userVM = _mapper.Map<UserViewModel>(userAndRoles.Value.User);
             userVM.Roles = userAndRoles.Value.Roles;
 
             return userVM;
@@ -543,7 +545,7 @@ namespace QuickApp.Controllers
         {
             var role = await _accountManager.GetRoleLoadRelatedAsync(roleName);
             if (role != null)
-                return Mapper.Map<RoleViewModel>(role);
+                return _mapper.Map<RoleViewModel>(role);
 
 
             return null;

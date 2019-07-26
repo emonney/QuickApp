@@ -162,12 +162,7 @@ namespace QuickApp
                 });
             });
 
-
-            Mapper.Initialize(cfg =>
-            {
-                cfg.AddProfile<AutoMapperProfile>();
-            });
-
+            services.AddAutoMapper(typeof(Startup));
 
             // Configurations
             services.Configure<AppSettings>(Configuration);

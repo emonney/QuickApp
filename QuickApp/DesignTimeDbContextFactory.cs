@@ -20,8 +20,6 @@ namespace QuickApp
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            Mapper.Reset();
-
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
