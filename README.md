@@ -1,7 +1,7 @@
-# **QuickApp** - ASPNET Core 2.2 / Angular 7 project template
+# **QuickApp** - ASPNET Core 2.2 / Angular 8 project template
 [![MIT license](https://cdn.rawgit.com/emonney/tempa/7e9d69ad/MITLicense.png)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 
-A startup **Angular 7 / ASP.NET Core 2.2** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
+A startup **Angular 8 / ASP.NET Core 2.2** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
 As well as other common functionalities for **Quick Application Development**.
 
 [FOLLOW ME](https://twitter.com/kommand) on twitter for important updates
@@ -31,7 +31,7 @@ ___
 
 ## This application consists of:
 
-*   Template pages using Angular7 and TypeScript
+*   Template pages using Angular8 and TypeScript
 *   RESTful API Backend using ASP.NET Core 2.2 MVC Web API
 *   Database using Entity Framework Core
 *   Authentication based on OpenID Connect
@@ -102,7 +102,7 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 *   [Overview of QuickApp](https://www.ebenmonney.com/quickapp)
 *   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
 *   [Working with Data](https://docs.microsoft.com/en-us/ef/#pivot=efcore)
-*   [Angular 7 documentation overview](https://angular.io/guide/quickstart)
+*   [Angular 8 documentation overview](https://angular.io/guide/quickstart)
 *   [Getting started with Angular CLI](https://cli.angular.io)
 *   [Introduction to Bootstrap 4](https://getbootstrap.com/docs/4.1/getting-started/introduction)
 

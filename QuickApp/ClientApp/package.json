@@ -1,7 +1,7 @@
 {
   "name": "quickapp",
-  "version": "2.7.2",
-  "description": "ASP.NET Core 2.2/Angular 7 startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
+  "version": "2.8.0",
+  "description": "ASP.NET Core 2.2/Angular 8 startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
   "author": {
     "name": "Ebenezer Monney",
     "email": "info@ebenmonney.com",
