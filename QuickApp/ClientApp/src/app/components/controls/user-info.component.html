@@ -1,5 +1,5 @@
 <div>
-  <form *ngIf="formResetToggle" [attr.autocomplete]="isGeneralEditor ? NaN : null" name="userInfoForm" #f="ngForm" novalidate
+  <form *ngIf="formResetToggle" [attr.autocomplete]="isGeneralEditor ? 'NaN' : null" name="userInfoForm" #f="ngForm" novalidate
         (ngSubmit)="f.form.valid ? save() :
 
           (!userName.valid && showErrorAlert('User name is required', 'Please enter a user name (minimum of 2 and maximum of 200 characters)'));
@@ -40,7 +40,7 @@
         <p class="form-control-plaintext">{{user.userName}}</p>
       </div>
       <div *ngIf="isEditMode" [class.col-lg-9]="isViewOnly" [class.col-lg-10]="!isViewOnly">
-        <input type="text" attr.id="userName-{{uniqueId}}" name="userName" [attr.autocomplete]="isGeneralEditor ? new-password : null" placeholder="Enter user name"
+        <input type="text" attr.id="userName-{{uniqueId}}" name="userName" [attr.autocomplete]="isGeneralEditor ? 'new-password' : null" placeholder="Enter user name"
                class="form-control" [ngClass]="{'is-valid': f.submitted && userName.valid, 'is-invalid' : f.submitted && !userName.valid}"
                [(ngModel)]="userEdit.userName" #userName="ngModel" required minlength="2" maxlength="200" />
         <i *ngIf="showValidationErrors && f.submitted" class="fa form-control-feedback" [ngClass]="{'fa-check': userName.valid, 'fa-times' : !userName.valid}" aria-hidden="true"></i>
@@ -58,7 +58,7 @@
     <div *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName != userEdit.userName" class="form-group row has-feedback-icon">
       <label class="col-form-label col-lg-2" for="userPassword-{{uniqueId}}">{{'users.editor.Password' | translate}}</label>
       <div class="col-lg-10">
-        <input type="password" attr.id="userPassword-{{uniqueId}}" name="userPassword" [attr.autocomplete]="isGeneralEditor ? new-password : null" placeholder="Enter password"
+        <input type="password" attr.id="userPassword-{{uniqueId}}" name="userPassword" [attr.autocomplete]="isGeneralEditor ? 'new-password' : null" placeholder="Enter password"
                class="form-control" [ngClass]="{'is-valid': f.submitted && userPassword.valid, 'is-invalid' : f.submitted && !userPassword.valid}"
                [(ngModel)]="userEdit.currentPassword" #userPassword="ngModel" required />
         <small class="hint-sm">{{'users.editor.PasswordHint' | translate}}</small>
@@ -111,7 +111,7 @@
           <div *ngIf="isEditingSelf" class="form-group row has-feedback-icon">
             <label class="col-form-label col-lg-3" for="currentPassword-{{uniqueId}}">{{'users.editor.CurrentPassword' | translate}}</label>
             <div class="col-lg-9">
-              <input type="password" attr.id="currentPassword-{{uniqueId}}" name="currentPassword" [attr.autocomplete]="isGeneralEditor ? new-password : null" placeholder="Enter current password" class="form-control"
+              <input type="password" attr.id="currentPassword-{{uniqueId}}" name="currentPassword" [attr.autocomplete]="isGeneralEditor ? 'new-password' : null" placeholder="Enter current password" class="form-control"
                      [ngClass]="{'is-valid': f.submitted && currentPassword.valid, 'is-invalid' : f.submitted && !currentPassword.valid}" [(ngModel)]="userEdit.currentPassword" #currentPassword="ngModel" required />
               <i *ngIf="showValidationErrors && f.submitted" class="fa form-control-feedback" [ngClass]="{'fa-check': currentPassword.valid, 'fa-times' : !currentPassword.valid}" aria-hidden="true"></i>
               <span *ngIf="showValidationErrors && f.submitted && !currentPassword.valid" class="invalid-feedback">
@@ -129,7 +129,7 @@
           <div class="form-group row has-feedback-icon">
             <label class="col-form-label col-lg-3" for="newPassword-{{uniqueId}}">{{'users.editor.NewPassword' | translate}}</label>
             <div class="col-lg-9">
-              <input type="password" attr.id="newPassword-{{uniqueId}}" name="newPassword" [attr.autocomplete]="isGeneralEditor ? new-password : null" placeholder="Enter new password" class="form-control"
+              <input type="password" attr.id="newPassword-{{uniqueId}}" name="newPassword" [attr.autocomplete]="isGeneralEditor ? 'new-password' : null" placeholder="Enter new password" class="form-control"
                      [ngClass]="{'is-valid': f.submitted && newPassword.valid, 'is-invalid' : f.submitted && !newPassword.valid}" [(ngModel)]="userEdit.newPassword" #newPassword="ngModel"
                      required minlength="6" validateEqual="confirmPassword" reverse="true" />
               <i *ngIf="showValidationErrors && f.submitted" class="fa form-control-feedback" [ngClass]="{'fa-check': newPassword.valid, 'fa-times' : !newPassword.valid}" aria-hidden="true"></i>
@@ -148,7 +148,7 @@
           <div class="form-group row has-feedback-icon">
             <label class="col-form-label col-lg-3" for="confirmPassword-{{uniqueId}}">{{'users.editor.ConfirmPassword' | translate}}</label>
             <div class="col-lg-9">
-              <input type="password" attr.id="confirmPassword-{{uniqueId}}" name="confirmPassword" [attr.autocomplete]="isGeneralEditor ? new-password : null" placeholder="Confirm new password" class="form-control"
+              <input type="password" attr.id="confirmPassword-{{uniqueId}}" name="confirmPassword" [attr.autocomplete]="isGeneralEditor ? 'new-password' : null" placeholder="Confirm new password" class="form-control"
                      [ngClass]="{'is-valid': f.submitted && confirmPassword.valid, 'is-invalid' : f.submitted && !confirmPassword.valid}" [(ngModel)]="userEdit.confirmPassword" #confirmPassword="ngModel"
                      required validateEqual="newPassword" />
               <i *ngIf="showValidationErrors && f.submitted" class="fa form-control-feedback" [ngClass]="{'fa-check': confirmPassword.valid, 'fa-times' : !confirmPassword.valid}" aria-hidden="true"></i>

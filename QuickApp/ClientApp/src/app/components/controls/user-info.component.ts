@@ -21,17 +21,17 @@ import { Permission } from '../../models/permission.model';
 })
 export class UserInfoComponent implements OnInit {
 
-  private isEditMode = false;
-  private isNewUser = false;
-  private isSaving = false;
-  private isChangePassword = false;
-  private isEditingSelf = false;
-  private showValidationErrors = false;
+  public isEditMode = false;
+  public isNewUser = false;
+  public isSaving = false;
+  public isChangePassword = false;
+  public isEditingSelf = false;
+  public showValidationErrors = false;
+  public uniqueId: string = Utilities.uniqueId();
+  public user: User = new User();
+  public userEdit: UserEdit;
+  public allRoles: Role[] = [];
   private editingUserName: string;
-  private uniqueId: string = Utilities.uniqueId();
-  private user: User = new User();
-  private userEdit: UserEdit;
-  private allRoles: Role[] = [];
 
   public formResetToggle = true;
 
@@ -50,32 +50,32 @@ export class UserInfoComponent implements OnInit {
 
 
   @ViewChild('f', { static: false })
-  private form;
+  public form;
 
   // ViewChilds Required because ngIf hides template variables from global scope
   @ViewChild('userName', { static: false })
-  private userName;
+  public userName;
 
   @ViewChild('userPassword', { static: false })
-  private userPassword;
+  public userPassword;
 
   @ViewChild('email', { static: false })
-  private email;
+  public email;
 
   @ViewChild('currentPassword', { static: false })
-  private currentPassword;
+  public currentPassword;
 
   @ViewChild('newPassword', { static: false })
-  private newPassword;
+  public newPassword;
 
   @ViewChild('confirmPassword', { static: false })
-  private confirmPassword;
+  public confirmPassword;
 
   @ViewChild('roles', { static: false })
-  private roles;
+  public roles;
 
   @ViewChild('rolesSelector', { static: false })
-  private rolesSelector;
+  public rolesSelector;
 
 
   constructor(private alertService: AlertService, private accountService: AccountService) {
@@ -116,18 +116,18 @@ export class UserInfoComponent implements OnInit {
 
 
 
-  private getRoleByName(name: string) {
+  getRoleByName(name: string) {
     return this.allRoles.find((r) => r.name == name);
   }
 
 
 
-  private showErrorAlert(caption: string, message: string) {
+  showErrorAlert(caption: string, message: string) {
     this.alertService.showMessage(caption, message, MessageSeverity.error);
   }
 
 
-  public deletePasswordFromUser(user: UserEdit | User) {
+  deletePasswordFromUser(user: UserEdit | User) {
     const userEdit = user as UserEdit;
 
     delete userEdit.currentPassword;
@@ -136,7 +136,7 @@ export class UserInfoComponent implements OnInit {
   }
 
 
-  private edit() {
+  edit() {
     if (!this.isGeneralEditor) {
       this.isEditingSelf = true;
       this.userEdit = new UserEdit();
@@ -155,7 +155,7 @@ export class UserInfoComponent implements OnInit {
   }
 
 
-  private save() {
+  save() {
     this.isSaving = true;
     this.alertService.startLoadingMessage('Saving changes...');
 
@@ -190,7 +190,7 @@ export class UserInfoComponent implements OnInit {
         this.alertService.showMessage('Success', `User \"${this.user.userName}\" was created successfully`, MessageSeverity.success);
       } else if (!this.isEditingSelf) {
         this.alertService.showMessage('Success', `Changes to user \"${this.user.userName}\" was saved successfully`, MessageSeverity.success);
-           }
+      }
     }
 
     if (this.isEditingSelf) {
@@ -234,7 +234,7 @@ export class UserInfoComponent implements OnInit {
 
 
 
-  private cancel() {
+  cancel() {
     if (this.isGeneralEditor) {
       this.userEdit = this.user = new UserEdit();
     } else {
@@ -257,7 +257,7 @@ export class UserInfoComponent implements OnInit {
   }
 
 
-  private close() {
+  close() {
     this.userEdit = this.user = new UserEdit();
     this.showValidationErrors = false;
     this.resetForm();
@@ -282,12 +282,12 @@ export class UserInfoComponent implements OnInit {
   }
 
 
-  private changePassword() {
+  changePassword() {
     this.isChangePassword = true;
   }
 
 
-  private unlockUser() {
+  unlockUser() {
     this.isSaving = true;
     this.alertService.startLoadingMessage('Unblocking user...');
 

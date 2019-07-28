@@ -17,12 +17,4 @@ describe('workspace-project App', () => {
     page.navigateTo();
     expect(page.getAppTitle()).toEqual('QuickApp');
   });
-
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
-  });
 });
