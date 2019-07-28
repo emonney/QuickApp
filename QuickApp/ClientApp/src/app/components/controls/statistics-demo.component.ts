@@ -76,7 +76,7 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
     this.timerReference = setInterval(() => this.randomize(), 5000);
 
     const initialWidth$ = of(window.innerWidth);
-    const resizedWidth$ = fromEvent(window, 'resize').pipe(map((event: any) => <number>event.target.innerWidth));
+    const resizedWidth$ = fromEvent(window, 'resize').pipe(map((event: any) => event.target.innerWidth as number));
     this.windowWidth$ = merge(initialWidth$, resizedWidth$).pipe(distinctUntilChanged());
 
     this.windowWidthSub = this.windowWidth$.subscribe(width => this.chartLegend = width < 600 ? false : true);

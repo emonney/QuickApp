@@ -157,7 +157,7 @@ export class LocalStoreManager {
       if (isDateType) {
         data = new Date(data);
       }
-      return <T>data;
+      return data as T;
     } else {
       return null;
     }
@@ -206,7 +206,7 @@ export class LocalStoreManager {
 
       // console.warn("Set => Key: Transfer addToSessionStorage" + ",  data: " + JSON.stringify(data));
 
-      this.addToSessionStorageHelper(data['data'], data['key']);
+      this.addToSessionStorageHelper(data.data, data.key);
     } else if (event.key == 'removeFromSessionStorage') {
 
       this.removeFromSessionStorageHelper(event.newValue);
@@ -228,7 +228,7 @@ export class LocalStoreManager {
     this.addToSessionStorageHelper(data, key);
     this.addToSyncKeysBackup(key);
 
-    this.localStorageSetItem('addToSessionStorage', { key: key, data: data });
+    this.localStorageSetItem('addToSessionStorage', { key, data });
     localStorage.removeItem('addToSessionStorage');
   }
 
@@ -280,7 +280,7 @@ export class LocalStoreManager {
     if (data == null) {
       return defaultValue;
     } else {
-      return <string[]>data;
+      return data as string[];
     }
   }
 

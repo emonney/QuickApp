@@ -29,7 +29,7 @@ export class AlertService {
       type = DialogType.alert;
     }
 
-    this.dialogs.next({ message: message, type: type, okCallback: okCallback, cancelCallback: cancelCallback, okLabel: okLabel, cancelLabel: cancelLabel, defaultValue: defaultValue });
+    this.dialogs.next({ message, type, okCallback, cancelCallback, okLabel, cancelLabel, defaultValue });
   }
 
 
@@ -120,8 +120,8 @@ export class AlertService {
 
     const alertCommand: AlertCommand = {
       operation: isSticky ? 'add_sticky' : 'add',
-      message: { severity: severity, summary: summary, detail: detail },
-      onRemove: onRemove
+      message: { severity, summary, detail },
+      onRemove
     };
 
     this.messages.next(alertCommand);

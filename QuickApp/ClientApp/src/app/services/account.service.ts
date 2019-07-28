@@ -84,7 +84,7 @@ export class AccountService {
   deleteUser(userOrUserId: string | User): Observable<User> {
 
     if (typeof userOrUserId === 'string' || userOrUserId instanceof String) {
-      return this.accountEndpoint.getDeleteUserEndpoint<User>(<string>userOrUserId).pipe<User>(
+      return this.accountEndpoint.getDeleteUserEndpoint<User>(userOrUserId as string).pipe<User>(
         tap(data => this.onRolesUserCountChanged(data.roles)));
     } else {
 
@@ -150,7 +150,7 @@ export class AccountService {
   deleteRole(roleOrRoleId: string | Role): Observable<Role> {
 
     if (typeof roleOrRoleId === 'string' || roleOrRoleId instanceof String) {
-      return this.accountEndpoint.getDeleteRoleEndpoint<Role>(<string>roleOrRoleId).pipe<Role>(
+      return this.accountEndpoint.getDeleteRoleEndpoint<Role>(roleOrRoleId as string).pipe<Role>(
         tap(data => this.onRolesChanged([data], AccountService.roleDeletedOperation)));
     } else {
 
@@ -170,7 +170,7 @@ export class AccountService {
 
 
   private onRolesChanged(roles: Role[] | string[], op: RolesChangedOperation) {
-    this._rolesChanged.next({ roles: roles, operation: op });
+    this._rolesChanged.next({ roles, operation: op });
   }
 
 

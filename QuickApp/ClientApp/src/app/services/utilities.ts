@@ -84,12 +84,12 @@ export class Utilities {
       }
 
       if (!responses.length) {
-        if ((<any>data).body) {
-          responses.push(`body: ${(<any>data).body}`);
+        if ((data as any).body) {
+          responses.push(`body: ${(data as any).body}`);
         }
 
-        if ((<any>data).error) {
-          responses.push(`error: ${(<any>data).error}`);
+        if ((data as any).error) {
+          responses.push(`error: ${(data as any).error}`);
         }
       }
     }
@@ -450,7 +450,7 @@ export class Utilities {
       }
 
       if (typeof date === 'number' || date instanceof Number) {
-        return new Date(<any>date);
+        return new Date(date as any);
       }
     }
   }
@@ -598,11 +598,11 @@ export class Utilities {
   public static debounce(func: (...args) => any, wait: number, immediate?: boolean) {
     let timeout;
 
-    return function () {
+    return function() {
       const context = this;
       const args_ = arguments;
 
-      const later = function () {
+      const later = function() {
         timeout = null;
         if (!immediate) {
           func.apply(context, args_);

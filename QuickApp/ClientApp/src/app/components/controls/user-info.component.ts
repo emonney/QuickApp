@@ -128,7 +128,7 @@ export class UserInfoComponent implements OnInit {
 
 
   public deletePasswordFromUser(user: UserEdit | User) {
-    const userEdit = <UserEdit>user;
+    const userEdit = user as UserEdit;
 
     delete userEdit.currentPassword;
     delete userEdit.newPassword;

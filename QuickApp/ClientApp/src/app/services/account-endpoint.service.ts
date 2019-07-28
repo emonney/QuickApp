@@ -96,8 +96,8 @@ export class AccountEndpoint extends EndpointBase {
     if (path) {
       endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;
       patchDocument = from ?
-        [{ 'value': valueOrPatch, 'path': path, 'op': opOrUserId, 'from': from }] :
-        [{ 'value': valueOrPatch, 'path': path, 'op': opOrUserId }];
+        [{ value: valueOrPatch, path, op: opOrUserId, from }] :
+        [{ value: valueOrPatch, path, op: opOrUserId }];
     } else {
       endpointUrl = opOrUserId ? `${this.usersUrl}/${opOrUserId}` : this.currentUserUrl;
       patchDocument = valueOrPatch;

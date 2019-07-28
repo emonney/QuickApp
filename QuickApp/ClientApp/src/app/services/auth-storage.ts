@@ -3,10 +3,10 @@
 // www.ebenmonney.com/templates
 // =============================
 
-import { Injectable } from "@angular/core";
-import { OAuthStorage } from "angular-oauth2-oidc";
+import { Injectable } from '@angular/core';
+import { OAuthStorage } from 'angular-oauth2-oidc';
 
-import { LocalStoreManager } from "../services/local-store-manager.service";
+import { LocalStoreManager } from '../services/local-store-manager.service';
 
 @Injectable()
 export class AuthStorage implements OAuthStorage {
@@ -28,8 +28,7 @@ export class AuthStorage implements OAuthStorage {
   setItem(key: string, data: string): void {
     if (AuthStorage.RememberMe) {
       this.localStorage.savePermanentData(data, this.dbKeyPrefix + key);
-    }
-    else {
+    } else {
       this.localStorage.saveSyncedSessionData(data, this.dbKeyPrefix + key);
     }
   }

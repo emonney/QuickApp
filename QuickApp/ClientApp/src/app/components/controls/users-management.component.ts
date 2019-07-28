@@ -116,12 +116,12 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
 
             let maxIndex = 0;
             for (const u of this.rowsCache) {
-                if ((<any>u).index > maxIndex) {
-                    maxIndex = (<any>u).index;
+                if ((u as any).index > maxIndex) {
+                    maxIndex = (u as any).index;
                 }
             }
 
-            (<any>user).index = maxIndex + 1;
+            (user as any).index = maxIndex + 1;
 
             this.rowsCache.splice(0, 0, user);
             this.rows.splice(0, 0, user);
@@ -147,7 +147,7 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
         this.loadingIndicator = false;
 
         users.forEach((user, index, users) => {
-            (<any>user).index = index + 1;
+            (user as any).index = index + 1;
         });
 
         this.rowsCache = [...users];

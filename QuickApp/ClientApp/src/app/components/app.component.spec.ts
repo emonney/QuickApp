@@ -81,7 +81,7 @@ describe('AppComponent', () => {
 
   it(`should have as title 'QuickApp'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = <AppComponent>fixture.debugElement.componentInstance;
+    const app = fixture.debugElement.componentInstance as AppComponent;
     expect(app.appTitle).toEqual('QuickApp');
   });
 

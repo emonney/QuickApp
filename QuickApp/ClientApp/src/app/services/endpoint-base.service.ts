@@ -24,12 +24,12 @@ export class EndpointBase {
 
   protected get requestHeaders(): { headers: HttpHeaders | { [header: string]: string | string[]; } } {
     const headers = new HttpHeaders({
-      'Authorization': 'Bearer ' + this.authService.accessToken,
+      Authorization: 'Bearer ' + this.authService.accessToken,
       'Content-Type': 'application/json',
-      'Accept': 'application/json, text/plain, */*'
+      Accept: 'application/json, text/plain, */*'
     });
 
-    return { headers: headers };
+    return { headers };
   }
 
   public refreshLogin() {
@@ -59,10 +59,11 @@ export class EndpointBase {
           this.resumeTasks(false);
           this.authService.reLogin();
 
-          if (refreshLoginError.status == 401 || (refreshLoginError.error && refreshLoginError.error.error == 'invalid_grant'))
+          if (refreshLoginError.status == 401 || (refreshLoginError.error && refreshLoginError.error.error == 'invalid_grant')) {
             return throwError('session expired');
-          else
+          } else {
             return throwError(refreshLoginError || 'server error');
+          }
         }));
     }
 

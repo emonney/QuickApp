@@ -31,7 +31,7 @@ export class AppTitleService {
             }),
             flatMap(route => route.data))
             .subscribe(data => {
-                let title = data['title'];
+                let title = data.title;
 
                 if (title) {
                     const fragment = this.router.url.split('#')[1];

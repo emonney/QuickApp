@@ -80,7 +80,7 @@ export class NotificationService {
   pinUnpinNotification(notificationOrNotificationId: number | Notification, isPinned?: boolean): Observable<any> {
 
     if (typeof notificationOrNotificationId === 'number' || notificationOrNotificationId instanceof Number) {
-      return this.notificationEndpoint.getPinUnpinNotificationEndpoint(<number>notificationOrNotificationId, isPinned);
+      return this.notificationEndpoint.getPinUnpinNotificationEndpoint(notificationOrNotificationId as number, isPinned);
     } else {
       return this.pinUnpinNotification(notificationOrNotificationId.id);
     }
@@ -98,7 +98,7 @@ export class NotificationService {
   deleteNotification(notificationOrNotificationId: number | Notification): Observable<Notification> {
 
     if (typeof notificationOrNotificationId === 'number' || notificationOrNotificationId instanceof Number) { // Todo: Test me if its check is valid
-      return this.notificationEndpoint.getDeleteNotificationEndpoint(<number>notificationOrNotificationId).pipe(
+      return this.notificationEndpoint.getDeleteNotificationEndpoint(notificationOrNotificationId as number).pipe(
         map(response => {
           this.recentNotifications = this.recentNotifications.filter(n => n.id != notificationOrNotificationId);
           return Notification.Create(response);

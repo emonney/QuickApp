@@ -109,15 +109,15 @@ export class AuthService {
     AuthStorage.RememberMe = rememberMe;
 
     this.oauthService.issuer = this.baseUrl;
-    this.oauthService.clientId = "quickapp_spa";
-    this.oauthService.scope = "openid email phone profile offline_access roles quickapp_api";
+    this.oauthService.clientId = 'quickapp_spa';
+    this.oauthService.scope = 'openid email phone profile offline_access roles quickapp_api';
     this.oauthService.skipSubjectCheck = true;
-    this.oauthService.dummyClientSecret = "not_used";
+    this.oauthService.dummyClientSecret = 'not_used';
 
     return from(this.oauthService.loadDiscoveryDocument(this.discoveryDocUrl)).pipe(mergeMap(() => {
       return from(this.oauthService.fetchTokenUsingPasswordFlow(userName, password)).pipe(
         map(() => this.processLoginResponse(this.oauthService.getAccessToken(), rememberMe))
-      )
+      );
     }));
   }
 
@@ -129,7 +129,7 @@ export class AuthService {
     }
 
     const jwtHelper = new JwtHelper();
-    const decodedAccessToken = <AccessToken>jwtHelper.decodeToken(accessToken);
+    const decodedAccessToken = jwtHelper.decodeToken(accessToken) as AccessToken;
 
     const permissions: PermissionValues[] = Array.isArray(decodedAccessToken.permission) ? decodedAccessToken.permission : [decodedAccessToken.permission];
 

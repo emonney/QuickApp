@@ -105,12 +105,12 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
 
             let maxIndex = 0;
             for (const r of this.rowsCache) {
-                if ((<any>r).index > maxIndex) {
-                    maxIndex = (<any>r).index;
+                if ((r as any).index > maxIndex) {
+                    maxIndex = (r as any).index;
                 }
             }
 
-            (<any>role).index = maxIndex + 1;
+            (role as any).index = maxIndex + 1;
 
             this.rowsCache.splice(0, 0, role);
             this.rows.splice(0, 0, role);
@@ -134,7 +134,7 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
                 const permissions = results[1];
 
                 roles.forEach((role, index, roles) => {
-                    (<any>role).index = index + 1;
+                    (role as any).index = index + 1;
                 });
 
 
