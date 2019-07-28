@@ -106,11 +106,6 @@ export class AuthService {
   }
 
   login(userName: string, password: string, rememberMe?: boolean) {
-
-    if (this.isLoggedIn) {
-      this.logout();
-    }
-
     AuthStorage.RememberMe = rememberMe;
 
     this.oauthService.issuer = this.baseUrl;
