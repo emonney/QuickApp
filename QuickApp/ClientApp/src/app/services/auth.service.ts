@@ -171,7 +171,7 @@ export class AuthService {
     this.localStorage.deleteData(DBkeys.CURRENT_USER);
 
     this.configurations.clearLocalChanges();
-    this.oauthService.logOut();
+    this.oauthService.logOut(true);
 
     this.reevaluateLoginStatus();
   }
