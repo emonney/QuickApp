@@ -24,7 +24,7 @@ namespace QuickApp.Controllers
 {
     [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
-    public class AccountController : Controller
+    public class AccountController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IAccountManager _accountManager;

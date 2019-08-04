@@ -17,12 +17,12 @@ using QuickApp.Helpers;
 namespace QuickApp.Controllers
 {
     [Route("api/[controller]")]
-    public class CustomerController : Controller
+    public class CustomerController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private IUnitOfWork _unitOfWork;
-        readonly ILogger _logger;
-        readonly IEmailSender _emailSender;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger _logger;
+        private readonly IEmailSender _emailSender;
 
 
         public CustomerController(IMapper mapper, IUnitOfWork unitOfWork, ILogger<CustomerController> logger, IEmailSender emailSender)
