@@ -100,25 +100,37 @@ export class AuthService {
     }
   }
 
-  refreshLogin() {
-    return from(this.oauthService.refreshToken()).pipe(
-      map(() => this.processLoginResponse(this.oauthService.getAccessToken(), this.rememberMe)));
+  refreshLogin(): Observable<User> {
+    if (this.oauthService.discoveryDocumentLoaded) {
+      return from(this.oauthService.refreshToken()).pipe(
+        map(() => this.processLoginResponse(this.oauthService.getAccessToken(), this.rememberMe)));
+    } else {
+      this.configureOauthService();
+      return from(this.oauthService.loadDiscoveryDocument(this.discoveryDocUrl)).pipe(mergeMap(() => this.refreshLogin()));
+    }
   }
 
   login(userName: string, password: string, rememberMe?: boolean) {
-    AuthStorage.RememberMe = rememberMe;
+    if (this.isLoggedIn) {
+      this.logout();
+    }
 
-    this.oauthService.issuer = this.baseUrl;
-    this.oauthService.clientId = 'quickapp_spa';
-    this.oauthService.scope = 'openid email phone profile offline_access roles quickapp_api';
-    this.oauthService.skipSubjectCheck = true;
-    this.oauthService.dummyClientSecret = 'not_used';
+    AuthStorage.RememberMe = rememberMe;
+    this.configureOauthService();
 
     return from(this.oauthService.loadDiscoveryDocument(this.discoveryDocUrl)).pipe(mergeMap(() => {
       return from(this.oauthService.fetchTokenUsingPasswordFlow(userName, password)).pipe(
         map(() => this.processLoginResponse(this.oauthService.getAccessToken(), rememberMe))
       );
     }));
+  }
+
+  private configureOauthService() {
+    this.oauthService.issuer = this.baseUrl;
+    this.oauthService.clientId = 'quickapp_spa';
+    this.oauthService.scope = 'openid email phone profile offline_access roles quickapp_api';
+    this.oauthService.skipSubjectCheck = true;
+    this.oauthService.dummyClientSecret = 'not_used';
   }
 
 
