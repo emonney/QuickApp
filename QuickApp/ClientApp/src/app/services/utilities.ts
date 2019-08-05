@@ -78,7 +78,7 @@ export class Utilities {
               responses.push(`${key}${this.captionAndMessageSeparator} ${responseObject[key]}`);
             } else if (responseObject[key]) {
               responses.push(responseObject[key].toString());
-                 }
+            }
           }
         }
       }
@@ -537,16 +537,16 @@ export class Utilities {
 
   public static moveArrayItem(array: any[], oldIndex, newIndex) {
 
-    while (oldIndex < 0) {
-      oldIndex += this.length;
+    if (oldIndex < 0) {
+      return;
     }
 
-    while (newIndex < 0) {
-      newIndex += this.length;
+    if (newIndex < 0) {
+      newIndex += array.length;
     }
 
-    if (newIndex >= this.length) {
-      let k = newIndex - this.length;
+    if (newIndex >= array.length) {
+      let k = newIndex - array.length;
       while ((k--) + 1) {
         array.push(undefined);
       }
@@ -598,11 +598,11 @@ export class Utilities {
   public static debounce(func: (...args) => any, wait: number, immediate?: boolean) {
     let timeout;
 
-    return function() {
+    return function () {
       const context = this;
       const args_ = arguments;
 
-      const later = function() {
+      const later = function () {
         timeout = null;
         if (!immediate) {
           func.apply(context, args_);
