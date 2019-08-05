@@ -31,7 +31,6 @@ export class UserInfoComponent implements OnInit {
   public user: User = new User();
   public userEdit: UserEdit;
   public allRoles: Role[] = [];
-  private editingUserName: string;
 
   public formResetToggle = true;
 
@@ -328,7 +327,6 @@ export class UserInfoComponent implements OnInit {
     this.isNewUser = true;
 
     this.allRoles = [...allRoles];
-    this.editingUserName = null;
     this.user = this.userEdit = new UserEdit();
     this.userEdit.isEnabled = true;
     this.edit();
@@ -342,7 +340,6 @@ export class UserInfoComponent implements OnInit {
       this.isNewUser = false;
 
       this.setRoles(user, allRoles);
-      this.editingUserName = user.userName;
       this.user = new User();
       this.userEdit = new UserEdit();
       Object.assign(this.user, user);
