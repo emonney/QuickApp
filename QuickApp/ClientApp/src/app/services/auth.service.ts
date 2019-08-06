@@ -105,7 +105,7 @@ export class AuthService {
       return from(this.oauthService.refreshToken()).pipe(
         map(() => this.processLoginResponse(this.oauthService.getAccessToken(), this.rememberMe)));
     } else {
-      this.configureOauthService();
+      this.configureOauthService(this.rememberMe);
       return from(this.oauthService.loadDiscoveryDocument(this.discoveryDocUrl)).pipe(mergeMap(() => this.refreshLogin()));
     }
   }
@@ -115,8 +115,7 @@ export class AuthService {
       this.logout();
     }
 
-    AuthStorage.RememberMe = rememberMe;
-    this.configureOauthService();
+    this.configureOauthService(rememberMe);
 
     return from(this.oauthService.loadDiscoveryDocument(this.discoveryDocUrl)).pipe(mergeMap(() => {
       return from(this.oauthService.fetchTokenUsingPasswordFlow(userName, password)).pipe(
@@ -125,12 +124,14 @@ export class AuthService {
     }));
   }
 
-  private configureOauthService() {
+  private configureOauthService(rememberMe?: boolean) {
     this.oauthService.issuer = this.baseUrl;
     this.oauthService.clientId = 'quickapp_spa';
     this.oauthService.scope = 'openid email phone profile offline_access roles quickapp_api';
     this.oauthService.skipSubjectCheck = true;
     this.oauthService.dummyClientSecret = 'not_used';
+
+    AuthStorage.RememberMe = rememberMe;
   }
 
 
