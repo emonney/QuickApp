@@ -12,6 +12,7 @@ import { AppComponent } from '../components/app.component';
 import { LoginComponent } from '../components/login/login.component';
 import { NotificationsViewerComponent } from '../components/controls/notifications-viewer.component';
 
+import { OAuthModule } from 'angular-oauth2-oidc';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastaModule } from 'ngx-toasta';
@@ -30,7 +31,6 @@ import { NotificationService } from '../services/notification.service';
 import { NotificationEndpoint } from '../services/notification-endpoint.service';
 import { AccountService } from '../services/account.service';
 import { AccountEndpoint } from '../services/account-endpoint.service';
-import { OAuthModule } from 'angular-oauth2-oidc';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
