@@ -12,7 +12,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { LocalStoreManager } from './local-store-manager.service';
 import { AuthStorage } from './auth-storage';
 import { ConfigurationService } from './configuration.service';
-import { DBkeys } from './db-Keys';
+import { DBkeys } from './db-keys';
 import { JwtHelper } from './jwt-helper';
 import { Utilities } from './utilities';
 import { AccessToken } from '../models/access-token.model';
