@@ -3,7 +3,6 @@
 // www.ebenmonney.com/templates
 // =============================
 
-using DAL;
 using DAL.Core.Interfaces;
 using DAL.Models;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +14,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Core;
 
 namespace DAL.Core
 {

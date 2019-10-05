@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using QuickApp.ViewModels;
 using AutoMapper;
 using DAL.Models;
@@ -29,14 +29,17 @@ namespace QuickApp.Controllers
         private readonly IMapper _mapper;
         private readonly IAccountManager _accountManager;
         private readonly IAuthorizationService _authorizationService;
+        private readonly ILogger<AccountController> _logger;
         private const string GetUserByIdActionName = "GetUserById";
         private const string GetRoleByIdActionName = "GetRoleById";
 
-        public AccountController(IMapper mapper, IAccountManager accountManager, IAuthorizationService authorizationService)
+        public AccountController(IMapper mapper, IAccountManager accountManager, IAuthorizationService authorizationService,
+            ILogger<AccountController> logger)
         {
             _mapper = mapper;
             _accountManager = accountManager;
             _authorizationService = authorizationService;
+            _logger = logger;
         }
 
 
@@ -234,8 +237,7 @@ namespace QuickApp.Controllers
 
 
                 UserPatchViewModel userPVM = _mapper.Map<UserPatchViewModel>(appUser);
-                patch.ApplyTo(userPVM, ModelState);
-
+                patch.ApplyTo(userPVM, (e) => AddError(e.ErrorMessage));
 
                 if (ModelState.IsValid)
                 {

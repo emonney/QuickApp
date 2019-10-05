@@ -12,12 +12,12 @@ namespace QuickApp.Helpers
 {
     public static class EmailTemplates
     {
-        static IHostingEnvironment _hostingEnvironment;
+        static IWebHostEnvironment _hostingEnvironment;
         static string testEmailTemplate;
         static string plainTextTestEmailTemplate;
 
 
-        public static void Initialize(IHostingEnvironment hostingEnvironment)
+        public static void Initialize(IWebHostEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
         }

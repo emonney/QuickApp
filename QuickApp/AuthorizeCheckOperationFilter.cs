@@ -4,6 +4,7 @@
 // =============================
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -18,7 +19,7 @@ namespace QuickApp
     // Swagger IOperationFilter implementation that will decide which api action needs authorization
     internal class AuthorizeCheckOperationFilter : IOperationFilter
     {
-        public void Apply(Operation operation, OperationFilterContext context)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
             // Check for authorize attribute
             var hasAuthorize = context.MethodInfo.DeclaringType.GetCustomAttributes(true)
@@ -28,13 +29,18 @@ namespace QuickApp
 
             if (hasAuthorize)
             {
-                operation.Responses.Add("401", new Response { Description = "Unauthorized" });
+                operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
 
-                operation.Security = new List<IDictionary<string, IEnumerable<string>>>
+                var oAuthScheme = new OpenApiSecurityScheme
                 {
-                    new Dictionary<string, IEnumerable<string>>
+                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+                };
+
+                operation.Security = new List<OpenApiSecurityRequirement>
+                {
+                    new OpenApiSecurityRequirement
                     {
-                        { "oauth2", new [] { IdentityServerConfig.ApiName} }
+                        [oAuthScheme] = new [] { IdentityServerConfig.ApiName}
                     }
                 };
             }
