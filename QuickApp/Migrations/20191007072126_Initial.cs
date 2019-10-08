@@ -1,4 +1,9 @@
-﻿using System;
+﻿// =============================
+// Email: info@ebenmonney.com
+// www.ebenmonney.com/templates
+// =============================
+
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QuickApp.Migrations
