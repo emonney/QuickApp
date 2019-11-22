@@ -1,5 +1,7 @@
 # **QuickApp** - ASPNET Core 3.0 / Angular 8 project template
 [![MIT license](https://cdn.rawgit.com/emonney/tempa/7e9d69ad/MITLicense.png)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
+[![VSIX Downloads](https://img.shields.io/visual-studio-marketplace/d/adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)
+[![Twitter Follow](https://img.shields.io/twitter/follow/kommand?style=social)](https://twitter.com/kommand)
 
 A startup **Angular 8 / ASP.NET Core 3.0** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
 As well as other common functionalities for **Quick Application Development**.
@@ -7,6 +9,8 @@ As well as other common functionalities for **Quick Application Development**.
 [FOLLOW ME](https://twitter.com/kommand) on twitter for important updates
 
 ###### NOTE: Please post support related topics in the [help & support forum](https://www.ebenmonney.com/forum/?view=forum&id=14). For bug reports open an [issue on github](https://github.com/emonney/QuickApp/issues). 
+
+###### To hire developers for your next project please go to [DevLink](https://www.ebenmonney.com/devlink) or send a mail to [devlink@ebenmonney.com](mailto:devlink@ebenmonney.com) for more info. 
 
 For the older asp.net core 1.x version: [Download](https://github.com/emonney/QuickApp-VSIX/releases/tag/v1.5")
 

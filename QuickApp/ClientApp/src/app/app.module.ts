@@ -28,7 +28,7 @@ import { ConfigurationService } from './services/configuration.service';
 import { AlertService } from './services/alert.service';
 import { ThemeManager } from './services/theme-manager';
 import { LocalStoreManager } from './services/local-store-manager.service';
-import { AuthStorage } from './services/auth-storage';
+import { OidcHelperService } from './services/oidc-helper.service';
 import { NotificationService } from './services/notification.service';
 import { NotificationEndpoint } from './services/notification-endpoint.service';
 import { AccountService } from './services/account.service';
@@ -66,67 +66,67 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
 
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    FormsModule,
-    AppRoutingModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useClass: TranslateLanguageLoader
-      }
-    }),
-    NgxDatatableModule,
-    OAuthModule.forRoot(),
-    ToastaModule.forRoot(),
-    TooltipModule.forRoot(),
-    PopoverModule.forRoot(),
-    BsDropdownModule.forRoot(),
-    CarouselModule.forRoot(),
-    ModalModule.forRoot(),
-    ChartsModule
-  ],
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    HomeComponent,
-    CustomersComponent,
-    ProductsComponent,
-    OrdersComponent,
-    SettingsComponent,
-    UsersManagementComponent, UserInfoComponent, UserPreferencesComponent,
-    RolesManagementComponent, RoleEditorComponent,
-    AboutComponent,
-    NotFoundComponent,
-    NotificationsViewerComponent,
-    SearchBoxComponent,
-    StatisticsDemoComponent, TodoDemoComponent, BannerDemoComponent,
-    EqualValidator,
-    LastElementDirective,
-    AutofocusDirective,
-    BootstrapTabDirective,
-    BootstrapToggleDirective,
-    BootstrapSelectDirective,
-    BootstrapDatepickerDirective,
-    GroupByPipe
-  ],
-  providers: [
-    { provide: ErrorHandler, useClass: AppErrorHandler },
-    { provide: OAuthStorage, useClass: AuthStorage },
-    AlertService,
-    ThemeManager,
-    ConfigurationService,
-    AppTitleService,
-    AppTranslationService,
-    NotificationService,
-    NotificationEndpoint,
-    AccountService,
-    AccountEndpoint,
-    LocalStoreManager
-  ],
-  bootstrap: [AppComponent]
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        FormsModule,
+        AppRoutingModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useClass: TranslateLanguageLoader
+            }
+        }),
+        NgxDatatableModule,
+        OAuthModule.forRoot(),
+        ToastaModule.forRoot(),
+        TooltipModule.forRoot(),
+        PopoverModule.forRoot(),
+        BsDropdownModule.forRoot(),
+        CarouselModule.forRoot(),
+        ModalModule.forRoot(),
+        ChartsModule
+    ],
+    declarations: [
+        AppComponent,
+        LoginComponent,
+        HomeComponent,
+        CustomersComponent,
+        ProductsComponent,
+        OrdersComponent,
+        SettingsComponent,
+        UsersManagementComponent, UserInfoComponent, UserPreferencesComponent,
+        RolesManagementComponent, RoleEditorComponent,
+        AboutComponent,
+        NotFoundComponent,
+        NotificationsViewerComponent,
+        SearchBoxComponent,
+        StatisticsDemoComponent, TodoDemoComponent, BannerDemoComponent,
+        EqualValidator,
+        LastElementDirective,
+        AutofocusDirective,
+        BootstrapTabDirective,
+        BootstrapToggleDirective,
+        BootstrapSelectDirective,
+        BootstrapDatepickerDirective,
+        GroupByPipe
+    ],
+    providers: [
+        { provide: ErrorHandler, useClass: AppErrorHandler },
+        AlertService,
+        ThemeManager,
+        ConfigurationService,
+        AppTitleService,
+        AppTranslationService,
+        NotificationService,
+        NotificationEndpoint,
+        AccountService,
+        AccountEndpoint,
+        LocalStoreManager,
+        OidcHelperService
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

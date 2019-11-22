@@ -69,7 +69,8 @@ namespace QuickApp.Helpers
         }
 
 
-
+        //For background tasks such as sending emails, its good practice to use job runners such as hangfire https://www.hangfire.io
+        //or a service such as SendGrid https://sendgrid.com/
         public async Task<(bool success, string errorMsg)> SendEmailAsync(
             MailboxAddress sender,
             MailboxAddress[] recepients,

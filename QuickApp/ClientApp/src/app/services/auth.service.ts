@@ -5,244 +5,230 @@
 
 import { Injectable } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
-import { Observable, Subject, from, throwError } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { LocalStoreManager } from './local-store-manager.service';
-import { AuthStorage } from './auth-storage';
+import { OidcHelperService } from './oidc-helper.service';
 import { ConfigurationService } from './configuration.service';
 import { DBkeys } from './db-keys';
 import { JwtHelper } from './jwt-helper';
 import { Utilities } from './utilities';
-import { AccessToken } from '../models/access-token.model';
+import { AccessToken, LoginResponse } from '../models/login-response.model';
 import { User } from '../models/user.model';
 import { PermissionValues } from '../models/permission.model';
 
 @Injectable()
 export class AuthService {
-  private readonly _discoveryDocUrl: string = '/.well-known/openid-configuration';
+    public get loginUrl() { return this.configurations.loginUrl; }
+    public get homeUrl() { return this.configurations.homeUrl; }
 
-  private get discoveryDocUrl() { return this.configurations.tokenUrl + this._discoveryDocUrl; }
-  public get baseUrl() { return this.configurations.baseUrl; }
-  public get loginUrl() { return this.configurations.loginUrl; }
-  public get homeUrl() { return this.configurations.homeUrl; }
+    public loginRedirectUrl: string;
+    public logoutRedirectUrl: string;
 
-  public loginRedirectUrl: string;
-  public logoutRedirectUrl: string;
+    public reLoginDelegate: () => void;
 
-  public reLoginDelegate: () => void;
+    private previousIsLoggedInCheck = false;
+    private _loginStatus = new Subject<boolean>();
 
-  private previousIsLoggedInCheck = false;
-  private _loginStatus = new Subject<boolean>();
+    constructor(
+        private router: Router,
+        private oidcHelperService: OidcHelperService,
+        private configurations: ConfigurationService,
+        private localStorage: LocalStoreManager) {
 
-  constructor(
-    private router: Router,
-    private oauthService: OAuthService,
-    private configurations: ConfigurationService,
-    private localStorage: LocalStoreManager) {
-
-    this.initializeLoginStatus();
-  }
-
-  private initializeLoginStatus() {
-    this.localStorage.getInitEvent().subscribe(() => {
-      this.reevaluateLoginStatus();
-    });
-  }
-
-  gotoPage(page: string, preserveParams = true) {
-
-    const navigationExtras: NavigationExtras = {
-      queryParamsHandling: preserveParams ? 'merge' : '', preserveFragment: preserveParams
-    };
-
-    this.router.navigate([page], navigationExtras);
-  }
-
-  gotoHomePage() {
-    this.router.navigate([this.homeUrl]);
-  }
-
-  redirectLoginUser() {
-    const redirect = this.loginRedirectUrl && this.loginRedirectUrl != '/' && this.loginRedirectUrl != ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
-    this.loginRedirectUrl = null;
-
-    const urlParamsAndFragment = Utilities.splitInTwo(redirect, '#');
-    const urlAndParams = Utilities.splitInTwo(urlParamsAndFragment.firstPart, '?');
-
-    const navigationExtras: NavigationExtras = {
-      fragment: urlParamsAndFragment.secondPart,
-      queryParams: Utilities.getQueryParamsFromString(urlAndParams.secondPart),
-      queryParamsHandling: 'merge'
-    };
-
-    this.router.navigate([urlAndParams.firstPart], navigationExtras);
-  }
-
-  redirectLogoutUser() {
-    const redirect = this.logoutRedirectUrl ? this.logoutRedirectUrl : this.loginUrl;
-    this.logoutRedirectUrl = null;
-
-    this.router.navigate([redirect]);
-  }
-
-  redirectForLogin() {
-    this.loginRedirectUrl = this.router.url;
-    this.router.navigate([this.loginUrl]);
-  }
-
-  reLogin() {
-    if (this.reLoginDelegate) {
-      this.reLoginDelegate();
-    } else {
-      this.redirectForLogin();
-    }
-  }
-
-  refreshLogin(): Observable<User> {
-    if (this.oauthService.discoveryDocumentLoaded) {
-      return from(this.oauthService.refreshToken()).pipe(
-        map(() => this.processLoginResponse(this.oauthService.getAccessToken(), this.rememberMe)));
-    } else {
-      this.configureOauthService(this.rememberMe);
-      return from(this.oauthService.loadDiscoveryDocument(this.discoveryDocUrl)).pipe(mergeMap(() => this.refreshLogin()));
-    }
-  }
-
-  login(userName: string, password: string, rememberMe?: boolean) {
-    if (this.isLoggedIn) {
-      this.logout();
+        this.initializeLoginStatus();
     }
 
-    this.configureOauthService(rememberMe);
-
-    return from(this.oauthService.loadDiscoveryDocument(this.discoveryDocUrl)).pipe(mergeMap(() => {
-      return from(this.oauthService.fetchTokenUsingPasswordFlow(userName, password)).pipe(
-        map(() => this.processLoginResponse(this.oauthService.getAccessToken(), rememberMe))
-      );
-    }));
-  }
-
-  private configureOauthService(rememberMe?: boolean) {
-    this.oauthService.issuer = this.baseUrl;
-    this.oauthService.clientId = 'quickapp_spa';
-    this.oauthService.scope = 'openid email phone profile offline_access roles quickapp_api';
-    this.oauthService.skipSubjectCheck = true;
-    this.oauthService.dummyClientSecret = 'not_used';
-
-    AuthStorage.RememberMe = rememberMe;
-  }
-
-
-  private processLoginResponse(accessToken: string, rememberMe: boolean) {
-
-    if (accessToken == null) {
-      throw new Error('accessToken cannot be null');
+    private initializeLoginStatus() {
+        this.localStorage.getInitEvent().subscribe(() => {
+            this.reevaluateLoginStatus();
+        });
     }
 
-    const jwtHelper = new JwtHelper();
-    const decodedAccessToken = jwtHelper.decodeToken(accessToken) as AccessToken;
+    gotoPage(page: string, preserveParams = true) {
 
-    const permissions: PermissionValues[] = Array.isArray(decodedAccessToken.permission) ? decodedAccessToken.permission : [decodedAccessToken.permission];
+        const navigationExtras: NavigationExtras = {
+            queryParamsHandling: preserveParams ? 'merge' : '', preserveFragment: preserveParams
+        };
 
-    if (!this.isLoggedIn) {
-      this.configurations.import(decodedAccessToken.configuration);
+        this.router.navigate([page], navigationExtras);
     }
 
-    const user = new User(
-      decodedAccessToken.sub,
-      decodedAccessToken.name,
-      decodedAccessToken.fullname,
-      decodedAccessToken.email,
-      decodedAccessToken.jobtitle,
-      decodedAccessToken.phone_number,
-      Array.isArray(decodedAccessToken.role) ? decodedAccessToken.role : [decodedAccessToken.role]);
-    user.isEnabled = true;
-
-    this.saveUserDetails(user, permissions, rememberMe);
-
-    this.reevaluateLoginStatus(user);
-
-    return user;
-  }
-
-  private saveUserDetails(user: User, permissions: PermissionValues[], rememberMe: boolean) {
-    if (rememberMe) {
-      this.localStorage.savePermanentData(permissions, DBkeys.USER_PERMISSIONS);
-      this.localStorage.savePermanentData(user, DBkeys.CURRENT_USER);
-    } else {
-      this.localStorage.saveSyncedSessionData(permissions, DBkeys.USER_PERMISSIONS);
-      this.localStorage.saveSyncedSessionData(user, DBkeys.CURRENT_USER);
+    gotoHomePage() {
+        this.router.navigate([this.homeUrl]);
     }
 
-    this.localStorage.savePermanentData(rememberMe, DBkeys.REMEMBER_ME);
-  }
+    redirectLoginUser() {
+        const redirect = this.loginRedirectUrl && this.loginRedirectUrl != '/' && this.loginRedirectUrl != ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
+        this.loginRedirectUrl = null;
 
-  logout(): void {
-    this.localStorage.deleteData(DBkeys.USER_PERMISSIONS);
-    this.localStorage.deleteData(DBkeys.CURRENT_USER);
+        const urlParamsAndFragment = Utilities.splitInTwo(redirect, '#');
+        const urlAndParams = Utilities.splitInTwo(urlParamsAndFragment.firstPart, '?');
 
-    this.configurations.clearLocalChanges();
-    this.oauthService.logOut(true);
+        const navigationExtras: NavigationExtras = {
+            fragment: urlParamsAndFragment.secondPart,
+            queryParams: Utilities.getQueryParamsFromString(urlAndParams.secondPart),
+            queryParamsHandling: 'merge'
+        };
 
-    this.reevaluateLoginStatus();
-  }
-
-  private reevaluateLoginStatus(currentUser?: User) {
-    const user = currentUser || this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
-    const isLoggedIn = user != null;
-
-    if (this.previousIsLoggedInCheck != isLoggedIn) {
-      setTimeout(() => {
-        this._loginStatus.next(isLoggedIn);
-      });
+        this.router.navigate([urlAndParams.firstPart], navigationExtras);
     }
 
-    this.previousIsLoggedInCheck = isLoggedIn;
-  }
+    redirectLogoutUser() {
+        const redirect = this.logoutRedirectUrl ? this.logoutRedirectUrl : this.loginUrl;
+        this.logoutRedirectUrl = null;
 
-  getLoginStatusEvent(): Observable<boolean> {
-    return this._loginStatus.asObservable();
-  }
-
-  get currentUser(): User {
-
-    const user = this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
-    this.reevaluateLoginStatus(user);
-
-    return user;
-  }
-
-  get userPermissions(): PermissionValues[] {
-    return this.localStorage.getDataObject<PermissionValues[]>(DBkeys.USER_PERMISSIONS) || [];
-  }
-
-  get accessToken(): string {
-    return this.oauthService.getAccessToken();
-  }
-
-  get accessTokenExpiryDate(): Date {
-    return new Date(this.oauthService.getAccessTokenExpiration());
-  }
-
-  get isSessionExpired(): boolean {
-    if (this.accessTokenExpiryDate == null) {
-      return true;
+        this.router.navigate([redirect]);
     }
 
-    return this.accessTokenExpiryDate.valueOf() <= new Date().valueOf();
-  }
+    redirectForLogin() {
+        this.loginRedirectUrl = this.router.url;
+        this.router.navigate([this.loginUrl]);
+    }
 
-  get refreshToken(): string {
-    return this.oauthService.getRefreshToken();
-  }
+    reLogin() {
+        if (this.reLoginDelegate) {
+            this.reLoginDelegate();
+        } else {
+            this.redirectForLogin();
+        }
+    }
 
-  get isLoggedIn(): boolean {
-    return this.currentUser != null;
-  }
+    refreshLogin() {
+        return this.oidcHelperService.refreshLogin()
+            .pipe(map(resp => this.processLoginResponse(resp, this.rememberMe)));
+    }
 
-  get rememberMe(): boolean {
-    return this.localStorage.getDataObject<boolean>(DBkeys.REMEMBER_ME) == true;
-  }
+    loginWithPassword(userName: string, password: string, rememberMe?: boolean) {
+        if (this.isLoggedIn) {
+            this.logout();
+        }
+
+        return this.oidcHelperService.loginWithPassword(userName, password)
+            .pipe(map(resp => this.processLoginResponse(resp, rememberMe)));
+    }
+
+    private processLoginResponse(response: LoginResponse, rememberMe?: boolean) {
+        const accessToken = response.access_token;
+
+        if (accessToken == null) {
+            throw new Error('accessToken cannot be null');
+        }
+
+        rememberMe = rememberMe || this.rememberMe;
+
+        const refreshToken = response.refresh_token || this.refreshToken;
+        const expiresIn = response.expires_in;
+        const tokenExpiryDate = new Date();
+        tokenExpiryDate.setSeconds(tokenExpiryDate.getSeconds() + expiresIn);
+        const accessTokenExpiry = tokenExpiryDate;
+        const jwtHelper = new JwtHelper();
+        const decodedAccessToken = jwtHelper.decodeToken(accessToken) as AccessToken;
+
+        const permissions: PermissionValues[] = Array.isArray(decodedAccessToken.permission) ? decodedAccessToken.permission : [decodedAccessToken.permission];
+
+        if (!this.isLoggedIn) {
+            this.configurations.import(decodedAccessToken.configuration);
+        }
+
+        const user = new User(
+            decodedAccessToken.sub,
+            decodedAccessToken.name,
+            decodedAccessToken.fullname,
+            decodedAccessToken.email,
+            decodedAccessToken.jobtitle,
+            decodedAccessToken.phone_number,
+            Array.isArray(decodedAccessToken.role) ? decodedAccessToken.role : [decodedAccessToken.role]);
+        user.isEnabled = true;
+
+        this.saveUserDetails(user, permissions, accessToken, refreshToken, accessTokenExpiry, rememberMe);
+
+        this.reevaluateLoginStatus(user);
+
+        return user;
+    }
+
+    private saveUserDetails(user: User, permissions: PermissionValues[], accessToken: string, refreshToken: string, expiresIn: Date, rememberMe: boolean) {
+        if (rememberMe) {
+            this.localStorage.savePermanentData(accessToken, DBkeys.ACCESS_TOKEN);
+            this.localStorage.savePermanentData(refreshToken, DBkeys.REFRESH_TOKEN);
+            this.localStorage.savePermanentData(expiresIn, DBkeys.TOKEN_EXPIRES_IN);
+            this.localStorage.savePermanentData(permissions, DBkeys.USER_PERMISSIONS);
+            this.localStorage.savePermanentData(user, DBkeys.CURRENT_USER);
+        } else {
+            this.localStorage.saveSyncedSessionData(accessToken, DBkeys.ACCESS_TOKEN);
+            this.localStorage.saveSyncedSessionData(refreshToken, DBkeys.REFRESH_TOKEN);
+            this.localStorage.saveSyncedSessionData(expiresIn, DBkeys.TOKEN_EXPIRES_IN);
+            this.localStorage.saveSyncedSessionData(permissions, DBkeys.USER_PERMISSIONS);
+            this.localStorage.saveSyncedSessionData(user, DBkeys.CURRENT_USER);
+        }
+
+        this.localStorage.savePermanentData(rememberMe, DBkeys.REMEMBER_ME);
+    }
+
+    logout(): void {
+        this.localStorage.deleteData(DBkeys.ACCESS_TOKEN);
+        this.localStorage.deleteData(DBkeys.REFRESH_TOKEN);
+        this.localStorage.deleteData(DBkeys.TOKEN_EXPIRES_IN);
+        this.localStorage.deleteData(DBkeys.USER_PERMISSIONS);
+        this.localStorage.deleteData(DBkeys.CURRENT_USER);
+
+        this.configurations.clearLocalChanges();
+
+        this.reevaluateLoginStatus();
+    }
+
+    private reevaluateLoginStatus(currentUser?: User) {
+        const user = currentUser || this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
+        const isLoggedIn = user != null;
+
+        if (this.previousIsLoggedInCheck != isLoggedIn) {
+            setTimeout(() => {
+                this._loginStatus.next(isLoggedIn);
+            });
+        }
+
+        this.previousIsLoggedInCheck = isLoggedIn;
+    }
+
+    getLoginStatusEvent(): Observable<boolean> {
+        return this._loginStatus.asObservable();
+    }
+
+    get currentUser(): User {
+
+        const user = this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
+        this.reevaluateLoginStatus(user);
+
+        return user;
+    }
+
+    get userPermissions(): PermissionValues[] {
+        return this.localStorage.getDataObject<PermissionValues[]>(DBkeys.USER_PERMISSIONS) || [];
+    }
+
+    get accessToken(): string {
+        return this.oidcHelperService.accessToken;
+    }
+
+    get accessTokenExpiryDate(): Date {
+        return this.oidcHelperService.accessTokenExpiryDate;
+    }
+
+    get refreshToken(): string {
+        return this.oidcHelperService.refreshToken;
+    }
+
+    get isSessionExpired(): boolean {
+        return this.oidcHelperService.isSessionExpired;
+    }
+
+    get isLoggedIn(): boolean {
+        return this.currentUser != null;
+    }
+
+    get rememberMe(): boolean {
+        return this.localStorage.getDataObject<boolean>(DBkeys.REMEMBER_ME) == true;
+    }
 }
