@@ -13,7 +13,7 @@ require('chart.js');
 
 
 @Component({
-  selector: 'statistics-demo',
+  selector: 'app-statistics-demo',
   templateUrl: './statistics-demo.component.html',
   styleUrls: ['./statistics-demo.component.scss']
 })
@@ -90,16 +90,16 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
 
 
   randomize(): void {
-    const _chartData = new Array(this.chartData.length);
+    const chartData = new Array(this.chartData.length);
     for (let i = 0; i < this.chartData.length; i++) {
-      _chartData[i] = { data: new Array(this.chartData[i].data.length), label: this.chartData[i].label };
+      chartData[i] = { data: new Array(this.chartData[i].data.length), label: this.chartData[i].label };
 
       for (let j = 0; j < this.chartData[i].data.length; j++) {
-        _chartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
+        chartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
       }
     }
 
-    this.chartData = _chartData;
+    this.chartData = chartData;
   }
 
   changeChartType(type: string) {

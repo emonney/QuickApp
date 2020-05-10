@@ -1,12 +1,3 @@
-/*
-Make bootstrap-select corrections
-*/
-.bootstrap-select .dropdown-menu li a span.text {
-  width: 95% !important; /*To prevent horizontal scrollbars in some scenarios. Eg when ticks are shown*/
-}
-
-
-
 
 /* Bootstrap Toggle v2.2.2 corrections for Bootsrtap 4*/
 .toggle-off {

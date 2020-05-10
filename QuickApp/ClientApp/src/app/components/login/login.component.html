@@ -13,23 +13,21 @@
                 (ngSubmit)="f.form.valid ? login() :
                           (!username.valid && showErrorAlert('Username is required', 'Please enter a valid username'));
                           (!password.valid && showErrorAlert('Password is required', 'Please enter a valid password'))">
-            <div class="form-group row has-feedback-icon">
+            <div class="form-group row">
               <label class="col-form-label col-md-3" for="login-username">Username:</label>
               <div class="col-md-9">
                 <input type="text" id="login-username" name="username" placeholder="Enter username" autocomplete="username" class="form-control" [ngClass]="{'is-valid': f.submitted && username.valid, 'is-invalid' : f.submitted && !username.valid}"
                        [(ngModel)]="userLogin.userName" #username="ngModel" required />
-                <i *ngIf="f.submitted" class="fa form-control-feedback" [ngClass]="{'fa-check': username.valid, 'fa-times' : !username.valid}" aria-hidden="true"></i>
                 <span class="invalid-feedback" *ngIf="f.submitted && !username.valid">
                   Username is required
                 </span>
               </div>
             </div>
-            <div class="form-group row has-feedback-icon">
+            <div class="form-group row">
               <label class="col-form-label col-md-3" for="login-password">Password:</label>
               <div class="col-md-9">
                 <input type="password" id="login-password" name="password" placeholder="Enter password" autocomplete="current-password" class="form-control" [ngClass]="{'is-valid': f.submitted && password.valid, 'is-invalid' : f.submitted && !password.valid}"
                        [(ngModel)]="userLogin.password" #password="ngModel" required />
-                <i *ngIf="f.submitted" class="fa form-control-feedback" [ngClass]="{'fa-check': password.valid, 'fa-times' : !password.valid}" aria-hidden="true"></i>
                 <span class="invalid-feedback" *ngIf="f.submitted && !password.valid">
                   Password is required
                 </span>

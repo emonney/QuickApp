@@ -3,6 +3,7 @@
 // www.ebenmonney.com/templates
 // =============================
 
+// tslint:disable:no-console
 import { Injectable } from '@angular/core';
 import { HttpResponseBase } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
@@ -37,7 +38,7 @@ export class AlertService {
   showMessage(summary: string);
   showMessage(summary: string, detail: string, severity: MessageSeverity);
   showMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity);
-  showMessage(response: HttpResponseBase, ignoreValue_useNull: string, severity: MessageSeverity);
+  showMessage(response: HttpResponseBase, ignoreValueUseNull: string, severity: MessageSeverity);
   showMessage(data: any, separatorOrDetail?: string, severity?: MessageSeverity) {
 
     if (!severity) {
@@ -65,7 +66,7 @@ export class AlertService {
   showStickyMessage(summary: string, detail: string, severity: MessageSeverity, error?: any);
   showStickyMessage(summary: string, detail: string, severity: MessageSeverity, error?: any, onRemove?: () => any);
   showStickyMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity);
-  showStickyMessage(response: HttpResponseBase, ignoreValue_useNull: string, severity: MessageSeverity);
+  showStickyMessage(response: HttpResponseBase, ignoreValueUseNull: string, severity: MessageSeverity);
   showStickyMessage(data: string | string[] | HttpResponseBase, separatorOrDetail?: string, severity?: MessageSeverity, error?: any, onRemove?: () => any) {
 
     if (!severity) {

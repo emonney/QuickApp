@@ -9,29 +9,29 @@
 
 
 .ngx-datatable.material {
-    &.table-striped {
-        .datatable-row-even {
-            background: $secondary;
-        }
+  &.table-striped {
+    .datatable-row-even {
+      background: $secondary;
     }
+  }
 
-    &.table-hover:not(.cell-selection) {
-        .datatable-body-row:hover,
-        .datatable-body-row:hover .datatable-row-group {
-            background-color: $gray-600 !important;
-        }
+  &.table-hover:not(.cell-selection) {
+    .datatable-body-row:hover,
+    .datatable-body-row:hover .datatable-row-group {
+      background-color: $gray-600 !important;
     }
+  }
 
-    &.colored-header {
-        .datatable-header {
-            color: $body-bg;
-        }
+  &.colored-header {
+    .datatable-header {
+      color: $body-bg;
     }
+  }
 }
 
 
 .app-component {
-    footer {
-        background-color: $gray-700 !important;
-    }
+  footer {
+    background-color: $gray-700 !important;
+  }
 }

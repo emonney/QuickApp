@@ -17,12 +17,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "progress": true,
+            "progress": false,
             "extractCss": true,
             "assets": [
               "src/assets"
@@ -34,9 +35,7 @@
               "node_modules/jquery/dist/jquery.slim.js",
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap/dist/js/bootstrap.js",
-              "node_modules/bootstrap-toggle/js/bootstrap-toggle.js",
-              "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
-              "node_modules/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"
+              "node_modules/bootstrap-toggle/js/bootstrap-toggle.js"
             ]
           },
           "configurations": {

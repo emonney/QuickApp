@@ -62,7 +62,7 @@ export class AppTranslationService {
       language = this.getDefaultLanguage();
     }
 
-    if (language != this.translate.currentLang) {
+    if (language !== this.translate.currentLang) {
       setTimeout(() => {
         this.translate.use(language);
         this.onLanguageChanged.next(language);
@@ -73,12 +73,12 @@ export class AppTranslationService {
   }
 
 
-  getTranslation(key: string | Array<string>, interpolateParams?: Object): string | any {
+  getTranslation(key: string | Array<string>, interpolateParams?: object): string | any {
     return this.translate.instant(key, interpolateParams);
   }
 
 
-  getTranslationAsync(key: string | Array<string>, interpolateParams?: Object): Observable<string | any> {
+  getTranslationAsync(key: string | Array<string>, interpolateParams?: object): Observable<string | any> {
     return this.translate.get(key, interpolateParams);
   }
 

@@ -8,25 +8,25 @@
 
 
 input[type="radio"], input[type="checkbox"] {
-    width: 0;
-    height: 0;
-    margin-right: -40px;
-    margin-left: 0;
+  width: 0;
+  height: 0;
+  margin-right: -40px;
+  margin-left: 0;
 }
 
 .card {
-    overflow: visible;
+  overflow: visible;
 }
 
 .bg-light {
-    background-color: #f8f9fa !important;
+  background-color: #f8f9fa !important;
 }
 
 
 .about-page {
-    .bg-features {
-        .logo {
-            color: #f1f1f1 !important;
-        }
+  .bg-features {
+    .logo {
+      color: #f1f1f1 !important;
     }
+  }
 }

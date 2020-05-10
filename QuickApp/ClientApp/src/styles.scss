@@ -15,62 +15,124 @@ body, html {
   font-size: 0.875rem;
 }
 
-.has-feedback-icon {
-  position: relative;
-
-  .form-control:not(.bootstrap-select) {
-    padding-right: $input-height;
-  }
-}
-
-input.form-control.left-status, textarea.form-control.left-status, .bootstrap-select.left-status > .dropdown-toggle {
+input.form-control.left-status,
+textarea.form-control.left-status,
+.ng-select.form-control.left-status {
   border-left-width: 5px;
 }
 
-.is-invalid .form-control-feedback,
-.is-invalid ~ .form-control-feedback {
-  color: theme-color("danger");
-}
-
-.is-valid .form-control-feedback,
-.is-valid ~ .form-control-feedback {
-  color: theme-color("success");
-}
-
-.ng-valid[required], .ng-valid.required {
-  border-left: 5px solid theme-color("success");
+.ng-valid[required],
+.ng-valid.required {
+  border-left: 5px solid $form-feedback-valid-color;
 }
 
 .ng-invalid:not(form) {
-  border-left: 5px solid theme-color("danger");
+  border-left: 5px solid $form-feedback-invalid-color;
 }
 
-.bootstrap-select > .dropdown-toggle.ng-valid.required,
-.bootstrap-select > .dropdown-toggle.ng-valid[required] {
-  border-left: 5px solid theme-color("success");
+.is-valid {
+  .ng-select.form-control {
+    border-color: $form-feedback-valid-color;
+
+    &.ng-select-focused {
+      border-color: $form-feedback-valid-color;
+      box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-valid-color, .25);
+    }
+
+    padding-right: $input-height-inner;
+    background-image: escape-svg($form-feedback-icon-valid);
+    background-repeat: no-repeat;
+    background-position: right $input-height-inner-quarter center;
+    background-size: $input-height-inner-half $input-height-inner-half;
+  }
 }
 
-.bootstrap-select > .dropdown-toggle.ng-invalid {
-  border-left: 5px solid theme-color("danger");
+.is-invalid {
+  .ng-select.form-control {
+    border-color: $form-feedback-invalid-color;
+
+    &.ng-select-focused {
+      border-color: $form-feedback-invalid-color;
+      box-shadow: 0 0 0 $input-focus-width rgba($form-feedback-invalid-color, .25);
+    }
+
+    padding-right: $input-height-inner;
+    background-image: escape-svg($form-feedback-icon-invalid);
+    background-repeat: no-repeat;
+    background-position: right $input-height-inner-quarter center;
+    background-size: $input-height-inner-half $input-height-inner-half;
+  }
 }
 
-.is-valid .bootstrap-select .dropdown-toggle,
-.success .bootstrap-select .dropdown-toggle {
-  border-color: theme-color("success");
+.ng-select {
+  &.form-control {
+    padding: 0;
+    height: unset !important;
+    min-height: $input-height;
+
+    .ng-select-container {
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    &.ng-select-focused {
+      color: $input-focus-color;
+      background-color: $input-focus-bg;
+      border-color: $input-focus-border-color;
+      outline: 0;
+      // Avoid using mixin so we can pass custom focus shadow properly
+      @if $enable-shadows {
+        box-shadow: $input-box-shadow, $input-focus-box-shadow;
+      }
+      @else {
+        box-shadow: $input-focus-box-shadow;
+      }
+    }
+  }
 }
 
-.is-invalid .bootstrap-select .dropdown-toggle,
-.error .bootstrap-select .dropdown-toggle {
-  border-color: theme-color("danger");
-}
+.ng-select {
+  &.pill-items {
+    .ng-value-container .ng-value {
+      background-color: inherit !important;
+    }
 
-.theme-picker .theme-item {
-  font-weight: 700;
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  border-radius: 5px;
+    .ng-value-icon.right {
+      border-left: none !important;
+      padding: 1px 0 1px 3px !important;
+      font-weight: lighter
+    }
+
+    .ng-value-icon:hover {
+      background-color: inherit !important;
+      font-weight: bold;
+    }
+
+    .ng-option {
+      .badge-pill {
+        max-width: 95%;
+      }
+    }
+
+    .ng-option-selected {
+      .fa.fa-check {
+        position: absolute;
+        right: 15px;
+        display: inline-block !important;
+      }
+    }
+  }
+
+  &.theme-picker {
+    .theme-item {
+      text-align: center;
+    }
+
+    .ng-select-container .ng-value-container,
+    .ng-select-container .ng-value-container .ng-value {
+      width: 100%;
+    }
+  }
 }
 
 .dropdown-toggle.btn-light {
@@ -78,14 +140,9 @@ input.form-control.left-status, textarea.form-control.left-status, .bootstrap-se
   border-color: #ccc;
 }
 
-.bootstrap-select .dropdown-menu li a span.text {
-  width: 100%;
-}
-
 .app-component .navbar .popover {
   min-width: 500px;
 }
-
 
 .modal.login-control {
   .modal-content {
@@ -96,19 +153,6 @@ input.form-control.left-status, textarea.form-control.left-status, .bootstrap-se
       padding: 0;
     }
   }
-}
-
-.form-control-feedback {
-  position: absolute;
-  top: 0;
-  right: 1rem;
-  z-index: 2;
-  display: block;
-  width: $input-height;
-  height: $input-height;
-  line-height: $input-height;
-  text-align: center;
-  pointer-events: none;
 }
 
 .nav > li > a:hover,
@@ -169,8 +213,6 @@ i.page-caption {
   display: inline-block;
   overflow: auto;
 }
-
-
 ///*-webkit-filter: blur(5px) grayscale(90%);*/
 ///*body.modal-open .container {
 //    -webkit-filter: blur(1px);
@@ -186,7 +228,6 @@ i.page-caption {
   display: flex;
   align-items: center;
 }
-
 ///*Hack stop get ngx-datatable width to be full when inside bootstrap tab control*/
 //.tab-pane .datatable-scroll {
 //    width: 100% !important;

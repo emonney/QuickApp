@@ -2,7 +2,7 @@
   <div class="row control-box">
     <div class="col-lg-8">
       <div class="form-group search-box">
-        <search-box (searchChange)="onSearchChanged($event)" placeholder="{{'roles.management.Search' | translate}}">></search-box>
+        <app-search-box (searchChange)="onSearchChanged($event)" placeholder="{{'roles.management.Search' | translate}}">></app-search-box>
       </div>
     </div>
     <div class="col-lg-4 pr-lg-5">
@@ -51,7 +51,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <role-editor #roleEditor></role-editor>
+          <app-role-editor #roleEditor></app-role-editor>
         </div>
       </div>
     </div>

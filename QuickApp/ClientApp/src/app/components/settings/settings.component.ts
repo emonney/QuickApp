@@ -14,7 +14,7 @@ import { Permission } from '../../models/permission.model';
 
 
 @Component({
-  selector: 'settings',
+  selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
   animations: [fadeInOut]
@@ -75,17 +75,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
       fragment2 = '';
     }
 
-    return fragment1.toLowerCase() == fragment2.toLowerCase();
+    return fragment1.toLowerCase() === fragment2.toLowerCase();
   }
 
 
   onShowTab(event) {
     const activeTab = event.target.hash.split('#', 2).pop();
 
-    this.isProfileActivated = activeTab == this.profileTab;
-    this.isPreferencesActivated = activeTab == this.preferencesTab;
-    this.isUsersActivated = activeTab == this.usersTab;
-    this.isRolesActivated = activeTab == this.rolesTab;
+    this.isProfileActivated = activeTab === this.profileTab;
+    this.isPreferencesActivated = activeTab === this.preferencesTab;
+    this.isUsersActivated = activeTab === this.usersTab;
+    this.isRolesActivated = activeTab === this.rolesTab;
 
     this.router.navigate([], { fragment: activeTab });
   }

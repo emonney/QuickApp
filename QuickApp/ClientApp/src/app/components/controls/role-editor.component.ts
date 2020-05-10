@@ -12,7 +12,7 @@ import { Permission } from '../../models/permission.model';
 
 
 @Component({
-  selector: 'role-editor',
+  selector: 'app-role-editor',
   templateUrl: './role-editor.component.html',
   styleUrls: ['./role-editor.component.scss']
 })
@@ -33,7 +33,7 @@ export class RoleEditorComponent {
   public changesCancelledCallback: () => void;
 
 
-  @ViewChild('f', { static: false })
+  @ViewChild('f')
   private form;
 
 
@@ -84,7 +84,7 @@ export class RoleEditorComponent {
     this.resetForm();
 
 
-    if (!this.isNewRole && this.accountService.currentUser.roles.some(r => r == this.editingRoleName)) {
+    if (!this.isNewRole && this.accountService.currentUser.roles.some(r => r === this.editingRoleName)) {
       this.refreshLoggedInUser();
     }
 
@@ -147,12 +147,12 @@ export class RoleEditorComponent {
     let firstMemberValue: boolean;
 
     this.allPermissions.forEach(p => {
-      if (p.groupName != groupName) {
+      if (p.groupName !== groupName) {
         return;
       }
 
       if (firstMemberValue == null) {
-        firstMemberValue = this.selectedValues[p.value] == true;
+        firstMemberValue = this.selectedValues[p.value] === true;
       }
 
       this.selectedValues[p.value] = !firstMemberValue;
@@ -161,7 +161,7 @@ export class RoleEditorComponent {
 
 
   private getSelectedPermissions() {
-    return this.allPermissions.filter(p => this.selectedValues[p.value] == true);
+    return this.allPermissions.filter(p => this.selectedValues[p.value] === true);
   }
 
 

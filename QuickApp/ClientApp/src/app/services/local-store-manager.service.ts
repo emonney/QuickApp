@@ -10,8 +10,8 @@ import { Utilities } from './utilities';
 
 @Injectable()
 /**
-* Provides a wrapper for accessing the web storage API and synchronizing session storage across tabs/windows.
-*/
+ * Provides a wrapper for accessing the web storage API and synchronizing session storage across tabs/windows.
+ */
 export class LocalStoreManager {
   private static syncListenerInitialised = false;
 
@@ -34,7 +34,7 @@ export class LocalStoreManager {
 
 
   public initialiseStorageSyncListener() {
-    if (LocalStoreManager.syncListenerInitialised == true) {
+    if (LocalStoreManager.syncListenerInitialised === true) {
       return;
     }
 
@@ -179,12 +179,12 @@ export class LocalStoreManager {
       return;
     }
 
-    if (event.key == 'getSessionStorage') {
+    if (event.key === 'getSessionStorage') {
       if (sessionStorage.length) {
         this.localStorageSetItem('setSessionStorage', sessionStorage);
         localStorage.removeItem('setSessionStorage');
       }
-    } else if (event.key == 'setSessionStorage') {
+    } else if (event.key === 'setSessionStorage') {
 
       if (!this.syncKeys.length) {
         this.loadSyncKeys();
@@ -200,21 +200,21 @@ export class LocalStoreManager {
       }
 
       this.onInit();
-    } else if (event.key == 'addToSessionStorage') {
+    } else if (event.key === 'addToSessionStorage') {
 
       const data = JSON.parse(event.newValue);
 
       // console.warn("Set => Key: Transfer addToSessionStorage" + ",  data: " + JSON.stringify(data));
 
       this.addToSessionStorageHelper(data.data, data.key);
-    } else if (event.key == 'removeFromSessionStorage') {
+    } else if (event.key === 'removeFromSessionStorage') {
 
       this.removeFromSessionStorageHelper(event.newValue);
-    } else if (event.key == 'clearAllSessionsStorage' && sessionStorage.length) {
+    } else if (event.key === 'clearAllSessionsStorage' && sessionStorage.length) {
       this.clearInstanceSessionStorage();
-    } else if (event.key == 'addToSyncKeys') {
+    } else if (event.key === 'addToSyncKeys') {
       this.addToSyncKeysHelper(event.newValue);
-    } else if (event.key == 'removeFromSyncKeys') {
+    } else if (event.key === 'removeFromSyncKeys') {
       this.removeFromSyncKeysHelper(event.newValue);
     }
   }
@@ -256,14 +256,14 @@ export class LocalStoreManager {
       throw new Error('key cannot be empty');
     }
 
-    if (this.reservedKeys.some(x => x == key)) {
+    if (this.reservedKeys.some(x => x === key)) {
       throw new Error(`The storage key "${key}" is reserved and cannot be used. Please use a different key`);
     }
   }
 
   private syncKeysContains(key: string) {
 
-    return this.syncKeys.some(x => x == key);
+    return this.syncKeys.some(x => x === key);
   }
 
   private loadSyncKeys() {
@@ -295,7 +295,7 @@ export class LocalStoreManager {
   private addToSyncKeysBackup(key: string) {
     const storedSyncKeys = this.getSyncKeysFromStorage();
 
-    if (!storedSyncKeys.some(x => x == key)) {
+    if (!storedSyncKeys.some(x => x === key)) {
       storedSyncKeys.push(key);
       this.localStorageSetItem(LocalStoreManager.DBKEY_SYNC_KEYS, storedSyncKeys);
     }

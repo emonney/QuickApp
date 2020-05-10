@@ -27,7 +27,7 @@ const alertify: any = require('../assets/scripts/alertify.js');
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, AfterViewInit {
+export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   isAppLoaded: boolean;
   isUserLoggedIn: boolean;
@@ -35,7 +35,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   removePrebootScreen: boolean;
   newNotificationCount = 0;
   appTitle = 'QuickApp';
-  appLogo = require('../assets/images/logo-white.png');
 
   stickyToasties: number[] = [];
 
@@ -48,7 +47,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   loginModal: ModalDirective;
   loginControl: LoginComponent;
 
-  gT = (key: string | Array<string>, interpolateParams?: Object) => this.translationService.getTranslation(key, interpolateParams);
+  gT = (key: string | Array<string>, interpolateParams?: object) => this.translationService.getTranslation(key, interpolateParams);
 
   get notificationsTitle() {
     if (this.newNotificationCount) {
@@ -268,7 +267,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   showToast(alert: AlertCommand) {
 
-    if (alert.operation == 'clear') {
+    if (alert.operation === 'clear') {
       for (const id of this.stickyToasties.slice(0)) {
         this.toastaService.clear(id);
       }
@@ -282,7 +281,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     };
 
 
-    if (alert.operation == 'add_sticky') {
+    if (alert.operation === 'add_sticky') {
       toastOptions.timeout = 0;
 
       toastOptions.onAdd = (toast: ToastData) => {

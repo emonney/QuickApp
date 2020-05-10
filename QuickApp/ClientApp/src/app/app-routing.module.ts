@@ -3,7 +3,7 @@
 // www.ebenmonney.com/templates
 // =============================
 
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { Routes, RouterModule, DefaultUrlSerializer, UrlSerializer, UrlTree } from '@angular/router';
 
 import { LoginComponent } from './components/login/login.component';
@@ -20,6 +20,7 @@ import { Utilities } from './services/utilities';
 
 
 
+@Injectable()
 export class LowerCaseUrlSerializer extends DefaultUrlSerializer {
     parse(url: string): UrlTree {
         const possibleSeparators = /[?;#]/;

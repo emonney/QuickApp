@@ -40,7 +40,7 @@ export class EndpointBase {
   }
 
   protected handleError(error, continuation: () => Observable<any>) {
-    if (error.status == 401) {
+    if (error.status === 401) {
       if (this.isRefreshingLogin) {
         return this.pauseTask(continuation);
       }
@@ -59,7 +59,7 @@ export class EndpointBase {
           this.resumeTasks(false);
           this.authService.reLogin();
 
-          if (refreshLoginError.status == 401 || (refreshLoginError.error && refreshLoginError.error.error == 'invalid_grant')) {
+          if (refreshLoginError.status === 401 || (refreshLoginError.error && refreshLoginError.error.error === 'invalid_grant')) {
             return throwError('session expired');
           } else {
             return throwError(refreshLoginError || 'server error');
@@ -67,7 +67,7 @@ export class EndpointBase {
         }));
     }
 
-    if (error.error && error.error.error == 'invalid_grant') {
+    if (error.error && error.error.error === 'invalid_grant') {
       this.authService.reLogin();
 
       return throwError((error.error && error.error.error_description) ? `session expired (${error.error.error_description})` : 'session expired');

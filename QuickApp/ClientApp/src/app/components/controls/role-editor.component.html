@@ -5,12 +5,11 @@
 
     <div class="row">
       <div class="col-sm-5">
-        <div class="form-group row has-feedback-icon">
+        <div class="form-group row">
           <label class="col-form-label col-md-3" for="roleName">{{'roles.editor.Name' | translate}}</label>
           <div class="col-md-9">
             <input [disabled]="!canManageRoles" type="text" id="roleName" name="roleName" placeholder="Enter role name" class="form-control"
                    [ngClass]="{'is-valid': f.submitted && roleName.valid, 'is-invalid' : f.submitted && !roleName.valid}" [(ngModel)]="roleEdit.name" #roleName="ngModel" required minlength="2" maxlength="200" />
-            <i *ngIf="showValidationErrors && f.submitted" class="fa form-control-feedback" [ngClass]="{'fa-check': roleName.valid, 'fa-times' : !roleName.valid}" aria-hidden="true"></i>
           </div>
         </div>
       </div>

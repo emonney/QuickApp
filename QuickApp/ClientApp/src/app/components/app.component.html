@@ -4,7 +4,7 @@
   <nav id="header" class="app-component navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
     <div class="container">
       <a ngPreserveWhitespaces class="app-component navbar-brand" routerLink="/">
-        <img [src]="appLogo" class="d-inline-block align-top" alt="logo">
+        <img src="assets/images/logo-white.png" class="d-inline-block align-top" alt="logo">
         <span class="app-component appTitle">{{appTitle}}</span>
       </a>
       <button type="button" class="app-component navbar-toggler" data-toggle="collapse" data-target=".menuItemsContainer.app-component">
@@ -40,7 +40,7 @@
           <span *ngIf="newNotificationCount > 0" class="badge badge-pill badge-secondary">{{newNotificationCount}}</span>
         </a>
         <ng-template #popTemplate>
-          <notifications-viewer [isViewOnly]="true"></notifications-viewer>
+          <app-notifications-viewer [isViewOnly]="true"></app-notifications-viewer>
         </ng-template>
         <span class="app-component navbar-text">, </span>
         <ul class="app-component nav nav-pills ml-lg-2 flex-column flex-lg-row">

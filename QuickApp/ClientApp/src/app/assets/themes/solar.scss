@@ -6,52 +6,40 @@
 
 @import "app-theme";
 
-
-.bootstrap-select {
-    .dropdown-toggle.btn-light {
-        background-color: $input-bg;
-    }
-
-    & > .dropdown-menu > .dropdown-menu li a {
-        color: $body-color;
-    }
-}
-
-
 .ngx-datatable.material {
-    &.table-striped {
-        .datatable-row-even {
-            background: $dark;
-        }
+  &.table-striped {
+    .datatable-row-even {
+      background: $dark;
     }
+  }
 }
 
 
 .dropdown-menu {
-    border-color: $body-color;
+  border-color: $body-color;
 }
 
 
 .popover-header {
-    color: $body-color;
+  color: $body-color;
 }
 
 
 .bg-light {
-    background-color: #04272f !important;
+  background-color: #04272f !important;
 }
 
 
 .app-component {
-    footer {
-        background-color: #073642 !important;
-    }
+  footer {
+    background-color: #073642 !important;
+  }
 }
 
 .about-page {
-    .bg-features {
-        .logo {
-            color: #073642 !important;
-        }
+  .bg-features {
+    .logo {
+      color: #073642 !important;
     }
+  }
 }

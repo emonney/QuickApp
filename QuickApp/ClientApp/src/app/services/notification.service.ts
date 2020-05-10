@@ -100,7 +100,7 @@ export class NotificationService {
     if (typeof notificationOrNotificationId === 'number' || notificationOrNotificationId instanceof Number) { // Todo: Test me if its check is valid
       return this.notificationEndpoint.getDeleteNotificationEndpoint(notificationOrNotificationId as number).pipe(
         map(response => {
-          this.recentNotifications = this.recentNotifications.filter(n => n.id != notificationOrNotificationId);
+          this.recentNotifications = this.recentNotifications.filter(n => n.id !== notificationOrNotificationId);
           return Notification.Create(response);
         }));
     } else {
@@ -128,7 +128,9 @@ export class NotificationService {
     const notifications: Notification[] = [];
 
     for (const i in response) {
-      notifications[i] = Notification.Create(response[i]);
+      if (response.hasOwnProperty(i)) {
+        notifications[i] = Notification.Create(response[i]);
+      }
     }
 
     notifications.sort((a, b) => b.date.valueOf() - a.date.valueOf());

@@ -8,30 +8,30 @@
 
 
 .bg-light {
-    background-color: $primary !important;
+  background-color: $primary !important;
 }
 
 
 .ngx-datatable.material.table-striped {
-    .datatable-row-even {
-        background: $gray-700;
-    }
+  .datatable-row-even {
+    background: $gray-700;
+  }
 }
 
 
 .app-component {
-    .navbar {
+  .navbar {
 
-        a.user-name {
-            border: none;
-        }
-
-        .popover-header {
-            color: $body-color !important;
-        }
+    a.user-name {
+      border: none;
     }
 
-    footer {
-        background-color: $primary !important;
+    .popover-header {
+      color: $body-color !important;
     }
+  }
+
+  footer {
+    background-color: $primary !important;
+  }
 }

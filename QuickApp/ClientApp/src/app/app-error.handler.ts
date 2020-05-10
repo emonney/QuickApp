@@ -26,7 +26,7 @@ export class AppErrorHandler extends ErrorHandler {
         // this.alertService.showStickyMessage("Unhandled Error", error.message || error, MessageSeverity.error, error);
 
         if (confirm('Fatal Error!\nAn unresolved error has occured. Do you want to reload the page to correct this?\n\nError: ' + error.message)) {
-            window.location.reload(true);
+            window.location.reload();
         }
 
         super.handleError(error);
