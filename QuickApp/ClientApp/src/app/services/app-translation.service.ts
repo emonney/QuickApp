@@ -72,11 +72,9 @@ export class AppTranslationService {
     return language;
   }
 
-
   getTranslation(key: string | Array<string>, interpolateParams?: object): string | any {
     return this.translate.instant(key, interpolateParams);
   }
-
 
   getTranslationAsync(key: string | Array<string>, interpolateParams?: object): Observable<string | any> {
     return this.translate.get(key, interpolateParams);
@@ -88,9 +86,7 @@ export class AppTranslationService {
 export class TranslateLanguageLoader implements TranslateLoader {
 
   public getTranslation(lang: string): any {
-
     // Note Dynamic require(variable) will not work. Require is always at compile time
-
     switch (lang) {
       case 'en':
         return of(require('../assets/locale/en.json'));

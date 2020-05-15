@@ -9,7 +9,7 @@ import { Subscription, fromEvent } from 'rxjs';
 
 declare var $: any;
 
-interface EventArg { type: string; target: Element; relatedTarget: Element }
+interface EventArg { type: string; target: Element; relatedTarget: Element; }
 
 @Directive({
   selector: '[appBootstrapTab]',

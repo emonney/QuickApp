@@ -21,7 +21,7 @@
     <label for="language" class="col-sm-3 col-form-label">{{'preferences.Language' | translate}} </label>
     <div class="col-sm-4">
       <ng-select id="language" [(ngModel)]="configurations.language" [searchable]="false" [clearable]="false" class="form-control">
-        <ng-option [value]="'en'">{{'preferences.English' | translate}} <small class="text-muted">({{'preferences.Default' | translate}})</small></ng-option>
+        <ng-option [value]="'en'">{{'preferences.English' | translate}} <small class="text-muted"><i>({{'preferences.Default' | translate}})</i></small></ng-option>
         <ng-option [value]="'fr'">{{'preferences.French' | translate}}</ng-option>
         <ng-option [value]="'de'">{{'preferences.German' | translate}}</ng-option>
         <ng-option [value]="'pt'">{{'preferences.Portuguese' | translate}}</ng-option>
@@ -44,7 +44,7 @@
     <label for="homePage" class="col-sm-3 col-form-label">{{'preferences.HomePage' | translate}} </label>
     <div class="col-sm-4">
       <ng-select id="homePage" [(ngModel)]="configurations.homeUrl" [searchable]="false" [clearable]="false" class="form-control">
-        <ng-option [value]="'/'"><i class=" fa fa-tachometer"></i> {{'preferences.Dashboard' | translate}} <small class="text-muted">({{'preferences.Default' | translate}})</small></ng-option>
+        <ng-option [value]="'/'"><i class=" fa fa-tachometer"></i> {{'preferences.Dashboard' | translate}} <small class="text-muted"><i>({{'preferences.Default' | translate}})</i></small></ng-option>
         <ng-option [value]="'/customers'" *ngIf="canViewCustomers"><i class=" fa fa-handshake-o"></i> {{'preferences.Customers' | translate}}</ng-option>
         <ng-option [value]="'/products'" *ngIf="canViewProducts"><i class=" fa fa-truck"></i> {{'preferences.Products' | translate}}</ng-option>
         <ng-option [value]="'/orders'" *ngIf="canViewOrders"><i class=" fa fa-shopping-cart"></i> {{'preferences.Orders' | translate}}</ng-option>

@@ -32,7 +32,6 @@ export class LocalStoreManager {
       'clearAllSessionsStorage'
     ];
 
-
   public initialiseStorageSyncListener() {
     if (LocalStoreManager.syncListenerInitialised === true) {
       return;

@@ -10,8 +10,6 @@ import { Observable, Subject } from 'rxjs';
 
 import { Utilities } from '../services/utilities';
 
-
-
 @Injectable()
 export class AlertService {
   private messages = new Subject<AlertCommand>();
@@ -33,14 +31,11 @@ export class AlertService {
     this.dialogs.next({ message, type, okCallback, cancelCallback, okLabel, cancelLabel, defaultValue });
   }
 
-
-
   showMessage(summary: string);
   showMessage(summary: string, detail: string, severity: MessageSeverity);
   showMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity);
   showMessage(response: HttpResponseBase, ignoreValueUseNull: string, severity: MessageSeverity);
   showMessage(data: any, separatorOrDetail?: string, severity?: MessageSeverity) {
-
     if (!severity) {
       severity = MessageSeverity.default;
     }
@@ -61,7 +56,6 @@ export class AlertService {
     }
   }
 
-
   showStickyMessage(summary: string);
   showStickyMessage(summary: string, detail: string, severity: MessageSeverity, error?: any);
   showStickyMessage(summary: string, detail: string, severity: MessageSeverity, error?: any, onRemove?: () => any);
@@ -78,7 +72,6 @@ export class AlertService {
       separatorOrDetail = Utilities.captionAndMessageSeparator;
     }
 
-
     if (data instanceof Array) {
       for (const message of data) {
         const msgObject = Utilities.splitInTwo(message, separatorOrDetail);
@@ -86,9 +79,7 @@ export class AlertService {
         this.showMessageHelper(msgObject.firstPart, msgObject.secondPart, severity, true);
       }
     } else {
-
       if (error) {
-
         const msg = `Severity: "${MessageSeverity[severity]}", Summary: "${data}", Detail: "${separatorOrDetail}", Error: "${Utilities.safeStringify(error)}"`;
 
         switch (severity) {

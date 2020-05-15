@@ -11,46 +11,44 @@ import { Title } from '@angular/platform-browser';
 
 import { Utilities } from './utilities';
 
-
 @Injectable()
 export class AppTitleService {
+  sub: Subscription;
+  appName: string;
 
-    sub: Subscription;
-    appName: string;
+  constructor(private titleService: Title, private router: Router) {
+    this.sub = this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd),
+      map(_ => this.router.routerState.root),
+      map(route => {
+        while (route.firstChild) {
+          route = route.firstChild;
+        }
 
-    constructor(private titleService: Title, private router: Router) {
-        this.sub = this.router.events.pipe(
-            filter(event => event instanceof NavigationEnd),
-            map(_ => this.router.routerState.root),
-            map(route => {
-                while (route.firstChild) {
-                    route = route.firstChild;
-                }
+        return route;
+      }),
+      flatMap(route => route.data))
+      .subscribe(data => {
+        let title = data.title;
 
-                return route;
-            }),
-            flatMap(route => route.data))
-            .subscribe(data => {
-                let title = data.title;
+        if (title) {
+          const fragment = this.router.url.split('#')[1];
 
-                if (title) {
-                    const fragment = this.router.url.split('#')[1];
+          if (fragment) {
+            title += ' | ' + Utilities.toTitleCase(fragment);
+          }
+        }
 
-                    if (fragment) {
-                        title += ' | ' + Utilities.toTitleCase(fragment);
-                    }
-                }
+        if (title && this.appName) {
+          title += ' - ' + this.appName;
+        } else if (this.appName) {
+          title = this.appName;
+        }
 
-                if (title && this.appName) {
-                    title += ' - ' + this.appName;
-                } else if (this.appName) {
-                    title = this.appName;
-                     }
-
-                if (title) {
-                    this.titleService.setTitle(title);
-                }
-            });
-    }
+        if (title) {
+          this.titleService.setTitle(title);
+        }
+      });
+  }
 
 }

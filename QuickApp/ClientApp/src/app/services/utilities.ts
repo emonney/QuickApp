@@ -271,14 +271,14 @@ export class Utilities {
     }
   }
 
-    public static GetObjectWithLoweredPropertyNames(obj: any) {
-        const loweredObj = Object.keys(obj).reduce((newObj, k) => {
-            newObj[k.toLowerCase()] = obj[k];
-            return newObj;
-        }, {});
+  public static GetObjectWithLoweredPropertyNames(obj: any) {
+    const loweredObj = Object.keys(obj).reduce((newObj, k) => {
+      newObj[k.toLowerCase()] = obj[k];
+      return newObj;
+    }, {});
 
-        return loweredObj;
-    }
+    return loweredObj;
+  }
 
   public static TestIsObjectEmpty(obj: any) {
     for (const prop in obj) {

@@ -13,7 +13,6 @@ import { Notification } from '../models/notification.model';
 
 @Injectable()
 export class NotificationService {
-
   private lastNotificationDate: Date;
   private _recentNotifications: Notification[];
 
@@ -29,19 +28,15 @@ export class NotificationService {
     this._recentNotifications = notifications;
   }
 
-
-
   constructor(private notificationEndpoint: NotificationEndpoint, private authService: AuthService) {
 
   }
-
 
   getNotification(notificationId?: number) {
 
     return this.notificationEndpoint.getNotificationEndpoint(notificationId).pipe(
       map(response => Notification.Create(response)));
   }
-
 
   getNotifications(page: number, pageSize: number) {
 
@@ -51,19 +46,16 @@ export class NotificationService {
       }));
   }
 
-
   getUnreadNotifications(userId?: string) {
 
     return this.notificationEndpoint.getUnreadNotificationsEndpoint(userId).pipe(
       map(response => this.getNotificationsFromResponse(response)));
   }
 
-
   getNewNotifications() {
     return this.notificationEndpoint.getNewNotificationsEndpoint(this.lastNotificationDate).pipe(
       map(response => this.processNewNotificationsFromResponse(response)));
   }
-
 
   getNewNotificationsPeriodically() {
     return interval(10000).pipe(
@@ -74,9 +66,6 @@ export class NotificationService {
       }));
   }
 
-
-
-
   pinUnpinNotification(notificationOrNotificationId: number | Notification, isPinned?: boolean): Observable<any> {
 
     if (typeof notificationOrNotificationId === 'number' || notificationOrNotificationId instanceof Number) {
@@ -86,14 +75,10 @@ export class NotificationService {
     }
   }
 
-
   readUnreadNotification(notificationIds: number[], isRead: boolean): Observable<any> {
 
     return this.notificationEndpoint.getReadUnreadNotificationEndpoint(notificationIds, isRead);
   }
-
-
-
 
   deleteNotification(notificationOrNotificationId: number | Notification): Observable<Notification> {
 
@@ -108,9 +93,6 @@ export class NotificationService {
     }
   }
 
-
-
-
   private processNewNotificationsFromResponse(response) {
     const notifications = this.getNotificationsFromResponse(response);
 
@@ -122,7 +104,6 @@ export class NotificationService {
 
     return notifications;
   }
-
 
   private getNotificationsFromResponse(response) {
     const notifications: Notification[] = [];
