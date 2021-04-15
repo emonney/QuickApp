@@ -22,9 +22,12 @@ x64/
 x86/
 build/
 bld/
-[Bb]in/
-[Oo]bj/
-[Ll]og/
+bin/
+Bin/
+obj/
+Obj/
+log/
+Log/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -175,7 +178,7 @@ rcf/
 # Microsoft Azure ApplicationInsights config file
 ApplicationInsights.config
 
-# Windows Store app package directories and files
+# Windows Store app package directory
 AppPackages/
 BundleArtifacts/
 Package.StoreAssociation.xml
@@ -198,9 +201,7 @@ ClientBin/
 *.publishsettings
 orleans.codegen.cs
 
-# Since there are multiple workflows, uncomment next line to ignore bower_components
-# (https://github.com/github/gitignore/pull/1529#issuecomment-104372622)
-#bower_components/
+/node_modules
 
 # RIA/Silverlight projects
 Generated_Code/
@@ -264,3 +265,4 @@ __pycache__/
 *.licenseheader
 Thumbs.db
 tempkey.rsa
+tempkey.jwk

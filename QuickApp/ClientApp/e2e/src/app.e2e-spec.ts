@@ -12,8 +12,8 @@ describe('QuickApp App', () => {
     page = new AppPage();
   });
 
-  it('should display application title: QuickApp', () => {
-    page.navigateTo();
-    expect(page.getAppTitle()).toEqual('QuickApp');
+  it('should display application title: QuickApp', async () => {
+    await page.navigateTo();
+    expect(await page.getAppTitle()).toEqual('QuickApp');
   });
 });

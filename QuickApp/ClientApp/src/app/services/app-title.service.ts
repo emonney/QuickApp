@@ -4,9 +4,9 @@
 // =============================
 
 import { Injectable } from '@angular/core';
-import { Router, NavigationEnd, PRIMARY_OUTLET } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { filter, map, flatMap } from 'rxjs/operators';
+import { filter, map, mergeMap } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
 
 import { Utilities } from './utilities';
@@ -27,7 +27,7 @@ export class AppTitleService {
 
         return route;
       }),
-      flatMap(route => route.data))
+      mergeMap(route => route.data))
       .subscribe(data => {
         let title = data.title;
 

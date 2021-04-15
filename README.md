@@ -1,9 +1,9 @@
-# **QuickApp** - ASPNET Core 3.1 / Angular 9 project template
+# **QuickApp** - ASPNET Core 5 / Angular 11 project template
 [![MIT license](https://cdn.rawgit.com/emonney/tempa/7e9d69ad/MITLicense.png)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 [![VSIX Downloads](https://img.shields.io/visual-studio-marketplace/d/adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)
 [![Twitter Follow](https://img.shields.io/twitter/follow/kommand?style=social)](https://twitter.com/kommand)
 
-A startup **Angular 9 / ASP.NET Core 3.1** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
+A startup **Angular 11 / ASP.NET Core 5** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
 As well as other common functionalities for **Quick Application Development**.
 
 [FOLLOW ME](https://twitter.com/kommand) on twitter for important updates
@@ -35,8 +35,8 @@ ___
 
 ## This application consists of:
 
-*   Template pages using Angular 9 and TypeScript
-*   RESTful API Backend using ASP.NET Core 3.1 MVC Web API
+*   Template pages using Angular 11 and TypeScript
+*   RESTful API Backend using ASP.NET Core 5 MVC Web API
 *   Database using Entity Framework Core
 *   Authentication based on OpenID Connect
 *   API Documentation using Swagger
@@ -106,7 +106,7 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 *   [Overview of QuickApp](https://www.ebenmonney.com/quickapp)
 *   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
 *   [Working with Data](https://docs.microsoft.com/en-us/ef/#pivot=efcore)
-*   [Angular 9 documentation overview](https://angular.io/guide/quickstart)
+*   [Angular 11 documentation overview](https://angular.io/guide/quickstart)
 *   [Getting started with Angular CLI](https://cli.angular.io)
 *   [Introduction to Bootstrap 4](https://getbootstrap.com/docs/4.1/getting-started/introduction)
 

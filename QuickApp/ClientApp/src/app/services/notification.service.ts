@@ -5,7 +5,7 @@
 
 import { Injectable } from '@angular/core';
 import { Observable, interval } from 'rxjs';
-import { map, flatMap, startWith } from 'rxjs/operators';
+import { map, mergeMap, startWith } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 import { NotificationEndpoint } from './notification-endpoint.service';
@@ -60,7 +60,7 @@ export class NotificationService {
   getNewNotificationsPeriodically() {
     return interval(10000).pipe(
       startWith(0),
-      flatMap(() => {
+      mergeMap(() => {
         return this.notificationEndpoint.getNewNotificationsEndpoint(this.lastNotificationDate).pipe(
           map(response => this.processNewNotificationsFromResponse(response)));
       }));

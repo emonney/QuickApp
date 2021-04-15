@@ -32,12 +32,12 @@ namespace QuickApp
             };
         }
 
-        // Api resources.
-        public static IEnumerable<ApiResource> GetApiResources()
+        // Api scopes.
+        public static IEnumerable<ApiScope> GetApiScopes()
         {
-            return new List<ApiResource>
+            return new List<ApiScope>
             {
-                new ApiResource(ApiName) {
+                new ApiScope(ApiName, ApiFriendlyName) {
                     UserClaims = {
                         JwtClaimTypes.Name,
                         JwtClaimTypes.Email,
@@ -45,6 +45,17 @@ namespace QuickApp
                         JwtClaimTypes.Role,
                         ClaimConstants.Permission
                     }
+                }
+            };
+        }
+
+        // Api resources (Needed for audience to be set on token).
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource(ApiName) {
+                    Scopes = { ApiName }
                 }
             };
         }

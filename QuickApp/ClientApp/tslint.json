@@ -1,5 +1,8 @@
 {
   "extends": "tslint:recommended",
+  "rulesDirectory": [
+    "codelyzer"
+  ],
   "rules": {
     "align": {
       "options": [
@@ -13,21 +16,6 @@
     "deprecation": {
       "severity": "warning"
     },
-    "component-class-suffix": true,
-    "contextual-lifecycle": true,
-    "directive-class-suffix": true,
-    "directive-selector": [
-      true,
-      "attribute",
-      "app",
-      "camelCase"
-    ],
-    "component-selector": [
-      true,
-      "element",
-      "app",
-      "kebab-case"
-    ],
     "eofline": true,
     "import-blacklist": [
       true,
@@ -40,7 +28,9 @@
       ]
     },
     "max-classes-per-file": false,
-    "max-line-length": [ false ],
+    "max-line-length": [
+      false
+    ],
     "member-ordering": [
       true,
       {
@@ -91,6 +81,10 @@
         "named": "never"
       }
     },
+    "typedef": [
+      false,
+      "call-signature"
+    ],
     "typedef-whitespace": {
       "options": [
         {
@@ -127,6 +121,9 @@
         "check-typecast"
       ]
     },
+    "component-class-suffix": true,
+    "contextual-lifecycle": true,
+    "directive-class-suffix": true,
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,
     "no-input-rename": true,
@@ -139,9 +136,18 @@
     "template-no-negated-async": true,
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
-    "unified-signatures": false
-  },
-  "rulesDirectory": [
-    "codelyzer"
-  ]
+    "unified-signatures": false,
+    "directive-selector": [
+      true,
+      "attribute",
+      "app",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "app",
+      "kebab-case"
+    ]
+  }
 }
