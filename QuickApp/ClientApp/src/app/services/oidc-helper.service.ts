@@ -17,7 +17,6 @@ import { LoginResponse } from '../models/login-response.model';
 @Injectable()
 export class OidcHelperService {
 
-    private get baseUrl() { return this.configurations.baseUrl; }
     private clientId = 'quickapp_spa';
     private scope = 'openid email phone profile offline_access roles quickapp_api';
 
@@ -39,7 +38,7 @@ export class OidcHelperService {
             .append('grant_type', 'password')
             .append('scope', this.scope);
 
-        this.oauthService.issuer = this.baseUrl;
+        this.oauthService.issuer = this.configurations.tokenUrl;
 
         return from(this.oauthService.loadDiscoveryDocument())
             .pipe(mergeMap(() => {
@@ -54,7 +53,7 @@ export class OidcHelperService {
             .append('client_id', this.clientId)
             .append('grant_type', 'refresh_token');
 
-        this.oauthService.issuer = this.baseUrl;
+        this.oauthService.issuer = this.configurations.tokenUrl;
 
         return from(this.oauthService.loadDiscoveryDocument())
             .pipe(mergeMap(() => {
