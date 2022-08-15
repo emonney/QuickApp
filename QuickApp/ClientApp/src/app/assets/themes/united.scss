@@ -1,7 +1,7 @@
 @import '../styles/custom-vendor';
 
-@import '../../../../node_modules/bootswatch/dist/united/variables';
-@import '../../../../node_modules/bootstrap/scss/bootstrap';
-@import '../../../../node_modules/bootswatch/dist/united/bootswatch';
+@import 'bootswatch/dist/united/variables';
+@import 'bootstrap/scss/bootstrap';
+@import 'bootswatch/dist/united/bootswatch';
 
 @import "app-theme";

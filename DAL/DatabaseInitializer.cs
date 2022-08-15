@@ -24,12 +24,11 @@ namespace DAL
 
 
 
-
     public class DatabaseInitializer : IDatabaseInitializer
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IAccountManager _accountManager;
-        private readonly ILogger _logger;
+        readonly ApplicationDbContext _context;
+        readonly IAccountManager _accountManager;
+        readonly ILogger _logger;
 
         public DatabaseInitializer(ApplicationDbContext context, IAccountManager accountManager, ILogger<DatabaseInitializer> logger)
         {
@@ -41,7 +40,12 @@ namespace DAL
         public async Task SeedAsync()
         {
             await _context.Database.MigrateAsync().ConfigureAwait(false);
+            await SeedDefaultUsersAsync();
+            await SeedDemoDataAsync();
+        }
 
+        private async Task SeedDefaultUsersAsync()
+        {
             if (!await _context.Users.AnyAsync())
             {
                 _logger.LogInformation("Generating inbuilt accounts");
@@ -57,12 +61,50 @@ namespace DAL
 
                 _logger.LogInformation("Inbuilt account generation completed");
             }
+        }
 
+        private async Task EnsureRoleAsync(string roleName, string description, string[] claims)
+        {
+            if ((await _accountManager.GetRoleByNameAsync(roleName)) == null)
+            {
+                _logger.LogInformation($"Generating default role: {roleName}");
 
+                ApplicationRole applicationRole = new ApplicationRole(roleName, description);
 
+                var result = await this._accountManager.CreateRoleAsync(applicationRole, claims);
+
+                if (!result.Succeeded)
+                    throw new Exception($"Seeding \"{description}\" role failed. Errors: {string.Join(Environment.NewLine, result.Errors)}");
+            }
+        }
+
+        private async Task<ApplicationUser> CreateUserAsync(string userName, string password, string fullName, string email, string phoneNumber, string[] roles)
+        {
+            _logger.LogInformation($"Generating default user: {userName}");
+
+            ApplicationUser applicationUser = new ApplicationUser
+            {
+                UserName = userName,
+                FullName = fullName,
+                Email = email,
+                PhoneNumber = phoneNumber,
+                EmailConfirmed = true,
+                IsEnabled = true
+            };
+
+            var result = await _accountManager.CreateUserAsync(applicationUser, roles, password);
+
+            if (!result.Succeeded)
+                throw new Exception($"Seeding \"{userName}\" user failed. Errors: {string.Join(Environment.NewLine, result.Errors)}");
+
+            return applicationUser;
+        }
+
+        private async Task SeedDemoDataAsync()
+        {
             if (!await _context.Customers.AnyAsync() && !await _context.ProductCategories.AnyAsync())
             {
-                _logger.LogInformation("Seeding initial data");
+                _logger.LogInformation("Seeding demo data");
 
                 Customer cust_1 = new Customer
                 {
@@ -154,7 +196,7 @@ namespace DAL
                 Order ordr_1 = new Order
                 {
                     Discount = 500,
-                    Cashier = await _context.Users.FirstAsync(),
+                    Cashier = await _context.Users.OrderBy(u => u.UserName).FirstAsync(),
                     Customer = cust_1,
                     DateCreated = DateTime.UtcNow,
                     DateModified = DateTime.UtcNow,
@@ -167,7 +209,7 @@ namespace DAL
 
                 Order ordr_2 = new Order
                 {
-                    Cashier = await _context.Users.FirstAsync(),
+                    Cashier = await _context.Users.OrderBy(u => u.UserName).FirstAsync(),
                     Customer = cust_2,
                     DateCreated = DateTime.UtcNow,
                     DateModified = DateTime.UtcNow,
@@ -191,44 +233,9 @@ namespace DAL
 
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Seeding initial data completed");
+                _logger.LogInformation("Seeding demo data completed");
             }
         }
 
-
-
-        private async Task EnsureRoleAsync(string roleName, string description, string[] claims)
-        {
-            if ((await _accountManager.GetRoleByNameAsync(roleName)) == null)
-            {
-                ApplicationRole applicationRole = new ApplicationRole(roleName, description);
-
-                var result = await this._accountManager.CreateRoleAsync(applicationRole, claims);
-
-                if (!result.Succeeded)
-                    throw new Exception($"Seeding \"{description}\" role failed. Errors: {string.Join(Environment.NewLine, result.Errors)}");
-            }
-        }
-
-        private async Task<ApplicationUser> CreateUserAsync(string userName, string password, string fullName, string email, string phoneNumber, string[] roles)
-        {
-            ApplicationUser applicationUser = new ApplicationUser
-            {
-                UserName = userName,
-                FullName = fullName,
-                Email = email,
-                PhoneNumber = phoneNumber,
-                EmailConfirmed = true,
-                IsEnabled = true
-            };
-
-            var result = await _accountManager.CreateUserAsync(applicationUser, roles, password);
-
-            if (!result.Succeeded)
-                throw new Exception($"Seeding \"{userName}\" user failed. Errors: {string.Join(Environment.NewLine, result.Errors)}");
-
-
-            return applicationUser;
-        }
     }
 }

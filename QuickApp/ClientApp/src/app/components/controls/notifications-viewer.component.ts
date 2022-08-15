@@ -53,7 +53,8 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
   @ViewChild('actionsTemplate', { static: true })
   actionsTemplate: TemplateRef<any>;
 
-  constructor(private alertService: AlertService, private translationService: AppTranslationService, private accountService: AccountService, private notificationService: NotificationService) {
+  constructor(private alertService: AlertService, private translationService: AppTranslationService,
+    private accountService: AccountService, private notificationService: NotificationService) {
   }
 
 
@@ -61,7 +62,6 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
 
     if (this.isViewOnly) {
       this.columns = [
-        { prop: 'date', cellTemplate: this.dateTemplate, width: 100, resizeable: false, canAutoResize: false, sortable: false, draggable: false },
         { prop: 'header', cellTemplate: this.contentHeaderTemplate, width: 200, resizeable: false, sortable: false, draggable: false },
       ];
     } else {

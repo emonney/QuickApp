@@ -1,8 +1,8 @@
 @import '../styles/custom-vendor';
 
-@import '../../../../node_modules/bootswatch/dist/solar/variables';
-@import '../../../../node_modules/bootstrap/scss/bootstrap';
-@import '../../../../node_modules/bootswatch/dist/solar/bootswatch';
+@import 'bootswatch/dist/solar/variables';
+@import 'bootstrap/scss/bootstrap';
+@import 'bootswatch/dist/solar/bootswatch';
 
 @import "app-theme";
 
@@ -19,18 +19,16 @@
   border-color: $body-color;
 }
 
-
-.popover-header {
-  color: $body-color;
-}
-
-
 .bg-light {
   background-color: #04272f !important;
 }
 
 
 .app-component {
+  .login-container .form-check-input {
+    border-color: var(--bs-body-color);
+  }
+
   footer {
     background-color: #073642 !important;
   }

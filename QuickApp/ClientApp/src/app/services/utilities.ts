@@ -216,8 +216,13 @@ export class Utilities {
     return params;
   }
 
-  public static splitInTwo(text: string, separator: string): { firstPart: string, secondPart: string } {
-    const separatorIndex = text.indexOf(separator);
+  public static splitInTwo(text: string, separator: string, splitFromEnd = false): { firstPart: string, secondPart: string } {
+    let separatorIndex;
+
+    if (!splitFromEnd)
+      separatorIndex = text.indexOf(separator);
+    else
+      separatorIndex = text.lastIndexOf(separator);
 
     if (separatorIndex === -1) {
       return { firstPart: text, secondPart: null };
@@ -594,7 +599,7 @@ export class Utilities {
       }
 
       if (obj[k] === null) {
-        isArray ? obj.splice(k, 1) : delete obj[k];
+        isArray ? obj.splice(+k, 1) : delete obj[k];
       } else if (typeof obj[k] === 'object') {
         Utilities.removeNulls(obj[k]);
       }
@@ -610,7 +615,7 @@ export class Utilities {
   public static debounce(func: (...args) => any, wait: number, immediate?: boolean) {
     let timeout;
 
-    return function() {
+    return function () {
       const context = this;
       const args = arguments;
 

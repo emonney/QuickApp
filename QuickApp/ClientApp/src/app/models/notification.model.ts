@@ -8,7 +8,6 @@ import { Utilities } from '../services/utilities';
 
 export class Notification {
 
-
     public id: number;
     public header: string;
     public body: string;

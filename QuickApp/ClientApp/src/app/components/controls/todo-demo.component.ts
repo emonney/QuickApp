@@ -83,7 +83,8 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
   editorModal: ModalDirective;
 
 
-  constructor(private alertService: AlertService, private translationService: AppTranslationService, private localStorage: LocalStoreManager, private authService: AuthService) {
+  constructor(private alertService: AlertService, private translationService: AppTranslationService,
+    private localStorage: LocalStoreManager, private authService: AuthService) {
   }
 
 
@@ -105,8 +106,8 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
 
     this.columns = [
       { prop: 'completed', name: '', width: 30, headerTemplate: this.statusHeaderTemplate, cellTemplate: this.statusTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false },
-      { prop: 'name', name: gT('todoDemo.management.Task'), cellTemplate: this.nameTemplate, width: 200 },
-      { prop: 'description', name: gT('todoDemo.management.Description'), cellTemplate: this.descriptionTemplate, width: 500 },
+      { prop: 'name', name: gT('todoDemo.management.Task'), cellTemplate: this.nameTemplate, width: 100 },
+      { prop: 'description', name: gT('todoDemo.management.Description'), cellTemplate: this.descriptionTemplate, width: 300 },
       { name: '', width: 80, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false }
     ];
   }

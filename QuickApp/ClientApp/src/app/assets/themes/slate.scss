@@ -1,8 +1,8 @@
 @import '../styles/custom-vendor';
 
-@import '../../../../node_modules/bootswatch/dist/slate/variables';
-@import '../../../../node_modules/bootstrap/scss/bootstrap';
-@import '../../../../node_modules/bootswatch/dist/slate/bootswatch';
+@import 'bootswatch/dist/slate/variables';
+@import 'bootstrap/scss/bootstrap';
+@import 'bootswatch/dist/slate/bootswatch';
 
 @import "app-theme";
 
@@ -11,24 +11,34 @@
   background-color: $primary !important;
 }
 
-
 .ngx-datatable.material.table-striped {
   .datatable-row-even {
     background: $gray-700;
   }
 }
 
+.alertify-message {
+  color: initial;
+}
+
+.login-container,
+.register-container,
+.recover-container,
+.reset-container {
+  color: var(--bs-secondary);
+
+  .card a {
+    color: #5bc0de;
+  }
+
+  .btn-social.btn-outline-primary {
+    color: initial;
+  }
+}
 
 .app-component {
-  .navbar {
-
-    a.user-name {
-      border: none;
-    }
-
-    .popover-header {
-      color: $body-color !important;
-    }
+  .navbar a.user-name {
+    border: none;
   }
 
   footer {

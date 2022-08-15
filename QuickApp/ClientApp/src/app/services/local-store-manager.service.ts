@@ -18,7 +18,7 @@ export class LocalStoreManager {
   public static readonly DBKEY_USER_DATA = 'user_data';
   private static readonly DBKEY_SYNC_KEYS = 'sync_keys';
   private syncKeys: string[] = [];
-  private initEvent = new Subject();
+  private initEvent = new Subject<void>();
 
   private reservedKeys: string[] =
     [
@@ -169,7 +169,7 @@ export class LocalStoreManager {
     localStorage.removeItem(key);
   }
 
-  public getInitEvent(): Observable<{}> {
+  public getInitEvent(): Observable<void> {
     return this.initEvent.asObservable();
   }
 

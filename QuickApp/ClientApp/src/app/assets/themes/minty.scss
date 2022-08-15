@@ -1,7 +1,7 @@
 @import '../styles/custom-vendor';
 
-@import '../../../../node_modules/bootswatch/dist/minty/variables';
-@import '../../../../node_modules/bootstrap/scss/bootstrap';
-@import '../../../../node_modules/bootswatch/dist/minty/bootswatch';
+@import 'bootswatch/dist/minty/variables';
+@import 'bootstrap/scss/bootstrap';
+@import 'bootswatch/dist/minty/bootswatch';
 
 @import "app-theme";

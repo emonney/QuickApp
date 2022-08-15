@@ -6,6 +6,8 @@
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace QuickApp.Migrations
 {
     public partial class Initial : Migration
@@ -200,8 +202,7 @@ namespace QuickApp.Migrations
                         name: "FK_AppOrders_AspNetUsers_CashierId",
                         column: x => x.CashierId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

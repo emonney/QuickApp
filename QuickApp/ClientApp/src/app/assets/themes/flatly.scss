@@ -1,13 +1,18 @@
 @import '../styles/custom-vendor';
 
-@import '../../../../node_modules/bootswatch/dist/flatly/variables';
-@import '../../../../node_modules/bootstrap/scss/bootstrap';
-@import '../../../../node_modules/bootswatch/dist/flatly/bootswatch';
+@import 'bootswatch/dist/flatly/variables';
+@import 'bootstrap/scss/bootstrap';
+@import 'bootswatch/dist/flatly/bootswatch';
 
 @import "app-theme";
 
 
 .app-component {
+  .nav-link {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   main {
     padding-top: 80px !important;
   }

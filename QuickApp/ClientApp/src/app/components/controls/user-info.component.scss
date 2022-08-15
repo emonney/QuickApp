@@ -2,33 +2,32 @@
   /*border-bottom: 1px solid #ccc;*/
 }
 
-.separator-hr {
-  margin: 0 5px;
-  border-top-style: dashed;
+@mixin hr-dashed($margin: 10px 5px ) {
+  margin: $margin;
+  border-top: 1px dashed currentColor;
+  background-color: inherit;
 }
 
-.edit-separator-hr {
-  margin: 10px 5px;
-  border-top-style: dashed;
+.info-separator {
+  @include hr-dashed(0 5px);
 }
 
-.last-separator-hr {
+.edit-separator {
+  @include hr-dashed;
+}
+
+.hr-password-separator {
+  margin: 4px;
+  border-style: none;
+  height: 0;
+}
+
+.last-separator {
   margin-top: 5px;
 }
 
-.edit-last-separator-hr {
+.last-edit-separator {
   margin-top: 15px;
-}
-
-.password-separator-hr {
-  margin: 5px;
-  border-style: none;
-}
-
-
-.form-group {
-  margin-top: 0;
-  margin-bottom: 0;
 }
 
 input.form-control {
@@ -53,6 +52,12 @@ input.form-control {
 
 .unblock-user {
   margin-left: 34px;
+}
+
+.send-confirm-email {
+  padding: 0;
+  vertical-align: inherit;
+  font-size: 80%;
 }
 
 

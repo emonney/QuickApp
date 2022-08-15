@@ -27,10 +27,9 @@
 
   #pre-bootstrap p {
     font-size: 18px;
-    line-height: 14px;
+    line-height: 32px;
     margin: 0px 0px 0px 0px;
   }
-
 
 
 .prebootShow {
@@ -48,18 +47,13 @@
 
 
 .cs-loader {
-  position: absolute;
-  top: 0;
-  left: 0;
   height: 100%;
   width: 100%;
 }
 
 .cs-loader-inner {
-  transform: translateY(-50%);
-  top: 60%;
-  position: absolute;
-  width: calc(100% - 200px);
+  margin-top: -1rem;
+  width: 100%;
   color: #FFF;
   padding: 0 100px;
   text-align: center;

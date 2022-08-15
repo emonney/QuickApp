@@ -1,8 +1,8 @@
 @import '../styles/custom-vendor';
 
-@import '../../../../node_modules/bootswatch/dist/sketchy/variables';
-@import '../../../../node_modules/bootstrap/scss/bootstrap';
-@import '../../../../node_modules/bootswatch/dist/sketchy/bootswatch';
+@import 'bootswatch/dist/sketchy/variables';
+@import 'bootstrap/scss/bootstrap';
+@import 'bootswatch/dist/sketchy/bootswatch';
 
 @import "app-theme";
 
@@ -16,6 +16,15 @@ input[type="radio"], input[type="checkbox"] {
 
 .card {
   overflow: visible;
+}
+
+.login-container .card-header {
+  .btn-close::before {
+    right: 0;
+    top: 0;
+    font-size: 1.2rem;
+    color: initial;
+  }
 }
 
 .bg-light {

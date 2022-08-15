@@ -1,13 +1,13 @@
 @import '../styles/custom-vendor';
 
-@import '../../../../node_modules/bootswatch/dist/pulse/variables';
-@import '../../../../node_modules/bootstrap/scss/bootstrap';
-@import '../../../../node_modules/bootswatch/dist/pulse/bootswatch';
+@import 'bootswatch/dist/pulse/variables';
+@import 'bootstrap/scss/bootstrap';
+@import 'bootswatch/dist/pulse/bootswatch';
 
 @import "app-theme";
 
 
-.form-group .icon-addon #searchInput.form-control {
+.icon-addon #searchInput.form-control {
   border-radius: 0;
 }
 

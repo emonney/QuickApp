@@ -3,8 +3,8 @@
   &.colored-header {
     .datatable-header {
       padding: .5rem 0;
-      color: theme-color("light");
-      background-color: theme-color("primary");
+      color: map-get($theme-colors, "light");
+      background-color: map-get($theme-colors, "primary");
     }
   }
 }

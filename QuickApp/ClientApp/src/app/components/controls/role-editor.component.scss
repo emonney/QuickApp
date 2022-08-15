@@ -2,28 +2,14 @@
   /*border-bottom: 1px solid #ccc;*/
 }
 
-.separator-hr {
-  margin: 0 5px;
-  border-top-style: dashed;
-}
-
-.edit-separator-hr {
+.edit-separator {
   margin: 10px 5px;
-  border-top-style: dashed;
+  border-top: 1px dashed currentColor;
+  background-color: inherit;
 }
 
-.last-separator-hr {
-  margin-top: 5px;
-}
-
-.edit-last-separator-hr {
+.last-edit-separator {
   margin-top: 15px;
-}
-
-
-.form-group {
-  margin-top: 0;
-  margin-bottom: 0;
 }
 
 input.form-control {

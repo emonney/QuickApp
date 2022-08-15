@@ -1,0 +1,33 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+@include media-breakpoint-down(md) {
+  .carousel-caption {
+    display: none;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .carousel-caption {
+    bottom: -2rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .carousel-caption {
+    bottom: 0.5rem;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .carousel-caption {
+    bottom: 1rem;
+  }
+}
+
+@include media-breakpoint-up(xxl) {
+  .carousel-caption {
+    bottom: 1.5rem;
+  }
+}

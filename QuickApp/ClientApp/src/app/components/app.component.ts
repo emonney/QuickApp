@@ -3,12 +3,12 @@
 // www.ebenmonney.com/templates
 // =============================
 
-import { Component, ViewEncapsulation, OnInit, OnDestroy, ViewChildren, AfterViewInit, QueryList, ElementRef } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewChildren, AfterViewInit, QueryList } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastaService, ToastaConfig, ToastOptions, ToastData } from 'ngx-toasta';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
-import { AlertService, AlertDialog, DialogType, AlertCommand, AlertMessage, MessageSeverity } from '../services/alert.service';
+import { AlertService, AlertDialog, DialogType, AlertCommand, MessageSeverity } from '../services/alert.service';
 import { NotificationService } from '../services/notification.service';
 import { AppTranslationService } from '../services/app-translation.service';
 import { AccountService } from '../services/account.service';
@@ -32,7 +32,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   isAppLoaded: boolean;
   isUserLoggedIn: boolean;
   shouldShowLoginModal: boolean;
-  removePrebootScreen: boolean;
   newNotificationCount = 0;
   appTitle = 'QuickApp';
 
@@ -125,9 +124,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.isUserLoggedIn = this.authService.isLoggedIn;
 
-    // 0.5 extra sec to display preboot/loader information. Preboot screen is removed 0.5 sec later
-    setTimeout(() => this.isAppLoaded = true, 500);
-    setTimeout(() => this.removePrebootScreen = true, 1000);
+    // Extra sec to display preboot loaded information
+    setTimeout(() => this.isAppLoaded = true, 1000);
 
     setTimeout(() => {
       if (this.isUserLoggedIn) {

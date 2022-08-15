@@ -129,7 +129,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         DialogType.prompt,
         (value: string) => {
           this.configurations.baseUrl = value;
-          this.configurations.tokenUrl = value;
           this.alertService.showStickyMessage('API Changed!', 'The target Web API has been changed to: ' + value, MessageSeverity.warn);
         },
         null,

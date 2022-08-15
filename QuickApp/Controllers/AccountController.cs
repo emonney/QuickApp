@@ -18,11 +18,10 @@ using QuickApp.Authorization;
 using QuickApp.Helpers;
 using Microsoft.AspNetCore.JsonPatch;
 using DAL.Core;
-using IdentityServer4.AccessTokenValidation;
 
 namespace QuickApp.Controllers
 {
-    [Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {

@@ -18,7 +18,7 @@
 
           (canAssignRoles && !roles.valid && showErrorAlert('Roles is required', 'Please select a minimum of 1 role'));">
 
-    <div class="form-group row">
+    <div class="row">
       <label [class.col-lg-3]="isViewOnly" [class.col-lg-2]="!isViewOnly" class="col-form-label" for="jobTitle-{{uniqueId}}">{{'users.editor.JobTitle' | translate}}</label>
       <div *ngIf="!isEditMode" [class.col-lg-9]="isViewOnly" [class.col-lg-10]="!isViewOnly">
         <p class="form-control-plaintext">{{user.jobTitle}}</p>
@@ -30,11 +30,11 @@
 
     <div class="row">
       <div class="col-lg-12">
-        <hr [class.separator-hr]="!isEditMode" [class.edit-separator-hr]="isEditMode" />
+        <hr class="hr-separator" [class.info-separator]="!isEditMode" [class.edit-separator]="isEditMode" />
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="row">
       <label [class.col-lg-3]="isViewOnly" [class.col-lg-2]="!isViewOnly" class="col-form-label" for="userName-{{uniqueId}}">{{'users.editor.UserName' | translate}}</label>
       <div *ngIf="!isEditMode" [class.col-lg-9]="isViewOnly" [class.col-lg-10]="!isViewOnly">
         <p class="form-control-plaintext">{{user.userName}}</p>
@@ -51,10 +51,10 @@
 
     <div *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName != userEdit.userName" class="row">
       <div class="col-lg-12">
-        <hr class="password-separator-hr" />
+        <hr class="hr-password-separator" />
       </div>
     </div>
-    <div *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName != userEdit.userName" class="form-group row">
+    <div *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName != userEdit.userName" class="row">
       <label class="col-form-label col-lg-2" for="userPassword-{{uniqueId}}">{{'users.editor.Password' | translate}}</label>
       <div class="col-lg-10">
         <input type="password" attr.id="userPassword-{{uniqueId}}" name="userPassword" [attr.autocomplete]="isGeneralEditor ? 'new-password' : null" placeholder="Enter password"
@@ -70,11 +70,11 @@
 
     <div class="row">
       <div class="col-lg-12">
-        <hr [class.separator-hr]="!isEditMode" [class.edit-separator-hr]="isEditMode" />
+        <hr class="hr-separator" [class.info-separator]="!isEditMode" [class.edit-separator]="isEditMode" />
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="row">
       <label [class.col-lg-3]="isViewOnly" [class.col-lg-2]="!isViewOnly" class="col-form-label" for="email-{{uniqueId}}">{{'users.editor.Email' | translate}}</label>
       <div *ngIf="!isEditMode" [class.col-lg-9]="isViewOnly" [class.col-lg-10]="!isViewOnly">
         <p class="form-control-plaintext">{{user.email}}</p>
@@ -93,19 +93,19 @@
 
     <div *ngIf="isEditMode" class="row">
       <div class="col-lg-12">
-        <hr [class.separator-hr]="!isEditMode" [class.edit-separator-hr]="isEditMode" />
+        <hr class="hr-separator" [class.info-separator]="!isEditMode" [class.edit-separator]="isEditMode" />
       </div>
     </div>
 
-    <div *ngIf="isEditMode" class="form-group row">
+    <div *ngIf="isEditMode" class="row">
       <label for="newPassword-{{uniqueId}}" class="col-form-label col-lg-2">{{'users.editor.Password' | translate}}</label>
       <div *ngIf="!isChangePassword && !isNewUser" class="col-lg-10">
-        <button type="button" (click)="changePassword()" class="btn btn-link">{{'users.editor.ChangePassword' | translate}}</button>
+        <button type="button" (click)="changePassword()" class="btn btn-link text-link">{{'users.editor.ChangePassword' | translate}}</button>
       </div>
 
       <div *ngIf="isChangePassword || isNewUser" class="col-lg-10">
         <div class="password-well card card-body bg-light">
-          <div *ngIf="isEditingSelf" class="form-group row">
+          <div *ngIf="isEditingSelf" class="row">
             <label class="col-form-label col-lg-3" for="currentPassword-{{uniqueId}}">{{'users.editor.CurrentPassword' | translate}}</label>
             <div class="col-lg-9">
               <input type="password" attr.id="currentPassword-{{uniqueId}}" name="currentPassword" [attr.autocomplete]="isGeneralEditor ? 'new-password' : null" placeholder="Enter current password" class="form-control"
@@ -118,11 +118,11 @@
 
           <div *ngIf="!isNewUser" class="row">
             <div class="col-lg-12">
-              <hr class="password-separator-hr" />
+              <hr class="hr-password-separator" />
             </div>
           </div>
 
-          <div class="form-group row">
+          <div class="row">
             <label class="col-form-label col-lg-3" for="newPassword-{{uniqueId}}">{{'users.editor.NewPassword' | translate}}</label>
             <div class="col-lg-9">
               <input type="password" attr.id="newPassword-{{uniqueId}}" name="newPassword" [attr.autocomplete]="isGeneralEditor ? 'new-password' : null" placeholder="Enter new password" class="form-control"
@@ -136,11 +136,11 @@
 
           <div class="row">
             <div class="col-lg-12">
-              <hr class="password-separator-hr" />
+              <hr class="hr-password-separator" />
             </div>
           </div>
 
-          <div class="form-group row">
+          <div class="row">
             <label class="col-form-label col-lg-3" for="confirmPassword-{{uniqueId}}">{{'users.editor.ConfirmPassword' | translate}}</label>
             <div class="col-lg-9">
               <input type="password" attr.id="confirmPassword-{{uniqueId}}" name="confirmPassword" [attr.autocomplete]="isGeneralEditor ? 'new-password' : null" placeholder="Confirm new password" class="form-control"
@@ -162,16 +162,16 @@
 
     <div *ngIf="!isEditMode || canAssignRoles" class="row">
       <div class="col-lg-12">
-        <hr [class.separator-hr]="!isEditMode" [class.edit-separator-hr]="isEditMode" />
+        <hr class="hr-separator" [class.info-separator]="!isEditMode" [class.edit-separator]="isEditMode" />
       </div>
     </div>
 
-    <div *ngIf="!isEditMode || canAssignRoles" class="form-group row">
+    <div *ngIf="!isEditMode || canAssignRoles" class="row">
       <label [class.col-lg-3]="isViewOnly" [class.col-lg-2]="!isViewOnly" class="col-form-label" for="roles-user-info">{{'users.editor.Roles' | translate}}</label>
       <div *ngIf="!isEditMode" [class.col-lg-9]="isViewOnly" [class.col-lg-10]="!isViewOnly">
         <p ngPreserveWhitespaces class="form-control-plaintext">
           <span *ngFor="let role of user.roles">
-            <span title='{{getRoleByName(role)?.description}}' class="badge badge-pill badge-secondary">{{role}}</span>
+            <span title='{{getRoleByName(role)?.description}}' class="badge rounded-pill bg-secondary">{{role}}</span>
           </span>
         </p>
       </div>
@@ -179,11 +179,11 @@
         <ng-select id="roles-user-info" name="roles" [items]="allRoles" bindLabel="name" bindValue="name" [multiple]="true" [closeOnSelect]="false"
                    placeholder="Select Roles" [(ngModel)]="userEdit.roles" #roles="ngModel" class="form-control left-status pill-items" required>
           <ng-template ng-label-tmp let-item="item" let-clear="clear">
-            <span title='{{item.description}}' class='badge badge-pill badge-secondary'>{{item.name}}<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span></span>
+            <span title='{{item.description}}' class='badge rounded-pill bg-secondary'>{{item.name}}<span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span></span>
           </ng-template>
 
           <ng-template ng-option-tmp let-item="item">
-            <span title='{{item.description}}' class='badge badge-pill badge-secondary'>{{item.name}}</span>
+            <span title='{{item.description}}' class='badge rounded-pill bg-secondary'>{{item.name}}</span>
             <i class="fa fa-check d-none"></i>
           </ng-template>
         </ng-select>
@@ -197,11 +197,11 @@
 
     <div class="row">
       <div class="col-lg-12">
-        <hr [class.separator-hr]="!isEditMode" [class.edit-separator-hr]="isEditMode" />
+        <hr class="hr-separator" [class.info-separator]="!isEditMode" [class.edit-separator]="isEditMode" />
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="row">
       <label [class.col-lg-3]="isViewOnly" [class.col-lg-2]="!isViewOnly" class="col-form-label" for="fullName-{{uniqueId}}">{{'users.editor.FullName' | translate}}</label>
       <div *ngIf="!isEditMode" [class.col-lg-9]="isViewOnly" [class.col-lg-10]="!isViewOnly">
         <p class="form-control-plaintext">{{user.fullName}}</p>
@@ -213,11 +213,11 @@
 
     <div class="row">
       <div class="col-lg-12">
-        <hr [class.separator-hr]="!isEditMode" [class.edit-separator-hr]="isEditMode" />
+        <hr class="hr-separator" [class.info-separator]="!isEditMode" [class.edit-separator]="isEditMode" />
       </div>
     </div>
 
-    <div class="form-group row">
+    <div class="row">
       <label [class.col-lg-3]="isViewOnly" [class.col-lg-2]="!isViewOnly" class="col-form-label" for="phoneNumber-{{uniqueId}}">{{'users.editor.PhoneNumber' | translate}}</label>
       <div *ngIf="!isEditMode" [class.col-lg-9]="isViewOnly" [class.col-lg-10]="!isViewOnly">
         <p class="form-control-plaintext">{{user.phoneNumber}}</p>
@@ -229,13 +229,13 @@
 
     <div *ngIf="!isViewOnly" class="row">
       <div class="col-lg-12">
-        <hr [class.last-separator-hr]="!isEditMode" [class.edit-last-separator-hr]="isEditMode" />
+        <hr class="hr-separator" [class.last-separator]="!isEditMode" [class.last-edit-separator]="isEditMode" />
       </div>
     </div>
 
-    <div *ngIf="!isViewOnly" class="form-group row">
+    <div *ngIf="!isViewOnly" class="row">
       <div class="col-sm-5">
-        <div *ngIf="isGeneralEditor && isEditMode" class="float-left">
+        <div *ngIf="isGeneralEditor && isEditMode" class="float-start">
           <div class="form-check user-enabled">
             <input class="form-check-input" type="checkbox" id="idEnabled" name="isEnabled" [(ngModel)]="userEdit.isEnabled">
             <label for="idEnabled" class="form-check-label">{{'users.editor.Enabled' | translate}}</label>
@@ -244,7 +244,7 @@
         </div>
       </div>
       <div class="col-sm-7">
-        <div ngPreserveWhitespaces class="float-right">
+        <div ngPreserveWhitespaces class="float-end">
           <button *ngIf="!isEditMode && isGeneralEditor" type="button" (click)="close()" class="btn btn-outline-secondary"><i class='fa fa-close'></i> {{'users.editor.Close' | translate}}</button>
           <button *ngIf="!isEditMode && !isGeneralEditor" type="button" (click)="edit()" class="btn btn-outline-secondary"><i class='fa fa-edit'></i> {{'users.editor.Edit' | translate}}</button>
           <button *ngIf="isEditMode" type="button" (click)="cancel()" class="btn btn-danger" [disabled]="isSaving"><i class='fa fa-times'></i> {{'users.editor.Cancel' | translate}}</button>

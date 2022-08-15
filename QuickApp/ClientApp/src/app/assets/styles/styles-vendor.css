@@ -1,9 +1,8 @@
 @import '~ngx-toasta/styles/style-bootstrap.css';
+@import '~@swimlane/ngx-datatable/index.css';
 @import '~@swimlane/ngx-datatable/assets/icons.css';
 @import "~@ng-select/ng-select/themes/default.theme.css";
 /*@import "~@ng-select/ng-select/themes/material.theme.css";*/
-@import '~bootstrap-toggle/css/bootstrap-toggle.css';
 @import '~font-awesome/css/font-awesome.css';
 @import 'alertify.core.css';
 @import 'alertify.bootstrap.css';
-@import 'bootstrap4-compatibility.css';

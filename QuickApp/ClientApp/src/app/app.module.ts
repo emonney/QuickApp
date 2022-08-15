@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { DragDropModule } from '@angular/cdk/drag-drop'
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -19,7 +20,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
-import { ChartsModule } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppErrorHandler } from './app-error.handler';
@@ -36,10 +37,8 @@ import { AccountService } from './services/account.service';
 import { AccountEndpoint } from './services/account-endpoint.service';
 
 import { EqualValidator } from './directives/equal-validator.directive';
-import { LastElementDirective } from './directives/last-element.directive';
 import { AutofocusDirective } from './directives/autofocus.directive';
 import { BootstrapTabDirective } from './directives/bootstrap-tab.directive';
-import { BootstrapToggleDirective } from './directives/bootstrap-toggle.directive';
 import { GroupByPipe } from './pipes/group-by.pipe';
 
 import { AppComponent } from './components/app.component';
@@ -65,29 +64,6 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
 
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    FormsModule,
-    AppRoutingModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useClass: TranslateLanguageLoader
-      }
-    }),
-    NgxDatatableModule,
-    OAuthModule.forRoot(),
-    ToastaModule.forRoot(),
-    NgSelectModule,
-    TooltipModule.forRoot(),
-    PopoverModule.forRoot(),
-    BsDropdownModule.forRoot(),
-    CarouselModule.forRoot(),
-    ModalModule.forRoot(),
-    ChartsModule
-  ],
   declarations: [
     AppComponent,
     LoginComponent,
@@ -104,11 +80,33 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
     SearchBoxComponent,
     StatisticsDemoComponent, TodoDemoComponent, BannerDemoComponent,
     EqualValidator,
-    LastElementDirective,
     AutofocusDirective,
     BootstrapTabDirective,
-    BootstrapToggleDirective,
     GroupByPipe
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
+    DragDropModule,
+    AppRoutingModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: TranslateLanguageLoader
+      }
+    }),
+    NgxDatatableModule,
+    OAuthModule.forRoot(),
+    ToastaModule.forRoot(),
+    NgSelectModule,
+    TooltipModule.forRoot(),
+    PopoverModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    CarouselModule.forRoot(),
+    ModalModule.forRoot(),
+    NgChartsModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
@@ -126,5 +124,4 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }

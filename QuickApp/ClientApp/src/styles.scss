@@ -89,9 +89,8 @@ textarea.form-control.left-status,
       }
     }
   }
-}
 
-.ng-select {
+
   &.pill-items {
     .ng-value-container .ng-value {
       background-color: inherit !important;
@@ -138,10 +137,6 @@ textarea.form-control.left-status,
 .dropdown-toggle.btn-light {
   background-color: #fff;
   border-color: #ccc;
-}
-
-.app-component .navbar .popover {
-  min-width: 500px;
 }
 
 .modal.login-control {
@@ -232,6 +227,15 @@ i.page-caption {
 //.tab-pane .datatable-scroll {
 //    width: 100% !important;
 //}
+
+.popover.notifications-popup {
+  min-width: 300px;
+
+  .popover-body {
+    padding: 0 !important;
+  }
+}
+
 .ngx-datatable.scroll-vertical {
   height: 64vh;
 }
@@ -240,7 +244,7 @@ i.page-caption {
   color: #333;
 }
 
-.form-group .icon-addon .form-control {
+.icon-addon .form-control {
   border-radius: 25px;
 }
 
@@ -385,3 +389,59 @@ i.page-caption {
 .clear-input:hover {
   color: #2580db !important;
 }
+
+a.text-link,
+.btn-link.text-link {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.text-link a {
+  text-decoration: none;
+
+  &:hover:not(.btn):not(.card-link) {
+    text-decoration: underline;
+  }
+}
+
+.fs-sm {
+  font-size: 0.75rem !important;
+}
+
+.hr-separator {
+  opacity: 0.125
+}
+
+
+/* Bootstrap 5 tweak: do not underline links unless hovered over */
+/*a:not([class*="btn"]) {
+  text-decoration: none;
+}
+
+a:not([class*="btn"]):hover {
+  text-decoration: underline;
+}*/
+
+
+/* Start https://github.com/valor-software/ngx-bootstrap/issues/6490 */
+.popover {
+  position: absolute;
+  top: 0;
+  left: 0 #{"/* rtl:ignore */"};
+}
+
+.popover-arrow {
+  position: absolute;
+}
+
+.tooltip {
+  position: absolute;
+}
+
+.tooltip-arrow {
+  position: absolute;
+}
+/* End */

@@ -86,7 +86,6 @@ export class UserPreferencesComponent {
         this.alertService.stopLoadingMessage();
         this.configurations.import(null);
         this.alertService.showMessage('Defaults Reset', 'Account defaults reset completed successfully', MessageSeverity.success);
-
       },
         error => {
           this.alertService.stopLoadingMessage();

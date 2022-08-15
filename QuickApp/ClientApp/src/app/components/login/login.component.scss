@@ -1,10 +1,10 @@
 .boxshadow {
   position: relative;
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  /*box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);*/
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   padding: 10px;
   background: white;
 }
-
 
 .boxshadow::after {
   content: '';
@@ -17,16 +17,17 @@
   bottom: 0;
 }
 
+.card-header {
+  padding: 0.75rem 1.25rem;
 
-.cardshadow {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  .btn-close {
+    height: 1rem;
+  }
 }
-
 
 .last-control-group {
   margin-bottom: -0.75rem;
 }
-
 
 .h-90 {
   height: 90%;
@@ -35,13 +36,12 @@
 
 @media (min-width: 768px) {
   .login-container {
-    width: 700px;
+    width: 670px;
   }
 }
 
-
 @media (min-width: 1200px) {
   .login-container {
-    width: 730px;
+    width: 700px;
   }
 }

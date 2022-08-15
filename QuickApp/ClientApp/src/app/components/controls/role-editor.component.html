@@ -5,7 +5,7 @@
 
     <div class="row">
       <div class="col-sm-5">
-        <div class="form-group row">
+        <div class="row">
           <label class="col-form-label col-md-3" for="roleName">{{'roles.editor.Name' | translate}}</label>
           <div class="col-md-9">
             <input [disabled]="!canManageRoles" type="text" id="roleName" name="roleName" placeholder="Enter role name" class="form-control"
@@ -15,7 +15,7 @@
       </div>
 
       <div class="col-sm-7">
-        <div class="form-group row">
+        <div class="row">
           <label class="col-form-label col-md-3" for="roleDescription">{{'roles.editor.Description' | translate}}</label>
           <div class="col-md-9">
             <input [disabled]="!canManageRoles" type="text" id="roleDescription" name="roleDescription" placeholder="Enter role description" class="form-control" [(ngModel)]="roleEdit.description" />
@@ -34,7 +34,7 @@
 
     <div class="row">
       <div class="col-md-12">
-        <hr class="edit-separator-hr" />
+        <hr class="hr-separator edit-separator" />
       </div>
     </div>
 
@@ -43,7 +43,7 @@
         <div class="row">
 
           <ng-template ngFor let-permissionGroup [ngForOf]="allPermissions | groupBy: 'groupName'" let-i="index">
-            <div class="form-group row col-sm-6 permissionsColumn">
+            <div class="row col-sm-6 permissionsColumn">
               <label class="col-md-5 col-form-label group-name" for="checkboxes" (click)="toggleGroup(permissionGroup.key)">{{permissionGroup.key}}</label>
               <div class="col-md-7">
                 <div class="form-check" *ngFor="let permission of permissionGroup.value">
@@ -63,20 +63,20 @@
 
     <div class="row">
       <div class="col-md-12">
-        <hr class="edit-last-separator-hr" />
+        <hr class="hr-separator last-edit-separator" />
       </div>
     </div>
 
 
-    <div class="form-group row">
-      <div class="col-sm-5">
-        <div *ngIf="canManageRoles" class="float-left">
-          <a (click)="selectAll()" href="javascript:;" class="btn btn-link">{{'roles.editor.SelectAll' | translate}}</a>|<a (click)="selectNone()" href="javascript:;" class="btn btn-link">{{'roles.editor.SelectNone' | translate}}</a>
+    <div class="row">
+      <div class="col-5">
+        <div *ngIf="canManageRoles" class="float-start">
+          <a (click)="selectAll()" href="javascript:;" class="btn btn-link text-link">{{'roles.editor.SelectAll' | translate}}</a>|<a (click)="selectNone()" href="javascript:;" class="btn btn-link text-link">{{'roles.editor.SelectNone' | translate}}</a>
         </div>
       </div>
 
-      <div class="col-sm-7">
-        <div ngPreserveWhitespaces class="float-right">
+      <div class="col-7">
+        <div ngPreserveWhitespaces class="float-end">
           <button *ngIf="!canManageRoles" type="button" (click)="cancel()" class="btn btn-outline-secondary">{{'roles.editor.Close' | translate}}</button>
           <button *ngIf="canManageRoles" type="button" (click)="cancel()" class="btn btn-danger" [disabled]="isSaving"><i class='fa fa-times'></i> {{'roles.editor.Cancel' | translate}}</button>
           <button *ngIf="canManageRoles" type="submit" class="btn btn-primary" [disabled]="isSaving">
@@ -85,6 +85,5 @@
         </div>
       </div>
     </div>
-    <div class="clearfix"></div>
   </form>
 </div>

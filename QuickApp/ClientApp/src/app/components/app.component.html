@@ -1,18 +1,21 @@
 <div class="app-component app-container">
   <ngx-toasta></ngx-toasta>
 
-  <nav id="header" class="app-component navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-    <div class="container">
-      <a ngPreserveWhitespaces class="app-component navbar-brand" routerLink="/">
+  <a class="close-navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target=".menuItemsContainer">
+  </a>
+
+  <nav id="header" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <div class="container-xl px-md-3 px-xxl-4">
+      <a ngPreserveWhitespaces class="navbar-brand" routerLink="/">
         <img src="assets/images/logo-white.png" class="d-inline-block align-top" alt="logo">
-        <span class="app-component appTitle">{{appTitle}}</span>
+        <span class="d-lg-none d-xl-inline">{{appTitle}}</span>
       </a>
-      <button type="button" class="app-component navbar-toggler" data-toggle="collapse" data-target=".menuItemsContainer.app-component">
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".menuItemsContainer">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div *ngIf="isUserLoggedIn" class="app-component collapse navbar-collapse menuItemsContainer">
-        <ul class="app-component nav nav-pills flex-column flex-lg-row mr-auto">
+      <div *ngIf="isUserLoggedIn" class="collapse navbar-collapse menuItemsContainer">
+        <ul class="nav nav-pills flex-column flex-lg-row flex-fill">
           <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <a class="nav-link" routerLink=""><i class="fa fa-home"></i></a>
           </li>
@@ -28,66 +31,62 @@
           <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="/about">{{'mainMenu.About' | translate}}</a>
           </li>
-        </ul>
-        <ul class="app-component nav nav-pills flex-column flex-lg-row mr-md-2">
-          <li class="nav-item" routerLinkActive="active">
+          <li class="nav-item ms-lg-auto me-lg-2" routerLinkActive="active">
             <a class="nav-link" routerLink="/settings"><i class="fa fa-cog"></i></a>
           </li>
         </ul>
-        <span class="app-component navbar-text notifications-popup">{{'app.Welcome' | translate}}</span>
-        <a class="app-component nav-link user-name d-inline-block px-1" [popover]="popTemplate" (onHidden)="markNotificationsAsRead()" placement="bottom" [popoverTitle]="notificationsTitle" href="javascript:;" triggers="focus">
+        <span class="navbar-text notifications-popup d-lg-none d-xl-inline-block">{{'app.Welcome' | translate}}</span>
+        <a class="nav-link user-name d-inline-block px-1" [popover]="popTemplate" (onHidden)="markNotificationsAsRead()"
+           placement="bottom" [popoverTitle]="notificationsTitle" href="javascript:;" triggers="focus" containerClass="notifications-popup">
           {{userName}}
-          <span *ngIf="newNotificationCount > 0" class="badge badge-pill badge-secondary">{{newNotificationCount}}</span>
+          <span *ngIf="newNotificationCount > 0" class="badge bg-secondary">{{newNotificationCount}}</span>
         </a>
         <ng-template #popTemplate>
           <app-notifications-viewer [isViewOnly]="true"></app-notifications-viewer>
         </ng-template>
-        <span class="app-component navbar-text">, </span>
-        <ul class="app-component nav nav-pills ml-lg-2 flex-column flex-lg-row">
+        <span *ngIf="newNotificationCount > 0" class="navbar-text d-none d-lg-inline">, </span>
+        <ul class="nav nav-pills flex-column flex-lg-row ms-lg-1">
           <li class="nav-item" (click)="logout()">
             <a class="nav-link" href="javascript:;"><i class="fa fa-sign-out"></i> {{'mainMenu.Logout' | translate}}</a>
           </li>
         </ul>
       </div>
-      <div *ngIf="!isUserLoggedIn && router.isActive('/about', false)" class="app-component collapse navbar-collapse menuItemsContainer">
-        <ul class="app-component nav nav-pills flex-column flex-lg-row ml-auto">
+
+      <div *ngIf="!isUserLoggedIn" class="collapse navbar-collapse menuItemsContainer">
+        <ul class="nav nav-pills flex-column flex-lg-row ms-auto">
           <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="/login"><i class="fa fa-sign-in"></i></a>
-          </li>
-        </ul>
-      </div>
-      <div *ngIf="!isUserLoggedIn && !router.isActive('/about', false) || false" class="app-component collapse navbar-collapse menuItemsContainer">
-        <ul class="app-component nav nav-pills flex-column flex-lg-row ml-auto">
-          <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" routerLink="/about"><i class="fa fa-info-circle"></i></a>
+            <a *ngIf="router.isActive('/about', false); else aboutPageNavTemplate" class="nav-link" routerLink="/login"><i class="fa fa-sign-in"></i></a>
+            <ng-template #aboutPageNavTemplate>
+              <a class="nav-link" routerLink="/about"><i class="fa fa-info-circle"></i></a>
+            </ng-template>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <div id="pre-bootstrap" *ngIf="!removePrebootScreen" [class.prebootShow.app-component]="!isAppLoaded" class="app-component prebootStep">
+  <div id="pre-bootstrap" *ngIf="!isAppLoaded" class="prebootStep prebootShow">
     <div class="messaging">
       <h1>
         Loaded!
       </h1>
       <p>
-        QUICK APPLICATION SYSTEM - <span style="font-style:italic">quick</span>App &copy; <a href="https://www.ebenmonney.com">WWW.EBENMONNEY.COM</a>
+        QUICK APPLICATION SYSTEM - <span style="font-style:italic">quick</span>App &copy; <a class="text-link" href="https://www.ebenmonney.com">WWW.EBENMONNEY.COM</a>
       </p>
 
     </div>
   </div>
 
-  <main class="app-component container">
+  <main class="container-xl px-3 px-md-4 px-xxl-5">
     <router-outlet></router-outlet>
-    <div class="app-component footer-height"></div>
+    <div class="footer-height"></div>
   </main>
 
-  <footer class="app-component footer fixed-bottom">
+  <footer class="footer fixed-bottom">
     <div class="container">
       <p class="text-center text-muted">
         <span style="font-style:italic">quick</span>App &copy; {{getYear()}}
-        <a href="https://www.ebenmonney.com" target="_blank">www.ebenmonney.com</a>
+        <a class="text-link" href="https://www.ebenmonney.com" target="_blank">www.ebenmonney.com</a>
         <!--<span class="small display-none">- Powered by <a href="https://www.ebenmonney.com/quickapp" target="_blank"><span style="font-style:italic">quick</span>App</a></span>-->
       </p>
     </div>

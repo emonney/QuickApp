@@ -1,46 +1,16 @@
 
-.separator-hr {
+.info-separator {
   margin: 7px 5px;
-  border-top-style: dashed;
+  border-top: 1px dashed currentColor;
+  background-color: inherit;
 }
 
-.subseparator-hr {
-  margin: 7px 5px;
+.hr-sub-separator {
+  margin: 4px 5px;
   border-top-style: none;
+  height: 0;
 }
 
-.last-separator-hr {
+.hr-last-separator {
   margin-top: 7px;
-}
-
-.form-group {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.form-control-plaintext {
-  min-height: 0;
-}
-
-.checkbox {
-  padding-top: 0;
-}
-
-.col-reset-default {
-  padding-right: 0;
-}
-
-.col-set-default {
-  padding-left: 5px;
-}
-
-.col-reset-default .btn,
-.col-set-default .btn {
-  min-width: 150px;
-}
-
-@media (min-width: 768px) {
-  .col-form-label {
-    padding-top: 5px;
-  }
 }

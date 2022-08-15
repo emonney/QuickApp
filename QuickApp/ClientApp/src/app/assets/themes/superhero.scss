@@ -1,11 +1,10 @@
 @import '../styles/custom-vendor';
 
-@import '../../../../node_modules/bootswatch/dist/superhero/variables';
-@import '../../../../node_modules/bootstrap/scss/bootstrap';
-@import '../../../../node_modules/bootswatch/dist/superhero/bootswatch';
+@import 'bootswatch/dist/superhero/variables';
+@import 'bootstrap/scss/bootstrap';
+@import 'bootswatch/dist/superhero/bootswatch';
 
 @import "app-theme";
-
 
 
 .ngx-datatable.material {
@@ -29,8 +28,38 @@
   }
 }
 
+.alertify-message {
+  color: initial;
+}
+
+.bg-light {
+  background-color: var(--bs-dark) !important;
+}
+
+.nav-tabs--vertical .nav-link:hover:not(.active) {
+  color: #3d7cba;
+}
 
 .app-component {
+  .login-container,
+  .register-container,
+  .recover-container,
+  .reset-container {
+    color: var(--bs-dark);
+
+    .form-control {
+      background-color: var(--bs-gray-100);
+    }
+
+    .form-control-plaintext {
+      color: var(--bs-secondary);
+    }
+
+    .form-check-input {
+      border: 1px solid var(--bs-primary);
+    }
+  }
+
   footer {
     background-color: $gray-700 !important;
   }
