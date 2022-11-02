@@ -214,5 +214,9 @@
         }
       }
     }
+  },
+  "defaultProject": "quickapp",
+  "cli": {
+    "analytics": false
   }
 }

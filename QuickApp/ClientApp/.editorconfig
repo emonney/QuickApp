@@ -14,3 +14,6 @@ quote_type = single
 [*.md]
 max_line_length = off
 trim_trailing_whitespace = false
+
+[*.{razor,cshtml}]
+charset = utf-8-bom
