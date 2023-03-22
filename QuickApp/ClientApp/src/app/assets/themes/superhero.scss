@@ -1,10 +1,12 @@
 @import '../styles/custom-vendor';
 
+$table-bg-scale: 0% !default; // Hack: Fix for depreciation: https://sass-lang.com/d/function-units
+
 @import 'bootswatch/dist/superhero/variables';
 @import 'bootstrap/scss/bootstrap';
 @import 'bootswatch/dist/superhero/bootswatch';
 
-@import "app-theme";
+@import 'app-theme';
 
 
 .ngx-datatable.material {
@@ -29,7 +31,7 @@
 }
 
 .alertify-message {
-  color: initial;
+  color: var(--bs-secondary);
 }
 
 .bg-light {

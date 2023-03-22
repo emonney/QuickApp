@@ -1,10 +1,12 @@
 @import '../styles/custom-vendor';
 
+$table-bg-scale: 0% !default; // Hack: Fix for depreciation: https://sass-lang.com/d/function-units
+
 @import 'bootswatch/dist/slate/variables';
 @import 'bootstrap/scss/bootstrap';
 @import 'bootswatch/dist/slate/bootswatch';
 
-@import "app-theme";
+@import 'app-theme';
 
 
 .bg-light {
@@ -18,7 +20,7 @@
 }
 
 .alertify-message {
-  color: initial;
+  color: var(--bs-secondary);
 }
 
 .login-container,

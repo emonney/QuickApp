@@ -9,7 +9,7 @@ using DAL;
 using DAL.Core;
 using DAL.Core.Interfaces;
 using DAL.Models;
-using IdentityServer4.AccessTokenValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -88,13 +88,9 @@ namespace QuickApp
             {
                 o.IssuerUri = authServerUrl;
             })
-              // The AddDeveloperSigningCredential extension creates temporary key material for signing tokens.
-              // This might be useful to get started, but needs to be replaced by some persistent key material for production scenarios.
-              // See http://docs.identityserver.io/en/release/topics/crypto.html#refcrypto for more information.
-              .AddDeveloperSigningCredential()
               .AddInMemoryPersistedGrants()
-              // To configure IdentityServer to use EntityFramework (EF) as the storage mechanism for configuration data (rather than using the in-memory implementations),
-              // see https://identityserver4.readthedocs.io/en/release/quickstarts/8_entity_framework.html
+              // To configure IdentityServer to use EntityFramework (EF) as the storage mechanism
+              // see https://www.ebenmonney.com/configure-identityserver-to-use-entityframework-for-storage
               .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
               .AddInMemoryApiScopes(IdentityServerConfig.GetApiScopes())
               .AddInMemoryApiResources(IdentityServerConfig.GetApiResources())
@@ -104,16 +100,17 @@ namespace QuickApp
 
             builder.Services.AddAuthentication(o =>
             {
-                o.DefaultScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-                o.DefaultAuthenticateScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = IdentityServerAuthenticationDefaults.AuthenticationScheme;
+                o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-               .AddIdentityServerAuthentication(options =>
-               {
-                   options.Authority = authServerUrl;
-                   options.RequireHttpsMetadata = false; // Note: Set to true in production
-                   options.ApiName = IdentityServerConfig.ApiName;
-               });
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = authServerUrl; // base-address of your identityserver
+                    options.TokenValidationParameters.ValidateAudience = false;
+                    options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
+                    options.MapInboundClaims = false;
+                });
 
             builder.Services.AddAuthorization(options =>
             {
@@ -216,20 +213,17 @@ namespace QuickApp
                 c.OAuthClientSecret("no_password"); //Leaving it blank doesn't work
             });
 
-            app.UseEndpoints(endpoints =>
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller}/{action=Index}/{id?}");
+
+            app.Map("api/{**slug}", context =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-
-                endpoints.Map("api/{**slug}", context =>
-                {
-                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                    return Task.CompletedTask;
-                });
-
-                endpoints.MapFallbackToFile("index.html");
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
+                return Task.CompletedTask;
             });
+
+            app.MapFallbackToFile("index.html");
         }
 
 

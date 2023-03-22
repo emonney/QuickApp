@@ -262,6 +262,7 @@ namespace DAL.Core
             var role = await _context.Roles
                 .Include(r => r.Claims)
                 .Include(r => r.Users)
+                .AsSingleQuery()
                 .Where(r => r.Name == roleName)
                 .SingleOrDefaultAsync();
 
@@ -274,6 +275,7 @@ namespace DAL.Core
             IQueryable<ApplicationRole> rolesQuery = _context.Roles
                 .Include(r => r.Claims)
                 .Include(r => r.Users)
+                .AsSingleQuery()
                 .OrderBy(r => r.Name);
 
             if (page != -1)

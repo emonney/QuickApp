@@ -28,6 +28,8 @@ obj/
 Obj/
 log/
 Log/
+keys/
+Keys/
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -264,4 +266,3 @@ __pycache__/
 # Others
 *.licenseheader
 Thumbs.db
-tempkey.jwk

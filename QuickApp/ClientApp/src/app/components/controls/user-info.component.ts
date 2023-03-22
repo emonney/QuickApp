@@ -48,8 +48,6 @@ export class UserInfoComponent implements OnInit {
 
 
 
-
-
   @ViewChild('f')
   public form;
 
@@ -85,18 +83,23 @@ export class UserInfoComponent implements OnInit {
     }
   }
 
-
-
   private loadCurrentUserData() {
     this.alertService.startLoadingMessage();
 
     if (this.canViewAllRoles) {
-      this.accountService.getUserAndRoles().subscribe(results => this.onCurrentUserDataLoadSuccessful(results[0], results[1]), error => this.onCurrentUserDataLoadFailed(error));
+      this.accountService.getUserAndRoles()
+        .subscribe({
+          next: results => this.onCurrentUserDataLoadSuccessful(results[0], results[1]),
+          error: error => this.onCurrentUserDataLoadFailed(error)
+        });
     } else {
-      this.accountService.getUser().subscribe(user => this.onCurrentUserDataLoadSuccessful(user, user.roles.map(x => new Role(x))), error => this.onCurrentUserDataLoadFailed(error));
+      this.accountService.getUser()
+        .subscribe({
+          next: user => this.onCurrentUserDataLoadSuccessful(user, user.roles.map(x => new Role(x))),
+          error: error => this.onCurrentUserDataLoadFailed(error)
+        });
     }
   }
-
 
   private onCurrentUserDataLoadSuccessful(user: User, roles: Role[]) {
     this.alertService.stopLoadingMessage();
@@ -158,9 +161,17 @@ export class UserInfoComponent implements OnInit {
     this.alertService.startLoadingMessage('Saving changes...');
 
     if (this.isNewUser) {
-      this.accountService.newUser(this.userEdit).subscribe(user => this.saveSuccessHelper(user), error => this.saveFailedHelper(error));
+      this.accountService.newUser(this.userEdit)
+        .subscribe({
+          next: user => this.saveSuccessHelper(user),
+          error: error => this.saveFailedHelper(error)
+        });
     } else {
-      this.accountService.updateUser(this.userEdit).subscribe(response => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
+      this.accountService.updateUser(this.userEdit)
+        .subscribe({
+          next: _ => this.saveSuccessHelper(),
+          error: error => this.saveFailedHelper(error)
+        });
     }
   }
 
@@ -270,13 +281,15 @@ export class UserInfoComponent implements OnInit {
 
   private refreshLoggedInUser() {
     this.accountService.refreshLoggedInUser()
-      .subscribe(user => {
-        this.loadCurrentUserData();
-      },
-        error => {
+      .subscribe({
+        next: _ => {
+          this.loadCurrentUserData();
+        },
+        error: error => {
           this.alertService.resetStickyMessage();
           this.alertService.showStickyMessage('Refresh failed', 'An error occured whilst refreshing logged in user information from the server', MessageSeverity.error, error);
-        });
+        }
+      });
   }
 
 
@@ -291,18 +304,20 @@ export class UserInfoComponent implements OnInit {
 
 
     this.accountService.unblockUser(this.userEdit.id)
-      .subscribe(() => {
-        this.isSaving = false;
-        this.userEdit.isLockedOut = false;
-        this.alertService.stopLoadingMessage();
-        this.alertService.showMessage('Success', 'User has been successfully unblocked', MessageSeverity.success);
-      },
-        error => {
+      .subscribe({
+        next: _ => {
+          this.isSaving = false;
+          this.userEdit.isLockedOut = false;
+          this.alertService.stopLoadingMessage();
+          this.alertService.showMessage('Success', 'User has been successfully unblocked', MessageSeverity.success);
+        },
+        error: error => {
           this.isSaving = false;
           this.alertService.stopLoadingMessage();
           this.alertService.showStickyMessage('Unblock Error', 'The below errors occured whilst unblocking the user:', MessageSeverity.error, error);
           this.alertService.showStickyMessage(error, null, MessageSeverity.error);
-        });
+        }
+      });
   }
 
 

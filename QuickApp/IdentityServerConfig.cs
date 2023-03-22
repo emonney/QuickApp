@@ -9,8 +9,8 @@ using System;
 using System.Collections.Generic;
 using DAL.Core;
 using IdentityModel;
-using IdentityServer4;
-using IdentityServer4.Models;
+using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 
 namespace QuickApp
 {
@@ -68,7 +68,7 @@ namespace QuickApp
             // Clients credentials.
             return new List<Client>
             {
-                // http://docs.identityserver.io/en/release/reference/client.html.
+                // https://docs.duendesoftware.com/identityserver/v6/reference/models/client/
                 new Client
                 {
                     ClientId = QuickAppClientID,

@@ -1,10 +1,12 @@
 @import '../styles/custom-vendor';
 
+$table-bg-scale: 0% !default; // Hack: Fix for depreciation: https://sass-lang.com/d/function-units
+
 @import 'bootswatch/dist/solar/variables';
 @import 'bootstrap/scss/bootstrap';
 @import 'bootswatch/dist/solar/bootswatch';
 
-@import "app-theme";
+@import 'app-theme';
 
 .ngx-datatable.material {
   &.table-striped {

@@ -62,9 +62,9 @@ export class EndpointBase {
           this.authService.reLogin();
 
           if (refreshLoginError.status === 401 || (refreshLoginError.error && refreshLoginError.error.error === 'invalid_grant')) {
-            return throwError('session expired');
+            return throwError(() => new Error('session expired'));
           } else {
-            return throwError(refreshLoginError || 'server error');
+            return throwError(() => refreshLoginError || new Error('server error'));
           }
         }));
     }
@@ -72,9 +72,9 @@ export class EndpointBase {
     if (error.error && error.error.error === 'invalid_grant') {
       this.authService.reLogin();
 
-      return throwError((error.error && error.error.error_description) ? `session expired (${error.error.error_description})` : 'session expired');
+      return throwError(() => (error.error && error.error.error_description) ? `session expired (${error.error.error_description})` : 'session expired');
     } else {
-      return throwError(error);
+      return throwError(() => error);
     }
   }
 
@@ -86,7 +86,7 @@ export class EndpointBase {
     }
 
     return this.taskPauser.pipe(switchMap(continueOp => {
-      return continueOp ? continuation() : throwError('session expired');
+      return continueOp ? continuation() : throwError(() => new Error('session expired'));
     }));
   }
 

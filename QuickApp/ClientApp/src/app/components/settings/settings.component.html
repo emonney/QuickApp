@@ -6,22 +6,22 @@
   <div class="d-sm-flex flex-row mb-2">
     <ul appBootstrapTab #tab="bootstrap-tab" (showBSTab)="onShowTab($event)" class="nav nav-tabs nav-tabs--vertical nav-tabs--left" role="navigation">
       <li class="nav-item">
-        <a id="profileTab" [routerLink]="[]" fragment="profile" data-bs-target="#profile" href="#profile" class="nav-link active" role="tab" aria-controls="profile">
+        <a id="profileTab" [routerLink]="[]" fragment="profile" data-bs-target="#profile" class="nav-link active" role="tab" aria-controls="profile">
           <i class="fa fa-user-circle-o fa-fw" aria-hidden="true"></i> {{'settings.tab.Profile' | translate}}
         </a>
       </li>
       <li class="nav-item">
-        <a id="preferencesTab" [routerLink]="[]" fragment="preferences" data-bs-target="#preferences" href="#preferences" class="nav-link" role="tab" aria-controls="preferences">
+        <a id="preferencesTab" [routerLink]="[]" fragment="preferences" data-bs-target="#preferences" class="nav-link" role="tab" aria-controls="preferences">
           <i class="fa fa-sliders fa-fw" aria-hidden="true"></i> {{'settings.tab.Preferences' | translate}}
         </a>
       </li>
       <li [hidden]="!canViewUsers" class="nav-item">
-        <a id="usersTab" [routerLink]="[]" fragment="users" data-bs-target="#users" href="#users" class="nav-link" role="tab" aria-controls="users">
+        <a id="usersTab" [routerLink]="[]" fragment="users" data-bs-target="#users" class="nav-link" role="tab" aria-controls="users">
           <i class="fa fa-users fa-fw" aria-hidden="true"></i> {{'settings.tab.Users' | translate}}
         </a>
       </li>
       <li [hidden]="!canViewRoles" class="nav-item">
-        <a id="rolesTab" [routerLink]="[]" fragment="roles" data-bs-target="#roles" href="#roles" class="nav-link" role="tab" aria-controls="roles">
+        <a id="rolesTab" [routerLink]="[]" fragment="roles" data-bs-target="#roles" class="nav-link" role="tab" aria-controls="roles">
           <i class="fa fa-shield fa-fw" aria-hidden="true"></i> {{'settings.tab.Roles' | translate}}
         </a>
       </li>

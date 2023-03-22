@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.getShouldRedirect()) {
       this.authService.redirectLoginUser();
     } else {
-      this.loginStatusSubscription = this.authService.getLoginStatusEvent().subscribe(isLoggedIn => {
+      this.loginStatusSubscription = this.authService.getLoginStatusEvent().subscribe(_ => {
         if (this.getShouldRedirect()) {
           this.authService.redirectLoginUser();
         }
@@ -80,8 +80,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.alertService.startLoadingMessage('', 'Attempting login...');
 
     this.authService.loginWithPassword(this.userLogin.userName, this.userLogin.password, this.userLogin.rememberMe)
-      .subscribe(
-        user => {
+      .subscribe({
+        next: user => {
           setTimeout(() => {
             this.alertService.stopLoadingMessage();
             this.isLoading = false;
@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
           }, 500);
         },
-        error => {
+        error: error => {
 
           this.alertService.stopLoadingMessage();
 
@@ -119,7 +119,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           setTimeout(() => {
             this.isLoading = false;
           }, 500);
-        });
+        }
+      });
   }
 
 

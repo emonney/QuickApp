@@ -128,30 +128,32 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
     this.loadingIndicator = true;
 
     this.accountService.getRolesAndPermissions()
-      .subscribe(results => {
-        this.alertService.stopLoadingMessage();
-        this.loadingIndicator = false;
+      .subscribe({
+        next: results => {
+          this.alertService.stopLoadingMessage();
+          this.loadingIndicator = false;
 
-        const roles = results[0];
-        const permissions = results[1];
+          const roles = results[0];
+          const permissions = results[1];
 
-        roles.forEach((role, index) => {
-          (role as any).index = index + 1;
-        });
+          roles.forEach((role, index) => {
+            (role as any).index = index + 1;
+          });
 
 
-        this.rowsCache = [...roles];
-        this.rows = roles;
+          this.rowsCache = [...roles];
+          this.rows = roles;
 
-        this.allPermissions = permissions;
-      },
-        error => {
+          this.allPermissions = permissions;
+        },
+        error: error => {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
           this.alertService.showStickyMessage('Load Error', `Unable to retrieve roles from the server.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
-        });
+        }
+      });
   }
 
 
@@ -192,20 +194,22 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
     this.loadingIndicator = true;
 
     this.accountService.deleteRole(row)
-      .subscribe(results => {
-        this.alertService.stopLoadingMessage();
-        this.loadingIndicator = false;
+      .subscribe({
+        next: _ => {
+          this.alertService.stopLoadingMessage();
+          this.loadingIndicator = false;
 
-        this.rowsCache = this.rowsCache.filter(item => item !== row);
-        this.rows = this.rows.filter(item => item !== row);
-      },
-        error => {
+          this.rowsCache = this.rowsCache.filter(item => item !== row);
+          this.rows = this.rows.filter(item => item !== row);
+        },
+        error: error => {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
           this.alertService.showStickyMessage('Delete Error', `An error occured whilst deleting the role.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
-        });
+        }
+      });
   }
 
 

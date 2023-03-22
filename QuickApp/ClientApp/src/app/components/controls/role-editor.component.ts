@@ -57,9 +57,11 @@ export class RoleEditorComponent {
     this.roleEdit.permissions = this.getSelectedPermissions();
 
     if (this.isNewRole) {
-      this.accountService.newRole(this.roleEdit).subscribe(role => this.saveSuccessHelper(role), error => this.saveFailedHelper(error));
+      this.accountService.newRole(this.roleEdit)
+        .subscribe({ next: role => this.saveSuccessHelper(role), error: error => this.saveFailedHelper(error) });
     } else {
-      this.accountService.updateRole(this.roleEdit).subscribe(response => this.saveSuccessHelper(), error => this.saveFailedHelper(error));
+      this.accountService.updateRole(this.roleEdit)
+        .subscribe({ next: _ => this.saveSuccessHelper(), error: error => this.saveFailedHelper(error) });
     }
   }
 
@@ -98,11 +100,13 @@ export class RoleEditorComponent {
 
   private refreshLoggedInUser() {
     this.accountService.refreshLoggedInUser()
-      .subscribe(user => { },
-        error => {
+      .subscribe({
+        next: _ => { },
+        error: error => {
           this.alertService.resetStickyMessage();
           this.alertService.showStickyMessage('Refresh failed', 'An error occured whilst refreshing logged in user information from the server', MessageSeverity.error, error);
-        });
+        }
+      });
   }
 
 

@@ -1,10 +1,12 @@
 @import '../styles/custom-vendor';
 
+$table-bg-scale: 0% !default; // Hack: Fix for depreciation: https://sass-lang.com/d/function-units
+
 @import 'bootswatch/dist/lumen/variables';
 @import 'bootstrap/scss/bootstrap';
 @import 'bootswatch/dist/lumen/bootswatch';
 
-@import "app-theme";
+@import 'app-theme';
 
 
 .about-page {

@@ -14,7 +14,8 @@
       </div>
     </div>
 
-    <div *ngIf="configurations.showDashboardStatistics" #dashboardStatistics cdkDrag [cdkDragStartDelay]="dragStartDelay" (cdkDragEntered)="dragEntered($event)" class="col-12 mb-4 widget-container px-0">
+    <div *ngIf="configurations.showDashboardStatistics" id="dashboardStatistics" #dashboardStatistics class="col-12 mb-4 widget-container px-0"
+         cdkDrag [cdkDragStartDelay]="dragStartDelay" (cdkDragEntered)="dragEntered($event)">
       <button type="button" class="btn-close" aria-label="Close" title="Close" (click)="configurations.showDashboardStatistics = false"></button>
       <div class="card card-body bg-light">
         <h5 class="text-muted d-inline-block">{{'home.StatisticsTitle' | translate}}</h5>
@@ -23,19 +24,22 @@
       </div>
     </div>
 
-    <div *ngIf="configurations.showDashboardNotifications" #dashboardNotifications cdkDrag [cdkDragStartDelay]="dragStartDelay" (cdkDragEntered)="dragEntered($event)" class="col-12 mb-4 widget-container px-0">
+    <div *ngIf="configurations.showDashboardNotifications" id="dashboardNotifications" #dashboardNotifications class="col-12 mb-4 widget-container px-0"
+         cdkDrag [cdkDragStartDelay]="dragStartDelay" (cdkDragEntered)="dragEntered($event)">
       <button type="button" class="btn-close" aria-label="Close" title="Close" (click)="configurations.showDashboardNotifications = false"></button>
       <div *cdkDragPlaceholder [ngStyle]="{'min-height.px': dashboardNotifications.offsetHeight }" class="widget-container-placeholder mb-4"></div>
       <app-notifications-viewer></app-notifications-viewer>
     </div>
 
-    <div *ngIf="configurations.showDashboardTodo" #dashboardTodo cdkDrag [cdkDragStartDelay]="dragStartDelay" (cdkDragEntered)="dragEntered($event)" class="col-12 mb-4 pt-1 widget-container px-0">
+    <div *ngIf="configurations.showDashboardTodo" id="dashboardTodo" #dashboardTodo class="col-12 mb-4 pt-1 widget-container px-0"
+         cdkDrag [cdkDragStartDelay]="dragStartDelay" (cdkDragEntered)="dragEntered($event)">
       <button type="button" class="btn-close extra-down" aria-label="Close" title="Close" (click)="configurations.showDashboardTodo = false"></button>
       <div *cdkDragPlaceholder [ngStyle]="{'min-height.px': dashboardTodo.offsetHeight }" class="widget-container-placeholder mb-4"></div>
       <app-todo-demo></app-todo-demo>
     </div>
 
-    <div *ngIf="configurations.showDashboardBanner" #dashboardBanner cdkDrag [cdkDragStartDelay]="dragStartDelay" (cdkDragEntered)="dragEntered($event)" class="col-12 mb-4 widget-container no-shadow px-0">
+    <div *ngIf="configurations.showDashboardBanner" id="dashboardBanner" #dashboardBanner class="col-12 mb-4 widget-container no-shadow px-0"
+         cdkDrag [cdkDragStartDelay]="dragStartDelay" (cdkDragEntered)="dragEntered($event)">
       <button type="button" class="btn-close" aria-label="Close" title="Close" (click)="configurations.showDashboardBanner = false"></button>
       <div *cdkDragPlaceholder [ngStyle]="{'min-height.px': dashboardBanner.offsetHeight }" class="widget-container-placeholder mb-4"></div>
       <app-banner-demo></app-banner-demo>

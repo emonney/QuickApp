@@ -103,7 +103,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   onLoginModalShown() {
-    this.alertService.showStickyMessage('Session Expired', 'Your Session has expired. Please log in again', MessageSeverity.info);
+    this.alertService.showStickyMessage(this.gT('app.alerts.SessionExpired'), this.gT('app.alerts.SessionExpiredLoginAgain'), MessageSeverity.info);
   }
 
 
@@ -113,7 +113,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.shouldShowLoginModal = false;
 
     if (this.authService.isSessionExpired) {
-      this.alertService.showStickyMessage('Session Expired', 'Your Session has expired. Please log in again to renew your session', MessageSeverity.warn);
+      this.alertService.showStickyMessage(this.gT('app.alerts.SessionExpired'), this.gT('app.alerts.SessionExpiredLoginToRenewSession'), MessageSeverity.warn);
     }
   }
 
@@ -134,9 +134,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.alertService.resetStickyMessage();
 
         // if (!this.authService.isSessionExpired)
-        this.alertService.showMessage('Login', `Welcome back ${this.userName}!`, MessageSeverity.default);
+        this.alertService.showMessage(this.gT('app.alerts.Login'), this.gT('app.alerts.WelcomeBack', { username: this.userName }), MessageSeverity.default);
         // else
-        //    this.alertService.showStickyMessage("Session Expired", "Your Session has expired. Please log in again", MessageSeverity.warn);
+        //  this.alertService.showStickyMessage(this.gT("app.alerts.SessionExpired"), this.gT("app.alerts.SessionExpiredLoginAgain"), MessageSeverity.warn);
       }
     }, 2000);
 
@@ -158,7 +158,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
       setTimeout(() => {
         if (!this.isUserLoggedIn) {
-          this.alertService.showMessage('Session Ended!', '', MessageSeverity.default);
+          this.alertService.showMessage(this.gT('app.alerts.SessionEnded'), '', MessageSeverity.default);
         }
       }, 500);
     });
@@ -181,19 +181,21 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   initNotificationsLoading() {
 
     this.notificationsLoadingSubscription = this.notificationService.getNewNotificationsPeriodically()
-      .subscribe(notifications => {
-        this.dataLoadingConsecutiveFailures = 0;
-        this.newNotificationCount = notifications.filter(n => !n.isRead).length;
-      },
-        error => {
+      .subscribe({
+        next: notifications => {
+          this.dataLoadingConsecutiveFailures = 0;
+          this.newNotificationCount = notifications.filter(n => !n.isRead).length;
+        },
+        error: error => {
           this.alertService.logError(error);
 
           if (this.dataLoadingConsecutiveFailures++ < 20) {
             setTimeout(() => this.initNotificationsLoading(), 5000);
           } else {
-            this.alertService.showStickyMessage('Load Error', 'Loading new notifications from the server failed!', MessageSeverity.error);
+            this.alertService.showStickyMessage(this.gT('app.alerts.LoadingError'), this.gT('app.alerts.LoadingNewNotificationsFailed'), MessageSeverity.error);
           }
-        });
+        }
+      });
   }
 
 
@@ -203,18 +205,19 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (recentNotifications.length) {
       this.notificationService.readUnreadNotification(recentNotifications.map(n => n.id), true)
-        .subscribe(response => {
-          for (const n of recentNotifications) {
-            n.isRead = true;
-          }
+        .subscribe({
+          next: _ => {
+            for (const n of recentNotifications) {
+              n.isRead = true;
+            }
 
-          this.newNotificationCount = recentNotifications.filter(n => !n.isRead).length;
-        },
-          error => {
+            this.newNotificationCount = recentNotifications.filter(n => !n.isRead).length;
+          },
+          error: error => {
             this.alertService.logError(error);
-            this.alertService.showMessage('Notification Error', 'Marking read notifications failed', MessageSeverity.error);
-
-          });
+            this.alertService.showMessage(this.gT('app.alerts.NotificationError'), this.gT('app.alerts.MarkingReadNotificationsFailed'), MessageSeverity.error);
+          }
+        });
     }
   }
 
@@ -224,8 +227,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     alertify.set({
       labels: {
-        ok: dialog.okLabel || 'OK',
-        cancel: dialog.cancelLabel || 'Cancel'
+        ok: dialog.okLabel || this.gT('app.alerts.OK'),
+        cancel: dialog.cancelLabel || this.gT('app.alerts.Cancel')
       }
     });
 

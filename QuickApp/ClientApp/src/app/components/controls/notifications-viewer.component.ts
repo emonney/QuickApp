@@ -102,13 +102,14 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
     const dataLoadTask = this.isViewOnly ? this.notificationService.getNewNotifications() : this.notificationService.getNewNotificationsPeriodically();
 
     this.dataLoadingSubscription = dataLoadTask
-      .subscribe(notifications => {
-        this.loadingIndicator = false;
-        this.dataLoadingConsecutiveFailurs = 0;
+      .subscribe({
+        next: notifications => {
+          this.loadingIndicator = false;
+          this.dataLoadingConsecutiveFailurs = 0;
 
-        this.rows = this.processResults(notifications);
-      },
-        error => {
+          this.rows = this.processResults(notifications);
+        },
+        error: error => {
           this.loadingIndicator = false;
 
           this.alertService.showMessage('Load Error', 'Loading new notifications from the server failed!', MessageSeverity.warn);
@@ -119,8 +120,8 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
           } else {
             this.alertService.showStickyMessage('Load Error', 'Loading new notifications from the server failed!', MessageSeverity.error);
           }
-
-        });
+        }
+      });
 
 
     if (this.isViewOnly) {
@@ -160,19 +161,21 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
     this.loadingIndicator = true;
 
     this.notificationService.deleteNotification(row)
-      .subscribe(results => {
-        this.alertService.stopLoadingMessage();
-        this.loadingIndicator = false;
+      .subscribe({
+        next: _ => {
+          this.alertService.stopLoadingMessage();
+          this.loadingIndicator = false;
 
-        this.rows = this.rows.filter(item => item.id !== row.id);
-      },
-        error => {
+          this.rows = this.rows.filter(item => item.id !== row.id);
+        },
+        error: error => {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
           this.alertService.showStickyMessage('Delete Error', `An error occured whilst deleting the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
-        });
+        }
+      });
   }
 
 
@@ -185,19 +188,21 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
     this.loadingIndicator = true;
 
     this.notificationService.pinUnpinNotification(row, pin)
-      .subscribe(results => {
-        this.alertService.stopLoadingMessage();
-        this.loadingIndicator = false;
+      .subscribe({
+        next: _ => {
+          this.alertService.stopLoadingMessage();
+          this.loadingIndicator = false;
 
-        row.isPinned = pin;
-      },
-        error => {
+          row.isPinned = pin;
+        },
+        error: error => {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
           this.alertService.showStickyMessage(opText + ' Error', `An error occured whilst ${opText} the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
-        });
+        }
+      });
   }
 
 

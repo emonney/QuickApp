@@ -35,19 +35,21 @@ export class UserPreferencesComponent {
     this.alertService.startLoadingMessage();
 
     this.accountService.getUserPreferences()
-      .subscribe(results => {
-        this.alertService.stopLoadingMessage();
+      .subscribe({
+        next: results => {
+          this.alertService.stopLoadingMessage();
 
-        this.configurations.import(results);
+          this.configurations.import(results);
 
-        this.alertService.showMessage('Defaults loaded!', '', MessageSeverity.info);
+          this.alertService.showMessage('Defaults loaded!', '', MessageSeverity.info);
 
-      },
-        error => {
+        },
+        error: error => {
           this.alertService.stopLoadingMessage();
           this.alertService.showStickyMessage('Load Error', `Unable to retrieve user preferences from the server.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
-        });
+        }
+      });
   }
 
   setAsDefault() {
@@ -60,16 +62,18 @@ export class UserPreferencesComponent {
     this.alertService.startLoadingMessage('', 'Saving new defaults');
 
     this.accountService.updateUserPreferences(this.configurations.export())
-      .subscribe(response => {
-        this.alertService.stopLoadingMessage();
-        this.alertService.showMessage('New Defaults', 'Account defaults updated successfully', MessageSeverity.success);
+      .subscribe({
+        next: _ => {
+          this.alertService.stopLoadingMessage();
+          this.alertService.showMessage('New Defaults', 'Account defaults updated successfully', MessageSeverity.success);
 
-      },
-        error => {
+        },
+        error: error => {
           this.alertService.stopLoadingMessage();
           this.alertService.showStickyMessage('Save Error', `An error occured whilst saving configuration defaults.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
-        });
+        }
+      });
   }
 
 
@@ -84,16 +88,18 @@ export class UserPreferencesComponent {
     this.alertService.startLoadingMessage('', 'Resetting defaults');
 
     this.accountService.updateUserPreferences(null)
-      .subscribe(response => {
-        this.alertService.stopLoadingMessage();
-        this.configurations.import(null);
-        this.alertService.showMessage('Defaults Reset', 'Account defaults reset completed successfully', MessageSeverity.success);
-      },
-        error => {
+      .subscribe({
+        next: _ => {
+          this.alertService.stopLoadingMessage();
+          this.configurations.import(null);
+          this.alertService.showMessage('Defaults Reset', 'Account defaults reset completed successfully', MessageSeverity.success);
+        },
+        error: error => {
           this.alertService.stopLoadingMessage();
           this.alertService.showStickyMessage('Save Error', `An error occured whilst resetting configuration defaults.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
-        });
+        }
+      });
   }
 
 

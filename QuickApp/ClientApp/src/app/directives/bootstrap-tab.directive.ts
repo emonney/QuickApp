@@ -59,6 +59,6 @@ export class BootstrapTabDirective implements OnDestroy {
 
   show(selector: string) {
     const tab = bootstrap.Tab.getOrCreateInstance(selector)
-    tab.show()
+    setTimeout(() => tab.show());
   }
 }

@@ -137,9 +137,17 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     this.loadingIndicator = true;
 
     if (this.canViewRoles) {
-      this.accountService.getUsersAndRoles().subscribe(results => this.onDataLoadSuccessful(results[0], results[1]), error => this.onDataLoadFailed(error));
+      this.accountService.getUsersAndRoles()
+        .subscribe({
+          next: results => this.onDataLoadSuccessful(results[0], results[1]),
+          error: error => this.onDataLoadFailed(error)
+        });
     } else {
-      this.accountService.getUsers().subscribe(users => this.onDataLoadSuccessful(users, this.accountService.currentUser.roles.map(x => new Role(x))), error => this.onDataLoadFailed(error));
+      this.accountService.getUsers()
+        .subscribe({
+          next: users => this.onDataLoadSuccessful(users, this.accountService.currentUser.roles.map(x => new Role(x))),
+          error: error => this.onDataLoadFailed(error)
+        });
     }
   }
 
@@ -205,20 +213,22 @@ export class UsersManagementComponent implements OnInit, AfterViewInit {
     this.loadingIndicator = true;
 
     this.accountService.deleteUser(row)
-      .subscribe(results => {
-        this.alertService.stopLoadingMessage();
-        this.loadingIndicator = false;
+      .subscribe({
+        next: _ => {
+          this.alertService.stopLoadingMessage();
+          this.loadingIndicator = false;
 
-        this.rowsCache = this.rowsCache.filter(item => item !== row);
-        this.rows = this.rows.filter(item => item !== row);
-      },
-        error => {
+          this.rowsCache = this.rowsCache.filter(item => item !== row);
+          this.rows = this.rows.filter(item => item !== row);
+        },
+        error: error => {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
           this.alertService.showStickyMessage('Delete Error', `An error occured whilst deleting the user.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
-        });
+        }
+      });
   }
 
 
