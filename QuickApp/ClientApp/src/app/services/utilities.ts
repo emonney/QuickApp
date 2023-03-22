@@ -1,7 +1,9 @@
-// =============================
-// Email: info@ebenmonney.com
-// www.ebenmonney.com/templates
-// =============================
+// ======================================
+// Author: Ebenezer Monney
+// Copyright (c) 2023 www.ebenmonney.com
+// 
+// ==> Gun4Hire: contact@ebenmonney.com
+// ======================================
 
 import { Injectable } from '@angular/core';
 import { HttpResponseBase, HttpResponse, HttpErrorResponse } from '@angular/common/http';
