@@ -115,7 +115,7 @@ QuickApp is actively maintained by [Ebenezer Monney](https://github.com/emonney)
 *   Suggesting ideas or areas of improvements
 *   Encouraging the developers by rating it/starring it
 *   Linking to it and recommending it to others
-*   [Making a donation](https://www.paypal.me/emonney)
+*   [Making a donation](https://paypal.me/ebenmonney)
 
 
 ## License
