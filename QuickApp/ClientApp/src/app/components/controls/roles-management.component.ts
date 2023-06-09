@@ -5,8 +5,8 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-import { Component, OnInit, AfterViewInit, TemplateRef, ViewChild, Input } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap/modal';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
@@ -22,7 +22,7 @@ import { RoleEditorComponent } from './role-editor.component';
   templateUrl: './roles-management.component.html',
   styleUrls: ['./roles-management.component.scss']
 })
-export class RolesManagementComponent implements OnInit, AfterViewInit {
+export class RolesManagementComponent implements OnInit {
   columns: any[] = [];
   rows: Role[] = [];
   rowsCache: Role[] = [];
@@ -33,7 +33,6 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
   loadingIndicator: boolean;
 
 
-
   @ViewChild('indexTemplate', { static: true })
   indexTemplate: TemplateRef<any>;
 
@@ -41,17 +40,16 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
   actionsTemplate: TemplateRef<any>;
 
   @ViewChild('editorModal', { static: true })
-  editorModal: ModalDirective;
+  editorModalTemplate: TemplateRef<any>;
 
-  @ViewChild('roleEditor', { static: true })
   roleEditor: RoleEditorComponent;
 
-  constructor(private alertService: AlertService, private translationService: AppTranslationService, private accountService: AccountService) {
+  constructor(private alertService: AlertService, private translationService: AppTranslationService,
+    private accountService: AccountService, private modalService: NgbModal) {
   }
 
 
   ngOnInit() {
-
     const gT = (key: string) => this.translationService.getTranslation(key);
 
     this.columns = [
@@ -66,21 +64,13 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
   }
 
 
+  setRoleEditorComponent(roleEditor) {
+    this.roleEditor = roleEditor;
 
-
-
-  ngAfterViewInit() {
-
-    this.roleEditor.changesSavedCallback = () => {
-      this.addNewRoleToList();
-      this.editorModal.hide();
-    };
-
-    this.roleEditor.changesCancelledCallback = () => {
-      this.editedRole = null;
-      this.sourceRole = null;
-      this.editorModal.hide();
-    };
+    if (this.sourceRole == null)
+      this.editedRole = this.roleEditor.newRole(this.allPermissions);
+    else
+      this.editedRole = this.roleEditor.editRole(this.sourceRole, this.allPermissions);
   }
 
 
@@ -119,8 +109,6 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
       this.rows = [...this.rows];
     }
   }
-
-
 
 
   loadData() {
@@ -162,29 +150,51 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
   }
 
 
-  onEditorModalHidden() {
-    this.editingRoleName = null;
-    this.roleEditor.resetForm(true);
-  }
-
-
   newRole() {
     this.editingRoleName = null;
     this.sourceRole = null;
-    this.editedRole = this.roleEditor.newRole(this.allPermissions);
-    this.editorModal.show();
+
+    this.openRoleEditor();
   }
 
 
   editRole(row: Role) {
     this.editingRoleName = { name: row.name };
     this.sourceRole = row;
-    this.editedRole = this.roleEditor.editRole(row, this.allPermissions);
-    this.editorModal.show();
+
+    this.openRoleEditor();
   }
 
+
+  openRoleEditor() {
+    const modalRef = this.modalService.open(this.editorModalTemplate, {
+      size: 'lg',
+      backdrop: 'static'
+    });
+
+    modalRef.shown.subscribe(() => {
+      this.roleEditor.changesSavedCallback = () => {
+        this.addNewRoleToList();
+        modalRef.close();
+      };
+
+      this.roleEditor.changesCancelledCallback = () => {
+        this.editedRole = null;
+        this.sourceRole = null;
+        modalRef.close();
+      };
+    });
+
+    modalRef.hidden.subscribe(() => {
+      this.editingRoleName = null;
+      this.roleEditor.resetForm(true);
+      this.roleEditor = null;
+    });
+  }
+
+
   deleteRole(row: Role) {
-    this.alertService.showDialog('Are you sure you want to delete the \"' + row.name + '\" role?', DialogType.confirm, () => this.deleteRoleHelper(row));
+    this.alertService.showDialog(`Are you sure you want to delete the \"${row.name}\" role?`, DialogType.confirm, () => this.deleteRoleHelper(row));
   }
 
 
@@ -206,7 +216,7 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
-          this.alertService.showStickyMessage('Delete Error', `An error occured whilst deleting the role.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage('Delete Error', `An error occurred whilst deleting the role.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
         }
       });
@@ -216,5 +226,4 @@ export class RolesManagementComponent implements OnInit, AfterViewInit {
   get canManageRoles() {
     return this.accountService.userHasPermission(Permission.manageRolesPermission);
   }
-
 }

@@ -6,14 +6,13 @@
 // ======================================
 
 import { Component, OnInit, OnDestroy, Input, TemplateRef, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap/modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AuthService } from '../../services/auth.service';
 import { AlertService, MessageSeverity, DialogType } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
 import { LocalStoreManager } from '../../services/local-store-manager.service';
 import { Utilities } from '../../services/utilities';
-
 
 
 @Component({
@@ -65,7 +64,6 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
   @Input()
   verticalScrollbar = false;
 
-
   @ViewChild('statusHeaderTemplate', { static: true })
   statusHeaderTemplate: TemplateRef<any>;
 
@@ -82,13 +80,12 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
   actionsTemplate: TemplateRef<any>;
 
   @ViewChild('editorModal', { static: true })
-  editorModal: ModalDirective;
+  editorModalTemplate: TemplateRef<any>;
 
 
   constructor(private alertService: AlertService, private translationService: AppTranslationService,
-    private localStorage: LocalStoreManager, private authService: AuthService) {
+    private localStorage: LocalStoreManager, private authService: AuthService, private modalService: NgbModal) {
   }
-
 
 
   ngOnInit() {
@@ -117,7 +114,6 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.saveToDisk();
   }
-
 
 
   fetch(cb) {
@@ -176,9 +172,10 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
       this.formResetToggle = true;
 
       this.taskEdit = {};
-      this.editorModal.show();
+      this.modalService.open(this.editorModalTemplate);
     });
   }
+
 
   save() {
     this.rowsCache.splice(0, 0, this.taskEdit);
@@ -187,7 +184,7 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
     this.rows = [...this.rows];
 
     this.saveToDisk();
-    this.editorModal.hide();
+    return true;
   }
 
 
@@ -212,9 +209,11 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
     this.saveToDisk();
   }
 
+
   getFromDisk() {
     return this.localStorage.getDataObject(`${TodoDemoComponent.DBKeyTodoDemo}:${this.currentUserId}`);
   }
+
 
   saveToDisk() {
     if (this.isDataLoaded) {

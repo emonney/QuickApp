@@ -30,6 +30,10 @@ $table-bg-scale: 0% !default; // Hack: Fix for depreciation: https://sass-lang.c
   }
 }
 
+.tooltip {
+  --bs-tooltip-color: #fff;
+}
+
 .alertify-message {
   color: var(--bs-secondary);
 }

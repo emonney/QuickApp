@@ -1,3 +1,5 @@
+/// <reference types="@angular/localize" />
+
 // ======================================
 // Author: Ebenezer Monney
 // Copyright (c) 2023 www.ebenmonney.com

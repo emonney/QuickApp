@@ -68,7 +68,7 @@
       "SessionRestored": "استعادة الجلسة",
       "RetryLastOperation": "يرجى تجربة العملية الأخيرة مرة أخرى",
       "UnableToLogin": "غير قادر على تسجيل الدخول",
-      "LoginErrorOccured": "حدث خطأ أثناء تسجيل الدخول ، يرجى المحاولة مرة أخرى في وقت لاحق.\nخطأ: {{error}}",
+      "LoginErrorOccurred": "حدث خطأ أثناء تسجيل الدخول ، يرجى المحاولة مرة أخرى في وقت لاحق.\nخطأ: {{error}}",
       "InvalidUsernameOrPassword": "خطأ في اسم المستخدم أو كلمة مرور",
       "AccountDisabled": "تم تعطيل هذا الحساب",
       "DeveloperDemoApiNotice": "عزيزي المطور!\nيبدو أن خدمة واجهة برمجة تطبيقات الويب الخلفية ليست قيد التشغيل ...\nهل تريد الانتقال مؤقتًا إلى واجهة برمجة التطبيقات التجريبية عبر الإنترنت أدناه (أو تحديد آخر)",
@@ -132,13 +132,13 @@
       "Success": "نجاح",
       "UserCreatedSuccessfully": "تم إنشاء حساب المستخدم \"{{username}}\" بنجاح",
       "SaveError": "حفظ الخطأ",
-      "BelowRegistrationErrorsOccured": "حدثت الأخطاء أدناه أثناء التسجيل:",
+      "BelowRegistrationErrorsOccurred": "حدثت الأخطاء أدناه أثناء التسجيل:",
       "AttemptingLogin": "جارٍ محاولة تسجيل الدخول ...",
       "Login": "تسجيل الدخول",
       "WelcomeUser": "مرحبا بك {{username}}!",
       "YourAccountCreatedSuccessfully": "لقد ثم انشاء حسابك بنجاح",
       "UnableToLogin": "غير قادر على تسجيل الدخول",
-      "LoginErrorOccured": "حدث خطأ أثناء تسجيل الدخول ، يرجى المحاولة مرة أخرى في وقت لاحق.\nخطأ: {{error}}",
+      "LoginErrorOccurred": "حدث خطأ أثناء تسجيل الدخول ، يرجى المحاولة مرة أخرى في وقت لاحق.\nخطأ: {{error}}",
       "InvalidUsernameOrPassword": "خطأ في اسم المستخدم أو كلمة مرور",
       "AccountDisabled": "تم تعطيل هذا الحساب"
     }
@@ -154,7 +154,7 @@
       "EmailConfirmationForUserFailed": "لم نتمكن من تأكيد البريد الإلكتروني للمستخدم الذي يحمل المعرّف \"{{userId}}\"",
       "EmailNotConfirmed": "البريد الإلكتروني غير مؤكد",
       "UserWithIdNotFound": "لم يتم العثور على أي مستخدم لديه id \"{{userId}}\"",
-      "EmailConfirmationErrorOccured": "حدث خطأ أثناء تأكيد بريدك الإلكتروني.\nخطأ: {{error}}"
+      "EmailConfirmationErrorOccurred": "حدث خطأ أثناء تأكيد بريدك الإلكتروني.\nخطأ: {{error}}"
     }
   },
   "recoverPassword": {
@@ -174,7 +174,7 @@
       "RecoverPassword": "إستعادة كلمة المرور",
       "PasswordEmailSent": "تم إرسال البريد الإلكتروني الخاص بإعادة ضبط كلمة المرور",
       "PasswordRecoveryFailed": "فشل استرداد كلمة المرور",
-      "PasswordRecoveryErrorOccured": "حدث خطأ أثناء استعادة كلمة المرور الخاصة بك.\nخطأ: {{error}}"
+      "PasswordRecoveryErrorOccurred": "حدث خطأ أثناء استعادة كلمة المرور الخاصة بك.\nخطأ: {{error}}"
     }
   },
   "resetPassword": {
@@ -207,7 +207,7 @@
       "PasswordChange": "تغيير كلمة السر",
       "PasswordSuccessfullyReset": "تم إعادة تعيين كلمة المرور الخاصة بك بنجاح",
       "PasswordResetFailed": "فشل إعادة ضبط كلمة المرور",
-      "PasswordResetErrorOccured": "حدث خطأ أثناء إعادة تعيين كلمة المرور الخاصة بك.\nخطأ: {{error}}"
+      "PasswordResetErrorOccurred": "حدث خطأ أثناء إعادة تعيين كلمة المرور الخاصة بك.\nخطأ: {{error}}"
     }
   },
   "home": {

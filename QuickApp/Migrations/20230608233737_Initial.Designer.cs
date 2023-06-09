@@ -19,7 +19,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace QuickApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230124003843_Initial")]
+    [Migration("20230608233737_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -27,7 +27,7 @@ namespace QuickApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);

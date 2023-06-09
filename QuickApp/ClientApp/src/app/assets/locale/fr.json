@@ -68,7 +68,7 @@
       "SessionRestored": "Session restaurée",
       "RetryLastOperation": "Veuillez réessayer votre dernière opération",
       "UnableToLogin": "Connection impossible",
-      "LoginErrorOccured": "Une erreur est survenue lors de la connexion, veuillez réessayer ultérieurement.\nErreur: {{error}}",
+      "LoginErrorOccurred": "Une erreur est survenue lors de la connexion, veuillez réessayer ultérieurement.\nErreur: {{error}}",
       "InvalidUsernameOrPassword": "Nom d'utilisateur ou mot de passe invalide",
       "AccountDisabled": "Ce compte a été désactivé",
       "DeveloperDemoApiNotice": "Cher développeur!\nIl semble que votre service API Web back-end ne soit pas en cours d'exécution...\nVoulez-vous basculer temporairement vers l'API de démonstration en ligne ci-dessous (ou en spécifier une autre)",
@@ -132,13 +132,13 @@
       "Success": "Succès",
       "UserCreatedSuccessfully": "Le compte d'utilisateur \"{{username}}\" a été créé avec succès",
       "SaveError": "Enregistrer une erreur",
-      "BelowRegistrationErrorsOccured": "Les erreurs ci-dessous se sont produites lors de l'inscription:",
+      "BelowRegistrationErrorsOccurred": "Les erreurs ci-dessous se sont produites lors de l'inscription:",
       "AttemptingLogin": "Tentative de connexion ...",
       "Login": "S'identifier",
       "WelcomeUser": "Bienvenue {{username}}!",
       "YourAccountCreatedSuccessfully": "Votre compte a été créé avec succès",
       "UnableToLogin": "Connection impossible",
-      "LoginErrorOccured": "Une erreur est survenue lors de la connexion, veuillez réessayer ultérieurement.\nErreur: {{error}}",
+      "LoginErrorOccurred": "Une erreur est survenue lors de la connexion, veuillez réessayer ultérieurement.\nErreur: {{error}}",
       "InvalidUsernameOrPassword": "Nom d'utilisateur ou mot de passe invalide",
       "AccountDisabled": "Ce compte a été désactivé"
     }
@@ -154,7 +154,7 @@
       "EmailConfirmationForUserFailed": "Nous n'avons pas pu confirmer l'email pour l'utilisateur avec l'ID \"{{userId}}\"",
       "EmailNotConfirmed": "Email non confirmé",
       "UserWithIdNotFound": "Aucun utilisateur avec l'ID \"{{userId}}\" n'a été trouvé",
-      "EmailConfirmationErrorOccured": "Une erreur est survenue lors de la confirmation de votre courrier électronique.\nErreur: {{error}}"
+      "EmailConfirmationErrorOccurred": "Une erreur est survenue lors de la confirmation de votre courrier électronique.\nErreur: {{error}}"
     }
   },
   "recoverPassword": {
@@ -174,7 +174,7 @@
       "RecoverPassword": "Récupérer mot de passe",
       "PasswordEmailSent": "Mot de passe réinitialiser l'email envoyé",
       "PasswordRecoveryFailed": "La récupération du mot de passe a échoué",
-      "PasswordRecoveryErrorOccured": "Une erreur est survenue lors de la récupération de votre mot de passe.\nErreur: {{error}}"
+      "PasswordRecoveryErrorOccurred": "Une erreur est survenue lors de la récupération de votre mot de passe.\nErreur: {{error}}"
     }
   },
   "resetPassword": {
@@ -207,7 +207,7 @@
       "PasswordChange": "Changement de mot de passe",
       "PasswordSuccessfullyReset": "Votre mot de passe a été réinitialisé avec succès",
       "PasswordResetFailed": "La réinitialisation du mot de passe a échoué",
-      "PasswordResetErrorOccured": "Une erreur s'est produite lors de la réinitialisation de votre mot de passe.\nErreur: {{error}}"
+      "PasswordResetErrorOccurred": "Une erreur s'est produite lors de la réinitialisation de votre mot de passe.\nErreur: {{error}}"
     }
   },
   "home": {

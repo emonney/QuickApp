@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             if (errorMessage) {
               this.alertService.showStickyMessage('Unable to login', this.mapLoginErrorMessage(errorMessage), MessageSeverity.error, error);
             } else {
-              this.alertService.showStickyMessage('Unable to login', 'An error occured whilst logging in, please try again later.\nError: ' + Utilities.getResponseBody(error), MessageSeverity.error, error);
+              this.alertService.showStickyMessage('Unable to login', 'An error occurred whilst logging in, please try again later.\nError: ' + Utilities.getResponseBody(error), MessageSeverity.error, error);
             }
           }
 
@@ -125,7 +125,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   offerAlternateHost() {
-
     if (Utilities.checkIsLocalHost(location.origin) && Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
       this.alertService.showDialog('Dear Developer!\nIt appears your backend Web API service is not running...\n' +
         'Would you want to temporarily switch to the online Demo API below?(Or specify another)',
@@ -143,7 +142,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   mapLoginErrorMessage(error: string) {
-
     if (error === 'invalid_username_or_password') {
       return 'Invalid username or password';
     }

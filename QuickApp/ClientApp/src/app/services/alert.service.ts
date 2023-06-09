@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 import { HttpResponseBase } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 
-import { Utilities } from '../services/utilities';
+import { Utilities } from './utilities';
 
 @Injectable()
 export class AlertService {

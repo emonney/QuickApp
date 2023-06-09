@@ -95,7 +95,7 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
         fontSize: 16,
         text: 'Important Stuff'
       }
-    }
+    };
 
     if (this.chartType != 'line') {
       this.chartOptions = baseOptions;
@@ -107,7 +107,7 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
             tension: 0.5
           }
         }
-      }
+      };
 
       this.chartOptions = { ...baseOptions, ...lineChartOptions };
     }

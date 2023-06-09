@@ -51,12 +51,12 @@ namespace QuickApp.Controllers
         [HttpGet("email")]
         public async Task<string> Email()
         {
-            var recepientName = "QickApp Tester"; //         <===== Put the recepient's name here
-            var recepientEmail = "test@ebenmonney.com"; //   <===== Put the recepient's email here
+            var recipientName = "QickApp Tester"; //         <===== Put the recipient's name here
+            var recipientEmail = "test@ebenmonney.com"; //   <===== Put the recipient's email here
 
-            var message = EmailTemplates.GetTestEmail(recepientName, DateTime.UtcNow);
+            var message = EmailTemplates.GetTestEmail(recipientName, DateTime.UtcNow);
 
-            (var success, var errorMsg) = await _emailSender.SendEmailAsync(recepientName, recepientEmail, "Test Email from QuickApp", message);
+            (var success, var errorMsg) = await _emailSender.SendEmailAsync(recipientName, recipientEmail, "Test Email from QuickApp", message);
 
             if (success)
                 return "Success";

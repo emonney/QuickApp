@@ -24,7 +24,7 @@ export class HomeComponent implements AfterViewInit {
   readonly DBKeyWidgetsOrder = 'home-component.widgets_order';
 
   @ViewChild('widgetsContainer', { read: ElementRef })
-  widgetsContainer: ElementRef<HTMLDivElement>
+  widgetsContainer: ElementRef<HTMLDivElement>;
 
   constructor(private authService: AuthService, public configurations: ConfigurationService) {
 
@@ -42,7 +42,7 @@ export class HomeComponent implements AfterViewInit {
 
     const parentEle = this.widgetsContainer.nativeElement;
 
-    for (var i = 0; i < parentEle.children.length; i++) {
+    for (let i = 0; i < parentEle.children.length; i++) {
       const widget = parentEle.children[i];
       const index = widgetIndexes.find(w => w.element == widget.id)?.index;
 
@@ -53,12 +53,12 @@ export class HomeComponent implements AfterViewInit {
 
   insertChildAtIndex(parent: HTMLDivElement, child: Element, index: number) {
     if (!index)
-      index = 0
+      index = 0;
 
     if (index >= parent.children.length) {
-      parent.appendChild(child)
+      parent.appendChild(child);
     } else {
-      parent.insertBefore(child, parent.children[index])
+      parent.insertBefore(child, parent.children[index]);
     }
   }
 
@@ -69,13 +69,13 @@ export class HomeComponent implements AfterViewInit {
 
     const widgetIndexes = new Array<WidgetIndex>(parentEle.children.length);
 
-    for (var i = 0; i < parentEle.children.length; i++) {
+    for (let i = 0; i < parentEle.children.length; i++) {
       widgetIndexes[i] = { element: parentEle.children[i].id, index: i };
     }
 
-    moveItemInArray(widgetIndexes, event.previousIndex, event.currentIndex)
+    moveItemInArray(widgetIndexes, event.previousIndex, event.currentIndex);
 
-    for (var i = 0; i < widgetIndexes.length; i++) {
+    for (let i = 0; i < widgetIndexes.length; i++) {
       widgetIndexes[i].index = i;
     }
 
@@ -86,7 +86,6 @@ export class HomeComponent implements AfterViewInit {
 
     this.saveWidgetIndexes(widgetIndexes);
   }
-
 
   saveWidgetIndexes(indexes: WidgetIndex[]) {
     this.configurations

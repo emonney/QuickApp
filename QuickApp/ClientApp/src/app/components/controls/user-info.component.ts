@@ -5,7 +5,7 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { AccountService } from '../../services/account.service';
@@ -29,8 +29,8 @@ export class UserInfoComponent implements OnInit {
   public isChangePassword = false;
   public isEditingSelf = false;
   public showValidationErrors = false;
-  public uniqueId: string = Utilities.uniqueId();
-  public user: User = new User();
+  public uniqueId = Utilities.uniqueId();
+  public user = new User();
   public userEdit: UserEdit;
   public allRoles: Role[] = [];
 
@@ -46,12 +46,15 @@ export class UserInfoComponent implements OnInit {
   @Input()
   isGeneralEditor = false;
 
+  // Outupt to broadcast this instance so it can be accessible from within ng-bootstrap modal template
+  @Output()
+  afterOnInit = new EventEmitter<UserInfoComponent>();
 
 
   @ViewChild('f')
   public form;
 
-  // ViewChilds Required because ngIf hides template variables from global scope
+  // ViewChilds required because ngIf hides template variables from global scope within template
   @ViewChild('userName')
   public userName;
 
@@ -81,6 +84,8 @@ export class UserInfoComponent implements OnInit {
     if (!this.isGeneralEditor) {
       this.loadCurrentUserData();
     }
+
+    this.afterOnInit.emit(this);
   }
 
   private loadCurrentUserData() {
@@ -219,7 +224,7 @@ export class UserInfoComponent implements OnInit {
   private saveFailedHelper(error: any) {
     this.isSaving = false;
     this.alertService.stopLoadingMessage();
-    this.alertService.showStickyMessage('Save Error', 'The below errors occured whilst saving your changes:', MessageSeverity.error, error);
+    this.alertService.showStickyMessage('Save Error', 'The below errors occurred whilst saving your changes:', MessageSeverity.error, error);
     this.alertService.showStickyMessage(error, null, MessageSeverity.error);
 
     if (this.changesFailedCallback) {
@@ -287,7 +292,7 @@ export class UserInfoComponent implements OnInit {
         },
         error: error => {
           this.alertService.resetStickyMessage();
-          this.alertService.showStickyMessage('Refresh failed', 'An error occured whilst refreshing logged in user information from the server', MessageSeverity.error, error);
+          this.alertService.showStickyMessage('Refresh failed', 'An error occurred whilst refreshing logged in user information from the server', MessageSeverity.error, error);
         }
       });
   }
@@ -314,7 +319,7 @@ export class UserInfoComponent implements OnInit {
         error: error => {
           this.isSaving = false;
           this.alertService.stopLoadingMessage();
-          this.alertService.showStickyMessage('Unblock Error', 'The below errors occured whilst unblocking the user:', MessageSeverity.error, error);
+          this.alertService.showStickyMessage('Unblock Error', 'The below errors occurred whilst unblocking the user:', MessageSeverity.error, error);
           this.alertService.showStickyMessage(error, null, MessageSeverity.error);
         }
       });

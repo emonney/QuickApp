@@ -70,7 +70,7 @@ export class UserPreferencesComponent {
         },
         error: error => {
           this.alertService.stopLoadingMessage();
-          this.alertService.showStickyMessage('Save Error', `An error occured whilst saving configuration defaults.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage('Save Error', `An error occurred whilst saving configuration defaults.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
         }
       });
@@ -96,7 +96,7 @@ export class UserPreferencesComponent {
         },
         error: error => {
           this.alertService.stopLoadingMessage();
-          this.alertService.showStickyMessage('Save Error', `An error occured whilst resetting configuration defaults.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage('Save Error', `An error occurred whilst resetting configuration defaults.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
         }
       });

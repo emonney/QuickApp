@@ -151,7 +151,7 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
 
 
   deleteNotification(row: Notification) {
-    this.alertService.showDialog('Are you sure you want to delete the notification \"' + row.header + '\"?', DialogType.confirm, () => this.deleteNotificationHelper(row));
+    this.alertService.showDialog(`Are you sure you want to delete the notification \"${row.header}\"?`, DialogType.confirm, () => this.deleteNotificationHelper(row));
   }
 
 
@@ -172,7 +172,7 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
-          this.alertService.showStickyMessage('Delete Error', `An error occured whilst deleting the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage('Delete Error', `An error occurred whilst deleting the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
         }
       });
@@ -199,7 +199,7 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
-          this.alertService.showStickyMessage(opText + ' Error', `An error occured whilst ${opText} the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage(opText + ' Error', `An error occurred whilst ${opText} the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
         }
       });

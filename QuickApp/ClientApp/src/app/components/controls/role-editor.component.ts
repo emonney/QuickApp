@@ -5,7 +5,7 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { AccountService } from '../../services/account.service';
@@ -18,12 +18,12 @@ import { Permission } from '../../models/permission.model';
   templateUrl: './role-editor.component.html',
   styleUrls: ['./role-editor.component.scss']
 })
-export class RoleEditorComponent {
+export class RoleEditorComponent implements OnInit {
 
   private isNewRole = false;
   public isSaving: boolean;
   public showValidationErrors = true;
-  public roleEdit: Role = new Role();
+  public roleEdit = new Role();
   public allPermissions: Permission[] = [];
   public selectedValues: { [key: string]: boolean; } = {};
   private editingRoleName: string;
@@ -34,15 +34,22 @@ export class RoleEditorComponent {
   public changesFailedCallback: () => void;
   public changesCancelledCallback: () => void;
 
+  // Outupt to broadcast this instance so it can be accessible from within ng-bootstrap modal template
+  @Output()
+  afterOnInit = new EventEmitter<RoleEditorComponent>();
+
 
   @ViewChild('f')
   private form;
 
 
-
   constructor(private alertService: AlertService, private accountService: AccountService) {
   }
 
+
+  ngOnInit() {
+    this.afterOnInit.emit(this);
+  }
 
 
   showErrorAlert(caption: string, message: string) {
@@ -104,7 +111,7 @@ export class RoleEditorComponent {
         next: _ => { },
         error: error => {
           this.alertService.resetStickyMessage();
-          this.alertService.showStickyMessage('Refresh failed', 'An error occured whilst refreshing logged in user information from the server', MessageSeverity.error, error);
+          this.alertService.showStickyMessage('Refresh failed', 'An error occurred whilst refreshing logged in user information from the server', MessageSeverity.error, error);
         }
       });
   }
@@ -114,7 +121,7 @@ export class RoleEditorComponent {
   private saveFailedHelper(error: any) {
     this.isSaving = false;
     this.alertService.stopLoadingMessage();
-    this.alertService.showStickyMessage('Save Error', 'The below errors occured whilst saving your changes:', MessageSeverity.error, error);
+    this.alertService.showStickyMessage('Save Error', 'The below errors occurred whilst saving your changes:', MessageSeverity.error, error);
     this.alertService.showStickyMessage(error, null, MessageSeverity.error);
 
     if (this.changesFailedCallback) {

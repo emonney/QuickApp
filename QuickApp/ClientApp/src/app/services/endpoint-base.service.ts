@@ -26,7 +26,7 @@ export class EndpointBase {
 
   protected get requestHeaders(): { headers: HttpHeaders | { [header: string]: string | string[]; } } {
     const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this.authService.accessToken,
+      Authorization: `Bearer ${this.authService.accessToken}`,
       'Content-Type': 'application/json',
       Accept: 'application/json, text/plain, */*'
     });

@@ -264,5 +264,4 @@ paket-files/
 __pycache__/
 *.pyc
 # Others
-*.licenseheader
 Thumbs.db

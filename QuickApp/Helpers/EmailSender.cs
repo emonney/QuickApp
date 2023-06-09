@@ -18,9 +18,9 @@ namespace QuickApp.Helpers
 {
     public interface IEmailSender
     {
-        Task<(bool success, string errorMsg)> SendEmailAsync(MailboxAddress sender, MailboxAddress[] recepients, string subject, string body, SmtpConfig config = null, bool isHtml = true);
-        Task<(bool success, string errorMsg)> SendEmailAsync(string recepientName, string recepientEmail, string subject, string body, SmtpConfig config = null, bool isHtml = true);
-        Task<(bool success, string errorMsg)> SendEmailAsync(string senderName, string senderEmail, string recepientName, string recepientEmail, string subject, string body, SmtpConfig config = null, bool isHtml = true);
+        Task<(bool success, string errorMsg)> SendEmailAsync(MailboxAddress sender, MailboxAddress[] recipients, string subject, string body, SmtpConfig config = null, bool isHtml = true);
+        Task<(bool success, string errorMsg)> SendEmailAsync(string recipientName, string recipientEmail, string subject, string body, SmtpConfig config = null, bool isHtml = true);
+        Task<(bool success, string errorMsg)> SendEmailAsync(string senderName, string senderEmail, string recipientName, string recipientEmail, string subject, string body, SmtpConfig config = null, bool isHtml = true);
     }
 
     public class EmailSender : IEmailSender
@@ -35,15 +35,15 @@ namespace QuickApp.Helpers
         }
 
         public async Task<(bool success, string errorMsg)> SendEmailAsync(
-            string recepientName,
-            string recepientEmail,
+            string recipientName,
+            string recipientEmail,
             string subject,
             string body,
             SmtpConfig config = null,
             bool isHtml = true)
         {
             var from = new MailboxAddress(_config.Name, _config.EmailAddress);
-            var to = new MailboxAddress(recepientName, recepientEmail);
+            var to = new MailboxAddress(recipientName, recipientEmail);
 
             return await SendEmailAsync(from, new MailboxAddress[] { to }, subject, body, config, isHtml);
         }
@@ -51,15 +51,15 @@ namespace QuickApp.Helpers
         public async Task<(bool success, string errorMsg)> SendEmailAsync(
             string senderName,
             string senderEmail,
-            string recepientName,
-            string recepientEmail,
+            string recipientName,
+            string recipientEmail,
             string subject,
             string body,
             SmtpConfig config = null,
             bool isHtml = true)
         {
             var from = new MailboxAddress(senderName, senderEmail);
-            var to = new MailboxAddress(recepientName, recepientEmail);
+            var to = new MailboxAddress(recipientName, recipientEmail);
 
             return await SendEmailAsync(from, new MailboxAddress[] { to }, subject, body, config, isHtml);
         }
@@ -68,7 +68,7 @@ namespace QuickApp.Helpers
         //or a service such as SendGrid https://sendgrid.com/
         public async Task<(bool success, string errorMsg)> SendEmailAsync(
             MailboxAddress sender,
-            MailboxAddress[] recepients,
+            MailboxAddress[] recipients,
             string subject,
             string body,
             SmtpConfig config = null,
@@ -77,7 +77,7 @@ namespace QuickApp.Helpers
             var message = new MimeMessage();
 
             message.From.Add(sender);
-            message.To.AddRange(recepients);
+            message.To.AddRange(recipients);
             message.Subject = subject;
             message.Body = isHtml ? new BodyBuilder { HtmlBody = body }.ToMessageBody() : new TextPart("plain") { Text = body };
 

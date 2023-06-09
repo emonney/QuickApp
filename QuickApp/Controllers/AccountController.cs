@@ -85,7 +85,7 @@ namespace QuickApp.Controllers
         }
 
         [HttpGet("users")]
-        [Authorize(Authorization.Policies.ViewAllUsersPolicy)]
+        [Authorize(Policies.ViewAllUsersPolicy)]
         [ProducesResponseType(200, Type = typeof(List<UserViewModel>))]
         public async Task<IActionResult> GetUsers()
         {
@@ -93,7 +93,7 @@ namespace QuickApp.Controllers
         }
 
         [HttpGet("users/{pageNumber:int}/{pageSize:int}")]
-        [Authorize(Authorization.Policies.ViewAllUsersPolicy)]
+        [Authorize(Policies.ViewAllUsersPolicy)]
         [ProducesResponseType(200, Type = typeof(List<UserViewModel>))]
         public async Task<IActionResult> GetUsers(int pageNumber, int pageSize)
         {
@@ -132,7 +132,7 @@ namespace QuickApp.Controllers
             var currentRoles = appUser != null ? (await _accountManager.GetUserRolesAsync(appUser)).ToArray() : null;
 
             var manageUsersPolicy = _authorizationService.AuthorizeAsync(User, id, AccountManagementOperations.Update);
-            var assignRolePolicy = _authorizationService.AuthorizeAsync(User, (user.Roles, currentRoles), Authorization.Policies.AssignAllowedRolesPolicy);
+            var assignRolePolicy = _authorizationService.AuthorizeAsync(User, (user.Roles, currentRoles), Policies.AssignAllowedRolesPolicy);
 
             if ((await Task.WhenAll(manageUsersPolicy, assignRolePolicy)).Any(r => !r.Succeeded))
                 return new ChallengeResult();
@@ -170,7 +170,7 @@ namespace QuickApp.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    _mapper.Map<UserEditViewModel, ApplicationUser>(user, appUser);
+                    _mapper.Map(user, appUser);
 
                     var result = await _accountManager.UpdateUserAsync(appUser, user.Roles);
                     if (result.Succeeded)
@@ -241,13 +241,13 @@ namespace QuickApp.Controllers
         }
 
         [HttpPost("users")]
-        [Authorize(Authorization.Policies.ManageAllUsersPolicy)]
+        [Authorize(Policies.ManageAllUsersPolicy)]
         [ProducesResponseType(201, Type = typeof(UserViewModel))]
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
         public async Task<IActionResult> Register([FromBody] UserEditViewModel user)
         {
-            if (!(await _authorizationService.AuthorizeAsync(User, (user.Roles, new string[] { }), Authorization.Policies.AssignAllowedRolesPolicy)).Succeeded)
+            if (!(await _authorizationService.AuthorizeAsync(User, (user.Roles, new string[] { }), Policies.AssignAllowedRolesPolicy)).Succeeded)
                 return new ChallengeResult();
 
             if (ModelState.IsValid)
@@ -298,7 +298,7 @@ namespace QuickApp.Controllers
         }
 
         [HttpPut("users/unblock/{id}")]
-        [Authorize(Authorization.Policies.ManageAllUsersPolicy)]
+        [Authorize(Policies.ManageAllUsersPolicy)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> UnblockUser(string id)
@@ -350,7 +350,7 @@ namespace QuickApp.Controllers
         {
             var appRole = await _accountManager.GetRoleByIdAsync(id);
 
-            if (!(await _authorizationService.AuthorizeAsync(User, appRole?.Name ?? string.Empty, Authorization.Policies.ViewRoleByRoleNamePolicy)).Succeeded)
+            if (!(await _authorizationService.AuthorizeAsync(User, appRole?.Name ?? string.Empty, Policies.ViewRoleByRoleNamePolicy)).Succeeded)
                 return new ChallengeResult();
 
             if (appRole == null)
@@ -365,7 +365,7 @@ namespace QuickApp.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetRoleByName(string name)
         {
-            if (!(await _authorizationService.AuthorizeAsync(User, name, Authorization.Policies.ViewRoleByRoleNamePolicy)).Succeeded)
+            if (!(await _authorizationService.AuthorizeAsync(User, name, Policies.ViewRoleByRoleNamePolicy)).Succeeded)
                 return new ChallengeResult();
 
             var roleVM = await GetRoleViewModelHelper(name);
@@ -377,7 +377,7 @@ namespace QuickApp.Controllers
         }
 
         [HttpGet("roles")]
-        [Authorize(Authorization.Policies.ViewAllRolesPolicy)]
+        [Authorize(Policies.ViewAllRolesPolicy)]
         [ProducesResponseType(200, Type = typeof(List<RoleViewModel>))]
         public async Task<IActionResult> GetRoles()
         {
@@ -385,7 +385,7 @@ namespace QuickApp.Controllers
         }
 
         [HttpGet("roles/{pageNumber:int}/{pageSize:int}")]
-        [Authorize(Authorization.Policies.ViewAllRolesPolicy)]
+        [Authorize(Policies.ViewAllRolesPolicy)]
         [ProducesResponseType(200, Type = typeof(List<RoleViewModel>))]
         public async Task<IActionResult> GetRoles(int pageNumber, int pageSize)
         {
@@ -394,7 +394,7 @@ namespace QuickApp.Controllers
         }
 
         [HttpPut("roles/{id}")]
-        [Authorize(Authorization.Policies.ManageAllRolesPolicy)]
+        [Authorize(Policies.ManageAllRolesPolicy)]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -413,7 +413,7 @@ namespace QuickApp.Controllers
                 if (appRole == null)
                     return NotFound(id);
 
-                _mapper.Map<RoleViewModel, ApplicationRole>(role, appRole);
+                _mapper.Map(role, appRole);
 
                 var result = await _accountManager.UpdateRoleAsync(appRole, role.Permissions?.Select(p => p.Value).ToArray());
                 if (result.Succeeded)
@@ -427,7 +427,7 @@ namespace QuickApp.Controllers
         }
 
         [HttpPost("roles")]
-        [Authorize(Authorization.Policies.ManageAllRolesPolicy)]
+        [Authorize(Policies.ManageAllRolesPolicy)]
         [ProducesResponseType(201, Type = typeof(RoleViewModel))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> CreateRole([FromBody] RoleViewModel role)
@@ -453,7 +453,7 @@ namespace QuickApp.Controllers
         }
 
         [HttpDelete("roles/{id}")]
-        [Authorize(Authorization.Policies.ManageAllRolesPolicy)]
+        [Authorize(Policies.ManageAllRolesPolicy)]
         [ProducesResponseType(200, Type = typeof(RoleViewModel))]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -477,7 +477,7 @@ namespace QuickApp.Controllers
         }
 
         [HttpGet("permissions")]
-        [Authorize(Authorization.Policies.ViewAllRolesPolicy)]
+        [Authorize(Policies.ViewAllRolesPolicy)]
         [ProducesResponseType(200, Type = typeof(List<PermissionViewModel>))]
         public IActionResult GetAllPermissions()
         {

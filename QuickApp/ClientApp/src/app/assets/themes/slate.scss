@@ -13,6 +13,10 @@ $table-bg-scale: 0% !default; // Hack: Fix for depreciation: https://sass-lang.c
   background-color: $primary !important;
 }
 
+.tooltip {
+  --bs-tooltip-color: #fff;
+}
+
 .ngx-datatable.material.table-striped {
   .datatable-row-even {
     background: $gray-700;

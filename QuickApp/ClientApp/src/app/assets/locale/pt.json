@@ -68,7 +68,7 @@
       "SessionRestored": "Sessão Restaurada",
       "RetryLastOperation": "Por favor, tente sua última operação novamente",
       "UnableToLogin": "Incapaz de entrar",
-      "LoginErrorOccured": "Ocorreu um erro durante o login. Tente novamente mais tarde.\nErro: {{error}}",
+      "LoginErrorOccurred": "Ocorreu um erro durante o login. Tente novamente mais tarde.\nErro: {{error}}",
       "InvalidUsernameOrPassword": "Nome de usuário ou senha inválidos",
       "AccountDisabled": "Essa conta foi desativada",
       "DeveloperDemoApiNotice": "Caro desenvolvedor!\nParece que seu serviço de API da Web de back-end não está sendo executado...\nVocê deseja mudar temporariamente para a API de demonstração on-line abaixo? (Ou especifique outra)",
@@ -132,13 +132,13 @@
       "Success": "Sucesso",
       "UserCreatedSuccessfully": "Conta de usuário \"{{username}}\" foi criada com sucesso",
       "SaveError": "Salvar erro",
-      "BelowRegistrationErrorsOccured": "Os erros abaixo ocorreram durante o registro:",
+      "BelowRegistrationErrorsOccurred": "Os erros abaixo ocorreram durante o registro:",
       "AttemptingLogin": "Tentando fazer login...",
       "Login": "Entrar",
       "WelcomeUser": "Bem vindo {{username}}!",
       "YourAccountCreatedSuccessfully": "Sua conta foi criada com sucesso",
       "UnableToLogin": "Incapaz de entrar",
-      "LoginErrorOccured": "Ocorreu um erro durante o login. Tente novamente mais tarde.\nErro: {{error}}",
+      "LoginErrorOccurred": "Ocorreu um erro durante o login. Tente novamente mais tarde.\nErro: {{error}}",
       "InvalidUsernameOrPassword": "Nome de usuário ou senha inválidos",
       "AccountDisabled": "Essa conta foi desativada"
     }
@@ -154,7 +154,7 @@
       "EmailConfirmationForUserFailed": "Não foi possível confirmar o email para o usuário com o ID \"{{userId}}\"",
       "EmailNotConfirmed": "E-mail não confirmado",
       "UserWithIdNotFound": "Nenhum usuário com a palavra \"{{userId}}\" foi encontrado",
-      "EmailConfirmationErrorOccured": "Ocorreu um erro ao confirmar o seu email.\nErro: {{error}}"
+      "EmailConfirmationErrorOccurred": "Ocorreu um erro ao confirmar o seu email.\nErro: {{error}}"
     }
   },
   "recoverPassword": {
@@ -174,7 +174,7 @@
       "RecoverPassword": "Recuperar Senha",
       "PasswordEmailSent": "E-mail de redefinição de senha enviado",
       "PasswordRecoveryFailed": "Recuperação de Senha com Falha",
-      "PasswordRecoveryErrorOccured": "Ocorreu um erro ao recuperar sua senha.\nErro: {{error}}"
+      "PasswordRecoveryErrorOccurred": "Ocorreu um erro ao recuperar sua senha.\nErro: {{error}}"
     }
   },
   "resetPassword": {
@@ -207,7 +207,7 @@
       "PasswordChange": "Mudança de senha",
       "PasswordSuccessfullyReset": "Sua senha foi redefinida com sucesso",
       "PasswordResetFailed": "Redefinição de senha falhou",
-      "PasswordResetErrorOccured": "Ocorreu um erro ao redefinir sua senha.\nErro: {{error}}"
+      "PasswordResetErrorOccurred": "Ocorreu um erro ao redefinir sua senha.\nErro: {{error}}"
     }
   },
   "home": {

@@ -50,19 +50,14 @@
     </div>
   </ng-template>
 
-
-  <div class="modal fade" bsModal #editorModal="bs-modal" (onHidden)="onEditorModalHidden()" [config]="{backdrop: 'static'}" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 *ngIf="!editingUserName" class="modal-title float-start"><i class="fa fa-user-plus"></i> {{'users.management.NewUser' | translate}}</h4>
-          <h4 *ngIf="editingUserName" class="modal-title float-start"><i class="fa fa-user-circle-o"></i> {{'users.management.EditUser' | translate:editingUserName}}</h4>
-          <button type="button" class="btn-close float-end fs-sm" title="Close" (click)="editorModal.hide()"></button>
-        </div>
-        <div class="modal-body">
-          <app-user-info #userEditor [isGeneralEditor]="true"></app-user-info>
-        </div>
-      </div>
+  <ng-template #editorModal let-modal>
+    <div class="modal-header">
+      <h4 *ngIf="!editingUserName" class="modal-title"><i class="fa fa-user-plus"></i> {{'users.management.NewUser' | translate}}</h4>
+      <h4 *ngIf="editingUserName" class="modal-title"><i class="fa fa-user-circle-o"></i> {{'users.management.EditUser' | translate:editingUserName}}</h4>
+      <button type="button" class="btn-close fs-sm" title="Close" (click)="modal.close()" tabindex="-1"></button>
     </div>
-  </div>
+    <div class="modal-body">
+      <app-user-info #userEditor [isGeneralEditor]="true" (afterOnInit)="setUserEditorComponent($event)"></app-user-info>
+    </div>
+  </ng-template>
 </div>

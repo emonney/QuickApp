@@ -22,12 +22,12 @@ namespace QuickApp.Helpers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public static string GetTestEmail(string recepientName, DateTime testDate)
+        public static string GetTestEmail(string recipientName, DateTime testDate)
         {
             testEmailTemplate ??= ReadPhysicalFile("Helpers/Templates/TestEmail.template");
 
             var emailMessage = testEmailTemplate
-                .Replace("{user}", recepientName)
+                .Replace("{user}", recipientName)
                 .Replace("{testDate}", testDate.ToString());
 
             return emailMessage;

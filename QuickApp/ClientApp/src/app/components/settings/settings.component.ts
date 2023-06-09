@@ -6,7 +6,7 @@
 // ======================================
 
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 import { fadeInOut } from '../../services/animations';

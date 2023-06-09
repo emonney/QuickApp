@@ -12,16 +12,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
+import { NgbModalModule, NgbTooltipModule, NgbPopoverModule, NgbDropdownModule, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { ToastaModule } from 'ngx-toasta';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { PopoverModule } from 'ngx-bootstrap/popover';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { NgChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -99,15 +95,15 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
         useClass: TranslateLanguageLoader
       }
     }),
+    NgbTooltipModule,
+    NgbPopoverModule,
+    NgbDropdownModule,
+    NgbCarouselModule,
+    NgbModalModule,
     NgxDatatableModule,
     OAuthModule.forRoot(),
     ToastaModule.forRoot(),
     NgSelectModule,
-    TooltipModule.forRoot(),
-    PopoverModule.forRoot(),
-    BsDropdownModule.forRoot(),
-    CarouselModule.forRoot(),
-    ModalModule.forRoot(),
     NgChartsModule
   ],
   providers: [

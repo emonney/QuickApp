@@ -10,7 +10,6 @@ import { HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 
-
 @Injectable()
 export class NotificationEndpoint {
   private demoNotifications = [
@@ -33,7 +32,7 @@ export class NotificationEndpoint {
     {
       id: 3,
       header: 'Tomorrow is half day',
-      body: 'Guys, tomorrow we close by midday. Please check in your sales before noon. Thanx. Alex.',
+      body: 'Guys, tomorrow we close by midday. Please check in your sales before noon. Thanks. Alex.',
       isRead: false,
       isPinned: false,
       date: '2017-05-30T11:13:42.4144502'

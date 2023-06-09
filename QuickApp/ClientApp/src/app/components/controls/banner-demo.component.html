@@ -1,60 +1,23 @@
 <div class="reduced-font text-link">
-  <div>
-    <carousel [isAnimated]="true" interval="6000">
-      <slide>
-        <img src="assets/images/demo/banner1.png" alt="ASP.NET" class="img-fluid" />
+  <ngb-carousel [interval]="5000">
+    <ng-template ngbSlide *ngFor="let slide of carouselSlides">
+      <div class="carousel-slide-content">
+        <img [src]="slide.img" [alt]="slide.alt" class="img-fluid" />
         <div class="carousel-caption">
           <p>
-            Learn how to build ASP.NET apps that can run anywhere
-            <a class="btn btn-outline-info btn-sm" href="http://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409" target="_blank">
-              Learn More
-            </a>
+            {{slide.caption}} <a [ngClass]="slide.class" [href]="slide.link" target="_blank">Learn More</a>
           </p>
         </div>
-      </slide>
-      <slide>
-        <img src="assets/images/demo/banner2.png" alt="Visual Studio" class="img-fluid" />
-        <div class="carousel-caption">
-          <p>
-            One platform for building modern web, native mobile and native desktop applications
-            <a class="btn btn-outline-primary btn-sm" href="http://angular.io" target="_blank">
-              Learn More
-            </a>
-          </p>
-        </div>
-      </slide>
-      <slide>
-        <img src="assets/images/demo/banner3.png" alt="Package Management" class="img-fluid" />
-        <div class="carousel-caption">
-          <p>
-            Bring in libraries from NuGet and npm, and bundle with angular/cli
-            <a class="btn btn-outline-success btn-sm" href="http://go.microsoft.com/fwlink/?LinkID=525029&clcid=0x409" target="_blank">
-              Learn More
-            </a>
-          </p>
-        </div>
-      </slide>
-      <slide>
-        <img src="assets/images/demo/banner4.png" alt="Eben Monney" class="img-fluid" />
-        <div class="carousel-caption">
-          <p>
-            Follow me on social media for updates and tips on using this startup project
-            <a class="btn btn-outline-secondary btn-sm" href="https://www.ebenmonney.com/about" target="_blank">
-              Learn More
-            </a>
-          </p>
-        </div>
-      </slide>
-    </carousel>
-  </div>
-
+      </div>
+    </ng-template>
+  </ngb-carousel>
 
   <div class="row px-2">
     <div class="col-md-3">
       <h3>Application uses</h3>
       <ul>
         <li>Restful API backend using the cross platform <a href="http://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409" target="_blank">ASP.NET Core 7 Web API</a></li>
-        <li>Client framework with <a href="http://angular.io" target="_blank">Angular 15</a> and typescript</li>
+        <li>Client framework with <a href="http://angular.io" target="_blank">Angular 16</a> and typescript</li>
         <li><a href="http://npmjs.com" target="_blank">npm</a> for managing client-side libraries</li>
         <li>Theming using <a href="http://go.microsoft.com/fwlink/?LinkID=398939" target="_blank">Bootstrap 5</a></li>
         <li>Module bundling with <a href="https://cli.angular.io" target="_blank">Angular CLI</a></li>

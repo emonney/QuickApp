@@ -218,7 +218,7 @@ export class LocalStoreManager {
     } else if (event.key === 'removeFromSyncKeys') {
       this.removeFromSyncKeysHelper(event.newValue);
     }
-  }
+  };
 
   private syncSessionStorage() {
     localStorage.setItem('getSessionStorage', '_dummy');

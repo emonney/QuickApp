@@ -6,31 +6,31 @@
     <SpaRoot>ClientApp\</SpaRoot>
     <SpaProxyServerUrl>https://localhost:44450</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
-    <Description>ASPNET Core 7.0 - Angular 15 startup template for Quick Application Development</Description>
+    <Description>ASPNET Core 7.0 - Angular 16 startup template for Quick Application Development</Description>
     <Copyright>Copyright © 2023 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://www.ebenmonney.com/quickapp</PackageProjectUrl>
     <Company>EBENMONNEY</Company>
-    <Version>7.1.0</Version>
+    <Version>7.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 	  
-    <PackageReference Include="Duende.IdentityServer" Version="6.2.1" />
-    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.2.1" />
+    <PackageReference Include="Duende.IdentityServer" Version="6.3.2" />
+    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.3.2" />
 	  
     <PackageReference Include="IdentityServer.ExtensionGrant.Delegation" Version="2.2.0" />
 	  
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
-    <PackageReference Include="MailKit" Version="3.6.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="MailKit" Version="4.0.0" />
 	  
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="7.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.4">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

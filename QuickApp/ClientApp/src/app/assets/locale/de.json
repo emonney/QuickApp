@@ -68,7 +68,7 @@
       "SessionRestored": "Sitzung wurde wiederhergestellt",
       "RetryLastOperation": "Bitte versuchen Sie Ihre letzte Operation noch einmal",
       "UnableToLogin": "Einloggen nicht möglich",
-      "LoginErrorOccured": "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.\nFehler: {{error}}",
+      "LoginErrorOccurred": "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.\nFehler: {{error}}",
       "InvalidUsernameOrPassword": "Ungültiger Benutzername oder Passwort",
       "AccountDisabled": "Dieses Konto wurde deaktiviert",
       "DeveloperDemoApiNotice": "Sehr geehrter Entwickler!\nEs scheint, dass Ihr Back-End-Web-API-Dienst nicht ausgeführt wird ...\nMöchten Sie vorübergehend auf die unten stehende Online-Demo-API wechseln (oder eine andere angeben)?",
@@ -132,13 +132,13 @@
       "Success": "Erfolg",
       "UserCreatedSuccessfully": "Benutzerkonto \"{{username}}\" wurde erfolgreich erstellt",
       "SaveError": "Fehler speichern",
-      "BelowRegistrationErrorsOccured": "Die folgenden Fehler traten während der Registrierung auf:",
+      "BelowRegistrationErrorsOccurred": "Die folgenden Fehler traten während der Registrierung auf:",
       "AttemptingLogin": "Login versuchen ...",
       "Login": "Anmeldung",
       "WelcomeUser": "Willkommen {{username}}!",
       "YourAccountCreatedSuccessfully": "Dein Konto wurde erfolgreich erstellt",
       "UnableToLogin": "Einloggen nicht möglich",
-      "LoginErrorOccured": "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.\nFehler: {{error}}",
+      "LoginErrorOccurred": "Beim Anmelden ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut.\nFehler: {{error}}",
       "InvalidUsernameOrPassword": "Ungültiger Benutzername oder Passwort",
       "AccountDisabled": "Dieses Konto wurde deaktiviert"
     }
@@ -154,7 +154,7 @@
       "EmailConfirmationForUserFailed": "Wir konnten die E-Mail für Nutzer mit der ID \"{{userId}}\" nicht bestätigen",
       "EmailNotConfirmed": "E-Mail nicht bestätigt",
       "UserWithIdNotFound": "Kein Benutzer mit der ID \"{{userId}}\" wurde gefunden",
-      "EmailConfirmationErrorOccured": "Bei der Bestätigung Ihrer E-Mail ist ein Fehler aufgetreten.\nFehler: {{error}}"
+      "EmailConfirmationErrorOccurred": "Bei der Bestätigung Ihrer E-Mail ist ein Fehler aufgetreten.\nFehler: {{error}}"
     }
   },
   "recoverPassword": {
@@ -174,7 +174,7 @@
       "RecoverPassword": "Passwort wiederherstellen",
       "PasswordEmailSent": "Passwort zurücksetzen E-Mail gesendet",
       "PasswordRecoveryFailed": "Passwortwiederherstellung fehlgeschlagen",
-      "PasswordRecoveryErrorOccured": "Bei der Wiederherstellung Ihres Passworts ist ein Fehler aufgetreten\nFehler: {{error}}"
+      "PasswordRecoveryErrorOccurred": "Bei der Wiederherstellung Ihres Passworts ist ein Fehler aufgetreten\nFehler: {{error}}"
     }
   },
   "resetPassword": {
@@ -207,7 +207,7 @@
       "PasswordChange": "Passwortänderung",
       "PasswordSuccessfullyReset": "Ihr Passwort wurde erfolgreich zurückgesetzt",
       "PasswordResetFailed": "Passwort zurücksetzen fehlgeschlagen",
-      "PasswordResetErrorOccured": "Beim Zurücksetzen Ihres Passworts ist ein Fehler aufgetreten.\nFehler: {{error}}"
+      "PasswordResetErrorOccurred": "Beim Zurücksetzen Ihres Passworts ist ein Fehler aufgetreten.\nFehler: {{error}}"
     }
   },
   "home": {

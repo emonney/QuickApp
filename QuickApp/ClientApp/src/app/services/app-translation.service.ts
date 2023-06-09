@@ -55,7 +55,7 @@ export class AppTranslationService {
     }
   }
 
-  useDefaultLangage() {
+  useDefaultLanguage() {
     return this.changeLanguage(null);
   }
 
@@ -81,7 +81,6 @@ export class AppTranslationService {
   getTranslationAsync(key: string | Array<string>, interpolateParams?: object): Observable<string | any> {
     return this.translate.get(key, interpolateParams);
   }
-
 }
 
 

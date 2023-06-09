@@ -48,7 +48,7 @@
               <div class="col-md-7">
                 <div class="form-check" *ngFor="let permission of permissionGroup.value">
                   <input [disabled]="!canManageRoles" name="checkboxes-{{permission.value}}" id="checkboxes-{{permission.value}}" type="checkbox" class="form-check-input" [(ngModel)]="selectedValues[permission.value]">
-                  <label class="form-check-label" tooltip="{{permission.description}}" for="checkboxes-{{permission.value}}">{{permission.name}}</label>
+                  <label class="form-check-label" ngbTooltip="{{permission.description}}" for="checkboxes-{{permission.value}}">{{permission.name}}</label>
                 </div>
               </div>
             </div>

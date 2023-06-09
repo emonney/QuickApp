@@ -142,6 +142,7 @@ export class AuthService {
       decodedAccessToken.jobtitle,
       decodedAccessToken.phone_number,
       Array.isArray(decodedAccessToken.role) ? decodedAccessToken.role : [decodedAccessToken.role]);
+
     user.isEnabled = true;
 
     this.saveUserDetails(user, permissions, accessToken, refreshToken, accessTokenExpiry, rememberMe);

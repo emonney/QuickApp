@@ -5,7 +5,8 @@
     "outDir": "./out-tsc/spec",
     "types": [
       "jasmine",
-      "node"
+      "node",
+      "@angular/localize"
     ]
   },
   "include": [

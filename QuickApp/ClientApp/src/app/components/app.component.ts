@@ -5,10 +5,10 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-import { Component, OnInit, OnDestroy, ViewChildren, AfterViewInit, QueryList } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastaService, ToastaConfig, ToastOptions, ToastData } from 'ngx-toasta';
-import { ModalDirective } from 'ngx-bootstrap/modal';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AlertService, AlertDialog, DialogType, AlertCommand, MessageSeverity } from '../services/alert.service';
 import { NotificationService } from '../services/notification.service';
@@ -29,11 +29,9 @@ const alertify: any = require('../assets/scripts/alertify.js');
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
-
+export class AppComponent implements OnInit, OnDestroy {
   isAppLoaded: boolean;
   isUserLoggedIn: boolean;
-  shouldShowLoginModal: boolean;
   newNotificationCount = 0;
   appTitle = 'QuickApp';
 
@@ -42,10 +40,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   dataLoadingConsecutiveFailures = 0;
   notificationsLoadingSubscription: any;
 
-  @ViewChildren('loginModal,loginControl')
-  modalLoginControls: QueryList<any>;
-
-  loginModal: ModalDirective;
   loginControl: LoginComponent;
 
   gT = (key: string | Array<string>, interpolateParams?: object) => this.translationService.getTranslation(key, interpolateParams);
@@ -65,6 +59,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     private toastaConfig: ToastaConfig,
     private accountService: AccountService,
     private alertService: AlertService,
+    private modalService: NgbModal,
     private notificationService: NotificationService,
     private appTitleService: AppTitleService,
     private authService: AuthService,
@@ -81,45 +76,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.toastaConfig.showDuration = false;
 
     this.appTitleService.appName = this.appTitle;
-  }
-
-
-  ngAfterViewInit() {
-
-    this.modalLoginControls.changes.subscribe((controls: QueryList<any>) => {
-      controls.forEach(control => {
-        if (control) {
-          if (control instanceof LoginComponent) {
-            this.loginControl = control;
-            this.loginControl.modalClosedCallback = () => this.loginModal.hide();
-          } else {
-            this.loginModal = control;
-            this.loginModal.show();
-          }
-        }
-      });
-    });
-  }
-
-
-  onLoginModalShown() {
-    this.alertService.showStickyMessage(this.gT('app.alerts.SessionExpired'), this.gT('app.alerts.SessionExpiredLoginAgain'), MessageSeverity.info);
-  }
-
-
-  onLoginModalHidden() {
-    this.alertService.resetStickyMessage();
-    this.loginControl.reset();
-    this.shouldShowLoginModal = false;
-
-    if (this.authService.isSessionExpired) {
-      this.alertService.showStickyMessage(this.gT('app.alerts.SessionExpired'), this.gT('app.alerts.SessionExpiredLoginToRenewSession'), MessageSeverity.warn);
-    }
-  }
-
-
-  onLoginModalHide() {
-    this.alertService.resetStickyMessage();
   }
 
 
@@ -144,7 +100,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.alertService.getDialogEvent().subscribe(alert => this.showDialog(alert));
     this.alertService.getMessageEvent().subscribe(message => this.showToast(message));
 
-    this.authService.reLoginDelegate = () => this.shouldShowLoginModal = true;
+    this.authService.reLoginDelegate = () => this.openLoginModal();
 
     this.authService.getLoginStatusEvent().subscribe(isLoggedIn => {
       this.isUserLoggedIn = isLoggedIn;
@@ -177,9 +133,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-
   initNotificationsLoading() {
-
     this.notificationsLoadingSubscription = this.notificationService.getNewNotificationsPeriodically()
       .subscribe({
         next: notifications => {
@@ -200,7 +154,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   markNotificationsAsRead() {
-
     const recentNotifications = this.notificationService.recentNotifications;
 
     if (recentNotifications.length) {
@@ -222,9 +175,35 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
+  openLoginModal() {
+    const modalRef = this.modalService.open(LoginComponent, {
+      windowClass: 'login-control',
+      modalDialogClass: 'h-75 d-flex flex-column justify-content-center my-0',
+      size: 'lg',
+      backdrop: 'static'
+    });
+
+    this.loginControl = modalRef.componentInstance as LoginComponent;
+    this.loginControl.isModal = true;
+
+    this.loginControl.modalClosedCallback = () => modalRef.close();
+
+    modalRef.shown.subscribe(() => {
+      this.alertService.showStickyMessage(this.gT('app.alerts.SessionExpired'), this.gT('app.alerts.SessionExpiredLoginAgain'), MessageSeverity.info);
+    });
+
+    modalRef.hidden.subscribe(() => {
+      this.alertService.resetStickyMessage();
+      this.loginControl.reset();
+
+      if (this.authService.isSessionExpired) {
+        this.alertService.showStickyMessage(this.gT('app.alerts.SessionExpired'), this.gT('app.alerts.SessionExpiredLoginToRenewSession'), MessageSeverity.warn);
+      }
+    });
+  }
+
 
   showDialog(dialog: AlertDialog) {
-
     alertify.set({
       labels: {
         ok: dialog.okLabel || this.gT('app.alerts.OK'),
@@ -267,9 +246,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-
   showToast(alert: AlertCommand) {
-
     if (alert.operation === 'clear') {
       for (const id of this.stickyToasties.slice(0)) {
         this.toastaService.clear(id);
@@ -309,7 +286,6 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
       toastOptions.timeout = 4000;
     }
 
-
     switch (alert.message.severity) {
       case MessageSeverity.default: this.toastaService.default(toastOptions); break;
       case MessageSeverity.info: this.toastaService.info(toastOptions); break;
@@ -321,28 +297,22 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
 
-
   logout() {
     this.authService.logout();
     this.authService.redirectLogoutUser();
   }
 
-
   getYear() {
     return new Date().getUTCFullYear();
   }
-
 
   get userName(): string {
     return this.authService.currentUser ? this.authService.currentUser.userName : '';
   }
 
-
   get fullName(): string {
     return this.authService.currentUser ? this.authService.currentUser.fullName : '';
   }
-
-
 
   get canViewCustomers() {
     return this.accountService.userHasPermission(Permission.viewUsersPermission); // eg. viewCustomersPermission

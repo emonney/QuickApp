@@ -131,7 +131,7 @@ export class Utilities {
     return httpMessage;
   }
 
-  public static findHttpResponseMessage(messageToFind: string, data: HttpResponse<any> | any, seachInCaptionOnly = true, includeCaptionInResult = false): string {
+  public static findHttpResponseMessage(messageToFind: string, data: HttpResponse<any> | any, searchInCaptionOnly = true, includeCaptionInResult = false): string {
     const searchString = messageToFind.toLowerCase();
     const httpMessages = this.getHttpResponseMessages(data);
 
@@ -143,7 +143,7 @@ export class Utilities {
       }
     }
 
-    if (!seachInCaptionOnly) {
+    if (!searchInCaptionOnly) {
       for (const message of httpMessages) {
 
         if (message.toLowerCase().indexOf(searchString) !== -1) {
@@ -219,7 +219,7 @@ export class Utilities {
   }
 
   public static splitInTwo(text: string, separator: string, splitFromEnd = false): { firstPart: string, secondPart: string } {
-    let separatorIndex;
+    let separatorIndex: number;
 
     if (!splitFromEnd)
       separatorIndex = text.indexOf(separator);
@@ -262,7 +262,7 @@ export class Utilities {
       simpleObject[prop] = object[prop];
     }
 
-    result = '[***Sanitized Object***]: ' + JSON.stringify(simpleObject);
+    result = `[***Sanitized Object***]: ${JSON.stringify(simpleObject)}`;
 
     return result;
   }
@@ -361,8 +361,8 @@ export class Utilities {
 
     date = new Date(date);
 
-    const dayNames = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
-    const monthNames = new Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     const dayOfWeek = date.getDay();
     const dayOfMonth = date.getDate();

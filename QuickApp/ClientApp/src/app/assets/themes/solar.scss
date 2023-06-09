@@ -16,10 +16,10 @@ $table-bg-scale: 0% !default; // Hack: Fix for depreciation: https://sass-lang.c
   }
 }
 
-
-.dropdown-menu {
-  border-color: $body-color;
+.tooltip {
+  --bs-tooltip-color: #fff;
 }
+
 
 .bg-light {
   background-color: #04272f !important;

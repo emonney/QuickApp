@@ -11,16 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from '../components/app.component';
-import { LoginComponent } from '../components/login/login.component';
-import { NotificationsViewerComponent } from '../components/controls/notifications-viewer.component';
 
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastaModule } from 'ngx-toasta';
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { PopoverModule } from 'ngx-bootstrap/popover';
 
 import { AuthService } from '../services/auth.service';
 import { AppTitleService } from '../services/app-title.service';
@@ -50,15 +45,10 @@ describe('AppComponent', () => {
         }),
         NgxDatatableModule,
         OAuthModule.forRoot(),
-        ToastaModule.forRoot(),
-        TooltipModule.forRoot(),
-        PopoverModule.forRoot(),
-        ModalModule.forRoot()
+        ToastaModule.forRoot()
       ],
       declarations: [
-        AppComponent,
-        LoginComponent,
-        NotificationsViewerComponent
+        AppComponent
       ],
       providers: [
         AuthService,

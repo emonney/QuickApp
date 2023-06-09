@@ -68,7 +68,7 @@
       "SessionRestored": "Session Restored",
       "RetryLastOperation": "Please try your last operation again",
       "UnableToLogin": "Unable to login",
-      "LoginErrorOccured": "An error occured whilst logging in, please try again later.\nError: {{error}}",
+      "LoginErrorOccurred": "An error occurred whilst logging in, please try again later.\nError: {{error}}",
       "InvalidUsernameOrPassword": "Invalid username or password",
       "AccountDisabled": "This account has been disabled",
       "DeveloperDemoApiNotice": "Dear Developer!\nIt appears your backend Web API service is not running...\nWould you want to temporarily switch to the online Demo API below?(Or specify another)",
@@ -132,13 +132,13 @@
       "Success": "Success",
       "UserCreatedSuccessfully": "User account \"{{username}}\" was created successfully",
       "SaveError": "Save Error",
-      "BelowRegistrationErrorsOccured": "The below errors occured during registration:",
+      "BelowRegistrationErrorsOccurred": "The below errors occurred during registration:",
       "AttemptingLogin": "Attempting login...",
       "Login": "Login",
       "WelcomeUser": "Welcome {{username}}!",
       "YourAccountCreatedSuccessfully": "Your account was created successfully",
       "UnableToLogin": "Unable to login",
-      "LoginErrorOccured": "An error occured whilst logging in, please try again later.\nError: {{error}}",
+      "LoginErrorOccurred": "An error occurred whilst logging in, please try again later.\nError: {{error}}",
       "InvalidUsernameOrPassword": "Invalid username or password",
       "AccountDisabled": "This account has been disabled"
     }
@@ -154,7 +154,7 @@
       "EmailConfirmationForUserFailed": "We were unable to confirm the email for user with ID \"{{userId}}\"",
       "EmailNotConfirmed": "Email Not Confirmed",
       "UserWithIdNotFound": "No user with id \"{{userId}}\" was found",
-      "EmailConfirmationErrorOccured": "An error occured whilst confirming your email.\nError: {{error}}"
+      "EmailConfirmationErrorOccurred": "An error occurred whilst confirming your email.\nError: {{error}}"
     }
   },
   "recoverPassword": {
@@ -174,7 +174,7 @@
       "RecoverPassword": "Recover Password",
       "PasswordEmailSent": "Password reset email sent",
       "PasswordRecoveryFailed": "Password Recovery Failed",
-      "PasswordRecoveryErrorOccured": "An error occured whilst recovering your password.\nError: {{error}}"
+      "PasswordRecoveryErrorOccurred": "An error occurred whilst recovering your password.\nError: {{error}}"
     }
   },
   "resetPassword": {
@@ -207,7 +207,7 @@
       "PasswordChange": "Password Change",
       "PasswordSuccessfullyReset": "Your password was successfully reset",
       "PasswordResetFailed": "Password Reset Failed",
-      "PasswordResetErrorOccured": "An error occured whilst resetting your password.\nError: {{error}}"
+      "PasswordResetErrorOccurred": "An error occurred whilst resetting your password.\nError: {{error}}"
     }
   },
   "home": {

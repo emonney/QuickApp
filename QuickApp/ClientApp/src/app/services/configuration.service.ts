@@ -94,16 +94,16 @@ export class ConfigurationService {
   get showDashboardBanner() {
     return this._showDashboardBanner != null ? this._showDashboardBanner : ConfigurationService.defaultShowDashboardBanner;
   }
-  public static readonly appVersion: string = '7.1.0';
+  public static readonly appVersion = '7.1.0';
 
   // ***Specify default configurations here***
-  public static readonly defaultLanguage: string = 'en';
-  public static readonly defaultHomeUrl: string = '/';
-  public static readonly defaultThemeId: number = 1;
-  public static readonly defaultShowDashboardStatistics: boolean = true;
-  public static readonly defaultShowDashboardNotifications: boolean = true;
-  public static readonly defaultShowDashboardTodo: boolean = false;
-  public static readonly defaultShowDashboardBanner: boolean = true;
+  public static readonly defaultLanguage = 'en';
+  public static readonly defaultHomeUrl = '/';
+  public static readonly defaultThemeId = 1;
+  public static readonly defaultShowDashboardStatistics = true;
+  public static readonly defaultShowDashboardNotifications = true;
+  public static readonly defaultShowDashboardTodo = false;
+  public static readonly defaultShowDashboardBanner = true;
 
   public baseUrl = environment.baseUrl || Utilities.baseUrl();
   public loginUrl = environment.loginUrl;
@@ -241,7 +241,7 @@ export class ConfigurationService {
     if (language) {
       this._language = language;
     } else {
-      this._language = this.translationService.useDefaultLangage();
+      this._language = this.translationService.useDefaultLanguage();
     }
   }
 
@@ -264,7 +264,7 @@ export class ConfigurationService {
     const configKeys = this.localStorage.getDataObject<string[]>(DBkeys.USER_CONFIG_KEYS);
 
     if (configKeys != null && configKeys.length > 0) {
-      for (let key of configKeys) {
+      for (const key of configKeys) {
         this.localStorage.deleteData(key);
       }
 
@@ -274,7 +274,7 @@ export class ConfigurationService {
 
   public saveConfiguration(data: any, configKey: string) {
     this.addKeyToUserConfigKeys(configKey);
-    this.localStorage.savePermanentData(data, configKey)
+    this.localStorage.savePermanentData(data, configKey);
   }
 
   public getConfiguration<T>(configKey: string, isDateType = false): T {

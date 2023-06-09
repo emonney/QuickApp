@@ -68,7 +68,7 @@
       "SessionRestored": "세션 복원 됨",
       "RetryLastOperation": "마지막 작업을 다시 시도하십시오.",
       "UnableToLogin": "로그인 할 수 없습니다",
-      "LoginErrorOccured": "로그인하는 중에 오류가 발생했습니다. 잠시 후 다시 시도하십시오.\n오류 : {{error}}",
+      "LoginErrorOccurred": "로그인하는 중에 오류가 발생했습니다. 잠시 후 다시 시도하십시오.\n오류 : {{error}}",
       "InvalidUsernameOrPassword": "잘못된 사용자 이름 또는 비밀번호",
       "AccountDisabled": "이 계정은 사용 중지되었습니다.",
       "DeveloperDemoApiNotice": "친애하는 개발자!\n백엔드 웹 API 서비스가 실행되고 있지 않은 것 같습니다...\n아래의 온라인 데모 API로 일시적으로 전환 하시겠습니까? (또는 다른 것을 지정하십시오)",
@@ -132,13 +132,13 @@
       "Success": "성공",
       "UserCreatedSuccessfully": "사용자 계정 \"{{username}}\"가 성공적으로 생성되었습니다.",
       "SaveError": "오류 저장",
-      "BelowRegistrationErrorsOccured": "등록 중에 아래 오류가 발생했습니다 :",
+      "BelowRegistrationErrorsOccurred": "등록 중에 아래 오류가 발생했습니다 :",
       "AttemptingLogin": "로그인 시도 중...",
       "Login": "로그인",
       "WelcomeUser": "{{username}}에 오신 것을 환영합니다!",
       "YourAccountCreatedSuccessfully": "귀하의 계정이 성공적으로 생성되었습니다.",
       "UnableToLogin": "로그인 할 수 없습니다",
-      "LoginErrorOccured": "로그인하는 중에 오류가 발생했습니다. 잠시 후 다시 시도하십시오.\n오류 : {{error}}",
+      "LoginErrorOccurred": "로그인하는 중에 오류가 발생했습니다. 잠시 후 다시 시도하십시오.\n오류 : {{error}}",
       "InvalidUsernameOrPassword": "잘못된 사용자 이름 또는 비밀번호",
       "AccountDisabled": "이 계정은 사용 중지되었습니다."
     }
@@ -154,7 +154,7 @@
       "EmailConfirmationForUserFailed": "ID가 \"{{userId}}\"인 사용자의 이메일을 확인할 수 없습니다.",
       "EmailNotConfirmed": "이메일 확인되지 않음",
       "UserWithIdNotFound": "ID가 \"{{userId}}\"인 사용자가 없습니다.",
-      "EmailConfirmationErrorOccured": "이메일을 확인하는 동안 오류가 발생했습니다.\n오류 : {{error}}"
+      "EmailConfirmationErrorOccurred": "이메일을 확인하는 동안 오류가 발생했습니다.\n오류 : {{error}}"
     }
   },
   "recoverPassword": {
@@ -174,7 +174,7 @@
       "RecoverPassword": "비밀 번호 복구",
       "PasswordEmailSent": "비밀번호 재설정 이메일이 전송되었습니다.",
       "PasswordRecoveryFailed": "비밀번호 복구 실패",
-      "PasswordRecoveryErrorOccured": "비밀번호를 복구하는 동안 오류가 발생했습니다.\n오류 : {{error}}"
+      "PasswordRecoveryErrorOccurred": "비밀번호를 복구하는 동안 오류가 발생했습니다.\n오류 : {{error}}"
     }
   },
   "resetPassword": {
@@ -207,7 +207,7 @@
       "PasswordChange": "비밀번호 변경",
       "PasswordSuccessfullyReset": "비밀번호가 재설정되었습니다.",
       "PasswordResetFailed": "비밀번호 재설정 실패",
-      "PasswordResetErrorOccured": "비밀번호를 재설정하는 동안 오류가 발생했습니다.\n오류 : {{error}}"
+      "PasswordResetErrorOccurred": "비밀번호를 재설정하는 동안 오류가 발생했습니다.\n오류 : {{error}}"
     }
   },
   "home": {

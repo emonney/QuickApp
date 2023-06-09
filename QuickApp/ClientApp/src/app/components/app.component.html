@@ -36,8 +36,8 @@
           </li>
         </ul>
         <span class="navbar-text notifications-popup d-lg-none d-xl-inline-block">{{'app.Welcome' | translate}}</span>
-        <a class="nav-link user-name d-inline-block px-1" [popover]="popTemplate" (onHidden)="markNotificationsAsRead()"
-           placement="bottom" [popoverTitle]="notificationsTitle" href="javascript:;" triggers="focus" containerClass="notifications-popup">
+        <a class="nav-link user-name d-inline-block px-1" [ngbPopover]="popTemplate" (hidden)="markNotificationsAsRead()"
+           placement="bottom" [popoverTitle]="notificationsTitle" href="javascript:;" triggers="focus" popoverClass="notifications-popup">
           {{userName}}
           <span *ngIf="newNotificationCount > 0" class="badge bg-secondary">{{newNotificationCount}}</span>
         </a>
@@ -91,15 +91,4 @@
       </p>
     </div>
   </footer>
-
-  <div *ngIf="shouldShowLoginModal" class="modal fade login-control" bsModal #loginModal="bs-modal" (onShown)="onLoginModalShown()" (onHidden)="onLoginModalHidden()" (onHide)="onLoginModalHide()"
-       [config]="{backdrop: 'static'}" tabindex="-1">
-    <div class="modal-dialog modal-lg h-75 d-flex flex-column justify-content-center my-0">
-      <div class="modal-content">
-        <div class="modal-body">
-          <app-login #loginControl isModal="true"></app-login>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
