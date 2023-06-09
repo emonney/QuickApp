@@ -7,8 +7,6 @@
 
 using DAL.Core;
 using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace QuickApp.Authorization
@@ -17,8 +15,6 @@ namespace QuickApp.Authorization
     {
 
     }
-
-
 
     public class ViewRoleAuthorizationHandler : AuthorizationHandler<ViewRoleAuthorizationRequirement, string>
     {

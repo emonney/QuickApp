@@ -5,13 +5,10 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DAL.Core;
 using Microsoft.AspNetCore.Http;
+using System;
+using System.Linq;
 
 namespace DAL
 {

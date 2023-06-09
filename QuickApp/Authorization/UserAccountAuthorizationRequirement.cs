@@ -8,9 +8,7 @@
 using DAL.Core;
 using Microsoft.AspNetCore.Authorization;
 using QuickApp.Helpers;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace QuickApp.Authorization
@@ -19,14 +17,11 @@ namespace QuickApp.Authorization
     {
         public UserAccountAuthorizationRequirement(string operationName)
         {
-            this.OperationName = operationName;
+            OperationName = operationName;
         }
-
 
         public string OperationName { get; private set; }
     }
-
-
 
     public class ViewUserAuthorizationHandler : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
     {
@@ -41,7 +36,6 @@ namespace QuickApp.Authorization
             return Task.CompletedTask;
         }
 
-
         private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
         {
             if (string.IsNullOrWhiteSpace(targetUserId))
@@ -50,8 +44,6 @@ namespace QuickApp.Authorization
             return Utilities.GetUserId(user) == targetUserId;
         }
     }
-
-
 
     public class ManageUserAuthorizationHandler : AuthorizationHandler<UserAccountAuthorizationRequirement, string>
     {
@@ -68,7 +60,6 @@ namespace QuickApp.Authorization
 
             return Task.CompletedTask;
         }
-
 
         private bool GetIsSameUser(ClaimsPrincipal user, string targetUserId)
         {

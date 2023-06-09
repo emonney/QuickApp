@@ -5,16 +5,13 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
 using DAL;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace QuickApp
 {
@@ -22,7 +19,7 @@ namespace QuickApp
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
+            var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile("appsettings.Development.json", optional: true)

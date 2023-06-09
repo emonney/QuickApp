@@ -6,15 +6,13 @@
 // ======================================
 
 using DAL.Models;
+using DAL.Models.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
-using DAL.Models.Interfaces;
+using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -27,11 +25,8 @@ namespace DAL
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
-
-
         public ApplicationDbContext(DbContextOptions options) : base(options)
         { }
-
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -49,32 +44,29 @@ namespace DAL
             builder.Entity<Customer>().Property(c => c.Email).HasMaxLength(100);
             builder.Entity<Customer>().Property(c => c.PhoneNumber).IsUnicode(false).HasMaxLength(30);
             builder.Entity<Customer>().Property(c => c.City).HasMaxLength(50);
-            builder.Entity<Customer>().ToTable($"App{nameof(this.Customers)}");
+            builder.Entity<Customer>().ToTable($"App{nameof(Customers)}");
 
             builder.Entity<ProductCategory>().Property(p => p.Name).IsRequired().HasMaxLength(100);
             builder.Entity<ProductCategory>().Property(p => p.Description).HasMaxLength(500);
-            builder.Entity<ProductCategory>().ToTable($"App{nameof(this.ProductCategories)}");
+            builder.Entity<ProductCategory>().ToTable($"App{nameof(ProductCategories)}");
 
             builder.Entity<Product>().Property(p => p.Name).IsRequired().HasMaxLength(100);
             builder.Entity<Product>().HasIndex(p => p.Name);
             builder.Entity<Product>().Property(p => p.Description).HasMaxLength(500);
             builder.Entity<Product>().Property(p => p.Icon).IsUnicode(false).HasMaxLength(256);
             builder.Entity<Product>().HasOne(p => p.Parent).WithMany(p => p.Children).OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Product>().ToTable($"App{nameof(this.Products)}");
+            builder.Entity<Product>().ToTable($"App{nameof(Products)}");
             builder.Entity<Product>().Property(p => p.BuyingPrice).HasColumnType(priceDecimalType);
             builder.Entity<Product>().Property(p => p.SellingPrice).HasColumnType(priceDecimalType);
 
             builder.Entity<Order>().Property(o => o.Comments).HasMaxLength(500);
-            builder.Entity<Order>().ToTable($"App{nameof(this.Orders)}");
+            builder.Entity<Order>().ToTable($"App{nameof(Orders)}");
             builder.Entity<Order>().Property(p => p.Discount).HasColumnType(priceDecimalType);
 
-            builder.Entity<OrderDetail>().ToTable($"App{nameof(this.OrderDetails)}");
+            builder.Entity<OrderDetail>().ToTable($"App{nameof(OrderDetails)}");
             builder.Entity<OrderDetail>().Property(p => p.UnitPrice).HasColumnType(priceDecimalType);
             builder.Entity<OrderDetail>().Property(p => p.Discount).HasColumnType(priceDecimalType);
         }
-
-
-
 
         public override int SaveChanges()
         {
@@ -82,38 +74,33 @@ namespace DAL
             return base.SaveChanges();
         }
 
-
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             UpdateAuditEntities();
             return base.SaveChanges(acceptAllChangesOnSuccess);
         }
 
-
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             UpdateAuditEntities();
             return base.SaveChangesAsync(cancellationToken);
         }
 
-
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             UpdateAuditEntities();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
-
 
         private void UpdateAuditEntities()
         {
             var modifiedEntries = ChangeTracker.Entries()
                 .Where(x => x.Entity is IAuditableEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
 
-
             foreach (var entry in modifiedEntries)
             {
                 var entity = (IAuditableEntity)entry.Entity;
-                DateTime now = DateTime.UtcNow;
+                var now = DateTime.UtcNow;
 
                 if (entry.State == EntityState.Added)
                 {

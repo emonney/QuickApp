@@ -18,7 +18,6 @@ namespace QuickApp.ViewModels
         public string GroupName { get; set; }
         public string Description { get; set; }
 
-
         public static explicit operator PermissionViewModel(ApplicationPermission permission)
         {
             return new PermissionViewModel

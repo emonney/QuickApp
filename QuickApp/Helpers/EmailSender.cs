@@ -6,13 +6,13 @@
 // ======================================
 
 using MailKit.Net.Smtp;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MimeKit;
 using System;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
-using Microsoft.Extensions.Options;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 
 namespace QuickApp.Helpers
 {
@@ -23,20 +23,16 @@ namespace QuickApp.Helpers
         Task<(bool success, string errorMsg)> SendEmailAsync(string senderName, string senderEmail, string recepientName, string recepientEmail, string subject, string body, SmtpConfig config = null, bool isHtml = true);
     }
 
-
-
     public class EmailSender : IEmailSender
     {
-        readonly SmtpConfig _config;
-        readonly ILogger _logger;
-
+        private readonly SmtpConfig _config;
+        private readonly ILogger _logger;
 
         public EmailSender(IOptions<AppSettings> config, ILogger<EmailSender> logger)
         {
             _config = config.Value.SmtpConfig;
             _logger = logger;
         }
-
 
         public async Task<(bool success, string errorMsg)> SendEmailAsync(
             string recepientName,
@@ -51,8 +47,6 @@ namespace QuickApp.Helpers
 
             return await SendEmailAsync(from, new MailboxAddress[] { to }, subject, body, config, isHtml);
         }
-
-
 
         public async Task<(bool success, string errorMsg)> SendEmailAsync(
             string senderName,
@@ -70,7 +64,6 @@ namespace QuickApp.Helpers
             return await SendEmailAsync(from, new MailboxAddress[] { to }, subject, body, config, isHtml);
         }
 
-
         //For background tasks such as sending emails, its good practice to use job runners such as hangfire https://www.hangfire.io
         //or a service such as SendGrid https://sendgrid.com/
         public async Task<(bool success, string errorMsg)> SendEmailAsync(
@@ -81,7 +74,7 @@ namespace QuickApp.Helpers
             SmtpConfig config = null,
             bool isHtml = true)
         {
-            MimeMessage message = new MimeMessage();
+            var message = new MimeMessage();
 
             message.From.Add(sender);
             message.To.AddRange(recepients);
@@ -90,8 +83,7 @@ namespace QuickApp.Helpers
 
             try
             {
-                if (config == null)
-                    config = _config;
+                config ??= _config;
 
                 using (var client = new SmtpClient())
                 {

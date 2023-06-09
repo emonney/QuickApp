@@ -5,17 +5,16 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
+using DAL.Core;
+using DAL.Models;
+using Duende.IdentityServer.Extensions;
+using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Services;
+using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Duende.IdentityServer.Services;
-using Duende.IdentityServer.Models;
-using Duende.IdentityServer.Extensions;
-using Microsoft.AspNetCore.Identity;
-using DAL.Core;
-using DAL.Models;
 
 namespace QuickApp.Authorization
 {
@@ -50,7 +49,6 @@ namespace QuickApp.Authorization
 
             context.IssuedClaims = claims;
         }
-
 
         public async Task IsActiveAsync(IsActiveContext context)
         {

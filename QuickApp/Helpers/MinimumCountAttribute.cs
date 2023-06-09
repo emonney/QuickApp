@@ -10,8 +10,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuickApp.Helpers
 {
@@ -40,24 +38,18 @@ namespace QuickApp.Helpers
             if (value == null)
                 return !_required;
 
-
-            var stringList = value as ICollection<string>;
-            if (!_allowEmptyStringValues && stringList != null)
+            if (!_allowEmptyStringValues && value is ICollection<string> stringList)
                 return stringList.Count(s => !string.IsNullOrWhiteSpace(s)) >= _minCount;
 
-
-            var list = value as ICollection;
-            if (list != null)
+            if (value is ICollection list)
                 return list.Count >= _minCount;
-
 
             return false;
         }
 
-
         public override string FormatErrorMessage(string name)
         {
-            return String.Format(this.ErrorMessageString, name, _minCount);
+            return string.Format(ErrorMessageString, name, _minCount);
         }
     }
 }

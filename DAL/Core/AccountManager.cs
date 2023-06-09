@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Core
@@ -24,7 +23,6 @@ namespace DAL.Core
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
-
 
         public AccountManager(
             ApplicationDbContext context,
@@ -38,9 +36,6 @@ namespace DAL.Core
             _roleManager = roleManager;
 
         }
-
-
-
 
         public async Task<ApplicationUser> GetUserByIdAsync(string userId)
         {
@@ -62,7 +57,6 @@ namespace DAL.Core
             return await _userManager.GetRolesAsync(user);
         }
 
-
         public async Task<(ApplicationUser User, string[] Roles)?> GetUserAndRolesAsync(string userId)
         {
             var user = await _context.Users
@@ -82,7 +76,6 @@ namespace DAL.Core
 
             return (user, roles);
         }
-
 
         public async Task<List<(ApplicationUser User, string[] Roles)>> GetUsersAndRolesAsync(int page, int pageSize)
         {
@@ -109,19 +102,17 @@ namespace DAL.Core
                 .ToList();
         }
 
-
         public async Task<(bool Succeeded, string[] Errors)> CreateUserAsync(ApplicationUser user, IEnumerable<string> roles, string password)
         {
             var result = await _userManager.CreateAsync(user, password);
             if (!result.Succeeded)
                 return (false, result.Errors.Select(e => e.Description).ToArray());
 
-
             user = await _userManager.FindByNameAsync(user.UserName);
 
             try
             {
-                result = await this._userManager.AddToRolesAsync(user, roles.Distinct());
+                result = await _userManager.AddToRolesAsync(user, roles.Distinct());
             }
             catch
             {
@@ -138,19 +129,16 @@ namespace DAL.Core
             return (true, new string[] { });
         }
 
-
         public async Task<(bool Succeeded, string[] Errors)> UpdateUserAsync(ApplicationUser user)
         {
             return await UpdateUserAsync(user, null);
         }
-
 
         public async Task<(bool Succeeded, string[] Errors)> UpdateUserAsync(ApplicationUser user, IEnumerable<string> roles)
         {
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)
                 return (false, result.Errors.Select(e => e.Description).ToArray());
-
 
             if (roles != null)
             {
@@ -177,10 +165,9 @@ namespace DAL.Core
             return (true, new string[] { });
         }
 
-
         public async Task<(bool Succeeded, string[] Errors)> ResetPasswordAsync(ApplicationUser user, string newPassword)
         {
-            string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
             var result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
             if (!result.Succeeded)
@@ -211,7 +198,6 @@ namespace DAL.Core
             return true;
         }
 
-
         public async Task<bool> TestCanDeleteUserAsync(string userId)
         {
             if (await _context.Orders.Where(o => o.CashierId == userId).AnyAsync())
@@ -221,7 +207,6 @@ namespace DAL.Core
 
             return true;
         }
-
 
         public async Task<(bool Succeeded, string[] Errors)> DeleteUserAsync(string userId)
         {
@@ -233,29 +218,21 @@ namespace DAL.Core
             return (true, new string[] { });
         }
 
-
         public async Task<(bool Succeeded, string[] Errors)> DeleteUserAsync(ApplicationUser user)
         {
             var result = await _userManager.DeleteAsync(user);
             return (result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
         }
 
-
-
-
-
-
         public async Task<ApplicationRole> GetRoleByIdAsync(string roleId)
         {
             return await _roleManager.FindByIdAsync(roleId);
         }
 
-
         public async Task<ApplicationRole> GetRoleByNameAsync(string roleName)
         {
             return await _roleManager.FindByNameAsync(roleName);
         }
-
 
         public async Task<ApplicationRole> GetRoleLoadRelatedAsync(string roleName)
         {
@@ -268,7 +245,6 @@ namespace DAL.Core
 
             return role;
         }
-
 
         public async Task<List<ApplicationRole>> GetRolesLoadRelatedAsync(int page, int pageSize)
         {
@@ -289,27 +265,23 @@ namespace DAL.Core
             return roles;
         }
 
-
         public async Task<(bool Succeeded, string[] Errors)> CreateRoleAsync(ApplicationRole role, IEnumerable<string> claims)
         {
-            if (claims == null)
-                claims = new string[] { };
+            claims ??= new string[] { };
 
-            string[] invalidClaims = claims.Where(c => ApplicationPermissions.GetPermissionByValue(c) == null).ToArray();
+            var invalidClaims = claims.Where(c => ApplicationPermissions.GetPermissionByValue(c) == null).ToArray();
             if (invalidClaims.Any())
-                return (false, new[] { "The following claim types are invalid: " + string.Join(", ", invalidClaims) });
-
+                return (false, new[] { $"The following claim types are invalid: {string.Join(", ", invalidClaims)}" });
 
             var result = await _roleManager.CreateAsync(role);
             if (!result.Succeeded)
                 return (false, result.Errors.Select(e => e.Description).ToArray());
 
-
             role = await _roleManager.FindByNameAsync(role.Name);
 
-            foreach (string claim in claims.Distinct())
+            foreach (var claim in claims.Distinct())
             {
-                result = await this._roleManager.AddClaimAsync(role, new Claim(ClaimConstants.Permission, ApplicationPermissions.GetPermissionByValue(claim)));
+                result = await _roleManager.AddClaimAsync(role, new Claim(ClaimConstants.Permission, ApplicationPermissions.GetPermissionByValue(claim)));
 
                 if (!result.Succeeded)
                 {
@@ -325,16 +297,14 @@ namespace DAL.Core
         {
             if (claims != null)
             {
-                string[] invalidClaims = claims.Where(c => ApplicationPermissions.GetPermissionByValue(c) == null).ToArray();
+                var invalidClaims = claims.Where(c => ApplicationPermissions.GetPermissionByValue(c) == null).ToArray();
                 if (invalidClaims.Any())
-                    return (false, new[] { "The following claim types are invalid: " + string.Join(", ", invalidClaims) });
+                    return (false, new[] { $"The following claim types are invalid: {string.Join(", ", invalidClaims)}" });
             }
-
 
             var result = await _roleManager.UpdateAsync(role);
             if (!result.Succeeded)
                 return (false, result.Errors.Select(e => e.Description).ToArray());
-
 
             if (claims != null)
             {
@@ -346,7 +316,7 @@ namespace DAL.Core
 
                 if (claimsToRemove.Any())
                 {
-                    foreach (string claim in claimsToRemove)
+                    foreach (var claim in claimsToRemove)
                     {
                         result = await _roleManager.RemoveClaimAsync(role, roleClaims.Where(c => c.Value == claim).FirstOrDefault());
                         if (!result.Succeeded)
@@ -356,7 +326,7 @@ namespace DAL.Core
 
                 if (claimsToAdd.Any())
                 {
-                    foreach (string claim in claimsToAdd)
+                    foreach (var claim in claimsToAdd)
                     {
                         result = await _roleManager.AddClaimAsync(role, new Claim(ClaimConstants.Permission, ApplicationPermissions.GetPermissionByValue(claim)));
                         if (!result.Succeeded)
@@ -368,12 +338,10 @@ namespace DAL.Core
             return (true, new string[] { });
         }
 
-
         public async Task<bool> TestCanDeleteRoleAsync(string roleId)
         {
             return !await _context.UserRoles.Where(r => r.RoleId == roleId).AnyAsync();
         }
-
 
         public async Task<(bool Succeeded, string[] Errors)> DeleteRoleAsync(string roleName)
         {
@@ -384,7 +352,6 @@ namespace DAL.Core
 
             return (true, new string[] { });
         }
-
 
         public async Task<(bool Succeeded, string[] Errors)> DeleteRoleAsync(ApplicationRole role)
         {

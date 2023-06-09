@@ -5,17 +5,15 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
+using DAL.Core;
+using DAL.Core.Interfaces;
 using DAL.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using DAL.Core;
-using DAL.Core.Interfaces;
 
 namespace DAL
 {
@@ -24,13 +22,11 @@ namespace DAL
         Task SeedAsync();
     }
 
-
-
     public class DatabaseInitializer : IDatabaseInitializer
     {
-        readonly ApplicationDbContext _context;
-        readonly IAccountManager _accountManager;
-        readonly ILogger _logger;
+        private readonly ApplicationDbContext _context;
+        private readonly IAccountManager _accountManager;
+        private readonly ILogger _logger;
 
         public DatabaseInitializer(ApplicationDbContext context, IAccountManager accountManager, ILogger<DatabaseInitializer> logger)
         {
@@ -71,9 +67,9 @@ namespace DAL
             {
                 _logger.LogInformation($"Generating default role: {roleName}");
 
-                ApplicationRole applicationRole = new ApplicationRole(roleName, description);
+                var applicationRole = new ApplicationRole(roleName, description);
 
-                var result = await this._accountManager.CreateRoleAsync(applicationRole, claims);
+                var result = await _accountManager.CreateRoleAsync(applicationRole, claims);
 
                 if (!result.Succeeded)
                     throw new Exception($"Seeding \"{description}\" role failed. Errors: {string.Join(Environment.NewLine, result.Errors)}");
@@ -84,7 +80,7 @@ namespace DAL
         {
             _logger.LogInformation($"Generating default user: {userName}");
 
-            ApplicationUser applicationUser = new ApplicationUser
+            var applicationUser = new ApplicationUser
             {
                 UserName = userName,
                 FullName = fullName,
@@ -108,7 +104,7 @@ namespace DAL
             {
                 _logger.LogInformation("Seeding demo data");
 
-                Customer cust_1 = new Customer
+                var cust_1 = new Customer
                 {
                     Name = "Ebenezer Monney",
                     Email = "contact@ebenmonney.com",
@@ -117,7 +113,7 @@ namespace DAL
                     DateModified = DateTime.UtcNow
                 };
 
-                Customer cust_2 = new Customer
+                var cust_2 = new Customer
                 {
                     Name = "Itachi Uchiha",
                     Email = "uchiha@narutoverse.com",
@@ -129,7 +125,7 @@ namespace DAL
                     DateModified = DateTime.UtcNow
                 };
 
-                Customer cust_3 = new Customer
+                var cust_3 = new Customer
                 {
                     Name = "John Doe",
                     Email = "johndoe@anonymous.com",
@@ -142,7 +138,7 @@ namespace DAL
                     DateModified = DateTime.UtcNow
                 };
 
-                Customer cust_4 = new Customer
+                var cust_4 = new Customer
                 {
                     Name = "Jane Doe",
                     Email = "Janedoe@anonymous.com",
@@ -155,9 +151,7 @@ namespace DAL
                     DateModified = DateTime.UtcNow
                 };
 
-
-
-                ProductCategory prodCat_1 = new ProductCategory
+                var prodCat_1 = new ProductCategory
                 {
                     Name = "None",
                     Description = "Default category. Products that have not been assigned a category",
@@ -165,9 +159,7 @@ namespace DAL
                     DateModified = DateTime.UtcNow
                 };
 
-
-
-                Product prod_1 = new Product
+                var prod_1 = new Product
                 {
                     Name = "BMW M6",
                     Description = "Yet another masterpiece from the world's best car manufacturer",
@@ -180,7 +172,7 @@ namespace DAL
                     DateModified = DateTime.UtcNow
                 };
 
-                Product prod_2 = new Product
+                var prod_2 = new Product
                 {
                     Name = "Nissan Patrol",
                     Description = "A true man's choice",
@@ -193,34 +185,31 @@ namespace DAL
                     DateModified = DateTime.UtcNow
                 };
 
-
-
-                Order ordr_1 = new Order
+                var ordr_1 = new Order
                 {
                     Discount = 500,
                     Cashier = await _context.Users.OrderBy(u => u.UserName).FirstAsync(),
                     Customer = cust_1,
                     DateCreated = DateTime.UtcNow,
                     DateModified = DateTime.UtcNow,
-                    OrderDetails = new List<OrderDetail>()
+                    OrderDetails = new List<OrderDetail>
                     {
-                        new OrderDetail() {UnitPrice = prod_1.SellingPrice, Quantity=1, Product = prod_1 },
-                        new OrderDetail() {UnitPrice = prod_2.SellingPrice, Quantity=1, Product = prod_2 },
+                        new OrderDetail {UnitPrice = prod_1.SellingPrice, Quantity=1, Product = prod_1 },
+                        new OrderDetail {UnitPrice = prod_2.SellingPrice, Quantity=1, Product = prod_2 },
                     }
                 };
 
-                Order ordr_2 = new Order
+                var ordr_2 = new Order
                 {
                     Cashier = await _context.Users.OrderBy(u => u.UserName).FirstAsync(),
                     Customer = cust_2,
                     DateCreated = DateTime.UtcNow,
                     DateModified = DateTime.UtcNow,
-                    OrderDetails = new List<OrderDetail>()
+                    OrderDetails = new List<OrderDetail>
                     {
-                        new OrderDetail() {UnitPrice = prod_2.SellingPrice, Quantity=1, Product = prod_2 },
+                        new OrderDetail {UnitPrice = prod_2.SellingPrice, Quantity=1, Product = prod_2 },
                     }
                 };
-
 
                 _context.Customers.Add(cust_1);
                 _context.Customers.Add(cust_2);
@@ -238,6 +227,5 @@ namespace DAL
                 _logger.LogInformation("Seeding demo data completed");
             }
         }
-
     }
 }

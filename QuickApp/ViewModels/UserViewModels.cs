@@ -5,13 +5,10 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-using FluentValidation;
 using QuickApp.Helpers;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-
 
 namespace QuickApp.ViewModels
 {
@@ -22,8 +19,6 @@ namespace QuickApp.ViewModels
         [MinimumCount(1, ErrorMessage = "Roles cannot be empty")]
         public string[] Roles { get; set; }
     }
-
-
 
     public class UserEditViewModel : UserBaseViewModel
     {
@@ -36,8 +31,6 @@ namespace QuickApp.ViewModels
         public string[] Roles { get; set; }
     }
 
-
-
     public class UserPatchViewModel
     {
         public string FullName { get; set; }
@@ -48,8 +41,6 @@ namespace QuickApp.ViewModels
 
         public string Configuration { get; set; }
     }
-
-
 
     public abstract class UserBaseViewModel
     {
@@ -71,9 +62,6 @@ namespace QuickApp.ViewModels
 
         public bool IsEnabled { get; set; }
     }
-
-
-
 
     //public class UserViewModelValidator : AbstractValidator<UserViewModel>
     //{

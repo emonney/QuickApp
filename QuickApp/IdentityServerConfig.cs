@@ -5,12 +5,12 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-using System;
-using System.Collections.Generic;
 using DAL.Core;
-using IdentityModel;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
+using IdentityModel;
+using System;
+using System.Collections.Generic;
 
 namespace QuickApp
 {

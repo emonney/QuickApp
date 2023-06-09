@@ -5,11 +5,9 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
 using DAL.Models.Interfaces;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DAL.Models
 {

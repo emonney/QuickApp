@@ -5,13 +5,11 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
+using DAL.Models.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using DAL.Models.Interfaces;
 
 namespace DAL.Models
 {
@@ -21,7 +19,7 @@ namespace DAL.Models
         {
             get
             {
-                string friendlyName = string.IsNullOrWhiteSpace(FullName) ? UserName : FullName;
+                var friendlyName = string.IsNullOrWhiteSpace(FullName) ? UserName : FullName;
 
                 if (!string.IsNullOrWhiteSpace(JobTitle))
                     friendlyName = $"{JobTitle} {friendlyName}";
@@ -30,19 +28,16 @@ namespace DAL.Models
             }
         }
 
-
         public string JobTitle { get; set; }
         public string FullName { get; set; }
         public string Configuration { get; set; }
         public bool IsEnabled { get; set; }
-        public bool IsLockedOut => this.LockoutEnabled && this.LockoutEnd >= DateTimeOffset.UtcNow;
+        public bool IsLockedOut => LockoutEnabled && LockoutEnd >= DateTimeOffset.UtcNow;
 
         public string CreatedBy { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
-
-
 
         /// <summary>
         /// Navigation property for the roles this user belongs to.

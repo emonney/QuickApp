@@ -5,14 +5,11 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-using QuickApp.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using QuickApp.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace QuickApp.Helpers
 {

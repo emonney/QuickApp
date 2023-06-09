@@ -47,7 +47,6 @@ namespace QuickApp
             app.Run();
         }
 
-
         private static void AddServices(WebApplicationBuilder builder)
         {
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
@@ -55,7 +54,7 @@ namespace QuickApp
 
             var authServerUrl = builder.Configuration["AuthServerUrl"].TrimEnd('/');
 
-            string migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name; //QuickApp
+            var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name; //QuickApp
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString, b => b.MigrationsAssembly(migrationsAssembly)));
@@ -141,7 +140,7 @@ namespace QuickApp
                         Password = new OpenApiOAuthFlow
                         {
                             TokenUrl = new Uri("/connect/token", UriKind.Relative),
-                            Scopes = new Dictionary<string, string>()
+                            Scopes = new Dictionary<string, string>
                             {
                                 { IdentityServerConfig.ApiName, IdentityServerConfig.ApiFriendlyName }
                             }
@@ -177,7 +176,6 @@ namespace QuickApp
             //Email Templates
             EmailTemplates.Initialize(builder.Environment);
         }
-
 
         private static void ConfigureRequestPipeline(WebApplication app)
         {
@@ -225,7 +223,6 @@ namespace QuickApp
 
             app.MapFallbackToFile("index.html");
         }
-
 
         private static void SeedDatabase(WebApplication app)
         {

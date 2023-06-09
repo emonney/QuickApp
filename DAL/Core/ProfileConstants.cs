@@ -6,10 +6,7 @@
 // ======================================
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Core
 {
@@ -21,8 +18,6 @@ namespace DAL.Core
         ///<summary>A claim that specifies the permission of an entity</summary>
         public const string Permission = "permission";
     }
-
-
 
     public static class PropertyConstants
     {
@@ -36,8 +31,6 @@ namespace DAL.Core
         ///<summary>A property that specifies the configuration/customizations of an entity</summary>
         public const string Configuration = "configuration";
     }
-
-
 
     public static class ScopeConstants
     {

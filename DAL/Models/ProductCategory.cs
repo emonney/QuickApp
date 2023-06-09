@@ -20,7 +20,6 @@ namespace DAL.Models
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
 
-
         public ICollection<Product> Products { get; set; }
     }
 }
