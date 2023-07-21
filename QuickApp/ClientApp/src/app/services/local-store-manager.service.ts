@@ -71,7 +71,7 @@ export class LocalStoreManager {
     localStorage.clear();
   }
 
-  public saveSessionData(data: any, key = LocalStoreManager.DBKEY_USER_DATA) {
+  public saveSessionData(data: unknown, key = LocalStoreManager.DBKEY_USER_DATA) {
     this.testForInvalidKeys(key);
 
     this.removeFromSyncKeys(key);
@@ -79,14 +79,14 @@ export class LocalStoreManager {
     this.sessionStorageSetItem(key, data);
   }
 
-  public saveSyncedSessionData(data: any, key = LocalStoreManager.DBKEY_USER_DATA) {
+  public saveSyncedSessionData(data: unknown, key = LocalStoreManager.DBKEY_USER_DATA) {
     this.testForInvalidKeys(key);
 
     localStorage.removeItem(key);
     this.addToSessionStorage(data, key);
   }
 
-  public savePermanentData(data: any, key = LocalStoreManager.DBKEY_USER_DATA) {
+  public savePermanentData(data: unknown, key = LocalStoreManager.DBKEY_USER_DATA) {
     this.testForInvalidKeys(key);
 
     this.removeFromSessionStorage(key);
@@ -151,7 +151,7 @@ export class LocalStoreManager {
     return data;
   }
 
-  public getDataObject<T>(key = LocalStoreManager.DBKEY_USER_DATA, isDateType = false): T {
+  public getDataObject<T>(key = LocalStoreManager.DBKEY_USER_DATA, isDateType = false): T | null {
     let data = this.getData(key);
 
     if (data != null) {
@@ -225,7 +225,7 @@ export class LocalStoreManager {
     localStorage.removeItem('getSessionStorage');
   }
 
-  private addToSessionStorage(data: any, key: string) {
+  private addToSessionStorage(data: unknown, key: string) {
     this.addToSessionStorageHelper(data, key);
     this.addToSyncKeysBackup(key);
 
@@ -233,7 +233,7 @@ export class LocalStoreManager {
     localStorage.removeItem('addToSessionStorage');
   }
 
-  private addToSessionStorageHelper(data: any, key: string) {
+  private addToSessionStorageHelper(data: unknown, key: string) {
     this.addToSyncKeysHelper(key);
     this.sessionStorageSetItem(key, data);
   }
@@ -254,7 +254,7 @@ export class LocalStoreManager {
 
   private testForInvalidKeys(key: string) {
     if (!key) {
-      throw new Error('key cannot be empty');
+      throw new Error('key cannot be null or empty');
     }
 
     if (this.reservedKeys.some(x => x === key)) {
@@ -335,20 +335,30 @@ export class LocalStoreManager {
     }
   }
 
-  private localStorageSetItem(key: string, data: any) {
+  private localStorageSetItem(key: string, data: unknown) {
     localStorage.setItem(key, JSON.stringify(data));
   }
 
-  private sessionStorageSetItem(key: string, data: any) {
+  private sessionStorageSetItem(key: string, data: unknown) {
     sessionStorage.setItem(key, JSON.stringify(data));
   }
 
   private localStorageGetItem(key: string) {
-    return Utilities.JsonTryParse(localStorage.getItem(key));
+    const item = localStorage.getItem(key);
+
+    if (item === null)
+      return null;
+
+    return Utilities.JsonTryParse(item);
   }
 
   private sessionStorageGetItem(key: string) {
-    return Utilities.JsonTryParse(sessionStorage.getItem(key));
+    const item = sessionStorage.getItem(key);
+
+    if (item === null)
+      return null;
+
+    return Utilities.JsonTryParse(item);
   }
 
   private onInit() {

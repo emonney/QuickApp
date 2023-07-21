@@ -6,15 +6,15 @@
 
           (userPassword && !userPassword.valid && showErrorAlert('Password is required', 'Please enter the current password'));
 
-          (email.errors?.required && showErrorAlert('Email is required', 'Please enter an email address (maximum of 200 characters)'));
-          (email.errors?.pattern && showErrorAlert('Invalid Email', 'Please enter a valid email address'));
+          (email.errors?.['required'] && showErrorAlert('Email is required', 'Please enter an email address (maximum of 200 characters)'));
+          (email.errors?.['pattern'] && showErrorAlert('Invalid Email', 'Please enter a valid email address'));
 
           (isChangePassword && isEditingSelf && !currentPassword.valid && showErrorAlert('Current password is required', 'Please enter the current password'));
 
           ((isChangePassword || isNewUser) && !newPassword.valid && showErrorAlert('New password is required', 'Please enter the new password (minimum of 6 characters)'));
 
-          ((isChangePassword || isNewUser) && newPassword.valid && confirmPassword.errors?.required && showErrorAlert('Confirmation password is required', 'Please enter the confirmation password'));
-          ((isChangePassword || isNewUser) && newPassword.valid && confirmPassword.errors?.appValidateEqual && showErrorAlert('Passwword mismatch', 'New password and confirmation password do not match'));
+          ((isChangePassword || isNewUser) && newPassword.valid && confirmPassword.errors?.['required'] && showErrorAlert('Confirmation password is required', 'Please enter the confirmation password'));
+          ((isChangePassword || isNewUser) && newPassword.valid && confirmPassword.errors?.['validateEqual'] && showErrorAlert('Passwword mismatch', 'New password and confirmation password do not match'));
 
           (canAssignRoles && !roles.valid && showErrorAlert('Roles is required', 'Please select a minimum of 1 role'));">
 
@@ -49,12 +49,12 @@
       </div>
     </div>
 
-    <div *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName != userEdit.userName" class="row">
+    <div *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName !== userEdit.userName" class="row">
       <div class="col-lg-12">
         <hr class="hr-password-separator" />
       </div>
     </div>
-    <div *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName != userEdit.userName" class="row">
+    <div *ngIf="isEditMode && isEditingSelf && !isChangePassword && user.userName !== userEdit.userName" class="row">
       <label class="col-form-label col-lg-2" for="userPassword-{{uniqueId}}">{{'users.editor.Password' | translate}}</label>
       <div class="col-lg-10">
         <input type="password" attr.id="userPassword-{{uniqueId}}" name="userPassword" [attr.autocomplete]="isGeneralEditor ? 'new-password' : null" placeholder="Enter password"
@@ -66,7 +66,6 @@
         </span>
       </div>
     </div>
-
 
     <div class="row">
       <div class="col-lg-12">
@@ -82,10 +81,10 @@
       <div *ngIf="isEditMode" [class.col-lg-9]="isViewOnly" [class.col-lg-10]="!isViewOnly">
         <input type="text" attr.id="email-{{uniqueId}}" name="email" placeholder="Enter email address" class="form-control" [ngClass]="{'is-valid': f.submitted && email.valid, 'is-invalid' : f.submitted && !email.valid}"
                [(ngModel)]="userEdit.email" #email="ngModel" required maxlength="200" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" />
-        <span *ngIf="showValidationErrors && f.submitted && email.errors?.required" class="invalid-feedback">
+        <span *ngIf="showValidationErrors && f.submitted && email.errors?.['required']" class="invalid-feedback">
           {{'users.editor.EmailRequired' | translate}}
         </span>
-        <span *ngIf="showValidationErrors && f.submitted && email.errors?.pattern" class="invalid-feedback">
+        <span *ngIf="showValidationErrors && f.submitted && email.errors?.['pattern']" class="invalid-feedback">
           {{'users.editor.InvalidEmail' | translate}}
         </span>
       </div>
@@ -146,10 +145,10 @@
               <input type="password" attr.id="confirmPassword-{{uniqueId}}" name="confirmPassword" [attr.autocomplete]="isGeneralEditor ? 'new-password' : null" placeholder="Confirm new password" class="form-control"
                      [ngClass]="{'is-valid': f.submitted && confirmPassword.valid, 'is-invalid' : f.submitted && !confirmPassword.valid}" [(ngModel)]="userEdit.confirmPassword" #confirmPassword="ngModel"
                      required appValidateEqual="newPassword" />
-              <span *ngIf="showValidationErrors && f.submitted && confirmPassword.errors?.required" class="invalid-feedback">
+              <span *ngIf="showValidationErrors && f.submitted && confirmPassword.errors?.['required']" class="invalid-feedback">
                 {{'users.editor.ConfirmationPasswordRequired' | translate}}
               </span>
-              <span *ngIf="showValidationErrors && f.submitted && confirmPassword.errors?.appValidateEqual && !confirmPassword.errors?.required" class="invalid-feedback">
+              <span *ngIf="showValidationErrors && f.submitted && confirmPassword.errors?.['validateEqual'] && !confirmPassword.errors?.['required']" class="invalid-feedback">
                 {{'users.editor.PasswordMismatch' | translate}}
               </span>
             </div>

@@ -33,7 +33,6 @@
 <ng-template #statusTemplate let-row="row" let-value="value">
   <div class="form-check">
     <input class="form-check-input" attr.name="checkboxes-{{value}}" type="checkbox" [(ngModel)]="row.completed">
-    <label class="form-check-label"></label>
   </div>
 </ng-template>
 
@@ -91,8 +90,7 @@
       </div>
 
       <div class="row">
-        <label class="col-form-label col-md-3"> </label>
-        <div class="col-md-9">
+        <div class="offset-md-3 col-md-9">
           <div class="form-check">
             <input class="form-check-input" id="isImportant" name="isImportant" type="checkbox" [(ngModel)]="taskEdit.important">
             <label for="isImportant" class="form-check-label">{{'todoDemo.editor.Important' | translate}}</label>

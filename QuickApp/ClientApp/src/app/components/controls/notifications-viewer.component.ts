@@ -6,6 +6,8 @@
 // ======================================
 
 import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, Input } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { TableColumn } from '@swimlane/ngx-datatable';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
@@ -15,53 +17,49 @@ import { Permission } from '../../models/permission.model';
 import { Utilities } from '../../services/utilities';
 import { Notification } from '../../models/notification.model';
 
-
 @Component({
   selector: 'app-notifications-viewer',
   templateUrl: './notifications-viewer.component.html',
   styleUrls: ['./notifications-viewer.component.scss']
 })
 export class NotificationsViewerComponent implements OnInit, OnDestroy {
-  columns: any[] = [];
+  columns: TableColumn[] = [];
   rows: Notification[] = [];
-  loadingIndicator: boolean;
+  loadingIndicator = false;
 
   dataLoadingConsecutiveFailurs = 0;
-  dataLoadingSubscription: any;
-
+  dataLoadingSubscription: Subscription | undefined;
 
   @Input()
-  isViewOnly: boolean;
+  isViewOnly = false;
 
   @Input()
   verticalScrollbar = false;
 
 
   @ViewChild('statusHeaderTemplate', { static: true })
-  statusHeaderTemplate: TemplateRef<any>;
+  statusHeaderTemplate!: TemplateRef<unknown>;
 
   @ViewChild('statusTemplate', { static: true })
-  statusTemplate: TemplateRef<any>;
+  statusTemplate!: TemplateRef<unknown>;
 
   @ViewChild('dateTemplate', { static: true })
-  dateTemplate: TemplateRef<any>;
+  dateTemplate!: TemplateRef<unknown>;
 
   @ViewChild('contentHeaderTemplate', { static: true })
-  contentHeaderTemplate: TemplateRef<any>;
+  contentHeaderTemplate!: TemplateRef<unknown>;
 
   @ViewChild('contenBodytTemplate', { static: true })
-  contenBodytTemplate: TemplateRef<any>;
+  contenBodytTemplate!: TemplateRef<unknown>;
 
   @ViewChild('actionsTemplate', { static: true })
-  actionsTemplate: TemplateRef<any>;
+  actionsTemplate!: TemplateRef<unknown>;
 
   constructor(private alertService: AlertService, private translationService: AppTranslationService,
     private accountService: AccountService, private notificationService: NotificationService) {
   }
 
-
   ngOnInit() {
-
     if (this.isViewOnly) {
       this.columns = [
         { prop: 'header', cellTemplate: this.contentHeaderTemplate, width: 200, resizeable: false, sortable: false, draggable: false },
@@ -77,10 +75,8 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
       ];
     }
 
-
     this.initDataLoading();
   }
-
 
   ngOnDestroy() {
     if (this.dataLoadingSubscription) {
@@ -88,20 +84,16 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   initDataLoading() {
-
-    if (this.isViewOnly && this.notificationService.recentNotifications) {
-      this.rows = this.processResults(this.notificationService.recentNotifications);
+    if (this.isViewOnly && this.notificationService.newNotifications) {
+      this.rows = this.processResults(this.notificationService.newNotifications);
       return;
     }
 
     this.loadingIndicator = true;
 
-    const dataLoadTask = this.isViewOnly ? this.notificationService.getNewNotifications() : this.notificationService.getNewNotificationsPeriodically();
-
-    this.dataLoadingSubscription = dataLoadTask
+    this.dataLoadingSubscription = (this.isViewOnly ?
+      this.notificationService.getNewNotifications() : this.notificationService.getNewNotificationsPeriodically())
       .subscribe({
         next: notifications => {
           this.loadingIndicator = false;
@@ -122,16 +114,9 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
           }
         }
       });
-
-
-    if (this.isViewOnly) {
-      this.dataLoadingSubscription = null;
-    }
   }
 
-
   private processResults(notifications: Notification[]) {
-
     if (this.isViewOnly) {
       notifications.sort((a, b) => {
         return b.date.valueOf() - a.date.valueOf();
@@ -141,28 +126,21 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
     return notifications;
   }
 
-
-
   getPrintedDate(value: Date) {
-    if (value) {
-      return Utilities.printTimeOnly(value) + ' on ' + Utilities.printDateOnly(value);
-    }
+    return Utilities.printTimeOnly(value) + ' on ' + Utilities.printDateOnly(value);
   }
-
 
   deleteNotification(row: Notification) {
-    this.alertService.showDialog(`Are you sure you want to delete the notification \"${row.header}\"?`, DialogType.confirm, () => this.deleteNotificationHelper(row));
+    this.alertService.showDialog(`Are you sure you want to delete the notification "${row.header}"?`, DialogType.confirm, () => this.deleteNotificationHelper(row));
   }
 
-
   deleteNotificationHelper(row: Notification) {
-
     this.alertService.startLoadingMessage('Deleting...');
     this.loadingIndicator = true;
 
     this.notificationService.deleteNotification(row)
       .subscribe({
-        next: _ => {
+        next: () => {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
@@ -178,9 +156,7 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
       });
   }
 
-
   togglePin(row: Notification) {
-
     const pin = !row.isPinned;
     const opText = pin ? 'Pinning' : 'Unpinning';
 
@@ -189,7 +165,7 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
 
     this.notificationService.pinUnpinNotification(row, pin)
       .subscribe({
-        next: _ => {
+        next: () => {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
@@ -205,9 +181,7 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
       });
   }
 
-
   get canManageNotifications() {
-    return this.accountService.userHasPermission(Permission.manageRolesPermission); // Todo: Consider creating separate permission for notifications
+    return this.accountService.userHasPermission(Permission.manageRoles); // Todo: Consider creating separate permission for notifications
   }
-
 }

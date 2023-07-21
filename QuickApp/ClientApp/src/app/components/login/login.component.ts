@@ -6,6 +6,7 @@
 // ======================================
 
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { AlertService, MessageSeverity, DialogType } from '../../services/alert.service';
 import { AuthService } from '../../services/auth.service';
@@ -20,12 +21,11 @@ import { UserLogin } from '../../models/user-login.model';
 })
 
 export class LoginComponent implements OnInit, OnDestroy {
-
   userLogin = new UserLogin();
   isLoading = false;
   formResetToggle = true;
-  modalClosedCallback: () => void;
-  loginStatusSubscription: any;
+  modalClosedCallback: { (): void } | undefined;
+  loginStatusSubscription: Subscription | undefined;
 
   @Input()
   isModal = false;
@@ -35,15 +35,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   }
 
-
   ngOnInit() {
-
     this.userLogin.rememberMe = this.authService.rememberMe;
 
     if (this.getShouldRedirect()) {
       this.authService.redirectLoginUser();
     } else {
-      this.loginStatusSubscription = this.authService.getLoginStatusEvent().subscribe(_ => {
+      this.loginStatusSubscription = this.authService.getLoginStatusEvent().subscribe(() => {
         if (this.getShouldRedirect()) {
           this.authService.redirectLoginUser();
         }
@@ -51,18 +49,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-
   ngOnDestroy() {
     if (this.loginStatusSubscription) {
       this.loginStatusSubscription.unsubscribe();
     }
   }
 
-
   getShouldRedirect() {
     return !this.isModal && this.authService.isLoggedIn && !this.authService.isSessionExpired;
   }
-
 
   showErrorAlert(caption: string, message: string) {
     this.alertService.showMessage(caption, message, MessageSeverity.error);
@@ -73,7 +68,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.modalClosedCallback();
     }
   }
-
 
   login() {
     this.isLoading = true;
@@ -100,7 +94,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           }, 500);
         },
         error: error => {
-
           this.alertService.stopLoadingMessage();
 
           if (Utilities.checkNoNetwork(error)) {
@@ -112,7 +105,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             if (errorMessage) {
               this.alertService.showStickyMessage('Unable to login', this.mapLoginErrorMessage(errorMessage), MessageSeverity.error, error);
             } else {
-              this.alertService.showStickyMessage('Unable to login', 'An error occurred whilst logging in, please try again later.\nError: ' + Utilities.getResponseBody(error), MessageSeverity.error, error);
+              this.alertService.showStickyMessage('Unable to login',
+                'An error occurred whilst logging in, please try again later.\nError: ' + Utilities.getResponseData(error, true), MessageSeverity.error, error);
             }
           }
 
@@ -123,14 +117,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-
   offerAlternateHost() {
     if (Utilities.checkIsLocalHost(location.origin) && Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
       this.alertService.showDialog('Dear Developer!\nIt appears your backend Web API service is not running...\n' +
-        'Would you want to temporarily switch to the online Demo API below?(Or specify another)',
-        DialogType.prompt,
-        (value: string) => {
-          this.configurations.baseUrl = value;
+        'Would you want to temporarily switch to the online Demo API below?(Or specify another)', DialogType.prompt, value => {
+          this.configurations.baseUrl = value as string;
           this.alertService.showStickyMessage('API Changed!', 'The target Web API has been changed to: ' + value, MessageSeverity.warn);
         },
         null,
@@ -139,7 +130,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.configurations.fallbackBaseUrl);
     }
   }
-
 
   mapLoginErrorMessage(error: string) {
     if (error === 'invalid_username_or_password') {
@@ -152,7 +142,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     return error;
   }
-
 
   reset() {
     this.formResetToggle = false;

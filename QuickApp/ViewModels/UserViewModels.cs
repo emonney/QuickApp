@@ -42,8 +42,19 @@ namespace QuickApp.ViewModels
         public string Configuration { get; set; }
     }
 
-    public abstract class UserBaseViewModel
+    public abstract class UserBaseViewModel : ISanitizeModel
     {
+        public virtual void SanitizeModel()
+        {
+            Id = Id.NullIfWhiteSpace();
+            UserName = UserName.NullIfWhiteSpace();
+            FullName = FullName.NullIfWhiteSpace();
+            Email = Email.NullIfWhiteSpace();
+            JobTitle = JobTitle.NullIfWhiteSpace();
+            PhoneNumber = PhoneNumber.NullIfWhiteSpace();
+            Configuration = Configuration.NullIfWhiteSpace();
+        }
+
         public string Id { get; set; }
 
         [Required(ErrorMessage = "Username is required"), StringLength(200, MinimumLength = 2, ErrorMessage = "Username must be between 2 and 200 characters")]
@@ -62,15 +73,4 @@ namespace QuickApp.ViewModels
 
         public bool IsEnabled { get; set; }
     }
-
-    //public class UserViewModelValidator : AbstractValidator<UserViewModel>
-    //{
-    //    public UserViewModelValidator()
-    //    {
-    //        //Validation logic here
-    //        RuleFor(user => user.UserName).NotEmpty().WithMessage("Username cannot be empty");
-    //        RuleFor(user => user.Email).EmailAddress().NotEmpty();
-    //        RuleFor(user => user.Password).NotEmpty().WithMessage("Password cannot be empty").Length(4, 20);
-    //    }
-    //}
 }

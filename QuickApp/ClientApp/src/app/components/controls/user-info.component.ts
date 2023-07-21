@@ -6,6 +6,8 @@
 // ======================================
 
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NgModel, NgForm } from '@angular/forms';
 
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { AccountService } from '../../services/account.service';
@@ -15,14 +17,12 @@ import { UserEdit } from '../../models/user-edit.model';
 import { Role } from '../../models/role.model';
 import { Permission } from '../../models/permission.model';
 
-
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
   styleUrls: ['./user-info.component.scss']
 })
 export class UserInfoComponent implements OnInit {
-
   public isEditMode = false;
   public isNewUser = false;
   public isSaving = false;
@@ -31,17 +31,17 @@ export class UserInfoComponent implements OnInit {
   public showValidationErrors = false;
   public uniqueId = Utilities.uniqueId();
   public user = new User();
-  public userEdit: UserEdit;
+  public userEdit = new UserEdit();
   public allRoles: Role[] = [];
 
   public formResetToggle = true;
 
-  public changesSavedCallback: () => void;
-  public changesFailedCallback: () => void;
-  public changesCancelledCallback: () => void;
+  public changesSavedCallback: { (): void } | undefined;
+  public changesFailedCallback: { (): void } | undefined;
+  public changesCancelledCallback: { (): void } | undefined;
 
   @Input()
-  isViewOnly: boolean;
+  isViewOnly = false;
 
   @Input()
   isGeneralEditor = false;
@@ -52,29 +52,29 @@ export class UserInfoComponent implements OnInit {
 
 
   @ViewChild('f')
-  public form;
+  public form!: NgForm;
 
   // ViewChilds required because ngIf hides template variables from global scope within template
   @ViewChild('userName')
-  public userName;
+  public userName!: NgModel;
 
   @ViewChild('userPassword')
-  public userPassword;
+  public userPassword!: NgModel;
 
   @ViewChild('email')
-  public email;
+  public email!: NgModel;
 
   @ViewChild('currentPassword')
-  public currentPassword;
+  public currentPassword!: NgModel;
 
   @ViewChild('newPassword')
-  public newPassword;
+  public newPassword!: NgModel;
 
   @ViewChild('confirmPassword')
-  public confirmPassword;
+  public confirmPassword!: NgModel;
 
   @ViewChild('roles')
-  public roles;
+  public roles!: NgModel;
 
 
   constructor(private alertService: AlertService, private accountService: AccountService) {
@@ -100,7 +100,7 @@ export class UserInfoComponent implements OnInit {
     } else {
       this.accountService.getUser()
         .subscribe({
-          next: user => this.onCurrentUserDataLoadSuccessful(user, user.roles.map(x => new Role(x))),
+          next: user => this.onCurrentUserDataLoadSuccessful(user, user.roles.map(role => new Role(role))),
           error: error => this.onCurrentUserDataLoadFailed(error)
         });
     }
@@ -112,26 +112,22 @@ export class UserInfoComponent implements OnInit {
     this.allRoles = roles;
   }
 
-  private onCurrentUserDataLoadFailed(error: any) {
+  private onCurrentUserDataLoadFailed(error: HttpErrorResponse) {
     this.alertService.stopLoadingMessage();
-    this.alertService.showStickyMessage('Load Error', `Unable to retrieve user data from the server.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
+    this.alertService.showStickyMessage('Load Error',
+      `Unable to retrieve user data from the server.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
       MessageSeverity.error, error);
 
     this.user = new User();
   }
 
-
-
   getRoleByName(name: string) {
     return this.allRoles.find((r) => r.name === name);
   }
 
-
-
   showErrorAlert(caption: string, message: string) {
     this.alertService.showMessage(caption, message, MessageSeverity.error);
   }
-
 
   deletePasswordFromUser(user: UserEdit | User) {
     const userEdit = user as UserEdit;
@@ -140,7 +136,6 @@ export class UserInfoComponent implements OnInit {
     delete userEdit.newPassword;
     delete userEdit.confirmPassword;
   }
-
 
   edit() {
     if (!this.isGeneralEditor) {
@@ -160,7 +155,6 @@ export class UserInfoComponent implements OnInit {
     this.isChangePassword = false;
   }
 
-
   save() {
     this.isSaving = true;
     this.alertService.startLoadingMessage('Saving changes...');
@@ -174,12 +168,11 @@ export class UserInfoComponent implements OnInit {
     } else {
       this.accountService.updateUser(this.userEdit)
         .subscribe({
-          next: _ => this.saveSuccessHelper(),
+          next: () => this.saveSuccessHelper(),
           error: error => this.saveFailedHelper(error)
         });
     }
   }
-
 
   private saveSuccessHelper(user?: User) {
     this.testIsRoleUserCountChanged(this.user, this.userEdit);
@@ -198,12 +191,11 @@ export class UserInfoComponent implements OnInit {
     this.userEdit = new UserEdit();
     this.resetForm();
 
-
     if (this.isGeneralEditor) {
       if (this.isNewUser) {
-        this.alertService.showMessage('Success', `User \"${this.user.userName}\" was created successfully`, MessageSeverity.success);
+        this.alertService.showMessage('Success', `User "${this.user.userName}" was created successfully`, MessageSeverity.success);
       } else if (!this.isEditingSelf) {
-        this.alertService.showMessage('Success', `Changes to user \"${this.user.userName}\" was saved successfully`, MessageSeverity.success);
+        this.alertService.showMessage('Success', `Changes to user "${this.user.userName}" was saved successfully`, MessageSeverity.success);
       }
     }
 
@@ -214,14 +206,12 @@ export class UserInfoComponent implements OnInit {
 
     this.isEditMode = false;
 
-
     if (this.changesSavedCallback) {
       this.changesSavedCallback();
     }
   }
 
-
-  private saveFailedHelper(error: any) {
+  private saveFailedHelper(error: HttpErrorResponse) {
     this.isSaving = false;
     this.alertService.stopLoadingMessage();
     this.alertService.showStickyMessage('Save Error', 'The below errors occurred whilst saving your changes:', MessageSeverity.error, error);
@@ -232,10 +222,7 @@ export class UserInfoComponent implements OnInit {
     }
   }
 
-
-
   private testIsRoleUserCountChanged(currentUser: User, editedUser: User) {
-
     const rolesAdded = this.isNewUser ? editedUser.roles : editedUser.roles.filter(role => currentUser.roles.indexOf(role) === -1);
     const rolesRemoved = this.isNewUser ? [] : currentUser.roles.filter(role => editedUser.roles.indexOf(role) === -1);
 
@@ -245,8 +232,6 @@ export class UserInfoComponent implements OnInit {
       setTimeout(() => this.accountService.onRolesUserCountChanged(modifiedRoles));
     }
   }
-
-
 
   cancel() {
     if (this.isGeneralEditor) {
@@ -270,7 +255,6 @@ export class UserInfoComponent implements OnInit {
     }
   }
 
-
   close() {
     this.userEdit = this.user = new UserEdit();
     this.showValidationErrors = false;
@@ -282,35 +266,31 @@ export class UserInfoComponent implements OnInit {
     }
   }
 
-
-
   private refreshLoggedInUser() {
     this.accountService.refreshLoggedInUser()
       .subscribe({
-        next: _ => {
+        next: () => {
           this.loadCurrentUserData();
         },
         error: error => {
           this.alertService.resetStickyMessage();
-          this.alertService.showStickyMessage('Refresh failed', 'An error occurred whilst refreshing logged in user information from the server', MessageSeverity.error, error);
+          this.alertService.showStickyMessage('Refresh failed',
+            'An error occurred whilst refreshing logged in user information from the server', MessageSeverity.error, error);
         }
       });
   }
-
 
   changePassword() {
     this.isChangePassword = true;
   }
 
-
   unlockUser() {
     this.isSaving = true;
     this.alertService.startLoadingMessage('Unblocking user...');
 
-
     this.accountService.unblockUser(this.userEdit.id)
       .subscribe({
-        next: _ => {
+        next: () => {
           this.isSaving = false;
           this.userEdit.isLockedOut = false;
           this.alertService.stopLoadingMessage();
@@ -319,12 +299,12 @@ export class UserInfoComponent implements OnInit {
         error: error => {
           this.isSaving = false;
           this.alertService.stopLoadingMessage();
-          this.alertService.showStickyMessage('Unblock Error', 'The below errors occurred whilst unblocking the user:', MessageSeverity.error, error);
+          this.alertService.showStickyMessage('Unblock Error',
+            'The below errors occurred whilst unblocking the user:', MessageSeverity.error, error);
           this.alertService.showStickyMessage(error, null, MessageSeverity.error);
         }
       });
   }
-
 
   resetForm(replace = false) {
     this.isChangePassword = false;
@@ -339,7 +319,6 @@ export class UserInfoComponent implements OnInit {
       });
     }
   }
-
 
   newUser(allRoles: Role[]) {
     this.isGeneralEditor = true;
@@ -371,9 +350,7 @@ export class UserInfoComponent implements OnInit {
     }
   }
 
-
   displayUser(user: User, allRoles?: Role[]) {
-
     this.user = new User();
     Object.assign(this.user, user);
     this.deletePasswordFromUser(this.user);
@@ -382,28 +359,21 @@ export class UserInfoComponent implements OnInit {
     this.isEditMode = false;
   }
 
-
-
   private setRoles(user: User, allRoles?: Role[]) {
-
     this.allRoles = allRoles ? [...allRoles] : [];
 
-    if (user.roles) {
-      for (const ur of user.roles) {
-        if (!this.allRoles.some(r => r.name === ur)) {
-          this.allRoles.unshift(new Role(ur));
-        }
+    for (const role of user.roles) {
+      if (!this.allRoles.some(r => r.name === role)) {
+        this.allRoles.unshift(new Role(role));
       }
     }
   }
 
-
-
   get canViewAllRoles() {
-    return this.accountService.userHasPermission(Permission.viewRolesPermission);
+    return this.accountService.userHasPermission(Permission.viewRoles);
   }
 
   get canAssignRoles() {
-    return this.accountService.userHasPermission(Permission.assignRolesPermission);
+    return this.accountService.userHasPermission(Permission.assignRoles);
   }
 }

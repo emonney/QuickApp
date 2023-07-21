@@ -8,8 +8,9 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { BaseChartDirective } from 'ng2-charts';
+import { ChartEvent, ChartType } from 'chart.js';
 
-require('chart.js');
+type ChartEventArgs = { event: ChartEvent; active: object[] }
 
 
 @Component({
@@ -18,63 +19,33 @@ require('chart.js');
   styleUrls: ['./statistics-demo.component.scss']
 })
 export class StatisticsDemoComponent implements OnInit, OnDestroy {
-
-  chartOptions;
-  chartType = 'line';
+  chartOptions: object | undefined;
+  chartType: ChartType = 'line';
   chartLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
   chartData = [
     {
       data: [65, 59, 80, 81, 56, 55],
       label: 'Series A',
       fill: 'origin',
-      /*
-      // grey color
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
-      */
     },
     {
       data: [28, 48, 40, 19, 86, 27],
       label: 'Series B',
       fill: 'origin',
-      /*
-      // dark grey color
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
-      */
     },
     {
       data: [18, 48, 77, 9, 100, 27],
       label: 'Series C',
       fill: 'origin',
-      /*
-      // darker grey color
-      backgroundColor: 'rgba(128,128,128,0.2)',
-      borderColor: 'rgba(128,128,128,1)',
-      pointBackgroundColor: 'rgba(128,128,128,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(128,128,128,0.8)'
-      */
     }
   ];
 
-  timerReference: any;
-
+  timerReference: ReturnType<typeof setInterval> | undefined;
 
   @ViewChild(BaseChartDirective)
-  chart?: BaseChartDirective;
+  chart!: BaseChartDirective;
 
   constructor(private alertService: AlertService) {
-
   }
 
   ngOnInit() {
@@ -120,10 +91,10 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.chart?.update();
+    this.chart.update();
   }
 
-  changeChartType(type: string) {
+  changeChartType(type: ChartType) {
     this.chartType = type;
     this.refreshChartOptions();
   }
@@ -137,26 +108,26 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
   }
 
   configure(response: boolean, value?: string) {
-
     if (response) {
-
       this.alertService.showStickyMessage('Simulating...', '', MessageSeverity.wait);
 
       setTimeout(() => {
-
         this.alertService.resetStickyMessage();
-        this.alertService.showMessage('Demo', `Your settings was successfully configured to \"${value}\"`, MessageSeverity.success);
+        this.alertService.showMessage('Demo', `Your settings was successfully configured to "${value}"`, MessageSeverity.success);
       }, 2000);
     } else {
       this.alertService.showMessage('Demo', 'Operation cancelled by user', MessageSeverity.default);
     }
   }
 
-  chartClicked(e): void {
-    //console.log(e);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  chartHovered(e: ChartEventArgs): void {
+    // Demo
   }
 
-  chartHovered(e): void {
-    //console.log(e);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  chartClicked(e: Partial<ChartEventArgs>): void {
+    // Demo
   }
 }

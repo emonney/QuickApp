@@ -15,47 +15,40 @@ import { Notification } from '../models/notification.model';
 
 @Injectable()
 export class NotificationService {
-  private lastNotificationDate: Date;
-  private _recentNotifications: Notification[];
+  private lastNotificationDate: Date | undefined;
+  private _newNotifications: Notification[] | undefined;
 
   get currentUser() {
     return this.authService.currentUser;
   }
 
-  get recentNotifications() {
-    return this._recentNotifications;
+  get newNotifications() {
+    return this._newNotifications;
   }
 
-  set recentNotifications(notifications: Notification[]) {
-    this._recentNotifications = notifications;
-  }
 
   constructor(private notificationEndpoint: NotificationEndpoint, private authService: AuthService) {
-
   }
 
-  getNotification(notificationId?: number) {
-
-    return this.notificationEndpoint.getNotificationEndpoint(notificationId).pipe(
-      map(response => Notification.Create(response)));
+  getNotification(notificationId: number) {
+    return this.notificationEndpoint.getNotificationEndpoint<Notification>(notificationId).pipe(
+      map(response => response ? Notification.Create(response) : null));
   }
 
   getNotifications(page: number, pageSize: number) {
-
-    return this.notificationEndpoint.getNotificationsEndpoint(page, pageSize).pipe(
+    return this.notificationEndpoint.getNotificationsEndpoint<Notification[]>(page, pageSize).pipe(
       map(response => {
         return this.getNotificationsFromResponse(response);
       }));
   }
 
   getUnreadNotifications(userId?: string) {
-
-    return this.notificationEndpoint.getUnreadNotificationsEndpoint(userId).pipe(
+    return this.notificationEndpoint.getUnreadNotificationsEndpoint<Notification[]>(userId).pipe(
       map(response => this.getNotificationsFromResponse(response)));
   }
 
   getNewNotifications() {
-    return this.notificationEndpoint.getNewNotificationsEndpoint(this.lastNotificationDate).pipe(
+    return this.notificationEndpoint.getNewNotificationsEndpoint<Notification[]>(this.lastNotificationDate).pipe(
       map(response => this.processNewNotificationsFromResponse(response)));
   }
 
@@ -63,63 +56,65 @@ export class NotificationService {
     return interval(10000).pipe(
       startWith(0),
       mergeMap(() => {
-        return this.notificationEndpoint.getNewNotificationsEndpoint(this.lastNotificationDate).pipe(
+        return this.notificationEndpoint.getNewNotificationsEndpoint<Notification[]>(this.lastNotificationDate).pipe(
           map(response => this.processNewNotificationsFromResponse(response)));
       }));
   }
 
-  pinUnpinNotification(notificationOrNotificationId: number | Notification, isPinned?: boolean): Observable<any> {
-
-    if (typeof notificationOrNotificationId === 'number' || notificationOrNotificationId instanceof Number) {
-      return this.notificationEndpoint.getPinUnpinNotificationEndpoint(notificationOrNotificationId as number, isPinned);
-    } else {
-      return this.pinUnpinNotification(notificationOrNotificationId.id);
-    }
-  }
-
-  readUnreadNotification(notificationIds: number[], isRead: boolean): Observable<any> {
-
-    return this.notificationEndpoint.getReadUnreadNotificationEndpoint(notificationIds, isRead);
-  }
-
-  deleteNotification(notificationOrNotificationId: number | Notification): Observable<Notification> {
-
-    if (typeof notificationOrNotificationId === 'number' || notificationOrNotificationId instanceof Number) { // Todo: Test me if its check is valid
-      return this.notificationEndpoint.getDeleteNotificationEndpoint(notificationOrNotificationId as number).pipe(
-        map(response => {
-          this.recentNotifications = this.recentNotifications.filter(n => n.id !== notificationOrNotificationId);
-          return Notification.Create(response);
-        }));
-    } else {
-      return this.deleteNotification(notificationOrNotificationId.id);
-    }
-  }
-
-  private processNewNotificationsFromResponse(response) {
+  private processNewNotificationsFromResponse(response: object[] | null) {
     const notifications = this.getNotificationsFromResponse(response);
 
     for (const n of notifications) {
-      if (n.date > this.lastNotificationDate) {
+      if (!this.lastNotificationDate || n.date > this.lastNotificationDate)
         this.lastNotificationDate = n.date;
-      }
     }
+
+    this._newNotifications = notifications;
 
     return notifications;
   }
 
-  private getNotificationsFromResponse(response) {
+  pinUnpinNotification(notification: number | Notification, isPinned?: boolean): Observable<null> {
+    if (typeof notification === 'number') {
+      return this.notificationEndpoint.getPinUnpinNotificationEndpoint(notification, isPinned);
+    } else {
+      return this.pinUnpinNotification(notification.id);
+    }
+  }
+
+  readUnreadNotification(notificationIds: number[], isRead: boolean) {
+    return this.notificationEndpoint.getReadUnreadNotificationEndpoint(notificationIds, isRead);
+  }
+
+  deleteNotification(notification: number | Notification): Observable<Notification | null> {
+    if (typeof notification === 'number') {
+      return this.notificationEndpoint.getDeleteNotificationEndpoint(notification).pipe(
+        map(response => {
+          if (response) {
+            this._newNotifications = this.newNotifications?.filter(n => n.id !== notification);
+            return Notification.Create(response);
+          }
+          return null;
+        }));
+    } else {
+      return this.deleteNotification(notification.id);
+    }
+  }
+
+  private getNotificationsFromResponse(response: object[] | null) {
+    if (!response)
+      return [];
+
     const notifications: Notification[] = [];
 
     for (const i in response) {
-      if (response.hasOwnProperty(i)) {
-        notifications[i] = Notification.Create(response[i]);
+      if (Object.prototype.hasOwnProperty.call(response, i)) {
+        notifications[+i] = Notification.Create(response[i]);
       }
     }
 
     notifications.sort((a, b) => b.date.valueOf() - a.date.valueOf());
     notifications.sort((a, b) => (a.isPinned === b.isPinned) ? 0 : a.isPinned ? -1 : 1);
-
-    this.recentNotifications = notifications;
 
     return notifications;
   }

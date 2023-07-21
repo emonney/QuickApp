@@ -17,14 +17,12 @@ export class AlertService {
   private messages = new Subject<AlertCommand>();
   private dialogs = new Subject<AlertDialog>();
 
-  private loadingMessageTimeoutId: any;
+  private loadingMessageTimeoutId: ReturnType<typeof setTimeout> | undefined;
 
-
-
-  showDialog(message: string);
-  showDialog(message: string, type: DialogType, okCallback: (val?: any) => any);
-  showDialog(message: string, type: DialogType, okCallback?: (val?: any) => any, cancelCallback?: () => any, okLabel?: string, cancelLabel?: string, defaultValue?: string);
-  showDialog(message: string, type?: DialogType, okCallback?: (val?: any) => any, cancelCallback?: () => any, okLabel?: string, cancelLabel?: string, defaultValue?: string) {
+  showDialog(message: string): void;
+  showDialog(message: string, type: DialogType, okCallback: (val?: string) => void): void;
+  showDialog(message: string, type: DialogType, okCallback?: { (val?: string): void } | null, cancelCallback?: { (): void } | null, okLabel?: string | null, cancelLabel?: string | null, defaultValue?: string | null): void;
+  showDialog(message: string, type?: DialogType, okCallback?: (val?: string) => void, cancelCallback?: () => void, okLabel?: string, cancelLabel?: string, defaultValue?: string) {
 
     if (!type) {
       type = DialogType.alert;
@@ -33,11 +31,11 @@ export class AlertService {
     this.dialogs.next({ message, type, okCallback, cancelCallback, okLabel, cancelLabel, defaultValue });
   }
 
-  showMessage(summary: string);
-  showMessage(summary: string, detail: string, severity: MessageSeverity);
-  showMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity);
-  showMessage(response: HttpResponseBase, ignoreValueUseNull: string, severity: MessageSeverity);
-  showMessage(data: any, separatorOrDetail?: string, severity?: MessageSeverity) {
+  showMessage(summary: string): void;
+  showMessage(summary: string, detail: string | null, severity: MessageSeverity): void;
+  showMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity): void;
+  showMessage(response: HttpResponseBase, ignoreValueUseNull: string, severity: MessageSeverity): void;
+  showMessage(data: string | string[] | HttpResponseBase, separatorOrDetail?: string | null, severity?: MessageSeverity) {
     if (!severity) {
       severity = MessageSeverity.default;
     }
@@ -47,9 +45,9 @@ export class AlertService {
       separatorOrDetail = Utilities.captionAndMessageSeparator;
     }
 
-    if (data instanceof Array) {
+    if (Array.isArray(data)) {
       for (const message of data) {
-        const msgObject = Utilities.splitInTwo(message, separatorOrDetail);
+        const msgObject = Utilities.splitInTwo(message, separatorOrDetail ?? '');
 
         this.showMessageHelper(msgObject.firstPart, msgObject.secondPart, severity, false);
       }
@@ -58,12 +56,12 @@ export class AlertService {
     }
   }
 
-  showStickyMessage(summary: string);
-  showStickyMessage(summary: string, detail: string, severity: MessageSeverity, error?: any);
-  showStickyMessage(summary: string, detail: string, severity: MessageSeverity, error?: any, onRemove?: () => any);
-  showStickyMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity);
-  showStickyMessage(response: HttpResponseBase, ignoreValueUseNull: string, severity: MessageSeverity);
-  showStickyMessage(data: string | string[] | HttpResponseBase, separatorOrDetail?: string, severity?: MessageSeverity, error?: any, onRemove?: () => any) {
+  showStickyMessage(summary: string): void;
+  showStickyMessage(summary: string, detail: string | null, severity: MessageSeverity, error?: unknown): void;
+  showStickyMessage(summary: string, detail: string | null, severity: MessageSeverity, error?: unknown, onRemove?: () => void): void;
+  showStickyMessage(summaryAndDetails: string[], summaryAndDetailsSeparator: string, severity: MessageSeverity): void;
+  showStickyMessage(response: HttpResponseBase, ignoreValueUseNull: null, severity: MessageSeverity): void;
+  showStickyMessage(data: string | string[] | HttpResponseBase, separatorOrDetail?: string | null, severity?: MessageSeverity, error?: unknown, onRemove?: () => void) {
 
     if (!severity) {
       severity = MessageSeverity.default;
@@ -74,9 +72,9 @@ export class AlertService {
       separatorOrDetail = Utilities.captionAndMessageSeparator;
     }
 
-    if (data instanceof Array) {
+    if (Array.isArray(data)) {
       for (const message of data) {
-        const msgObject = Utilities.splitInTwo(message, separatorOrDetail);
+        const msgObject = Utilities.splitInTwo(message, separatorOrDetail ?? '');
 
         this.showMessageHelper(msgObject.firstPart, msgObject.secondPart, severity, true);
       }
@@ -110,7 +108,9 @@ export class AlertService {
     }
   }
 
-  private showMessageHelper(summary: string, detail: string, severity: MessageSeverity, isSticky: boolean, onRemove?: () => any) {
+  private showMessageHelper(summary: string, detail: string | null | undefined, severity: MessageSeverity, isSticky: boolean, onRemove?: () => void) {
+    if (detail === null)
+      detail = undefined;
 
     const alertCommand: AlertCommand = {
       operation: isSticky ? 'add_sticky' : 'add',
@@ -128,6 +128,11 @@ export class AlertService {
   startLoadingMessage(message = 'Loading...', caption = '') {
     clearTimeout(this.loadingMessageTimeoutId);
 
+    if (!caption) {
+      caption = message;
+      message = '';
+    }
+
     this.loadingMessageTimeoutId = setTimeout(() => {
       this.showStickyMessage(caption, message, MessageSeverity.wait);
     }, 1000);
@@ -139,28 +144,27 @@ export class AlertService {
   }
 
 
-
-  logDebug(msg) {
+  logDebug(msg: unknown) {
     console.debug(msg);
   }
 
-  logError(msg) {
+  logError(msg: unknown) {
     console.error(msg);
   }
 
-  logInfo(msg) {
+  logInfo(msg: unknown) {
     console.info(msg);
   }
 
-  logMessage(msg) {
+  logMessage(msg: unknown) {
     console.log(msg);
   }
 
-  logTrace(msg) {
+  logTrace(msg: unknown) {
     console.trace(msg);
   }
 
-  logWarning(msg) {
+  logWarning(msg: unknown) {
     console.warn(msg);
   }
 
@@ -179,11 +183,11 @@ export class AlertDialog {
   constructor(
     public message: string,
     public type: DialogType,
-    public okCallback: (val?: any) => any,
-    public cancelCallback: () => any,
-    public defaultValue: string,
-    public okLabel: string,
-    public cancelLabel: string) {
+    public okCallback?: (val?: string) => void,
+    public cancelCallback?: () => void,
+    public defaultValue?: string,
+    public okLabel?: string,
+    public cancelLabel?: string) {
 
   }
 }
@@ -201,14 +205,14 @@ export class AlertCommand {
   constructor(
     public operation: 'clear' | 'add' | 'add_sticky',
     public message?: AlertMessage,
-    public onRemove?: () => any) { }
+    public onRemove?: () => void) { }
 }
 
 export class AlertMessage {
   constructor(
     public severity: MessageSeverity,
     public summary: string,
-    public detail: string) { }
+    public detail?: string | undefined) { }
 }
 
 export enum MessageSeverity {

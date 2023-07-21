@@ -28,13 +28,13 @@ export class JwtHelper {
   }
 
   // https://developer.mozilla.org/en/docs/Web/API/WindowBase64/Base64_encoding_and_decoding#The_Unicode_Problem
-  private b64DecodeUnicode(str: any) {
-    return decodeURIComponent(Array.prototype.map.call(atob(str), (c: any) => {
+  private b64DecodeUnicode(str: string) {
+    return decodeURIComponent(Array.prototype.map.call(atob(str), c => {
       return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
     }).join(''));
   }
 
-  public decodeToken(token: string): any {
+  public decodeToken(token: string) {
     const parts = token.split('.');
 
     if (parts.length !== 3) {
@@ -49,11 +49,10 @@ export class JwtHelper {
     return JSON.parse(decoded);
   }
 
-  public getTokenExpirationDate(token: string): Date {
-    let decoded: any;
-    decoded = this.decodeToken(token);
+  public getTokenExpirationDate(token: string): Date | null {
+    const decoded = this.decodeToken(token);
 
-    if (!decoded.hasOwnProperty('exp')) {
+    if (!Object.prototype.hasOwnProperty.call(decoded, 'exp')) {
       return null;
     }
 

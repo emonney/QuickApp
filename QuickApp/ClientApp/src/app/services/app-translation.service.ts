@@ -5,15 +5,16 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { TranslateService, TranslateLoader } from '@ngx-translate/core';
-import { Observable, Subject, of } from 'rxjs';
+import { Subject, of } from 'rxjs';
 
+import * as fallbackLangData from '../../assets/locale/en.json';
 
 
 @Injectable()
 export class AppTranslationService {
-
   private onLanguageChanged = new Subject<string>();
   languageChanged$ = this.onLanguageChanged.asObservable();
 
@@ -49,7 +50,7 @@ export class AppTranslationService {
   useBrowserLanguage(): string | void {
     const browserLang = this.getBrowserLanguage();
 
-    if (browserLang.match(/en|fr|de|pt|ar|ko/)) {
+    if (browserLang?.match(/en|fr|de|pt|ar|ko/)) {
       this.changeLanguage(browserLang);
       return browserLang;
     }
@@ -59,49 +60,40 @@ export class AppTranslationService {
     return this.changeLanguage(null);
   }
 
-  changeLanguage(language: string) {
+  changeLanguage(language: string | null) {
     if (!language) {
       language = this.getDefaultLanguage();
     }
 
     if (language !== this.translate.currentLang) {
+      const lang = language;
+
       setTimeout(() => {
-        this.translate.use(language);
-        this.onLanguageChanged.next(language);
+        this.translate.use(lang);
+        this.onLanguageChanged.next(lang);
       });
     }
 
     return language;
   }
 
-  getTranslation(key: string | Array<string>, interpolateParams?: object): string | any {
+  getTranslation(key: string | Array<string>, interpolateParams?: object) {
     return this.translate.instant(key, interpolateParams);
   }
 
-  getTranslationAsync(key: string | Array<string>, interpolateParams?: object): Observable<string | any> {
+  getTranslationAsync(key: string | Array<string>, interpolateParams?: object) {
     return this.translate.get(key, interpolateParams);
   }
 }
 
 
 export class TranslateLanguageLoader implements TranslateLoader {
+  http = inject(HttpClient);
 
-  public getTranslation(lang: string): any {
-    // Note Dynamic require(variable) will not work. Require is always at compile time
-    switch (lang) {
-      case 'en':
-        return of(require('../assets/locale/en.json'));
-      case 'fr':
-        return of(require('../assets/locale/fr.json'));
-      case 'de':
-        return of(require('../assets/locale/de.json'));
-      case 'pt':
-        return of(require('../assets/locale/pt.json'));
-      case 'ar':
-        return of(require('../assets/locale/ar.json'));
-      case 'ko':
-        return of(require('../assets/locale/ko.json'));
-      default:
-    }
+  public getTranslation(lang: string) {
+    if (lang === 'en')
+      return of(fallbackLangData);
+
+    return this.http.get(`/assets/locale/${lang}.json`);
   }
 }

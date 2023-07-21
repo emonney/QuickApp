@@ -7,6 +7,7 @@
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ToastaService, ToastaConfig, ToastOptions, ToastData } from 'ngx-toasta';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,10 +19,11 @@ import { LocalStoreManager } from '../services/local-store-manager.service';
 import { AppTitleService } from '../services/app-title.service';
 import { AuthService } from '../services/auth.service';
 import { ConfigurationService } from '../services/configuration.service';
+import { Alertify } from '../models/Alertify';
 import { Permission } from '../models/permission.model';
 import { LoginComponent } from '../components/login/login.component';
 
-const alertify: any = require('../assets/scripts/alertify.js');
+declare let alertify: Alertify;
 
 
 @Component({
@@ -30,17 +32,17 @@ const alertify: any = require('../assets/scripts/alertify.js');
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  isAppLoaded: boolean;
-  isUserLoggedIn: boolean;
+  isAppLoaded = false;
+  isUserLoggedIn = false;
   newNotificationCount = 0;
   appTitle = 'QuickApp';
 
   stickyToasties: number[] = [];
 
   dataLoadingConsecutiveFailures = 0;
-  notificationsLoadingSubscription: any;
+  notificationsLoadingSubscription: Subscription | undefined;
 
-  loginControl: LoginComponent;
+  loginControl: LoginComponent | undefined;
 
   gT = (key: string | Array<string>, interpolateParams?: object) => this.translationService.getTranslation(key, interpolateParams);
 
@@ -52,7 +54,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-
   constructor(
     storageManager: LocalStoreManager,
     private toastaService: ToastaService,
@@ -61,7 +62,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private alertService: AlertService,
     private modalService: NgbModal,
     private notificationService: NotificationService,
-    private appTitleService: AppTitleService,
     private authService: AuthService,
     private translationService: AppTranslationService,
     public configurations: ConfigurationService,
@@ -75,9 +75,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.toastaConfig.showClose = true;
     this.toastaConfig.showDuration = false;
 
-    this.appTitleService.appName = this.appTitle;
+    AppTitleService.appName = this.appTitle;
   }
-
 
   ngOnInit() {
     this.isUserLoggedIn = this.authService.isLoggedIn;
@@ -88,14 +87,9 @@ export class AppComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       if (this.isUserLoggedIn) {
         this.alertService.resetStickyMessage();
-
-        // if (!this.authService.isSessionExpired)
         this.alertService.showMessage(this.gT('app.alerts.Login'), this.gT('app.alerts.WelcomeBack', { username: this.userName }), MessageSeverity.default);
-        // else
-        //  this.alertService.showStickyMessage(this.gT("app.alerts.SessionExpired"), this.gT("app.alerts.SessionExpiredLoginAgain"), MessageSeverity.warn);
       }
     }, 2000);
-
 
     this.alertService.getDialogEvent().subscribe(alert => this.showDialog(alert));
     this.alertService.getMessageEvent().subscribe(message => this.showToast(message));
@@ -104,7 +98,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.authService.getLoginStatusEvent().subscribe(isLoggedIn => {
       this.isUserLoggedIn = isLoggedIn;
-
 
       if (this.isUserLoggedIn) {
         this.initNotificationsLoading();
@@ -120,18 +113,15 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-
   ngOnDestroy() {
     this.unsubscribeNotifications();
   }
-
 
   private unsubscribeNotifications() {
     if (this.notificationsLoadingSubscription) {
       this.notificationsLoadingSubscription.unsubscribe();
     }
   }
-
 
   initNotificationsLoading() {
     this.notificationsLoadingSubscription = this.notificationService.getNewNotificationsPeriodically()
@@ -152,19 +142,18 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-
   markNotificationsAsRead() {
-    const recentNotifications = this.notificationService.recentNotifications;
+    const newNotifications = this.notificationService.newNotifications;
 
-    if (recentNotifications.length) {
-      this.notificationService.readUnreadNotification(recentNotifications.map(n => n.id), true)
+    if (newNotifications) {
+      this.notificationService.readUnreadNotification(newNotifications.map(n => n.id), true)
         .subscribe({
-          next: _ => {
-            for (const n of recentNotifications) {
+          next: () => {
+            for (const n of newNotifications) {
               n.isRead = true;
             }
 
-            this.newNotificationCount = recentNotifications.filter(n => !n.isRead).length;
+            this.newNotificationCount = newNotifications.filter(n => !n.isRead).length;
           },
           error: error => {
             this.alertService.logError(error);
@@ -173,7 +162,6 @@ export class AppComponent implements OnInit, OnDestroy {
         });
     }
   }
-
 
   openLoginModal() {
     const modalRef = this.modalService.open(LoginComponent, {
@@ -194,14 +182,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
     modalRef.hidden.subscribe(() => {
       this.alertService.resetStickyMessage();
-      this.loginControl.reset();
+      this.loginControl?.reset();
 
       if (this.authService.isSessionExpired) {
         this.alertService.showStickyMessage(this.gT('app.alerts.SessionExpired'), this.gT('app.alerts.SessionExpiredLoginToRenewSession'), MessageSeverity.warn);
       }
     });
   }
-
 
   showDialog(dialog: AlertDialog) {
     alertify.set({
@@ -214,52 +201,46 @@ export class AppComponent implements OnInit, OnDestroy {
     switch (dialog.type) {
       case DialogType.alert:
         alertify.alert(dialog.message);
-
         break;
       case DialogType.confirm:
-        alertify
-          .confirm(dialog.message, (e) => {
-            if (e) {
+        alertify.confirm(dialog.message, ok => {
+          if (ok) {
+            if (dialog.okCallback)
               dialog.okCallback();
-            } else {
-              if (dialog.cancelCallback) {
-                dialog.cancelCallback();
-              }
+          } else {
+            if (dialog.cancelCallback) {
+              dialog.cancelCallback();
             }
-          });
-
+          }
+        });
         break;
       case DialogType.prompt:
-        alertify
-          .prompt(dialog.message, (e, val) => {
-            if (e) {
+        alertify.prompt(dialog.message, (ok, val) => {
+          if (ok) {
+            if (dialog.okCallback)
               dialog.okCallback(val);
-            } else {
-              if (dialog.cancelCallback) {
-                dialog.cancelCallback();
-              }
+          } else {
+            if (dialog.cancelCallback) {
+              dialog.cancelCallback();
             }
-          }, dialog.defaultValue);
-
+          }
+        }, dialog.defaultValue);
         break;
     }
   }
-
 
   showToast(alert: AlertCommand) {
     if (alert.operation === 'clear') {
       for (const id of this.stickyToasties.slice(0)) {
         this.toastaService.clear(id);
       }
-
       return;
     }
 
     const toastOptions: ToastOptions = {
-      title: alert.message.summary,
-      msg: alert.message.detail,
+      title: alert.message?.summary,
+      msg: alert.message?.detail,
     };
-
 
     if (alert.operation === 'add_sticky') {
       toastOptions.timeout = 0;
@@ -279,14 +260,14 @@ export class AppComponent implements OnInit, OnDestroy {
           alert.onRemove();
         }
 
-        toast.onAdd = null;
-        toast.onRemove = null;
+        toast.onAdd = undefined;
+        toast.onRemove = undefined;
       };
     } else {
       toastOptions.timeout = 4000;
     }
 
-    switch (alert.message.severity) {
+    switch (alert.message?.severity) {
       case MessageSeverity.default: this.toastaService.default(toastOptions); break;
       case MessageSeverity.info: this.toastaService.info(toastOptions); break;
       case MessageSeverity.success: this.toastaService.success(toastOptions); break;
@@ -295,7 +276,6 @@ export class AppComponent implements OnInit, OnDestroy {
       case MessageSeverity.wait: this.toastaService.wait(toastOptions); break;
     }
   }
-
 
   logout() {
     this.authService.logout();
@@ -307,19 +287,19 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   get userName(): string {
-    return this.authService.currentUser ? this.authService.currentUser.userName : '';
+    return this.authService.currentUser?.userName ?? '';
   }
 
   get fullName(): string {
-    return this.authService.currentUser ? this.authService.currentUser.fullName : '';
+    return this.authService.currentUser?.fullName ?? '';
   }
 
   get canViewCustomers() {
-    return this.accountService.userHasPermission(Permission.viewUsersPermission); // eg. viewCustomersPermission
+    return this.accountService.userHasPermission(Permission.viewUsers); // eg. viewCustomersPermission
   }
 
   get canViewProducts() {
-    return this.accountService.userHasPermission(Permission.viewUsersPermission); // eg. viewProductsPermission
+    return this.accountService.userHasPermission(Permission.viewUsers); // eg. viewProductsPermission
   }
 
   get canViewOrders() {

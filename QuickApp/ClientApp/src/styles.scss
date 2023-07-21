@@ -206,6 +206,7 @@ i.page-caption {
   max-width: 1000px;
   max-height: 800px;
   display: inline-block;
+  white-space: pre-wrap;
   overflow: auto;
 }
 ///*-webkit-filter: blur(5px) grayscale(90%);*/

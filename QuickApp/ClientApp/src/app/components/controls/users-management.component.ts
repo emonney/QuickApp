@@ -6,7 +6,9 @@
 // ======================================
 
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TableColumn } from '@swimlane/ngx-datatable';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
@@ -18,6 +20,10 @@ import { Permission } from '../../models/permission.model';
 import { UserEdit } from '../../models/user-edit.model';
 import { UserInfoComponent } from './user-info.component';
 
+interface UserIndex extends User {
+  index: number;
+}
+
 
 @Component({
   selector: 'app-users-management',
@@ -25,37 +31,36 @@ import { UserInfoComponent } from './user-info.component';
   styleUrls: ['./users-management.component.scss']
 })
 export class UsersManagementComponent implements OnInit {
-  columns: any[] = [];
+  columns: TableColumn[] = [];
   rows: User[] = [];
   rowsCache: User[] = [];
-  editedUser: UserEdit;
-  sourceUser: UserEdit;
-  editingUserName: { name: string };
-  loadingIndicator: boolean;
+  editedUser: UserEdit | null = null;
+  sourceUser: UserEdit | null = null;
+  editingUserName: { name: string } | null = null;
+  loadingIndicator = false;
 
   allRoles: Role[] = [];
 
   @ViewChild('indexTemplate', { static: true })
-  indexTemplate: TemplateRef<any>;
+  indexTemplate!: TemplateRef<unknown>;
 
   @ViewChild('userNameTemplate', { static: true })
-  userNameTemplate: TemplateRef<any>;
+  userNameTemplate!: TemplateRef<unknown>;
 
   @ViewChild('rolesTemplate', { static: true })
-  rolesTemplate: TemplateRef<any>;
+  rolesTemplate!: TemplateRef<unknown>;
 
   @ViewChild('actionsTemplate', { static: true })
-  actionsTemplate: TemplateRef<any>;
+  actionsTemplate!: TemplateRef<unknown>;
 
   @ViewChild('editorModal', { static: true })
-  editorModalTemplate: TemplateRef<any>;
+  editorModalTemplate!: TemplateRef<unknown>;
 
-  userEditor: UserInfoComponent;
+  userEditor: UserInfoComponent | null = null;
 
   constructor(private alertService: AlertService, private translationService: AppTranslationService,
     private accountService: AccountService, private modalService: NgbModal) {
   }
-
 
   ngOnInit() {
     const gT = (key: string) => this.translationService.getTranslation(key);
@@ -85,8 +90,7 @@ export class UsersManagementComponent implements OnInit {
     this.loadData();
   }
 
-
-  setUserEditorComponent(userEditor) {
+  setUserEditorComponent(userEditor: UserInfoComponent) {
     this.userEditor = userEditor;
 
     if (this.sourceUser == null)
@@ -94,7 +98,6 @@ export class UsersManagementComponent implements OnInit {
     else
       this.editedUser = this.userEditor.editUser(this.sourceUser, this.allRoles);
   }
-
 
   addNewUserToList() {
     if (this.sourceUser) {
@@ -119,19 +122,18 @@ export class UsersManagementComponent implements OnInit {
 
       let maxIndex = 0;
       for (const u of this.rowsCache) {
-        if ((u as any).index > maxIndex) {
-          maxIndex = (u as any).index;
+        if ((u as UserIndex).index > maxIndex) {
+          maxIndex = (u as UserIndex).index;
         }
       }
 
-      (user as any).index = maxIndex + 1;
+      (user as UserIndex).index = maxIndex + 1;
 
       this.rowsCache.splice(0, 0, user);
       this.rows.splice(0, 0, user);
       this.rows = [...this.rows];
     }
   }
-
 
   loadData() {
     this.alertService.startLoadingMessage();
@@ -146,19 +148,18 @@ export class UsersManagementComponent implements OnInit {
     } else {
       this.accountService.getUsers()
         .subscribe({
-          next: users => this.onDataLoadSuccessful(users, this.accountService.currentUser.roles.map(x => new Role(x))),
+          next: users => this.onDataLoadSuccessful(users, this.currentUser.roles.map(x => new Role(x))),
           error: error => this.onDataLoadFailed(error)
         });
     }
   }
-
 
   onDataLoadSuccessful(users: User[], roles: Role[]) {
     this.alertService.stopLoadingMessage();
     this.loadingIndicator = false;
 
     users.forEach((user, index) => {
-      (user as any).index = index + 1;
+      (user as UserIndex).index = index + 1;
     });
 
     this.rowsCache = [...users];
@@ -167,8 +168,7 @@ export class UsersManagementComponent implements OnInit {
     this.allRoles = roles;
   }
 
-
-  onDataLoadFailed(error: any) {
+  onDataLoadFailed(error: HttpErrorResponse) {
     this.alertService.stopLoadingMessage();
     this.loadingIndicator = false;
 
@@ -177,12 +177,10 @@ export class UsersManagementComponent implements OnInit {
       MessageSeverity.error, error);
   }
 
-
   onSearchChanged(value: string) {
     this.rows = this.rowsCache.filter(r =>
       Utilities.searchArray(value, false, r.userName, r.fullName, r.email, r.phoneNumber, r.jobTitle, r.roles));
   }
-
 
   newUser() {
     this.editingUserName = null;
@@ -190,13 +188,11 @@ export class UsersManagementComponent implements OnInit {
     this.openUserEditor();
   }
 
-
   editUser(row: UserEdit) {
     this.editingUserName = { name: row.userName };
     this.sourceUser = row;
     this.openUserEditor();
   }
-
 
   openUserEditor() {
     const modalRef = this.modalService.open(this.editorModalTemplate, {
@@ -205,6 +201,9 @@ export class UsersManagementComponent implements OnInit {
     });
 
     modalRef.shown.subscribe(() => {
+      if (!this.userEditor)
+        throw new Error('The user editor component was not set.');
+
       this.userEditor.changesSavedCallback = () => {
         this.addNewUserToList();
         modalRef.close();
@@ -218,18 +217,19 @@ export class UsersManagementComponent implements OnInit {
     });
 
     modalRef.hidden.subscribe(() => {
+      if (!this.userEditor)
+        throw new Error('The user editor component was not set.');
+
       this.editingUserName = null;
       this.userEditor.resetForm(true);
       this.userEditor = null;
     });
   }
 
-
   deleteUser(row: UserEdit) {
-    this.alertService.showDialog(`Are you sure you want to delete \"${row.userName}\"?`,
+    this.alertService.showDialog(`Are you sure you want to delete "${row.userName}"?`,
       DialogType.confirm, () => this.deleteUserHelper(row));
   }
-
 
   deleteUserHelper(row: UserEdit) {
     this.alertService.startLoadingMessage('Deleting...');
@@ -237,7 +237,7 @@ export class UsersManagementComponent implements OnInit {
 
     this.accountService.deleteUser(row)
       .subscribe({
-        next: _ => {
+        next: () => {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
@@ -255,16 +255,22 @@ export class UsersManagementComponent implements OnInit {
       });
   }
 
+  private get currentUser() {
+    if (!this.accountService.currentUser)
+      throw new Error('CurrentUser is null')
+
+    return this.accountService.currentUser;
+  }
 
   get canAssignRoles() {
-    return this.accountService.userHasPermission(Permission.assignRolesPermission);
+    return this.accountService.userHasPermission(Permission.assignRoles);
   }
 
   get canViewRoles() {
-    return this.accountService.userHasPermission(Permission.viewRolesPermission);
+    return this.accountService.userHasPermission(Permission.viewRoles);
   }
 
   get canManageUsers() {
-    return this.accountService.userHasPermission(Permission.manageUsersPermission);
+    return this.accountService.userHasPermission(Permission.manageUsers);
   }
 }

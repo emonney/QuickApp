@@ -7,10 +7,10 @@
 
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { Subscription } from 'rxjs';
 
 import { fadeInOut } from '../../services/animations';
-import { BootstrapTabDirective } from '../../directives/bootstrap-tab.directive';
+import { BootstrapTabDirective, EventArg } from '../../directives/bootstrap-tab.directive';
 import { AccountService } from '../../services/account.service';
 import { Permission } from '../../models/permission.model';
 
@@ -22,38 +22,35 @@ import { Permission } from '../../models/permission.model';
   animations: [fadeInOut]
 })
 export class SettingsComponent implements OnInit, OnDestroy {
-
   isProfileActivated = true;
   isPreferencesActivated = false;
   isUsersActivated = false;
   isRolesActivated = false;
 
-  fragmentSubscription: any;
+  fragmentSubscription: Subscription | undefined;
 
   readonly profileTab = 'profile';
   readonly preferencesTab = 'preferences';
   readonly usersTab = 'users';
   readonly rolesTab = 'roles';
 
-
   @ViewChild('tab', { static: true })
-  tab: BootstrapTabDirective;
+  tab!: BootstrapTabDirective;
 
 
   constructor(private router: Router, private route: ActivatedRoute, private accountService: AccountService) {
   }
 
-
   ngOnInit() {
     this.fragmentSubscription = this.route.fragment.subscribe(anchor => this.showContent(anchor));
   }
 
-
   ngOnDestroy() {
-    this.fragmentSubscription.unsubscribe();
+    if (this.fragmentSubscription)
+      this.fragmentSubscription.unsubscribe();
   }
 
-  showContent(anchor: string) {
+  showContent(anchor: string | null) {
     if (anchor) {
       anchor = anchor.toLowerCase();
     }
@@ -66,9 +63,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.tab.show(`#${anchor || this.profileTab}Tab`);
   }
 
-
-  isFragmentEquals(fragment1: string, fragment2: string) {
-
+  isFragmentEquals(fragment1: string | null, fragment2: string | null) {
     if (fragment1 == null) {
       fragment1 = '';
     }
@@ -80,9 +75,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     return fragment1.toLowerCase() === fragment2.toLowerCase();
   }
 
-
-  onShowTab(event) {
-    const activeTab = event.target.hash.split('#', 2).pop();
+  onShowTab(event: EventArg) {
+    const activeTab = (event.target as HTMLAnchorElement).hash.split('#', 2).pop();
 
     this.isProfileActivated = activeTab === this.profileTab;
     this.isPreferencesActivated = activeTab === this.preferencesTab;
@@ -92,12 +86,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.router.navigate([], { fragment: activeTab });
   }
 
-
   get canViewUsers() {
-    return this.accountService.userHasPermission(Permission.viewUsersPermission);
+    return this.accountService.userHasPermission(Permission.viewUsers);
   }
 
   get canViewRoles() {
-    return this.accountService.userHasPermission(Permission.viewRolesPermission);
+    return this.accountService.userHasPermission(Permission.viewRoles);
   }
 }

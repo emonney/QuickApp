@@ -6,26 +6,28 @@
     <div class="row">
       <div class="col-sm-5">
         <div class="row">
-          <label class="col-form-label col-md-3" for="roleName">{{'roles.editor.Name' | translate}}</label>
-          <div class="col-md-9">
+          <label class="col-form-label col-lg-3" for="roleName">{{'roles.editor.Name' | translate}}</label>
+          <div class="col-lg-9">
             <input [disabled]="!canManageRoles" type="text" id="roleName" name="roleName" placeholder="Enter role name" class="form-control"
-                   [ngClass]="{'is-valid': f.submitted && roleName.valid, 'is-invalid' : f.submitted && !roleName.valid}" [(ngModel)]="roleEdit.name" #roleName="ngModel" required minlength="2" maxlength="200" />
+                   [ngClass]="{'is-valid': f.submitted && roleName.valid, 'is-invalid' : f.submitted && !roleName.valid}"
+                   [(ngModel)]="roleEdit.name" #roleName="ngModel" required minlength="2" maxlength="200" />
           </div>
         </div>
       </div>
 
       <div class="col-sm-7">
         <div class="row">
-          <label class="col-form-label col-md-3" for="roleDescription">{{'roles.editor.Description' | translate}}</label>
-          <div class="col-md-9">
-            <input [disabled]="!canManageRoles" type="text" id="roleDescription" name="roleDescription" placeholder="Enter role description" class="form-control" [(ngModel)]="roleEdit.description" />
+          <label class="col-form-label col-lg-3" for="roleDescription">{{'roles.editor.Description' | translate}}</label>
+          <div class="col-lg-9">
+            <input [disabled]="!canManageRoles" type="text" id="roleDescription" name="roleDescription"
+                   placeholder="Enter role description" class="form-control" [(ngModel)]="roleEdit.description" />
           </div>
         </div>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-12">
         <span *ngIf="showValidationErrors && f.submitted && !roleName.valid" class="invalid-feedback">
           {{'roles.editor.RoleNameRequired' | translate}}
         </span>
@@ -33,45 +35,41 @@
     </div>
 
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-12">
         <hr class="hr-separator edit-separator" />
       </div>
     </div>
 
     <div class="row">
-      <div class="col-sm-12 card card-body bg-light well-sm permissionsRow">
+      <div class="col-12 card card-body bg-light well-sm permissionsRow">
         <div class="row">
-
           <ng-template ngFor let-permissionGroup [ngForOf]="allPermissions | groupBy: 'groupName'" let-i="index">
             <div class="row col-sm-6 permissionsColumn">
-              <label class="col-md-5 col-form-label group-name" for="checkboxes" (click)="toggleGroup(permissionGroup.key)">{{permissionGroup.key}}</label>
-              <div class="col-md-7">
+              <a class="col-lg-5 col-form-label group-name" (click)="toggleGroup(permissionGroup.key)" href="javascript:;">{{permissionGroup.key}}</a>
+              <div class="col-lg-7">
                 <div class="form-check" *ngFor="let permission of permissionGroup.value">
-                  <input [disabled]="!canManageRoles" name="checkboxes-{{permission.value}}" id="checkboxes-{{permission.value}}" type="checkbox" class="form-check-input" [(ngModel)]="selectedValues[permission.value]">
-                  <label class="form-check-label" ngbTooltip="{{permission.description}}" for="checkboxes-{{permission.value}}">{{permission.name}}</label>
+                  <input [disabled]="!canManageRoles" name="checkboxes-{{permission['value']}}" id="checkboxes-{{permission['value']}}" type="checkbox"
+                         class="form-check-input" [(ngModel)]="selectedValues[permission['value']]">
+                  <label class="form-check-label" ngbTooltip="{{permission['description']}}" for="checkboxes-{{permission['value']}}">{{permission['name']}}</label>
                 </div>
               </div>
             </div>
             <div *ngIf="(i + 1) % 2 === 0" class="clearfix"></div>
           </ng-template>
-
         </div>
       </div>
-
     </div>
 
-
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-12">
         <hr class="hr-separator last-edit-separator" />
       </div>
     </div>
 
-
     <div class="row">
       <div class="col-5">
         <div *ngIf="canManageRoles" class="float-start">
-          <a (click)="selectAll()" href="javascript:;" class="btn btn-link text-link">{{'roles.editor.SelectAll' | translate}}</a>|<a (click)="selectNone()" href="javascript:;" class="btn btn-link text-link">{{'roles.editor.SelectNone' | translate}}</a>
+          <a (click)="selectAll()" href="javascript:;" class="btn btn-link text-link px-1">{{'roles.editor.SelectAll' | translate}}</a>|<a (click)="selectNone()" href="javascript:;" class="btn btn-link text-link px-1">{{'roles.editor.SelectNone' | translate}}</a>
         </div>
       </div>
 

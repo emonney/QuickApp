@@ -46,8 +46,8 @@
         </ng-template>
         <span *ngIf="newNotificationCount > 0" class="navbar-text d-none d-lg-inline">, </span>
         <ul class="nav nav-pills flex-column flex-lg-row ms-lg-1">
-          <li class="nav-item" (click)="logout()">
-            <a class="nav-link" href="javascript:;"><i class="fa fa-sign-out"></i> {{'mainMenu.Logout' | translate}}</a>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:;" (click)="logout()"><i class="fa fa-sign-out"></i> {{'mainMenu.Logout' | translate}}</a>
           </li>
         </ul>
       </div>

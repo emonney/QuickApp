@@ -25,10 +25,10 @@ export class AuthService {
   public get loginUrl() { return this.configurations.loginUrl; }
   public get homeUrl() { return this.configurations.homeUrl; }
 
-  public loginRedirectUrl: string;
-  public logoutRedirectUrl: string;
+  public loginRedirectUrl: string | null = null;
+  public logoutRedirectUrl: string | null = null;
 
-  public reLoginDelegate: () => void;
+  public reLoginDelegate: { (): void } | undefined;
 
   private previousIsLoggedInCheck = false;
   private loginStatus = new Subject<boolean>();
@@ -49,7 +49,6 @@ export class AuthService {
   }
 
   gotoPage(page: string, preserveParams = true) {
-
     const navigationExtras: NavigationExtras = {
       queryParamsHandling: preserveParams ? 'merge' : '', preserveFragment: preserveParams
     };
@@ -62,7 +61,8 @@ export class AuthService {
   }
 
   redirectLoginUser() {
-    const redirect = this.loginRedirectUrl && this.loginRedirectUrl !== '/' && this.loginRedirectUrl !== ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
+    const redirect = this.loginRedirectUrl && this.loginRedirectUrl !== '/' &&
+      this.loginRedirectUrl !== ConfigurationService.defaultHomeUrl ? this.loginRedirectUrl : this.homeUrl;
     this.loginRedirectUrl = null;
 
     const urlParamsAndFragment = Utilities.splitInTwo(redirect, '#');
@@ -70,7 +70,7 @@ export class AuthService {
 
     const navigationExtras: NavigationExtras = {
       fragment: urlParamsAndFragment.secondPart,
-      queryParams: Utilities.getQueryParamsFromString(urlAndParams.secondPart),
+      queryParams: urlAndParams.secondPart ? Utilities.getQueryParamsFromString(urlAndParams.secondPart) : null,
       queryParamsHandling: 'merge'
     };
 
@@ -118,9 +118,9 @@ export class AuthService {
       throw new Error('accessToken cannot be null');
     }
 
-    rememberMe = rememberMe || this.rememberMe;
+    rememberMe = rememberMe ?? this.rememberMe;
 
-    const refreshToken = response.refresh_token || this.refreshToken;
+    const refreshToken = response.refresh_token ?? this.refreshToken;
     const expiresIn = response.expires_in;
     const tokenExpiryDate = new Date();
     tokenExpiryDate.setSeconds(tokenExpiryDate.getSeconds() + expiresIn);
@@ -128,7 +128,8 @@ export class AuthService {
     const jwtHelper = new JwtHelper();
     const decodedAccessToken = jwtHelper.decodeToken(accessToken) as AccessToken;
 
-    const permissions: PermissionValues[] = Array.isArray(decodedAccessToken.permission) ? decodedAccessToken.permission : [decodedAccessToken.permission];
+    const permissions: PermissionValues[] = Array.isArray(decodedAccessToken.permission) ?
+      decodedAccessToken.permission : [decodedAccessToken.permission];
 
     if (!this.isLoggedIn) {
       this.configurations.import(decodedAccessToken.configuration);
@@ -182,8 +183,8 @@ export class AuthService {
     this.reevaluateLoginStatus();
   }
 
-  private reevaluateLoginStatus(currentUser?: User) {
-    const user = currentUser || this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
+  private reevaluateLoginStatus(currentUser?: User | null) {
+    const user = currentUser ?? this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
     const isLoggedIn = user != null;
 
     if (this.previousIsLoggedInCheck !== isLoggedIn) {
@@ -199,8 +200,7 @@ export class AuthService {
     return this.loginStatus.asObservable();
   }
 
-  get currentUser(): User {
-
+  get currentUser(): User | null {
     const user = this.localStorage.getDataObject<User>(DBkeys.CURRENT_USER);
     this.reevaluateLoginStatus(user);
 
@@ -208,18 +208,18 @@ export class AuthService {
   }
 
   get userPermissions(): PermissionValues[] {
-    return this.localStorage.getDataObject<PermissionValues[]>(DBkeys.USER_PERMISSIONS) || [];
+    return this.localStorage.getDataObject<PermissionValues[]>(DBkeys.USER_PERMISSIONS) ?? [];
   }
 
-  get accessToken(): string {
+  get accessToken(): string | null {
     return this.oidcHelperService.accessToken;
   }
 
-  get accessTokenExpiryDate(): Date {
+  get accessTokenExpiryDate(): Date | null {
     return this.oidcHelperService.accessTokenExpiryDate;
   }
 
-  get refreshToken(): string {
+  get refreshToken(): string | null {
     return this.oidcHelperService.refreshToken;
   }
 

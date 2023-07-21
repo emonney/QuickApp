@@ -16,18 +16,17 @@ import { Utilities } from './utilities';
 import { environment } from '../../environments/environment';
 
 interface UserConfiguration {
-  language: string;
-  homeUrl: string;
-  themeId: number;
-  showDashboardStatistics: boolean;
-  showDashboardNotifications: boolean;
-  showDashboardTodo: boolean;
-  showDashboardBanner: boolean;
+  language: string | null;
+  homeUrl: string | null;
+  themeId: number | null;
+  showDashboardStatistics: boolean | null
+  showDashboardNotifications: boolean | null;
+  showDashboardTodo: boolean | null;
+  showDashboardBanner: boolean | null;
 }
 
 @Injectable()
 export class ConfigurationService {
-
   constructor(
     private localStorage: LocalStoreManager,
     private translationService: AppTranslationService,
@@ -36,13 +35,13 @@ export class ConfigurationService {
     this.loadLocalChanges();
   }
 
-  set language(value: string) {
+  set language(value: string | null) {
     this._language = value;
     this.saveToLocalStore(value, DBkeys.LANGUAGE);
     this.translationService.changeLanguage(value);
   }
-  get language() {
-    return this._language || ConfigurationService.defaultLanguage;
+  get language(): string {
+    return this._language ?? ConfigurationService.defaultLanguage;
   }
 
   set themeId(value: number) {
@@ -52,15 +51,15 @@ export class ConfigurationService {
     this.themeManager.installTheme(this.themeManager.getThemeByID(value));
   }
   get themeId() {
-    return this._themeId || ConfigurationService.defaultThemeId;
+    return this._themeId ?? ConfigurationService.defaultThemeId;
   }
 
-  set homeUrl(value: string) {
+  set homeUrl(value: string | null) {
     this._homeUrl = value;
     this.saveToLocalStore(value, DBkeys.HOME_URL);
   }
-  get homeUrl() {
-    return this._homeUrl || ConfigurationService.defaultHomeUrl;
+  get homeUrl(): string {
+    return this._homeUrl ?? ConfigurationService.defaultHomeUrl;
   }
 
   set showDashboardStatistics(value: boolean) {
@@ -94,6 +93,7 @@ export class ConfigurationService {
   get showDashboardBanner() {
     return this._showDashboardBanner != null ? this._showDashboardBanner : ConfigurationService.defaultShowDashboardBanner;
   }
+
   public static readonly appVersion = '7.2.0';
 
   // ***Specify default configurations here***
@@ -105,18 +105,18 @@ export class ConfigurationService {
   public static readonly defaultShowDashboardTodo = false;
   public static readonly defaultShowDashboardBanner = true;
 
-  public baseUrl = environment.baseUrl || Utilities.baseUrl();
+  public baseUrl = environment.baseUrl ?? Utilities.baseUrl();
   public loginUrl = environment.loginUrl;
   public fallbackBaseUrl = 'https://quickapp-standard.ebenmonney.com';
   // ***End of defaults***
 
-  private _language: string = null;
-  private _homeUrl: string = null;
-  private _themeId: number = null;
-  private _showDashboardStatistics: boolean = null;
-  private _showDashboardNotifications: boolean = null;
-  private _showDashboardTodo: boolean = null;
-  private _showDashboardBanner: boolean = null;
+  private _language: string | null = null;
+  private _homeUrl: string | null = null;
+  private _themeId: number | null = null;
+  private _showDashboardStatistics: boolean | null = null;
+  private _showDashboardNotifications: boolean | null = null;
+  private _showDashboardTodo: boolean | null = null;
+  private _showDashboardBanner: boolean | null = null;
   private onConfigurationImported: Subject<void> = new Subject<void>();
 
   configurationImported$ = this.onConfigurationImported.asObservable();
@@ -131,7 +131,7 @@ export class ConfigurationService {
 
     if (this.localStorage.exists(DBkeys.THEME_ID)) {
       this._themeId = this.localStorage.getDataObject<number>(DBkeys.THEME_ID);
-      this.themeManager.installTheme(this.themeManager.getThemeByID(this._themeId));
+      this.themeManager.installTheme(this.themeManager.getThemeByID(this._themeId as number));
     } else {
       this.resetTheme();
     }
@@ -157,11 +157,11 @@ export class ConfigurationService {
     }
   }
 
-  private saveToLocalStore(data: any, key: string) {
+  private saveToLocalStore(data: unknown, key: string) {
     setTimeout(() => this.localStorage.savePermanentData(data, key));
   }
 
-  public import(jsonValue: string) {
+  public import(jsonValue: string | null) {
     this.clearLocalChanges();
 
     if (jsonValue) {
@@ -272,12 +272,12 @@ export class ConfigurationService {
     }
   }
 
-  public saveConfiguration(data: any, configKey: string) {
+  public saveConfiguration(data: unknown, configKey: string) {
     this.addKeyToUserConfigKeys(configKey);
     this.localStorage.savePermanentData(data, configKey);
   }
 
-  public getConfiguration<T>(configKey: string, isDateType = false): T {
+  public getConfiguration<T>(configKey: string, isDateType = false) {
     return this.localStorage.getDataObject<T>(configKey, isDateType);
   }
 }

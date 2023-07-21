@@ -22,7 +22,6 @@ import { Permission } from '../../models/permission.model';
   styleUrls: ['./user-preferences.component.scss']
 })
 export class UserPreferencesComponent {
-
   constructor(
     private alertService: AlertService,
     private translationService: AppTranslationService,
@@ -42,7 +41,6 @@ export class UserPreferencesComponent {
           this.configurations.import(results);
 
           this.alertService.showMessage('Defaults loaded!', '', MessageSeverity.info);
-
         },
         error: error => {
           this.alertService.stopLoadingMessage();
@@ -63,10 +61,9 @@ export class UserPreferencesComponent {
 
     this.accountService.updateUserPreferences(this.configurations.export())
       .subscribe({
-        next: _ => {
+        next: () => {
           this.alertService.stopLoadingMessage();
           this.alertService.showMessage('New Defaults', 'Account defaults updated successfully', MessageSeverity.success);
-
         },
         error: error => {
           this.alertService.stopLoadingMessage();
@@ -75,8 +72,6 @@ export class UserPreferencesComponent {
         }
       });
   }
-
-
 
   resetDefault() {
     this.alertService.showDialog('Are you sure you want to reset your defaults?', DialogType.confirm,
@@ -89,7 +84,7 @@ export class UserPreferencesComponent {
 
     this.accountService.updateUserPreferences(null)
       .subscribe({
-        next: _ => {
+        next: () => {
           this.alertService.stopLoadingMessage();
           this.configurations.import(null);
           this.alertService.showMessage('Defaults Reset', 'Account defaults reset completed successfully', MessageSeverity.success);
@@ -102,13 +97,12 @@ export class UserPreferencesComponent {
       });
   }
 
-
   get canViewCustomers() {
-    return this.accountService.userHasPermission(Permission.viewUsersPermission); // eg. viewCustomersPermission
+    return this.accountService.userHasPermission(Permission.viewUsers); // eg. viewCustomersPermission
   }
 
   get canViewProducts() {
-    return this.accountService.userHasPermission(Permission.viewUsersPermission); // eg. viewProductsPermission
+    return this.accountService.userHasPermission(Permission.viewUsers); // eg. viewProductsPermission
   }
 
   get canViewOrders() {

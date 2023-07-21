@@ -28,11 +28,11 @@
   </ngx-datatable>
 
   <ng-template #indexTemplate let-value="value">
-    <strong>{{value}}</strong>
+    <strong title="{{value}}">{{value}}</strong>
   </ng-template>
 
   <ng-template #userNameTemplate let-row="row" let-value="value">
-    <span [class.locked-out]="row.isLockedOut" [class.user-disabled]="!row.isEnabled">
+    <span title="{{value}}" [class.locked-out]="row.isLockedOut" [class.user-disabled]="!row.isEnabled">
       <i *ngIf="row.isLockedOut" class="fa fa-exclamation-triangle"> </i>
       <i *ngIf="!row.isEnabled" class="fa fa-exclamation"> </i>
       {{value}}
@@ -40,7 +40,9 @@
   </ng-template>
 
   <ng-template #rolesTemplate let-row="row" let-value="value" let-i="index">
-    <span class="user-role badge rounded-pill bg-secondary" *ngFor="let role of value">{{role}}</span>
+    <div title="{{value?.join('\n')}}">
+      <span class="user-role badge rounded-pill bg-secondary" *ngFor="let role of value">{{role}}</span>
+    </div>
   </ng-template>
 
   <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">

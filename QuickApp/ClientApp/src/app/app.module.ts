@@ -6,6 +6,7 @@
 // ======================================
 
 import { NgModule, ErrorHandler } from '@angular/core';
+import { TitleStrategy } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,7 +16,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop'
 import { NgbModalModule, NgbTooltipModule, NgbPopoverModule, NgbDropdownModule, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { OAuthModule } from 'angular-oauth2-oidc';
 import { ToastaModule } from 'ngx-toasta';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgChartsModule } from 'ng2-charts';
@@ -101,17 +101,16 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
     NgbCarouselModule,
     NgbModalModule,
     NgxDatatableModule,
-    OAuthModule.forRoot(),
     ToastaModule.forRoot(),
     NgSelectModule,
     NgChartsModule
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
+    { provide: TitleStrategy, useClass: AppTitleService },
     AlertService,
     ThemeManager,
     ConfigurationService,
-    AppTitleService,
     AppTranslationService,
     NotificationService,
     NotificationEndpoint,

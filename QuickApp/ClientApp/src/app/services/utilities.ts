@@ -20,11 +20,12 @@ export class Utilities {
 
   public static cookies =
     {
-      getItem: (sKey) => {
-        return decodeURIComponent(document.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1')) || null;
+      getItem: (sKey: string) => {
+        return decodeURIComponent(document.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent(sKey)
+          .replace(/[-.+*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1')) || null;
       },
-      setItem: (sKey, sValue, vEnd, sPath, sDomain, bSecure) => {
-        if (!sKey || /^(?:expires|max\-age|path|domain|secure)$/i.test(sKey)) {
+      setItem: (sKey: string, sValue: string, vEnd: number | string | Date, sPath: string, sDomain: string, bSecure: boolean) => {
+        if (!sKey || /^(?:expires|max-age|path|domain|secure)$/i.test(sKey)) {
           return false;
         }
 
@@ -39,68 +40,50 @@ export class Utilities {
               sExpires = '; expires=' + vEnd;
               break;
             case Date:
-              sExpires = '; expires=' + vEnd.toUTCString();
+              sExpires = '; expires=' + (vEnd as Date).toUTCString();
               break;
           }
         }
 
-        document.cookie = encodeURIComponent(sKey) + '=' + encodeURIComponent(sValue) + sExpires + (sDomain ? '; domain=' + sDomain : '') + (sPath ? '; path=' + sPath : '') + (bSecure ? '; secure' : '');
+        document.cookie = encodeURIComponent(sKey) + '=' + encodeURIComponent(sValue) + sExpires +
+          (sDomain ? '; domain=' + sDomain : '') + (sPath ? '; path=' + sPath : '') + (bSecure ? '; secure' : '');
         return true;
       },
-      removeItem: (sKey, sPath, sDomain) => {
+      removeItem: (sKey: string, sPath: string, sDomain: string) => {
         if (!sKey) {
           return false;
         }
-        document.cookie = encodeURIComponent(sKey) + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT' + (sDomain ? '; domain=' + sDomain : '') + (sPath ? '; path=' + sPath : '');
+        document.cookie = encodeURIComponent(sKey) + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT' +
+          (sDomain ? '; domain=' + sDomain : '') + (sPath ? '; path=' + sPath : '');
         return true;
       },
-      hasItem: (sKey) => {
-        return (new RegExp('(?:^|;\\s*)' + encodeURIComponent(sKey).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=')).test(document.cookie);
+      hasItem: (sKey: string) => {
+        return (new RegExp('(?:^|;\\s*)' + encodeURIComponent(sKey).replace(/[-.+*]/g, '\\$&') + '\\s*\\=')).test(document.cookie);
       },
       keys: () => {
-        const aKeys = document.cookie.replace(/((?:^|\s*;)[^\=]+)(?=;|$)|^\s*|\s*(?:\=[^;]*)?(?:\1|$)/g, '').split(/\s*(?:\=[^;]*)?;\s*/);
+        const aKeys = document.cookie.replace(/((?:^|\s*;)[^=]+)(?=;|$)|^\s*|\s*(?:=[^;]*)?(?:$)/g, '').split(/\s*(?:=[^;]*)?;\s*/);
         for (let nIdx = 0; nIdx < aKeys.length; nIdx++) { aKeys[nIdx] = decodeURIComponent(aKeys[nIdx]); }
         return aKeys;
       }
     };
 
-  public static getHttpResponseMessages(data: HttpResponseBase | any): string[] {
+  public static getHttpResponseMessages(data: HttpResponseBase): string[] {
     const responses: string[] = [];
 
-    if (data instanceof HttpResponseBase) {
-      if (this.checkNoNetwork(data)) {
-        responses.push(`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`);
-      } else {
-        const responseObject = this.getResponseBody(data);
+    if (this.checkNoNetwork(data)) {
+      responses.push(`${this.noNetworkMessageCaption}${this.captionAndMessageSeparator} ${this.noNetworkMessageDetail}`);
+    } else {
+      const responseData = this.getResponseData(data);
 
-        if (responseObject && (typeof responseObject === 'object' || responseObject instanceof Object)) {
-
-          for (const key in responseObject) {
-            if (key) {
-              responses.push(`${key}${this.captionAndMessageSeparator} ${responseObject[key]}`);
-            } else if (responseObject[key]) {
-              responses.push(responseObject[key].toString());
-            }
+      if (responseData) {
+        if (typeof responseData === 'object') {
+          for (const key in responseData) {
+            responses.push(`${key}${this.captionAndMessageSeparator} ${responseData[key]}`);
           }
         }
-      }
-
-      if (!responses.length) {
-        if ((data as any).body) {
-          responses.push(`body: ${(data as any).body}`);
+        else {
+          responses.push(responseData);
         }
-
-        if ((data as any).error) {
-          responses.push(`error: ${(data as any).error}`);
-        }
-      }
-    }
-
-    if (!responses.length) {
-      if (this.getResponseBody(data)) {
-        responses.push(this.getResponseBody(data).toString());
-      } else {
-        responses.push(data.toString());
       }
     }
 
@@ -117,21 +100,24 @@ export class Utilities {
       responses.splice(0, 0, message);
     }
 
+    if (!responses.length) {
+      responses.push((data as HttpErrorResponse).message ?? data.statusText);
+    }
+
     return responses;
   }
 
-  public static getHttpResponseMessage(data: HttpResponseBase | any): string {
+  public static getHttpResponseMessage(data: HttpResponseBase): string {
     const httpMessage =
       Utilities.findHttpResponseMessage(Utilities.noNetworkMessageCaption, data) ||
       Utilities.findHttpResponseMessage(Utilities.notFoundMessageCaption, data) ||
       Utilities.findHttpResponseMessage('error_description', data) ||
-      Utilities.findHttpResponseMessage('error', data) ||
-      Utilities.getHttpResponseMessages(data).join();
+      Utilities.getHttpResponseMessages(data).join('\n');
 
     return httpMessage;
   }
 
-  public static findHttpResponseMessage(messageToFind: string, data: HttpResponse<any> | any, searchInCaptionOnly = true, includeCaptionInResult = false): string {
+  public static findHttpResponseMessage(messageToFind: string, data: HttpResponseBase, searchInCaptionOnly = true, includeCaptionInResult = false): string | null {
     const searchString = messageToFind.toLowerCase();
     const httpMessages = this.getHttpResponseMessages(data);
 
@@ -145,7 +131,6 @@ export class Utilities {
 
     if (!searchInCaptionOnly) {
       for (const message of httpMessages) {
-
         if (message.toLowerCase().indexOf(searchString) !== -1) {
           if (includeCaptionInResult) {
             return message;
@@ -160,15 +145,23 @@ export class Utilities {
     return null;
   }
 
-  public static getResponseBody(response: HttpResponseBase) {
+  public static getResponseData(response: HttpResponseBase, simplify = false) {
+    let results;
+
     if (response instanceof HttpResponse) {
-      return response.body;
+      results = response.body;
     }
 
     if (response instanceof HttpErrorResponse) {
-      return response.error || response.message || response.statusText;
+      results = response.error || response.message || response.statusText;
+
+      if (simplify && typeof results === 'object')
+        results = this.safeStringify(results)?.replaceAll('{', '').replaceAll('}', '');
     }
+
+    return results;
   }
+
 
   public static checkNoNetwork(response: HttpResponseBase) {
     if (response instanceof HttpResponseBase) {
@@ -204,11 +197,7 @@ export class Utilities {
   }
 
   public static getQueryParamsFromString(paramString: string) {
-    if (!paramString) {
-      return null;
-    }
-
-    const params: { [key: string]: string } = {};
+    const params: { [key: string]: string | undefined } = {};
 
     for (const param of paramString.split('&')) {
       const keyValue = Utilities.splitInTwo(param, '=');
@@ -218,78 +207,67 @@ export class Utilities {
     return params;
   }
 
-  public static splitInTwo(text: string, separator: string, splitFromEnd = false): { firstPart: string, secondPart: string } {
-    let separatorIndex: number;
+  public static splitInTwo(text: string, separator: string, splitFromEnd = false): { firstPart: string, secondPart: string | undefined } {
+    let separatorIndex = -1;
 
-    if (!splitFromEnd)
-      separatorIndex = text.indexOf(separator);
-    else
-      separatorIndex = text.lastIndexOf(separator);
-
-    if (separatorIndex === -1) {
-      return { firstPart: text, secondPart: null };
+    if (separator !== '') {
+      if (!splitFromEnd)
+        separatorIndex = text.indexOf(separator);
+      else
+        separatorIndex = text.lastIndexOf(separator);
     }
 
-    const part1 = text.substr(0, separatorIndex).trim();
-    const part2 = text.substr(separatorIndex + 1).trim();
+    if (separatorIndex === -1) {
+      return { firstPart: text, secondPart: undefined };
+    }
+
+    const part1 = text.substring(0, separatorIndex).trim();
+    const part2 = text.substring(separatorIndex + 1).trim();
 
     return { firstPart: part1, secondPart: part2 };
   }
 
-  public static safeStringify(object) {
 
-    let result: string;
-
+  public static safeStringify(value: unknown): string {
     try {
-      result = JSON.stringify(object);
-      return result;
-    } catch (error) {
+      return JSON.stringify(value);
+    } catch {
+      const simpleObject: { [key: string]: unknown } = {};
 
+      if (typeof value === 'object' && value !== null) {
+        for (const prop in value) {
+          if (Object.prototype.hasOwnProperty.call(value, prop)) {
+            const propertyValue = value[prop as keyof object];
+
+            if (typeof propertyValue !== 'object' && typeof propertyValue !== 'function') {
+              simpleObject[prop] = propertyValue;
+            }
+          }
+        }
+      }
+
+      return `[***Pruned Object***]: ${JSON.stringify(simpleObject)}`;
     }
-
-    const simpleObject = {};
-
-    for (const prop in object) {
-      if (!object.hasOwnProperty(prop)) {
-        continue;
-      }
-      if (typeof (object[prop]) === 'object') {
-        continue;
-      }
-      if (typeof (object[prop]) === 'function') {
-        continue;
-      }
-      simpleObject[prop] = object[prop];
-    }
-
-    result = `[***Sanitized Object***]: ${JSON.stringify(simpleObject)}`;
-
-    return result;
   }
 
   public static JsonTryParse(value: string) {
     try {
       return JSON.parse(value);
     } catch (e) {
-      if (value === 'undefined') {
-        return void 0;
-      }
       return value;
     }
   }
 
-  public static GetObjectWithLoweredPropertyNames(obj: any) {
-    const loweredObj = Object.keys(obj).reduce((newObj, k) => {
+  public static GetObjectWithLoweredPropertyNames<T extends { [key: string]: unknown }>(obj: T) {
+    return Object.keys(obj).reduce((newObj, k) => {
       newObj[k.toLowerCase()] = obj[k];
       return newObj;
-    }, {});
-
-    return loweredObj;
+    }, {} as { [key: string]: unknown }) as T;
   }
 
-  public static TestIsObjectEmpty(obj: any) {
+  public static TestIsObjectEmpty(obj: object) {
     for (const prop in obj) {
-      if (obj.hasOwnProperty(prop)) {
+      if (Object.prototype.hasOwnProperty.call(obj, prop)) {
         return false;
       }
     }
@@ -297,13 +275,12 @@ export class Utilities {
     return true;
   }
 
-  public static TestIsUndefined(value: any) {
+  public static TestIsUndefined(value: unknown) {
     return typeof value === 'undefined';
-    // return value === undefined;
   }
 
-  public static TestIsString(value: any) {
-    return typeof value === 'string' || value instanceof String;
+  public static TestIsString(value: unknown) {
+    return typeof value === 'string';
   }
 
   public static capitalizeFirstLetter(text: string) {
@@ -316,24 +293,21 @@ export class Utilities {
 
   public static toTitleCase(text: string) {
     return text.replace(/\w\S*/g, (subString) => {
-      return subString.charAt(0).toUpperCase() + subString.substr(1).toLowerCase();
+      return subString.charAt(0).toUpperCase() + subString.substring(1).toLowerCase();
     });
   }
 
-  public static toLowerCase(items: string);
-  public static toLowerCase(items: string[]);
-  public static toLowerCase(items: any): string | string[] {
+  public static toLowerCase(item: string | string[]) {
+    if (Array.isArray(item)) {
+      const loweredArray: string[] = [];
 
-    if (items instanceof Array) {
-      const loweredRoles: string[] = [];
-
-      for (let i = 0; i < items.length; i++) {
-        loweredRoles[i] = items[i].toLowerCase();
+      for (let i = 0; i < item.length; i++) {
+        loweredArray[i] = item[i].toLowerCase();
       }
 
-      return loweredRoles;
-    } else if (typeof items === 'string' || items instanceof String) {
-      return items.toLowerCase();
+      return loweredArray;
+    } else {
+      return item.toLowerCase();
     }
   }
 
@@ -358,7 +332,6 @@ export class Utilities {
   }
 
   public static printDateOnly(date: Date) {
-
     date = new Date(date);
 
     const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -386,7 +359,6 @@ export class Utilities {
   }
 
   public static printTimeOnly(date: Date) {
-
     date = new Date(date);
 
     let period = '';
@@ -407,7 +379,6 @@ export class Utilities {
     }
 
     const timeString = hour + ':' + minute + ' ' + period;
-
 
     return timeString;
   }
@@ -432,7 +403,6 @@ export class Utilities {
   }
 
   public static printShortDate(date: Date, separator = '/', dateTimeSeparator = '-') {
-
     let day = date.getDate().toString();
     let month = (date.getMonth() + 1).toString();
     const year = date.getFullYear();
@@ -448,30 +418,23 @@ export class Utilities {
     return `${month}${separator}${day}${separator}${year} ${dateTimeSeparator} ${Utilities.printTimeOnly(date)}`;
   }
 
-  public static parseDate(date) {
-
-    if (date) {
-
-      if (date instanceof Date) {
-        return date;
-      }
-
-      if (typeof date === 'string' || date instanceof String) {
-        if (date.search(/[a-su-z+]/i) === -1) {
-          date = date + 'Z';
-        }
-
-        return new Date(date);
-      }
-
-      if (typeof date === 'number' || date instanceof Number) {
-        return new Date(date as any);
-      }
+  public static parseDate(input: string | number | Date) {
+    if (input instanceof Date) {
+      return input;
     }
+
+    if (typeof input === 'string') {
+      if (input.search(/[a-su-z+]/i) === -1) {
+        input = input + 'Z';
+      }
+
+      return new Date(input);
+    }
+
+    return new Date(input);
   }
 
   public static printDuration(start: Date, end: Date) {
-
     start = new Date(start);
     end = new Date(end);
 
@@ -492,7 +455,6 @@ export class Utilities {
 
     // what's left is seconds
     const seconds = delta % 60;  // in theory the modulus is not required
-
 
     let printedDays = '';
 
@@ -520,7 +482,7 @@ export class Utilities {
     return printedDays;
   }
 
-  public static getAge(birthDate, otherDate) {
+  public static getAge(birthDate: string | number | Date, otherDate: string | number | Date) {
     birthDate = new Date(birthDate);
     otherDate = new Date(otherDate);
 
@@ -534,7 +496,7 @@ export class Utilities {
     return years;
   }
 
-  public static searchArray(searchTerm: string, caseSensitive: boolean, ...values: any[]) {
+  public static searchArray(searchTerm: string, caseSensitive: boolean, ...values: unknown[]) {
     if (!searchTerm) {
       return true;
     }
@@ -550,8 +512,7 @@ export class Utilities {
     return data.indexOf(filter) !== -1;
   }
 
-  public static moveArrayItem(array: any[], oldIndex, newIndex) {
-
+  public static moveArrayItem(array: unknown[], oldIndex: number, newIndex: number) {
     if (oldIndex < 0) {
       return;
     }
@@ -571,7 +532,6 @@ export class Utilities {
   }
 
   public static expandCamelCase(text: string) {
-
     if (!text) {
       return text;
     }
@@ -582,60 +542,47 @@ export class Utilities {
   }
 
   public static testIsAbsoluteUrl(url: string) {
-
     const r = new RegExp('^(?:[a-z]+:)?//', 'i');
     return r.test(url);
   }
 
   public static convertToAbsoluteUrl(url: string) {
-
     return Utilities.testIsAbsoluteUrl(url) ? url : '//' + url;
   }
 
-  public static removeNulls(obj) {
-    const isArray = obj instanceof Array;
+  public static removeNulls<T extends object | unknown[]>(item: T) {
+    const isArray = Array.isArray(item);
 
-    for (const k in obj) {
-      if (!obj.hasOwnProperty(k)) {
-        continue;
-      }
+    for (const k in item) {
+      if (Object.prototype.hasOwnProperty.call(item, k)) {
+        const propertyValue = item[k as keyof typeof item];
 
-      if (obj[k] === null) {
-        isArray ? obj.splice(+k, 1) : delete obj[k];
-      } else if (typeof obj[k] === 'object') {
-        Utilities.removeNulls(obj[k]);
-      }
+        if (propertyValue === null) {
+          isArray ? item.splice(+k, 1) : delete item[k as keyof typeof item];
+        } else if (typeof propertyValue === 'object') {
+          Utilities.removeNulls(propertyValue);
+        }
 
-      if (isArray && obj.length === +k) {
-        Utilities.removeNulls(obj);
+        if (isArray && item.length === +k) {
+          Utilities.removeNulls(item);
+        }
       }
     }
 
-    return obj;
+    return item;
   }
 
-  public static debounce(func: (...args) => any, wait: number, immediate?: boolean) {
-    let timeout;
+  public static debounce(fn: (...params: unknown[]) => unknown, delay: number, immediate?: boolean) {
+    let timer: ReturnType<typeof setTimeout> | undefined;
 
-    return function () {
-      const context = this;
-      const args = arguments;
-
-      const later = () => {
-        timeout = null;
-        if (!immediate) {
-          func.apply(context, args);
-        }
-      };
-
-      const callNow = immediate && !timeout;
-
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-
-      if (callNow) {
-        func.apply(context, args);
+    return function (this: unknown, ...args: unknown[]) {
+      if (timer === undefined && immediate) {
+        fn.apply(this, args);
       }
-    };
+
+      clearTimeout(timer);
+      timer = setTimeout(() => fn.apply(this, args), delay);
+      return timer;
+    }
   }
 }

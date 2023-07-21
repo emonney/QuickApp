@@ -9,22 +9,21 @@ import { Utilities } from '../services/utilities';
 
 
 export class Notification {
+  public id = 0;
+  public header = '';
+  public body = '';
+  public date = new Date();
+  public isRead = false;
+  public isPinned = false;
 
-    public id: number;
-    public header: string;
-    public body: string;
-    public isRead: boolean;
-    public isPinned: boolean;
-    public date: Date;
+  public static Create(data: object) {
+    const n = new Notification();
+    Object.assign(n, data);
 
-    public static Create(data: {}) {
-        const n = new Notification();
-        Object.assign(n, data);
-
-        if (n.date) {
-            n.date = Utilities.parseDate(n.date);
-        }
-
-        return n;
+    if (n.date) {
+      n.date = Utilities.parseDate(n.date);
     }
+
+    return n;
+  }
 }

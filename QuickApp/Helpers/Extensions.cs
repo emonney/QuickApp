@@ -15,6 +15,7 @@ namespace QuickApp.Helpers
 {
     public static class Extensions
     {
+        // HttpResponse
         public static void AddPagination(this HttpResponse response, int currentPage, int itemsPerPage, int totalItems, int totalPages)
         {
             response.Headers.Add("Pagination", JsonConvert.SerializeObject(new PageHeader(currentPage, itemsPerPage, totalItems, totalPages)));
@@ -25,6 +26,18 @@ namespace QuickApp.Helpers
         {
             response.Headers.Add("Application-Error", message);
             response.Headers.Add("access-control-expose-headers", "Application-Error");// CORS
+        }
+
+        // string
+        public static string NullIfWhiteSpace(this string value)
+        {
+            return string.IsNullOrWhiteSpace(value) ? null : value;
+        }
+
+        // Array
+        public static T[] NullIfEmpty<T>(this T[] value)
+        {
+            return value?.Any() == true ? value : null;
         }
     }
 }

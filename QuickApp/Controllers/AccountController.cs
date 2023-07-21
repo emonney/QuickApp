@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 namespace QuickApp.Controllers
 {
     [Authorize]
+    [SanitizeModel]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {

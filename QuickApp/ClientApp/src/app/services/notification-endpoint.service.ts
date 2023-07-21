@@ -6,8 +6,8 @@
 // ======================================
 
 import { Injectable } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
 
 
 @Injectable()
@@ -39,96 +39,67 @@ export class NotificationEndpoint {
     }
   ];
 
-  getNotificationEndpoint<T>(notificationId: number): Observable<T> {
 
+  getNotificationEndpoint<T>(notificationId: number) {
     const notification = this.demoNotifications.find(val => val.id === notificationId);
-    let response: HttpResponse<T>;
-
-    if (notification) {
-      response = this.createResponse<T>(notification, 200);
-    } else {
-      response = this.createResponse<T>(null, 404);
-    }
-
-    return of(response.body);
+    return this.createDemoResponse(notification as T, notification ? null : 404);
   }
 
-  getNotificationsEndpoint<T>(page: number, pageSize: number): Observable<T> {
-
-    const notifications = this.demoNotifications;
-    const response = this.createResponse<T>(this.demoNotifications, 200);
-
-    return of(response.body);
+  getNotificationsEndpoint<T>(page: number, pageSize: number) {
+    return this.createDemoResponse(this.demoNotifications as T, null, page, pageSize);
   }
 
-  getUnreadNotificationsEndpoint<T>(userId?: string): Observable<T> {
-
+  getUnreadNotificationsEndpoint<T>(userId?: string) {
     const unreadNotifications = this.demoNotifications.filter(val => !val.isRead);
-    const response = this.createResponse<T>(unreadNotifications, 200);
-
-    return of(response.body);
+    return this.createDemoResponse(unreadNotifications as T, null, userId);
   }
 
-  getNewNotificationsEndpoint<T>(lastNotificationDate?: Date): Observable<T> {
-
-    const unreadNotifications = this.demoNotifications;
-    const response = this.createResponse<T>(unreadNotifications, 200);
-
-    return of(response.body);
+  getNewNotificationsEndpoint<T>(lastNotificationDate?: Date) {
+    return this.createDemoResponse(this.demoNotifications as T, null, lastNotificationDate);
   }
 
-  getPinUnpinNotificationEndpoint<T>(notificationId: number, isPinned?: boolean, ): Observable<T> {
-
+  getPinUnpinNotificationEndpoint(notificationId: number, isPinned?: boolean) {
     const notification = this.demoNotifications.find(val => val.id === notificationId);
-    let response: HttpResponse<T>;
 
     if (notification) {
-      response = this.createResponse<T>(null, 204);
-
       if (isPinned == null) {
         isPinned = !notification.isPinned;
       }
 
       notification.isPinned = isPinned;
       notification.isRead = true;
+
+      return this.createDemoResponse(null);
     } else {
-      response = this.createResponse<T>(null, 404);
+      return this.createDemoResponse(null, 404);
     }
-
-
-    return of(response.body);
   }
 
-  getReadUnreadNotificationEndpoint<T>(notificationIds: number[], isRead: boolean, ): Observable<T> {
+  getReadUnreadNotificationEndpoint(notificationIds: number[], isRead: boolean) {
     for (const notificationId of notificationIds) {
-
       const notification = this.demoNotifications.find(val => val.id === notificationId);
 
-      if (notification) {
+      if (notification)
         notification.isRead = isRead;
-      }
     }
 
-    const response = this.createResponse<T>(null, 204);
-    return of(response.body);
+    return this.createDemoResponse(null);
   }
 
-  getDeleteNotificationEndpoint<T>(notificationId: number): Observable<T> {
-
+  getDeleteNotificationEndpoint<T>(notificationId: number) {
     const notification = this.demoNotifications.find(val => val.id === notificationId);
-    let response: HttpResponse<T>;
 
-    if (notification) {
+    if (notification)
       this.demoNotifications = this.demoNotifications.filter(val => val.id !== notificationId);
-      response = this.createResponse<T>(notification, 200);
-    } else {
-      response = this.createResponse<T>(null, 404);
-    }
 
-    return of(response.body);
+    return this.createDemoResponse(notification as T, notification ? null : 404);
   }
 
-  private createResponse<T>(body, status: number) {
-    return new HttpResponse<T>({ body, status });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private createDemoResponse<T>(data: T, errorCode: number | null = null, ...args: unknown[]): Observable<T> {
+    if (errorCode == null)
+      return of(data);
+    else
+      return throwError(() => new HttpErrorResponse({ status: errorCode, error: 'Demo. An error occured' }));
   }
 }

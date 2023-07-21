@@ -6,6 +6,8 @@
 // ======================================
 
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
 
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { AccountService } from '../../services/account.service';
@@ -19,43 +21,37 @@ import { Permission } from '../../models/permission.model';
   styleUrls: ['./role-editor.component.scss']
 })
 export class RoleEditorComponent implements OnInit {
-
   private isNewRole = false;
-  public isSaving: boolean;
+  public isSaving = false;
   public showValidationErrors = true;
   public roleEdit = new Role();
   public allPermissions: Permission[] = [];
   public selectedValues: { [key: string]: boolean; } = {};
-  private editingRoleName: string;
+  private editingRoleName: string | null = null;
 
   public formResetToggle = true;
 
-  public changesSavedCallback: () => void;
-  public changesFailedCallback: () => void;
-  public changesCancelledCallback: () => void;
+  public changesSavedCallback: { (): void } | undefined;
+  public changesFailedCallback: { (): void } | undefined;
+  public changesCancelledCallback: { (): void } | undefined;
 
   // Outupt to broadcast this instance so it can be accessible from within ng-bootstrap modal template
   @Output()
   afterOnInit = new EventEmitter<RoleEditorComponent>();
 
-
   @ViewChild('f')
-  private form;
-
+  private form!: NgForm;
 
   constructor(private alertService: AlertService, private accountService: AccountService) {
   }
-
 
   ngOnInit() {
     this.afterOnInit.emit(this);
   }
 
-
   showErrorAlert(caption: string, message: string) {
     this.alertService.showMessage(caption, message, MessageSeverity.error);
   }
-
 
   save() {
     this.isSaving = true;
@@ -68,12 +64,9 @@ export class RoleEditorComponent implements OnInit {
         .subscribe({ next: role => this.saveSuccessHelper(role), error: error => this.saveFailedHelper(error) });
     } else {
       this.accountService.updateRole(this.roleEdit)
-        .subscribe({ next: _ => this.saveSuccessHelper(), error: error => this.saveFailedHelper(error) });
+        .subscribe({ next: () => this.saveSuccessHelper(), error: error => this.saveFailedHelper(error) });
     }
   }
-
-
-
 
   private saveSuccessHelper(role?: Role) {
     if (role) {
@@ -85,17 +78,15 @@ export class RoleEditorComponent implements OnInit {
     this.showValidationErrors = false;
 
     if (this.isNewRole) {
-      this.alertService.showMessage('Success', `Role \"${this.roleEdit.name}\" was created successfully`, MessageSeverity.success);
+      this.alertService.showMessage('Success', `Role "${this.roleEdit.name}" was created successfully`, MessageSeverity.success);
     } else {
-      this.alertService.showMessage('Success', `Changes to role \"${this.roleEdit.name}\" was saved successfully`, MessageSeverity.success);
+      this.alertService.showMessage('Success', `Changes to role "${this.roleEdit.name}" was saved successfully`, MessageSeverity.success);
     }
-
 
     this.roleEdit = new Role();
     this.resetForm();
 
-
-    if (!this.isNewRole && this.accountService.currentUser.roles.some(r => r === this.editingRoleName)) {
+    if (!this.isNewRole && this.accountService.currentUser?.roles.some(r => r === this.editingRoleName)) {
       this.refreshLoggedInUser();
     }
 
@@ -104,11 +95,9 @@ export class RoleEditorComponent implements OnInit {
     }
   }
 
-
   private refreshLoggedInUser() {
     this.accountService.refreshLoggedInUser()
       .subscribe({
-        next: _ => { },
         error: error => {
           this.alertService.resetStickyMessage();
           this.alertService.showStickyMessage('Refresh failed', 'An error occurred whilst refreshing logged in user information from the server', MessageSeverity.error, error);
@@ -116,9 +105,7 @@ export class RoleEditorComponent implements OnInit {
       });
   }
 
-
-
-  private saveFailedHelper(error: any) {
+  private saveFailedHelper(error: HttpErrorResponse) {
     this.isSaving = false;
     this.alertService.stopLoadingMessage();
     this.alertService.showStickyMessage('Save Error', 'The below errors occurred whilst saving your changes:', MessageSeverity.error, error);
@@ -128,7 +115,6 @@ export class RoleEditorComponent implements OnInit {
       this.changesFailedCallback();
     }
   }
-
 
   cancel() {
     this.roleEdit = new Role();
@@ -144,17 +130,13 @@ export class RoleEditorComponent implements OnInit {
     }
   }
 
-
-
   selectAll() {
     this.allPermissions.forEach(p => this.selectedValues[p.value] = true);
   }
 
-
   selectNone() {
     this.allPermissions.forEach(p => this.selectedValues[p.value] = false);
   }
-
 
   toggleGroup(groupName: string) {
     let firstMemberValue: boolean;
@@ -172,14 +154,11 @@ export class RoleEditorComponent implements OnInit {
     });
   }
 
-
   private getSelectedPermissions() {
     return this.allPermissions.filter(p => this.selectedValues[p.value] === true);
   }
 
-
   resetForm(replace = false) {
-
     if (!replace) {
       this.form.reset();
     } else {
@@ -190,7 +169,6 @@ export class RoleEditorComponent implements OnInit {
       });
     }
   }
-
 
   newRole(allPermissions: Permission[]) {
     this.isNewRole = true;
@@ -222,9 +200,7 @@ export class RoleEditorComponent implements OnInit {
     }
   }
 
-
-
   get canManageRoles() {
-    return this.accountService.userHasPermission(Permission.manageRolesPermission);
+    return this.accountService.userHasPermission(Permission.manageRoles);
   }
 }

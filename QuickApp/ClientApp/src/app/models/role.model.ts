@@ -7,19 +7,13 @@
 
 import { Permission } from './permission.model';
 
-
 export class Role {
+  constructor(
+    public name = '',
+    public description = '',
+    public permissions: Permission[] = []
+  ) { }
 
-    constructor(name?: string, description?: string, permissions?: Permission[]) {
-
-        this.name = name;
-        this.description = description;
-        this.permissions = permissions;
-    }
-
-    public id: string;
-    public name: string;
-    public description: string;
-    public usersCount: number;
-    public permissions: Permission[];
+  public id = '';
+  public usersCount = 0;
 }

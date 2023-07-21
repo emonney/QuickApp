@@ -12,7 +12,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from '../components/app.component';
 
-import { OAuthModule } from 'angular-oauth2-oidc';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastaModule } from 'ngx-toasta';
@@ -44,7 +43,6 @@ describe('AppComponent', () => {
           }
         }),
         NgxDatatableModule,
-        OAuthModule.forRoot(),
         ToastaModule.forRoot()
       ],
       declarations: [

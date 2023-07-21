@@ -124,11 +124,22 @@ export class ThemeManager {
   }
 
   public getDefaultTheme(): AppTheme {
-    return this.themes.find(theme => theme.isDefault);
+    const theme = this.themes.find(theme => theme.isDefault);
+
+    if (!theme) {
+      throw new Error('No default theme found!');
+    }
+
+    return theme;
   }
 
   public getThemeByID(id: number): AppTheme {
-    return this.themes.find(theme => theme.id === id);
+    const theme = this.themes.find(theme => theme.id === id);
+
+    if (!theme)
+      throw new Error(`Theme with id "${id}" not found!`);
+
+    return theme;
   }
 
   private setStyle(key: string, href: string) {

@@ -11,17 +11,25 @@ import { Observable, Subject, from, throwError } from 'rxjs';
 import { mergeMap, switchMap, catchError } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
+import { User } from '../models/user.model';
+
+interface ServerError {
+  status: number;
+  error: {
+    error: string;
+    error_description: string;
+  };
+}
+
 
 @Injectable()
 export class EndpointBase {
-
-  private taskPauser: Subject<any>;
-  private isRefreshingLogin: boolean;
+  private taskPauser: Subject<boolean> | null = null;
+  private isRefreshingLogin = false;
 
   constructor(
     protected http: HttpClient,
     private authService: AuthService) {
-
   }
 
   protected get requestHeaders(): { headers: HttpHeaders | { [header: string]: string | string[]; } } {
@@ -34,14 +42,14 @@ export class EndpointBase {
     return { headers };
   }
 
-  public refreshLogin() {
+  public refreshLogin(): Observable<User> {
     return this.authService.refreshLogin().pipe(
-      catchError(error => {
+      catchError((error: ServerError) => {
         return this.handleError(error, () => this.refreshLogin());
       }));
   }
 
-  protected handleError(error, continuation: () => Observable<any>) {
+  protected handleError<T>(error: ServerError, continuation: () => Observable<T>) {
     if (error.status === 401) {
       if (this.isRefreshingLogin) {
         return this.pauseTask(continuation);
@@ -78,9 +86,7 @@ export class EndpointBase {
     }
   }
 
-
-
-  private pauseTask(continuation: () => Observable<any>) {
+  private pauseTask<T>(continuation: () => Observable<T>) {
     if (!this.taskPauser) {
       this.taskPauser = new Subject();
     }
@@ -89,7 +95,6 @@ export class EndpointBase {
       return continueOp ? continuation() : throwError(() => new Error('session expired'));
     }));
   }
-
 
   private resumeTasks(continueOp: boolean) {
     setTimeout(() => {

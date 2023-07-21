@@ -38,19 +38,16 @@ export class AccountService {
   }
 
   getUserAndRoles(userId?: string) {
-
     return forkJoin([
       this.accountEndpoint.getUserEndpoint<User>(userId),
       this.accountEndpoint.getRolesEndpoint<Role[]>()]);
   }
 
   getUsers(page?: number, pageSize?: number) {
-
     return this.accountEndpoint.getUsersEndpoint<User[]>(page, pageSize);
   }
 
   getUsersAndRoles(page?: number, pageSize?: number) {
-
     return forkJoin([
       this.accountEndpoint.getUsersEndpoint<User[]>(page, pageSize),
       this.accountEndpoint.getRolesEndpoint<Role[]>()]);
@@ -76,14 +73,14 @@ export class AccountService {
     return this.accountEndpoint.getUserPreferencesEndpoint<string>();
   }
 
-  updateUserPreferences(configuration: string) {
+  updateUserPreferences(configuration: string | null) {
     return this.accountEndpoint.getUpdateUserPreferencesEndpoint(configuration);
   }
 
   deleteUser(userOrUserId: string | User): Observable<User> {
-    if (typeof userOrUserId === 'string' || userOrUserId instanceof String) {
+    if (typeof userOrUserId === 'string') {
       return this.accountEndpoint.getDeleteUserEndpoint<User>(userOrUserId as string).pipe<User>(
-        tap(data => this.onRolesUserCountChanged(data.roles)));
+        tap(user => this.onRolesUserCountChanged(user.roles)));
     } else {
       if (userOrUserId.id) {
         return this.deleteUser(userOrUserId.id);
@@ -107,12 +104,10 @@ export class AccountService {
   }
 
   getRoles(page?: number, pageSize?: number) {
-
     return this.accountEndpoint.getRolesEndpoint<Role[]>(page, pageSize);
   }
 
   getRolesAndPermissions(page?: number, pageSize?: number) {
-
     return forkJoin([
       this.accountEndpoint.getRolesEndpoint<Role[]>(page, pageSize),
       this.accountEndpoint.getPermissionsEndpoint<Permission[]>()]);
@@ -121,25 +116,24 @@ export class AccountService {
   updateRole(role: Role) {
     if (role.id) {
       return this.accountEndpoint.getUpdateRoleEndpoint(role, role.id).pipe(
-        tap(data => this.onRolesChanged([role], AccountService.roleModifiedOperation)));
+        tap(() => this.onRolesChanged([role], AccountService.roleModifiedOperation)));
     } else {
       return this.accountEndpoint.getRoleByRoleNameEndpoint<Role>(role.name).pipe(
         mergeMap(foundRole => {
           role.id = foundRole.id;
           return this.accountEndpoint.getUpdateRoleEndpoint(role, role.id);
         }),
-        tap(data => this.onRolesChanged([role], AccountService.roleModifiedOperation)));
+        tap(() => this.onRolesChanged([role], AccountService.roleModifiedOperation)));
     }
   }
 
   newRole(role: Role) {
     return this.accountEndpoint.getNewRoleEndpoint<Role>(role).pipe<Role>(
-      tap(data => this.onRolesChanged([role], AccountService.roleAddedOperation)));
+      tap(() => this.onRolesChanged([role], AccountService.roleAddedOperation)));
   }
 
   deleteRole(roleOrRoleId: string | Role): Observable<Role> {
-
-    if (typeof roleOrRoleId === 'string' || roleOrRoleId instanceof String) {
+    if (typeof roleOrRoleId === 'string') {
       return this.accountEndpoint.getDeleteRoleEndpoint<Role>(roleOrRoleId as string).pipe<Role>(
         tap(data => this.onRolesChanged([data], AccountService.roleDeletedOperation)));
     } else {
@@ -154,7 +148,6 @@ export class AccountService {
   }
 
   getPermissions() {
-
     return this.accountEndpoint.getPermissionsEndpoint<Permission[]>();
   }
 

@@ -7,6 +7,7 @@
 
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TableColumn } from '@swimlane/ngx-datatable';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
@@ -17,37 +18,41 @@ import { Permission } from '../../models/permission.model';
 import { RoleEditorComponent } from './role-editor.component';
 
 
+interface RoleIndex extends Role {
+  index: number;
+}
+
+
 @Component({
   selector: 'app-roles-management',
   templateUrl: './roles-management.component.html',
   styleUrls: ['./roles-management.component.scss']
 })
 export class RolesManagementComponent implements OnInit {
-  columns: any[] = [];
+  columns: TableColumn[] = [];
   rows: Role[] = [];
   rowsCache: Role[] = [];
   allPermissions: Permission[] = [];
-  editedRole: Role;
-  sourceRole: Role;
-  editingRoleName: { name: string };
-  loadingIndicator: boolean;
+  editedRole: Role | null = null;
+  sourceRole: Role | null = null;
+  editingRoleName: { name: string } | null = null;
+  loadingIndicator = false;
 
 
   @ViewChild('indexTemplate', { static: true })
-  indexTemplate: TemplateRef<any>;
+  indexTemplate!: TemplateRef<unknown>;
 
   @ViewChild('actionsTemplate', { static: true })
-  actionsTemplate: TemplateRef<any>;
+  actionsTemplate!: TemplateRef<unknown>;
 
   @ViewChild('editorModal', { static: true })
-  editorModalTemplate: TemplateRef<any>;
+  editorModalTemplate!: TemplateRef<unknown>;
 
-  roleEditor: RoleEditorComponent;
+  roleEditor: RoleEditorComponent | null = null;
 
   constructor(private alertService: AlertService, private translationService: AppTranslationService,
     private accountService: AccountService, private modalService: NgbModal) {
   }
-
 
   ngOnInit() {
     const gT = (key: string) => this.translationService.getTranslation(key);
@@ -63,8 +68,7 @@ export class RolesManagementComponent implements OnInit {
     this.loadData();
   }
 
-
-  setRoleEditorComponent(roleEditor) {
+  setRoleEditorComponent(roleEditor: RoleEditorComponent) {
     this.roleEditor = roleEditor;
 
     if (this.sourceRole == null)
@@ -72,7 +76,6 @@ export class RolesManagementComponent implements OnInit {
     else
       this.editedRole = this.roleEditor.editRole(this.sourceRole, this.allPermissions);
   }
-
 
   addNewRoleToList() {
     if (this.sourceRole) {
@@ -97,19 +100,18 @@ export class RolesManagementComponent implements OnInit {
 
       let maxIndex = 0;
       for (const r of this.rowsCache) {
-        if ((r as any).index > maxIndex) {
-          maxIndex = (r as any).index;
+        if ((r as RoleIndex).index > maxIndex) {
+          maxIndex = (r as RoleIndex).index;
         }
       }
 
-      (role as any).index = maxIndex + 1;
+      (role as RoleIndex).index = maxIndex + 1;
 
       this.rowsCache.splice(0, 0, role);
       this.rows.splice(0, 0, role);
       this.rows = [...this.rows];
     }
   }
-
 
   loadData() {
     this.alertService.startLoadingMessage();
@@ -125,9 +127,8 @@ export class RolesManagementComponent implements OnInit {
           const permissions = results[1];
 
           roles.forEach((role, index) => {
-            (role as any).index = index + 1;
+            (role as RoleIndex).index = index + 1;
           });
-
 
           this.rowsCache = [...roles];
           this.rows = roles;
@@ -144,11 +145,9 @@ export class RolesManagementComponent implements OnInit {
       });
   }
 
-
   onSearchChanged(value: string) {
     this.rows = this.rowsCache.filter(r => Utilities.searchArray(value, false, r.name, r.description));
   }
-
 
   newRole() {
     this.editingRoleName = null;
@@ -157,14 +156,12 @@ export class RolesManagementComponent implements OnInit {
     this.openRoleEditor();
   }
 
-
   editRole(row: Role) {
     this.editingRoleName = { name: row.name };
     this.sourceRole = row;
 
     this.openRoleEditor();
   }
-
 
   openRoleEditor() {
     const modalRef = this.modalService.open(this.editorModalTemplate, {
@@ -173,6 +170,9 @@ export class RolesManagementComponent implements OnInit {
     });
 
     modalRef.shown.subscribe(() => {
+      if (!this.roleEditor)
+        throw new Error('The role editor component was not set.');
+
       this.roleEditor.changesSavedCallback = () => {
         this.addNewRoleToList();
         modalRef.close();
@@ -186,26 +186,26 @@ export class RolesManagementComponent implements OnInit {
     });
 
     modalRef.hidden.subscribe(() => {
+      if (!this.roleEditor)
+        throw new Error('The role editor component was not set.');
+
       this.editingRoleName = null;
       this.roleEditor.resetForm(true);
       this.roleEditor = null;
     });
   }
 
-
   deleteRole(row: Role) {
-    this.alertService.showDialog(`Are you sure you want to delete the \"${row.name}\" role?`, DialogType.confirm, () => this.deleteRoleHelper(row));
+    this.alertService.showDialog(`Are you sure you want to delete the "${row.name}" role?`, DialogType.confirm, () => this.deleteRoleHelper(row));
   }
 
-
   deleteRoleHelper(row: Role) {
-
     this.alertService.startLoadingMessage('Deleting...');
     this.loadingIndicator = true;
 
     this.accountService.deleteRole(row)
       .subscribe({
-        next: _ => {
+        next: () => {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
@@ -222,8 +222,7 @@ export class RolesManagementComponent implements OnInit {
       });
   }
 
-
   get canManageRoles() {
-    return this.accountService.userHasPermission(Permission.manageRolesPermission);
+    return this.accountService.userHasPermission(Permission.manageRoles);
   }
 }

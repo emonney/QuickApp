@@ -24,7 +24,7 @@ export class HomeComponent implements AfterViewInit {
   readonly DBKeyWidgetsOrder = 'home-component.widgets_order';
 
   @ViewChild('widgetsContainer', { read: ElementRef })
-  widgetsContainer: ElementRef<HTMLDivElement>;
+  widgetsContainer!: ElementRef<HTMLDivElement>;
 
   constructor(private authService: AuthService, public configurations: ConfigurationService) {
 
