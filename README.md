@@ -13,7 +13,7 @@ As well as other common functionalities for **Quick Application Development**.
 For the older asp.net core 1.x version: [Download](https://github.com/emonney/QuickApp-VSIX/releases/tag/v1.5")
 
 [LIVE DEMO](http://quickapp.ebenmonney.com) | [MORE TEMPLATES](https://www.ebenmonney.com/templates)
-{% include youtube.html id="R6LyABsq_fY" %}
+[![QuickApp Intro](YouTube-Intro.png)](https://www.youtube.com/watch?v=R6LyABsq_fY)
 
 ___
 ## INTRODUCING QUICKAPP PREMIUM TEMPLATES
