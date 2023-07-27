@@ -88,7 +88,7 @@ export class NotificationService {
 
   deleteNotification(notification: number | Notification): Observable<Notification | null> {
     if (typeof notification === 'number') {
-      return this.notificationEndpoint.getDeleteNotificationEndpoint(notification).pipe(
+      return this.notificationEndpoint.getDeleteNotificationEndpoint<Notification>(notification).pipe(
         map(response => {
           if (response) {
             this._newNotifications = this.newNotifications?.filter(n => n.id !== notification);

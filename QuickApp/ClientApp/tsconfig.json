@@ -1,15 +1,18 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
+/* To enable Angular strict mode, uncomment the below commented lines
+   These options enforce stricter type checking and help identify potential issues at compile time.
+
+   To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
+    //"forceConsistentCasingInFileNames": true,
+    //"strict": true,
+    //"noImplicitOverride": true,
+    //"noPropertyAccessFromIndexSignature": true,
+    //"noImplicitReturns": true,
+    //"noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -26,9 +29,9 @@
     ]
   },
   "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "enableI18nLegacyMessageIdFormat": false
+    //"strictInjectionParameters": true,
+    //"strictInputAccessModifiers": true,
+    //"strictTemplates": true
   }
 }
