@@ -41,8 +41,8 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
   isDataLoaded = false;
   loadingIndicator = true;
   formResetToggle = true;
-  _currentUserId: string | undefined;
-  _hideCompletedTasks = false;
+  private _currentUserId: string | undefined;
+  private _hideCompletedTasks = false;
 
   get currentUserId() {
     if (this.authService.currentUser) {

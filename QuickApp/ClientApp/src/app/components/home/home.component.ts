@@ -51,9 +51,9 @@ export class HomeComponent implements AfterViewInit {
     }
   }
 
-  getPlaceholderMinHeight(placeholder: HTMLElement, dashboard: HTMLElement) {
+  getPlaceholderMinHeight(placeholder: HTMLElement, widget: HTMLElement) {
     const placeholderMinHeight = parseInt(placeholder.style.minHeight, 10);
-    return placeholderMinHeight || dashboard.offsetHeight;
+    return placeholderMinHeight || widget.offsetHeight;
   }
 
   insertChildAtIndex(parent: HTMLDivElement, child: Element, index: number) {

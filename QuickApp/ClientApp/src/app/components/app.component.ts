@@ -118,9 +118,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private unsubscribeNotifications() {
-    if (this.notificationsLoadingSubscription) {
-      this.notificationsLoadingSubscription.unsubscribe();
-    }
+    this.notificationsLoadingSubscription?.unsubscribe();
   }
 
   initNotificationsLoading() {

@@ -6,7 +6,7 @@
 // ======================================
 
 import { Directive, forwardRef, Attribute } from '@angular/core';
-import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
+import { Validator, AbstractControl, NG_VALIDATORS, ValidationErrors } from '@angular/forms';
 
 
 @Directive({
@@ -20,22 +20,22 @@ export class EqualValidator implements Validator {
     @Attribute('reverse') public reverse: string) {
   }
 
-  validate(c: AbstractControl): { [key: string]: boolean } | null {
-    const other = c.root.get(this.validateEqual);
+  validate(control: AbstractControl): ValidationErrors | null {
+    const other = control.root.get(this.validateEqual);
 
     if (!other) {
       return null;
     }
 
-    return this.reverse === 'true' ? this.validateReverse(c, other) : this.validateNoReverse(c, other);
+    return this.reverse === 'true' ? this.validateReverse(control, other) : this.validateNoReverse(control, other);
   }
 
-  private validateNoReverse(c: AbstractControl, other: AbstractControl): { [key: string]: boolean } | null {
-    return other.value === c.value ? null : { validateEqual: true };
+  private validateNoReverse(control: AbstractControl, other: AbstractControl): ValidationErrors | null {
+    return other.value === control.value ? null : { validateEqual: true };
   }
 
-  private validateReverse(c: AbstractControl, other: AbstractControl): { [key: string]: boolean } | null {
-    if (c.value === other.value) {
+  private validateReverse(control: AbstractControl, other: AbstractControl): ValidationErrors | null {
+    if (control.value === other.value) {
       if (other.errors) {
         delete other.errors['validateEqual'];
 

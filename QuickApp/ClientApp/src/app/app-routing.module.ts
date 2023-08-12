@@ -6,7 +6,7 @@
 // ======================================
 
 import { NgModule, Injectable } from '@angular/core';
-import { RouterModule, Routes, DefaultUrlSerializer, UrlSerializer, UrlTree } from '@angular/router';
+import { RouterModule, Routes, DefaultUrlSerializer, UrlSerializer, UrlTree, TitleStrategy } from '@angular/router';
 
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
@@ -16,6 +16,7 @@ import { OrdersComponent } from './components/orders/orders.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AboutComponent } from './components/about/about.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AppTitleService } from './services/app-title.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard';
 import { Utilities } from './services/utilities';
@@ -61,6 +62,7 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [
     AuthService,
+    { provide: TitleStrategy, useClass: AppTitleService },
     { provide: UrlSerializer, useClass: LowerCaseUrlSerializer }]
 })
 export class AppRoutingModule { }

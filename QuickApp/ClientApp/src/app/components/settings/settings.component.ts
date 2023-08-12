@@ -46,8 +46,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.fragmentSubscription)
-      this.fragmentSubscription.unsubscribe();
+    this.fragmentSubscription?.unsubscribe();
   }
 
   showContent(anchor: string | null) {

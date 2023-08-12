@@ -7,26 +7,25 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 
-type Any = { [key: string | number]: string | number };
-type Result = { key: string, value: Any[] }[] | null;
-
 
 @Pipe({ name: 'groupBy' })
 export class GroupByPipe implements PipeTransform {
-  transform(collection: unknown, property: string): Result {
+  transform<T>(collection: T[], property: keyof T) {
     if (!collection) {
       return null;
     }
 
-    const groupedCollection = (collection as Any[]).reduce((previous, current) => {
-      if (!previous[current[property]]) {
-        previous[current[property]] = [current];
+    const groupedCollection = collection.reduce((previous, current) => {
+      const groupKey = current[property] as string;
+
+      if (!previous[groupKey]) {
+        previous[groupKey] = [current];
       } else {
-        previous[current[property]].push(current);
+        previous[groupKey].push(current);
       }
 
       return previous;
-    }, {} as { [key: string]: Any[] });
+    }, {} as Record<string, T[]>);
 
     return Object.keys(groupedCollection)
       .map(key => ({ key, value: groupedCollection[key] }));

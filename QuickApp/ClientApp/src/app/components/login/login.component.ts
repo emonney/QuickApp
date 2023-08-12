@@ -50,9 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.loginStatusSubscription) {
-      this.loginStatusSubscription.unsubscribe();
-    }
+    this.loginStatusSubscription?.unsubscribe();
   }
 
   getShouldRedirect() {

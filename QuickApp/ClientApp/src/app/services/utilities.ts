@@ -101,7 +101,10 @@ export class Utilities {
     }
 
     if (!responses.length) {
-      responses.push((data as HttpErrorResponse).message ?? data.statusText);
+      const response = (data as HttpErrorResponse).message ?? data.statusText;
+
+      if (response)
+        responses.push(response);
     }
 
     return responses;

@@ -79,9 +79,7 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.dataLoadingSubscription) {
-      this.dataLoadingSubscription.unsubscribe();
-    }
+    this.dataLoadingSubscription?.unsubscribe();
   }
 
   initDataLoading() {
@@ -127,11 +125,16 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
   }
 
   getPrintedDate(value: Date) {
-    return Utilities.printTimeOnly(value) + ' on ' + Utilities.printDateOnly(value);
+    if (value) {
+      return Utilities.printTimeOnly(value) + ' on ' + Utilities.printDateOnly(value);
+    }
+
+    return '';
   }
 
   deleteNotification(row: Notification) {
-    this.alertService.showDialog(`Are you sure you want to delete the notification "${row.header}"?`, DialogType.confirm, () => this.deleteNotificationHelper(row));
+    this.alertService.showDialog(`Are you sure you want to delete the notification "${row.header}"?`,
+      DialogType.confirm, () => this.deleteNotificationHelper(row));
   }
 
   deleteNotificationHelper(row: Notification) {
@@ -150,7 +153,8 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
-          this.alertService.showStickyMessage('Delete Error', `An error occurred whilst deleting the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage('Delete Error',
+            `An error occurred whilst deleting the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
         }
       });
@@ -175,7 +179,8 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
-          this.alertService.showStickyMessage(opText + ' Error', `An error occurred whilst ${opText} the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage(opText + ' Error',
+            `An error occurred whilst ${opText} the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
             MessageSeverity.error, error);
         }
       });

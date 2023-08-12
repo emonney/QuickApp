@@ -172,7 +172,7 @@ export class ConfigurationService {
       }
 
       if (importValue.themeId != null) {
-        this.themeId = +importValue.themeId;
+        this.themeId = importValue.themeId;
       }
 
       if (importValue.homeUrl != null) {

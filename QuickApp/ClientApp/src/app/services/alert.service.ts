@@ -5,7 +5,6 @@
 // ==> Gun4Hire: contact@ebenmonney.com
 // ======================================
 
-// tslint:disable:no-console
 import { Injectable } from '@angular/core';
 import { HttpResponseBase } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
@@ -23,7 +22,6 @@ export class AlertService {
   showDialog(message: string, type: DialogType, okCallback: (val?: string) => void): void;
   showDialog(message: string, type: DialogType, okCallback?: { (val?: string): void } | null, cancelCallback?: { (): void } | null, okLabel?: string | null, cancelLabel?: string | null, defaultValue?: string | null): void;
   showDialog(message: string, type?: DialogType, okCallback?: (val?: string) => void, cancelCallback?: () => void, okLabel?: string, cancelLabel?: string, defaultValue?: string) {
-
     if (!type) {
       type = DialogType.alert;
     }

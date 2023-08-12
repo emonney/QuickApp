@@ -19,7 +19,6 @@ namespace QuickApp.ViewModels
             Id = Id.NullIfWhiteSpace();
             Name = Name.NullIfWhiteSpace();
             Description = Description.NullIfWhiteSpace();
-            Permissions = Permissions.NullIfEmpty();
         }
 
         public string Id { get; set; }

@@ -50,7 +50,6 @@ export class UserInfoComponent implements OnInit {
   @Output()
   afterOnInit = new EventEmitter<UserInfoComponent>();
 
-
   @ViewChild('f')
   public form!: NgForm;
 

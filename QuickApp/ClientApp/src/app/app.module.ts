@@ -6,7 +6,6 @@
 // ======================================
 
 import { NgModule, ErrorHandler } from '@angular/core';
-import { TitleStrategy } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,7 +21,6 @@ import { NgChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppErrorHandler } from './app-error.handler';
-import { AppTitleService } from './services/app-title.service';
 import { AppTranslationService, TranslateLanguageLoader } from './services/app-translation.service';
 import { ConfigurationService } from './services/configuration.service';
 import { AlertService } from './services/alert.service';
@@ -107,7 +105,6 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
-    { provide: TitleStrategy, useClass: AppTitleService },
     AlertService,
     ThemeManager,
     ConfigurationService,

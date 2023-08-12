@@ -148,7 +148,7 @@ export class UsersManagementComponent implements OnInit {
     } else {
       this.accountService.getUsers()
         .subscribe({
-          next: users => this.onDataLoadSuccessful(users, this.currentUser.roles.map(x => new Role(x))),
+          next: users => this.onDataLoadSuccessful(users, this.accountService.currentUser?.roles.map(x => new Role(x)) ?? []),
           error: error => this.onDataLoadFailed(error)
         });
     }
@@ -253,13 +253,6 @@ export class UsersManagementComponent implements OnInit {
             MessageSeverity.error, error);
         }
       });
-  }
-
-  private get currentUser() {
-    if (!this.accountService.currentUser)
-      throw new Error('CurrentUser is null')
-
-    return this.accountService.currentUser;
   }
 
   get canAssignRoles() {
