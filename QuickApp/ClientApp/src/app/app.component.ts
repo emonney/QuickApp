@@ -11,17 +11,17 @@ import { Subscription } from 'rxjs';
 import { ToastaService, ToastaConfig, ToastOptions, ToastData } from 'ngx-toasta';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { AlertService, AlertDialog, DialogType, AlertCommand, MessageSeverity } from '../services/alert.service';
-import { NotificationService } from '../services/notification.service';
-import { AppTranslationService } from '../services/app-translation.service';
-import { AccountService } from '../services/account.service';
-import { LocalStoreManager } from '../services/local-store-manager.service';
-import { AppTitleService } from '../services/app-title.service';
-import { AuthService } from '../services/auth.service';
-import { ConfigurationService } from '../services/configuration.service';
-import { Alertify } from '../models/Alertify';
-import { Permission } from '../models/permission.model';
-import { LoginComponent } from '../components/login/login.component';
+import { AlertService, AlertDialog, DialogType, AlertCommand, MessageSeverity } from './services/alert.service';
+import { NotificationService } from './services/notification.service';
+import { AppTranslationService } from './services/app-translation.service';
+import { AccountService } from './services/account.service';
+import { LocalStoreManager } from './services/local-store-manager.service';
+import { AppTitleService } from './services/app-title.service';
+import { AuthService } from './services/auth.service';
+import { ConfigurationService } from './services/configuration.service';
+import { Alertify } from './models/Alertify';
+import { Permission } from './models/permission.model';
+import { LoginComponent } from './components/login/login.component';
 
 declare let alertify: Alertify;
 

@@ -37,7 +37,7 @@ import { AutofocusDirective } from './directives/autofocus.directive';
 import { BootstrapTabDirective } from './directives/bootstrap-tab.directive';
 import { GroupByPipe } from './pipes/group-by.pipe';
 
-import { AppComponent } from './components/app.component';
+import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { CustomersComponent } from './components/customers/customers.component';

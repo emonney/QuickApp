@@ -10,24 +10,24 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AppComponent } from '../components/app.component';
+import { AppComponent } from './app.component';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastaModule } from 'ngx-toasta';
 
-import { AuthService } from '../services/auth.service';
-import { AppTitleService } from '../services/app-title.service';
-import { AppTranslationService, TranslateLanguageLoader } from '../services/app-translation.service';
-import { ConfigurationService } from '../services/configuration.service';
-import { ThemeManager } from '../services/theme-manager';
-import { AlertService } from '../services/alert.service';
-import { LocalStoreManager } from '../services/local-store-manager.service';
-import { OidcHelperService } from '../services/oidc-helper.service';
-import { NotificationService } from '../services/notification.service';
-import { NotificationEndpoint } from '../services/notification-endpoint.service';
-import { AccountService } from '../services/account.service';
-import { AccountEndpoint } from '../services/account-endpoint.service';
+import { AuthService } from './services/auth.service';
+import { AppTitleService } from './services/app-title.service';
+import { AppTranslationService, TranslateLanguageLoader } from './services/app-translation.service';
+import { ConfigurationService } from './services/configuration.service';
+import { ThemeManager } from './services/theme-manager';
+import { AlertService } from './services/alert.service';
+import { LocalStoreManager } from './services/local-store-manager.service';
+import { OidcHelperService } from './services/oidc-helper.service';
+import { NotificationService } from './services/notification.service';
+import { NotificationEndpoint } from './services/notification-endpoint.service';
+import { AccountService } from './services/account.service';
+import { AccountEndpoint } from './services/account-endpoint.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
