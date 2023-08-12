@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               this.alertService.showStickyMessage('Unable to login', this.mapLoginErrorMessage(errorMessage), MessageSeverity.error, error);
             } else {
               this.alertService.showStickyMessage('Unable to login',
-                'An error occurred whilst logging in, please try again later.\nError: ' + Utilities.getResponseData(error, true), MessageSeverity.error, error);
+                'An error occurred whilst logging in, please try again later.\nError: ' + Utilities.stringify(error), MessageSeverity.error, error);
             }
           }
 

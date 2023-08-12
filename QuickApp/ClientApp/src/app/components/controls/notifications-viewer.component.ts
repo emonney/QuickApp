@@ -154,7 +154,7 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
           this.loadingIndicator = false;
 
           this.alertService.showStickyMessage('Delete Error',
-            `An error occurred whilst deleting the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
+            `An error occurred whilst deleting the notification.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
             MessageSeverity.error, error);
         }
       });
@@ -180,13 +180,13 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
           this.loadingIndicator = false;
 
           this.alertService.showStickyMessage(opText + ' Error',
-            `An error occurred whilst ${opText} the notification.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
+            `An error occurred whilst ${opText} the notification.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
             MessageSeverity.error, error);
         }
       });
   }
 
   get canManageNotifications() {
-    return this.accountService.userHasPermission(Permission.manageRoles); // Todo: Consider creating separate permission for notifications
+    return this.accountService.userHasPermission(Permission.manageRoles); // Todo: Create separate permissions for notifications
   }
 }

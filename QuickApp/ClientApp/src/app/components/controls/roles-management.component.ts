@@ -139,7 +139,8 @@ export class RolesManagementComponent implements OnInit {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
-          this.alertService.showStickyMessage('Load Error', `Unable to retrieve roles from the server.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage('Load Error',
+            `Unable to retrieve roles from the server.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
             MessageSeverity.error, error);
         }
       });
@@ -196,7 +197,8 @@ export class RolesManagementComponent implements OnInit {
   }
 
   deleteRole(row: Role) {
-    this.alertService.showDialog(`Are you sure you want to delete the "${row.name}" role?`, DialogType.confirm, () => this.deleteRoleHelper(row));
+    this.alertService.showDialog(`Are you sure you want to delete the "${row.name}" role?`,
+      DialogType.confirm, () => this.deleteRoleHelper(row));
   }
 
   deleteRoleHelper(row: Role) {
@@ -216,7 +218,8 @@ export class RolesManagementComponent implements OnInit {
           this.alertService.stopLoadingMessage();
           this.loadingIndicator = false;
 
-          this.alertService.showStickyMessage('Delete Error', `An error occurred whilst deleting the role.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage('Delete Error',
+            `An error occurred whilst deleting the role.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
             MessageSeverity.error, error);
         }
       });

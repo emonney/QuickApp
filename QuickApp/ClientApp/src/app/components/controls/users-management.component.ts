@@ -173,7 +173,7 @@ export class UsersManagementComponent implements OnInit {
     this.loadingIndicator = false;
 
     this.alertService.showStickyMessage('Load Error',
-      `Unable to retrieve users from the server.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
+      `Unable to retrieve users from the server.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
       MessageSeverity.error, error);
   }
 
@@ -249,7 +249,7 @@ export class UsersManagementComponent implements OnInit {
           this.loadingIndicator = false;
 
           this.alertService.showStickyMessage('Delete Error',
-            `An error occurred whilst deleting the user.\r\nError: "${Utilities.getHttpResponseMessages(error)}"`,
+            `An error occurred whilst deleting the user.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
             MessageSeverity.error, error);
         }
       });

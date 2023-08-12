@@ -44,7 +44,8 @@ export class UserPreferencesComponent {
         },
         error: error => {
           this.alertService.stopLoadingMessage();
-          this.alertService.showStickyMessage('Load Error', `Unable to retrieve user preferences from the server.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage('Load Error',
+            `Unable to retrieve user preferences from the server.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
             MessageSeverity.error, error);
         }
       });
@@ -67,7 +68,8 @@ export class UserPreferencesComponent {
         },
         error: error => {
           this.alertService.stopLoadingMessage();
-          this.alertService.showStickyMessage('Save Error', `An error occurred whilst saving configuration defaults.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage('Save Error',
+            `An error occurred whilst saving configuration defaults.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
             MessageSeverity.error, error);
         }
       });
@@ -91,7 +93,8 @@ export class UserPreferencesComponent {
         },
         error: error => {
           this.alertService.stopLoadingMessage();
-          this.alertService.showStickyMessage('Save Error', `An error occurred whilst resetting configuration defaults.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
+          this.alertService.showStickyMessage('Save Error',
+            `An error occurred whilst resetting configuration defaults.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
             MessageSeverity.error, error);
         }
       });

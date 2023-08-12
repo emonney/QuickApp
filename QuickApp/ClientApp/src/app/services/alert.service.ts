@@ -78,7 +78,7 @@ export class AlertService {
       }
     } else {
       if (error) {
-        const msg = `Severity: "${MessageSeverity[severity]}", Summary: "${data}", Detail: "${separatorOrDetail}", Error: "${Utilities.safeStringify(error)}"`;
+        const msg = `Severity: "${MessageSeverity[severity]}", Summary: "${data}", Detail: "${separatorOrDetail}", Error: "${Utilities.stringify(error)}"`;
 
         switch (severity) {
           case MessageSeverity.default:

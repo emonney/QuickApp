@@ -8,6 +8,16 @@
 import { Injectable } from '@angular/core';
 import { HttpResponseBase, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
+type HttpMessageSearchOptions = Readonly<{
+  searchInCaption?: boolean;
+  searchInMessage?: boolean;
+  exactMatch?: boolean;
+  startsWith?: boolean;
+  endsWith?: boolean;
+  contains?: boolean;
+  resultType?: 'caption' | 'preferMessage' | 'both';
+}>;
+
 @Injectable()
 export class Utilities {
   public static readonly captionAndMessageSeparator = ':';
@@ -17,6 +27,17 @@ export class Utilities {
   public static readonly accessDeniedMessageDetail = '';
   public static readonly notFoundMessageCaption = 'Not Found';
   public static readonly notFoundMessageDetail = 'The target resource cannot be found';
+
+  public static readonly findHttpResponseMessageDefaultSearchOption: HttpMessageSearchOptions = {
+    searchInCaption: true,
+    searchInMessage: false,
+    exactMatch: true,
+    startsWith: false,
+    endsWith: false,
+    contains: false,
+    resultType: 'preferMessage',
+  };
+
 
   public static cookies =
     {
@@ -110,45 +131,95 @@ export class Utilities {
     return responses;
   }
 
-  public static getHttpResponseMessage(data: HttpResponseBase): string {
-    const httpMessage =
+  public static getHttpResponseMessage(data: HttpResponseBase, ...preferredMessageKeys: string[]): string | null {
+    let httpMessage =
       Utilities.findHttpResponseMessage(Utilities.noNetworkMessageCaption, data) ||
       Utilities.findHttpResponseMessage(Utilities.notFoundMessageCaption, data) ||
-      Utilities.findHttpResponseMessage('error_description', data) ||
-      Utilities.getHttpResponseMessages(data).join('\n');
+      Utilities.findHttpResponseMessage('error_description', data);
+
+    if (!httpMessage) {
+      for (const msgKey of preferredMessageKeys) {
+        httpMessage = Utilities.findHttpResponseMessage(msgKey, data);
+
+        if (httpMessage?.trim() !== '')
+          return httpMessage;
+      }
+    }
+
+    if (!httpMessage) {
+      httpMessage = Utilities.findHttpResponseMessage('error', data);
+    }
+
+    if (!httpMessage) {
+      const responseMessages = Utilities.getHttpResponseMessages(data);
+
+      if (responseMessages.length)
+        httpMessage = responseMessages.join('\n');
+    }
 
     return httpMessage;
   }
 
-  public static findHttpResponseMessage(messageToFind: string, data: HttpResponseBase, searchInCaptionOnly = true, includeCaptionInResult = false): string | null {
-    const searchString = messageToFind.toLowerCase();
+  public static findHttpResponseMessage(searchString: string, data: HttpResponseBase,
+    searchOptions?: HttpMessageSearchOptions): string | null {
+
+    searchString = searchString.toUpperCase();
+    searchOptions = { ...this.findHttpResponseMessageDefaultSearchOption, ...searchOptions };
+
+    let result: string | null = null;
+    let captionAndMessage = { caption: '', message: null as string | null };
     const httpMessages = this.getHttpResponseMessages(data);
 
-    for (const message of httpMessages) {
-      const fullMessage = Utilities.splitInTwo(message, this.captionAndMessageSeparator);
+    for (const httpMsg of httpMessages) {
+      const splitMsg = Utilities.splitInTwo(httpMsg, this.captionAndMessageSeparator);
+      captionAndMessage = { caption: splitMsg.firstPart, message: splitMsg.secondPart ?? null };
 
-      if (fullMessage.firstPart && fullMessage.firstPart.toLowerCase().indexOf(searchString) !== -1) {
-        return includeCaptionInResult ? message : fullMessage.secondPart || fullMessage.firstPart;
+      let messageToSearch = '';
+
+      if (searchOptions.searchInCaption && searchOptions.searchInMessage)
+        messageToSearch = httpMsg;
+      else if (searchOptions.searchInCaption)
+        messageToSearch = captionAndMessage.caption;
+      else if (searchOptions.searchInMessage)
+        messageToSearch = captionAndMessage.message ?? '';
+
+      messageToSearch = messageToSearch.toUpperCase();
+
+      if (searchOptions.exactMatch && messageToSearch === searchString) {
+        result = httpMsg;
+        break;
+      }
+
+      if (searchOptions.startsWith && messageToSearch.startsWith(searchString)) {
+        result = httpMsg;
+        break;
+      }
+
+      if (searchOptions.endsWith && messageToSearch.endsWith(searchString)) {
+        result = httpMsg;
+        break;
+      }
+
+      if (searchOptions.contains && messageToSearch.includes(searchString)) {
+        result = httpMsg;
+        break;
       }
     }
 
-    if (!searchInCaptionOnly) {
-      for (const message of httpMessages) {
-        if (message.toLowerCase().indexOf(searchString) !== -1) {
-          if (includeCaptionInResult) {
-            return message;
-          } else {
-            const fullMessage = Utilities.splitInTwo(message, this.captionAndMessageSeparator);
-            return fullMessage.secondPart || fullMessage.firstPart;
-          }
-        }
+    if (result && searchOptions.resultType)
+      switch (searchOptions.resultType) {
+        case 'preferMessage':
+          return captionAndMessage.message ?? captionAndMessage.caption;
+        case 'caption':
+          return captionAndMessage.caption;
+        case 'both':
+          return result;
       }
-    }
-
-    return null;
+    else
+      return result;
   }
 
-  public static getResponseData(response: HttpResponseBase, simplify = false) {
+  public static getResponseData(response: HttpResponseBase) {
     let results;
 
     if (response instanceof HttpResponse) {
@@ -157,14 +228,10 @@ export class Utilities {
 
     if (response instanceof HttpErrorResponse) {
       results = response.error || response.message || response.statusText;
-
-      if (simplify && typeof results === 'object')
-        results = this.safeStringify(results)?.replaceAll('{', '').replaceAll('}', '');
     }
 
     return results;
   }
-
 
   public static checkNoNetwork(response: HttpResponseBase) {
     if (response instanceof HttpResponseBase) {
@@ -230,27 +297,41 @@ export class Utilities {
     return { firstPart: part1, secondPart: part2 };
   }
 
+  public static stringify(value: unknown, depth = 3): string {
+    const worker = (value: unknown, depth: number, padding = ''): string => {
+      if (value === null || value === undefined) {
+        return '';
+      }
 
-  public static safeStringify(value: unknown): string {
-    try {
-      return JSON.stringify(value);
-    } catch {
-      const simpleObject: { [key: string]: unknown } = {};
+      if (typeof value === 'object') {
+        const objectobject = '[object Object]';
 
-      if (typeof value === 'object' && value !== null) {
-        for (const prop in value) {
-          if (Object.prototype.hasOwnProperty.call(value, prop)) {
-            const propertyValue = value[prop as keyof object];
+        const result = value.toString();
+        if (result !== objectobject)
+          return result;
 
-            if (typeof propertyValue !== 'object' && typeof propertyValue !== 'function') {
-              simpleObject[prop] = propertyValue;
+        const keyValuePairs = [];
+        let tab = `\n${padding}`;
+
+        for (const key in value) {
+          if (Object.prototype.hasOwnProperty.call(value, key)) {
+            const keyEntry = value[key as keyof object];
+
+            if (typeof keyEntry !== 'function') {
+              const keyValue = depth > 0 ? worker(keyEntry, depth - 1, padding + ' ') : String(keyEntry);
+              keyValuePairs.push(`${tab}${key}: ${keyValue === objectobject ? '...' : keyValue}`);
+              tab = padding;
             }
           }
         }
+
+        return keyValuePairs.join('\n');
       }
 
-      return `[***Pruned Object***]: ${JSON.stringify(simpleObject)}`;
+      return String(value);
     }
+
+    return worker(value, depth); //.replace(/^\s+/, '');
   }
 
   public static JsonTryParse(value: string) {

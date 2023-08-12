@@ -114,7 +114,7 @@ export class UserInfoComponent implements OnInit {
   private onCurrentUserDataLoadFailed(error: HttpErrorResponse) {
     this.alertService.stopLoadingMessage();
     this.alertService.showStickyMessage('Load Error',
-      `Unable to retrieve user data from the server.\r\nErrors: "${Utilities.getHttpResponseMessages(error)}"`,
+      `Unable to retrieve user data from the server.\r\nError: "${Utilities.getHttpResponseMessage(error)}"`,
       MessageSeverity.error, error);
 
     this.user = new User();
