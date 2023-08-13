@@ -1,9 +1,8 @@
-// ======================================
-// Author: Ebenezer Monney
-// Copyright (c) 2023 www.ebenmonney.com
-// 
-// ==> Gun4Hire: contact@ebenmonney.com
-// ======================================
+// ---------------------------------------
+// Email: quickapp@ebenmonney.com
+// Templates: www.ebenmonney.com/templates
+// (c) 2023 www.ebenmonney.com/mit-license
+// ---------------------------------------
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';

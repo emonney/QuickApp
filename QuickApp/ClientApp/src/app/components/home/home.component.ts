@@ -1,9 +1,8 @@
-// ======================================
-// Author: Ebenezer Monney
-// Copyright (c) 2023 www.ebenmonney.com
-// 
-// ==> Gun4Hire: contact@ebenmonney.com
-// ======================================
+// ---------------------------------------
+// Email: quickapp@ebenmonney.com
+// Templates: www.ebenmonney.com/templates
+// (c) 2023 www.ebenmonney.com/mit-license
+// ---------------------------------------
 
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
