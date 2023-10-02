@@ -134,7 +134,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     if (error === 'invalid_grant') {
-      return 'This account has been disabled';
+      return 'Invalid login details or state';
     }
 
     return error;

@@ -80,7 +80,7 @@
       </div>
       <div *ngIf="isEditMode" [class.col-lg-9]="isViewOnly" [class.col-lg-10]="!isViewOnly">
         <input type="text" attr.id="email-{{uniqueId}}" name="email" placeholder="Enter email address" class="form-control" [ngClass]="{'is-valid': f.submitted && email.valid, 'is-invalid' : f.submitted && !email.valid}"
-               [(ngModel)]="userEdit.email" #email="ngModel" required maxlength="200" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" />
+               [(ngModel)]="userEdit.email" #email="ngModel" required maxlength="200" pattern="^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+$" />
         <span *ngIf="showValidationErrors && f.submitted && email.errors?.['required']" class="invalid-feedback">
           {{'users.editor.EmailRequired' | translate}}
         </span>

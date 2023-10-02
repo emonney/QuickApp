@@ -17,23 +17,22 @@
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 	  
-    <PackageReference Include="Duende.IdentityServer" Version="6.3.2" />
-    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.3.2" />
-	  
-    <PackageReference Include="IdentityServer.ExtensionGrant.Delegation" Version="2.2.0" />
-	  
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-    <PackageReference Include="MailKit" Version="4.0.0" />
+    <PackageReference Include="MailKit" Version="4.1.0" />
 	  
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="7.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="7.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="OpenIddict.AspNetCore" Version="4.7.0" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="4.7.0" />
+    <PackageReference Include="OpenIddict.Quartz" Version="4.7.0" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.7.0" />
 	  
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />

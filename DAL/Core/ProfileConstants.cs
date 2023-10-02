@@ -30,10 +30,4 @@ namespace DAL.Core
         ///<summary>A property that specifies the configuration/customizations of an entity</summary>
         public const string Configuration = "configuration";
     }
-
-    public static class ScopeConstants
-    {
-        ///<summary>A scope that specifies the roles of an entity</summary>
-        public const string Roles = "roles";
-    }
 }

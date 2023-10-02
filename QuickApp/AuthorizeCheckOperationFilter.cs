@@ -37,7 +37,7 @@ namespace QuickApp
                 {
                     new OpenApiSecurityRequirement
                     {
-                        [oAuthScheme] = new [] { IdentityServerConfig.ApiName}
+                        [oAuthScheme] = new string[] { }
                     }
                 };
             }

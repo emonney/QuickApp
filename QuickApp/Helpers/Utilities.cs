@@ -4,11 +4,11 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using IdentityModel;
 using System;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace QuickApp.Helpers
 {
@@ -29,13 +29,13 @@ namespace QuickApp.Helpers
 
         public static string GetUserId(ClaimsPrincipal user)
         {
-            return user.FindFirstValue(JwtClaimTypes.Subject)?.Trim();
+            return user.FindFirstValue(Claims.Subject)?.Trim();
         }
 
-        public static string[] GetRoles(ClaimsPrincipal identity)
+        public static string[] GetRoles(ClaimsPrincipal user)
         {
-            return identity.Claims
-                .Where(c => c.Type == JwtClaimTypes.Role)
+            return user.Claims
+                .Where(c => c.Type == Claims.Role)
                 .Select(c => c.Value)
                 .ToArray();
         }

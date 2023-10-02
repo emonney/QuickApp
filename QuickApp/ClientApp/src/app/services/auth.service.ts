@@ -15,7 +15,7 @@ import { ConfigurationService } from './configuration.service';
 import { DBkeys } from './db-keys';
 import { JwtHelper } from './jwt-helper';
 import { Utilities } from './utilities';
-import { AccessToken, LoginResponse } from '../models/login-response.model';
+import { IdToken, LoginResponse } from '../models/login-response.model';
 import { User } from '../models/user.model';
 import { PermissionValues } from '../models/permission.model';
 
@@ -111,7 +111,13 @@ export class AuthService {
   }
 
   private processLoginResponse(response: LoginResponse, rememberMe?: boolean) {
+    const idToken = response.id_token;
     const accessToken = response.access_token;
+    const refreshToken = response.refresh_token;
+
+    if (idToken == null) {
+      throw new Error('idToken cannot be null');
+    }
 
     if (accessToken == null) {
       throw new Error('accessToken cannot be null');
@@ -119,29 +125,27 @@ export class AuthService {
 
     rememberMe = rememberMe ?? this.rememberMe;
 
-    const refreshToken = response.refresh_token ?? this.refreshToken;
-    const expiresIn = response.expires_in;
-    const tokenExpiryDate = new Date();
-    tokenExpiryDate.setSeconds(tokenExpiryDate.getSeconds() + expiresIn);
-    const accessTokenExpiry = tokenExpiryDate;
-    const jwtHelper = new JwtHelper();
-    const decodedAccessToken = jwtHelper.decodeToken(accessToken) as AccessToken;
+    const accessTokenExpiry = new Date();
+    accessTokenExpiry.setSeconds(accessTokenExpiry.getSeconds() + response.expires_in);
 
-    const permissions: PermissionValues[] = Array.isArray(decodedAccessToken.permission) ?
-      decodedAccessToken.permission : [decodedAccessToken.permission];
+    const jwtHelper = new JwtHelper();
+    const decodedIdToken = jwtHelper.decodeToken(idToken) as IdToken;
+
+    const permissions: PermissionValues[] = Array.isArray(decodedIdToken.permission) ?
+      decodedIdToken.permission : [decodedIdToken.permission];
 
     if (!this.isLoggedIn) {
-      this.configurations.import(decodedAccessToken.configuration);
+      this.configurations.import(decodedIdToken.configuration);
     }
 
     const user = new User(
-      decodedAccessToken.sub,
-      decodedAccessToken.name,
-      decodedAccessToken.fullname,
-      decodedAccessToken.email,
-      decodedAccessToken.jobtitle,
-      decodedAccessToken.phone_number,
-      Array.isArray(decodedAccessToken.role) ? decodedAccessToken.role : [decodedAccessToken.role]);
+      decodedIdToken.sub,
+      decodedIdToken.name,
+      decodedIdToken.fullname,
+      decodedIdToken.email,
+      decodedIdToken.jobtitle,
+      decodedIdToken.phone_number,
+      Array.isArray(decodedIdToken.role) ? decodedIdToken.role : [decodedIdToken.role]);
 
     user.isEnabled = true;
 

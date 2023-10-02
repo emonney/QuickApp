@@ -14,7 +14,7 @@ import { LoginResponse } from '../models/login-response.model';
 @Injectable()
 export class OidcHelperService {
   private readonly clientId = 'quickapp_spa';
-  private readonly scope = 'openid email phone profile offline_access roles quickapp_api';
+  private readonly scope = 'openid email phone profile offline_access roles';
 
   private readonly tokenEndpoint = '/connect/token';
 

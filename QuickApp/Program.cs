@@ -8,8 +8,6 @@ using DAL;
 using DAL.Core;
 using DAL.Core.Interfaces;
 using DAL.Models;
-using IdentityModel;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,19 +20,22 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
+using OpenIddict.Validation.AspNetCore;
+using Quartz;
 using QuickApp.Authorization;
 using QuickApp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 using AppPermissions = DAL.Core.ApplicationPermissions;
 
 namespace QuickApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
             AddServices(builder);// Add services to the container.
@@ -42,9 +43,9 @@ namespace QuickApp
             var app = builder.Build();
             ConfigureRequestPipeline(app); // Configure the HTTP request pipeline.
 
-            SeedDatabase(app); //Seed initial database
+            await SeedDatabase(app); //Seed initial database
 
-            app.Run();
+            await app.RunAsync();
         }
 
         private static void AddServices(WebApplicationBuilder builder)
@@ -52,12 +53,13 @@ namespace QuickApp
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
                             throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-            var authServerUrl = builder.Configuration["AuthServerUrl"].TrimEnd('/');
-
             var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name; //QuickApp
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString, b => b.MigrationsAssembly(migrationsAssembly)));
+            {
+                options.UseSqlServer(connectionString, b => b.MigrationsAssembly(migrationsAssembly));
+                options.UseOpenIddict();
+            });
 
             // add identity
             builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
@@ -80,38 +82,65 @@ namespace QuickApp
                 //// Lockout settings
                 //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 //options.Lockout.MaxFailedAccessAttempts = 10;
+
+                // Configure Identity to use the same JWT claims as OpenIddict
+                options.ClaimsIdentity.UserNameClaimType = Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = Claims.Role;
+                options.ClaimsIdentity.EmailClaimType = Claims.Email;
             });
 
-            // Adds IdentityServer.
-            builder.Services.AddIdentityServer(o =>
+            // Configure OpenIddict periodic pruning of orphaned authorizations/tokens from the database.
+            builder.Services.AddQuartz(options =>
             {
-                o.IssuerUri = authServerUrl;
-            })
-              .AddInMemoryPersistedGrants()
-              // To configure IdentityServer to use EntityFramework (EF) as the storage mechanism
-              // see https://www.ebenmonney.com/configure-identityserver-to-use-entityframework-for-storage
-              .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
-              .AddInMemoryApiScopes(IdentityServerConfig.GetApiScopes())
-              .AddInMemoryApiResources(IdentityServerConfig.GetApiResources())
-              .AddInMemoryClients(IdentityServerConfig.GetClients())
-              .AddAspNetIdentity<ApplicationUser>()
-              .AddProfileService<ProfileService>();
+                options.UseSimpleTypeLoader();
+                options.UseInMemoryStore();
+            });
+
+            // Register the Quartz.NET service and configure it to block shutdown until jobs are complete.
+            builder.Services.AddQuartzHostedService(options => options.WaitForJobsToComplete = true);
+
+            builder.Services.AddOpenIddict()
+                .AddCore(options =>
+                {
+                    options.UseEntityFrameworkCore()
+                           .UseDbContext<ApplicationDbContext>();
+
+                    options.UseQuartz();
+                })
+                .AddServer(options =>
+                {
+                    options.SetTokenEndpointUris("connect/token");
+
+                    options.AllowPasswordFlow()
+                           .AllowRefreshTokenFlow();
+
+                    options.RegisterScopes(
+                        Scopes.Profile,
+                        Scopes.Email,
+                        Scopes.Address,
+                        Scopes.Phone,
+                        Scopes.Roles);
+
+                    // https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
+                    options.AddDevelopmentEncryptionCertificate()
+                           .AddDevelopmentSigningCertificate();
+
+                    options.UseAspNetCore()
+                           .EnableTokenEndpointPassthrough();
+                })
+                .AddValidation(options =>
+                {
+                    options.UseLocalServer();
+                    options.UseAspNetCore();
+                });
 
             builder.Services.AddAuthentication(o =>
             {
-                o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(options =>
-                {
-                    options.Authority = authServerUrl; // base-address of your identityserver
-                    options.TokenValidationParameters.ValidateAudience = false;
-                    options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
-                    options.MapInboundClaims = false;
-                    options.TokenValidationParameters.NameClaimType = JwtClaimTypes.Name;
-                    options.TokenValidationParameters.RoleClaimType = JwtClaimTypes.Role;
-                });
+                o.DefaultScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+                o.DefaultAuthenticateScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+            });
 
             builder.Services.AddAuthorization(options =>
             {
@@ -132,7 +161,7 @@ namespace QuickApp
 
             builder.Services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = IdentityServerConfig.ApiFriendlyName, Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = OidcConfiguration.ApiFriendlyName, Version = "v1" });
                 c.OperationFilter<AuthorizeCheckOperationFilter>();
                 c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
@@ -141,11 +170,7 @@ namespace QuickApp
                     {
                         Password = new OpenApiOAuthFlow
                         {
-                            TokenUrl = new Uri("/connect/token", UriKind.Relative),
-                            Scopes = new Dictionary<string, string>
-                            {
-                                { IdentityServerConfig.ApiName, IdentityServerConfig.ApiFriendlyName }
-                            }
+                            TokenUrl = new Uri("/connect/token", UriKind.Relative)
                         }
                     }
                 });
@@ -201,16 +226,15 @@ namespace QuickApp
                 .AllowAnyHeader()
                 .AllowAnyMethod());
 
-            app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.DocumentTitle = "Swagger UI - QuickApp";
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{IdentityServerConfig.ApiFriendlyName} V1");
-                c.OAuthClientId(IdentityServerConfig.SwaggerClientID);
-                c.OAuthClientSecret("no_password"); //Leaving it blank doesn't work
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{OidcConfiguration.ApiFriendlyName} V1");
+                c.OAuthClientId(OidcConfiguration.SwaggerClientID);
             });
 
             app.MapControllerRoute(
@@ -226,20 +250,20 @@ namespace QuickApp
             app.MapFallbackToFile("index.html");
         }
 
-        private static void SeedDatabase(WebApplication app)
+        private static async Task SeedDatabase(WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
             {
-                var services = scope.ServiceProvider;
-
                 try
                 {
-                    var databaseInitializer = services.GetRequiredService<IDatabaseInitializer>();
-                    databaseInitializer.SeedAsync().Wait();
+                    var databaseInitializer = scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>();
+                    await databaseInitializer.SeedAsync();
+
+                    await OidcConfiguration.RegisterApplicationsAsync(scope.ServiceProvider);
                 }
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
                     logger.LogCritical(LoggingEvents.INIT_DATABASE, ex, LoggingEvents.INIT_DATABASE.Name);
 
                     throw new Exception(LoggingEvents.INIT_DATABASE.Name, ex);
