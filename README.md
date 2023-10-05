@@ -10,7 +10,7 @@ As well as other common functionalities for **Quick Application Development**.
 
 ###### NOTE: Please post support related topics in the [help & support forum](https://www.ebenmonney.com/support/forum/product-support). For bug reports open an [issue on github](https://github.com/emonney/QuickApp/issues). 
 
-[LIVE DEMO](http://quickapp.ebenmonney.com) | [MORE TEMPLATES](https://www.ebenmonney.com/templates)
+[LIVE DEMO](https://quickapp-standard.azurewebsites.net) | [MORE TEMPLATES](https://www.ebenmonney.com/templates)
 [![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
 
 ___
