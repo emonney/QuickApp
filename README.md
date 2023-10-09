@@ -25,6 +25,8 @@ ___
 [Get QuickApp PRO](https://www.ebenmonney.com/product/quickapp-pro) | [Live Demo](http://quickapp-pro.ebenmonney.com/)
 
 [Get QuickApp STANDARD](https://www.ebenmonney.com/product/quickapp-standard) | [Live Demo](http://quickapp-standard.ebenmonney.com/)
+
+[Sponsor this project](https://github.com/sponsors/emonney) and get access to the private repos of QuickApp Pro and QuickApp Standard!
 ___
 
 
