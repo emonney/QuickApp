@@ -34,7 +34,7 @@ ___
 *   Template pages with Angular 16 and TypeScript
 *   RESTful API Backend using ASP.NET Core 7 Web API
 *   Database using Entity Framework Core
-*   Authentication based on IdentityServer and ASP.NET Core Identity
+*   Authentication/Authorization based on OIDC/OAuth2 and ASP.NET Core Identity
 *   API Documentation using Swagger
 *   Angular CLI for managing client-side libraries
 *   Theming using Bootstrap 5
