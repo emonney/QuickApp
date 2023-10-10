@@ -10,7 +10,7 @@
     <Copyright>Copyright © 2023 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://www.ebenmonney.com/quickapp</PackageProjectUrl>
     <Company>EBENMONNEY</Company>
-    <Version>7.4.0</Version>
+    <Version>7.6.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

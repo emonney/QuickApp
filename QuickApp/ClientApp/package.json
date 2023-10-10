@@ -1,6 +1,6 @@
 {
   "name": "quickapp",
-  "version": "7.4.0",
+  "version": "7.6.0",
   "description": "ASP.NET Core 7.0/Angular 16 startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
   "author": {
     "name": "Ebenezer Monney",

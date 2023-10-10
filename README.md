@@ -6,16 +6,12 @@
 A startup **Angular 16 / ASP.NET Core 7** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
 As well as other common functionalities for **Quick Application Development**.
 
-[FOLLOW ME](https://twitter.com/kommand) on twitter for important updates
+[LIVE DEMO](https://quickapp-standard.azurewebsites.net)
 
-###### NOTE: Please post support related topics in the [help & support forum](https://www.ebenmonney.com/support/forum/product-support). For bug reports open an [issue on github](https://github.com/emonney/QuickApp/issues). 
-
-[LIVE DEMO](https://quickapp-standard.azurewebsites.net) | [MORE TEMPLATES](https://www.ebenmonney.com/templates)
 [![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
 
 ___
-## INTRODUCING QUICKAPP PREMIUM TEMPLATES
-*   All free features
+## [MORE TEMPLATES](https://www.ebenmonney.com/templates)
 *   Angular Material
 *	Reactive forms
 *	Public Registration, Password Recovery & Reset, Email Confirmation
@@ -47,16 +43,16 @@ ___
 *   Data Access Layer built with the Repository and Unit of Work Pattern
 *   Code First Database
 *   A RESTful API Design
-*   Angular Directives Quidance
-*   Angular Pipes Quidance
-*   Angular Animations Quidance
+*   Angular Directives Guidance
+*   Angular Pipes Guidance
+*   Angular Animations Guidance
 *   Angular Services
 *   Dialog and Notification Services
 *   Configuration Page and Configuration Service
 *   Integrated Internationalization
 *   Theming with SASS
 *   Ready-to-use email API
-*   Handling Access and Refresh Tokens with WebStorage (Bearer authentication) - No Cookies
+*   Handling Access and Refresh Tokens with WebStorage (Bearer authentication)
 *   CRUD APIs
 *   Responsive Design
 *   Etc.
@@ -110,18 +106,18 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 
 ## Contribution
 
-QuickApp is actively maintained by [Ebenezer Monney](https://github.com/emonney) on [GitHub](https://github.com/emonney/QuickApp). You can support it by
+QuickApp is actively maintained on [GitHub](https://github.com/emonney/QuickApp). You can support it by
+*   [Sponsoring on GitHub](https://github.com/sponsors/emonney)
+*   Encouraging the developers by [rating it](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate#review-details) and [starring it](https://github.com/emonney/QuickApp)
 *   Submitting your changes/improvements/features using pull requests
 *   Suggesting ideas or areas of improvements
-*   Encouraging the developers by rating it/starring it
 *   Linking to it and recommending it to others
-*   [Making a donation](https://paypal.me/ebenmonney)
 
 
 ## License
 
 Released under the [MIT License](https://github.com/emonney/QuickApp/blob/master/LICENSE).
 
-[YOUR FEEDBACK](mailto:contact@ebenmonney.com) | [FOLLOW ME](https://twitter.com/kommand)
+[YOUR FEEDBACK](mailto:feedback@ebenmonney.com) | [FOLLOW ME](https://twitter.com/kommand)
 
 ### _**If you found this template useful, please take a minute to [rate it](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate#review-details). Appreciated!**_
