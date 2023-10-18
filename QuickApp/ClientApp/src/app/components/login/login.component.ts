@@ -133,10 +133,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       return 'Invalid username or password';
     }
 
-    if (error === 'invalid_grant') {
-      return 'Invalid login details or state';
-    }
-
     return error;
   }
 

@@ -7,18 +7,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenIddict.Abstractions;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
-namespace QuickApp
+namespace QuickApp.OIDC
 {
-    public class OidcConfiguration
+    public class OidcServerManager
     {
         public const string ApiFriendlyName = "QuickApp API";
         public const string QuickAppClientID = "quickapp_spa";
         public const string SwaggerClientID = "swagger_ui";
-
 
         public static async Task RegisterApplicationsAsync(IServiceProvider provider)
         {

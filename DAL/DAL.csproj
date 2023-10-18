@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Version>7.6.0</Version>
+    <Version>7.6.1</Version>
     <Description>Data Access Layer for the Quick Application template</Description>
     <Copyright>Copyright © 2023 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://www.ebenmonney.com/quickapp</PackageProjectUrl>
@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.13" />
   </ItemGroup>
 
 </Project>

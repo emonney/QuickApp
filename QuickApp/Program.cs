@@ -24,8 +24,8 @@ using OpenIddict.Validation.AspNetCore;
 using Quartz;
 using QuickApp.Authorization;
 using QuickApp.Helpers;
+using QuickApp.OIDC;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using static OpenIddict.Abstractions.OpenIddictConstants;
@@ -122,9 +122,9 @@ namespace QuickApp
                         Scopes.Phone,
                         Scopes.Roles);
 
-                    // https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
-                    options.AddDevelopmentEncryptionCertificate()
-                           .AddDevelopmentSigningCertificate();
+                    // For persisted keys see https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
+                    options.AddEphemeralEncryptionKey()
+                           .AddEphemeralSigningKey();
 
                     options.UseAspNetCore()
                            .EnableTokenEndpointPassthrough();
@@ -161,7 +161,7 @@ namespace QuickApp
 
             builder.Services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = OidcConfiguration.ApiFriendlyName, Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = OidcServerManager.ApiFriendlyName, Version = "v1" });
                 c.OperationFilter<AuthorizeCheckOperationFilter>();
                 c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
@@ -233,8 +233,8 @@ namespace QuickApp
             app.UseSwaggerUI(c =>
             {
                 c.DocumentTitle = "Swagger UI - QuickApp";
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{OidcConfiguration.ApiFriendlyName} V1");
-                c.OAuthClientId(OidcConfiguration.SwaggerClientID);
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{OidcServerManager.ApiFriendlyName} V1");
+                c.OAuthClientId(OidcServerManager.SwaggerClientID);
             });
 
             app.MapControllerRoute(
@@ -259,7 +259,7 @@ namespace QuickApp
                     var databaseInitializer = scope.ServiceProvider.GetRequiredService<IDatabaseInitializer>();
                     await databaseInitializer.SeedAsync();
 
-                    await OidcConfiguration.RegisterApplicationsAsync(scope.ServiceProvider);
+                    await OidcServerManager.RegisterApplicationsAsync(scope.ServiceProvider);
                 }
                 catch (Exception ex)
                 {

@@ -4,10 +4,6 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using DAL.Core;
 using DAL.Models;
 using Microsoft.AspNetCore;
@@ -16,8 +12,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using static OpenIddict.Abstractions.OpenIddictConstants;
-
 
 namespace QuickApp.Controllers
 {
@@ -89,7 +88,7 @@ namespace QuickApp.Controllers
                 return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
             }
 
-            throw new InvalidOperationException($"The specified grant type \"{request.GrantType}\" is not implemented.");
+            throw new InvalidOperationException($"The specified grant type \"{request.GrantType}\" is not supported.");
         }
 
         private ForbidResult GetForbidResult(string errorDescription, string error = Errors.InvalidGrant)
@@ -179,6 +178,5 @@ namespace QuickApp.Controllers
                     yield break;
             }
         }
-
     }
 }
