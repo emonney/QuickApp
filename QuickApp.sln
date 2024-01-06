@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickApp", "QuickApp\QuickApp.csproj", "{8FD3A1CC-28FA-4298-A847-21F907B566F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickApp.Server", "QuickApp.Server\QuickApp.Server.csproj", "{8FD3A1CC-28FA-4298-A847-21F907B566F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{47A06C37-BEBE-4B67-9591-A4067E6C8398}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickApp.Core", "QuickApp.Core\QuickApp.Core.csproj", "{47A06C37-BEBE-4B67-9591-A4067E6C8398}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ED3C8804-50EE-42D4-BA61-20D0DEFAF5B3}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "quickapp.client", "quickapp.client\quickapp.client.esproj", "{DB63B488-C86B-4FBB-8133-BC65555516D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,6 +30,12 @@ Global
 		{47A06C37-BEBE-4B67-9591-A4067E6C8398}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47A06C37-BEBE-4B67-9591-A4067E6C8398}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47A06C37-BEBE-4B67-9591-A4067E6C8398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB63B488-C86B-4FBB-8133-BC65555516D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB63B488-C86B-4FBB-8133-BC65555516D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB63B488-C86B-4FBB-8133-BC65555516D5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{DB63B488-C86B-4FBB-8133-BC65555516D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB63B488-C86B-4FBB-8133-BC65555516D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB63B488-C86B-4FBB-8133-BC65555516D5}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
