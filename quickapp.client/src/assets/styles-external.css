@@ -59,7 +59,7 @@
   text-align: center;
 }
 
-  .cs-loader-inner label {
+  .cs-loader-inner span {
     font-size: 20px;
     opacity: 0;
     display: inline-block;
@@ -110,32 +110,32 @@
   }
 }
 
-.cs-loader-inner label:nth-child(6) {
+.cs-loader-inner span:nth-child(6) {
   -webkit-animation: lol 3s infinite ease-in-out;
   animation: lol 3s infinite ease-in-out;
 }
 
-.cs-loader-inner label:nth-child(5) {
+.cs-loader-inner span:nth-child(5) {
   -webkit-animation: lol 3s 100ms infinite ease-in-out;
   animation: lol 3s 100ms infinite ease-in-out;
 }
 
-.cs-loader-inner label:nth-child(4) {
+.cs-loader-inner span:nth-child(4) {
   -webkit-animation: lol 3s 200ms infinite ease-in-out;
   animation: lol 3s 200ms infinite ease-in-out;
 }
 
-.cs-loader-inner label:nth-child(3) {
+.cs-loader-inner span:nth-child(3) {
   -webkit-animation: lol 3s 300ms infinite ease-in-out;
   animation: lol 3s 300ms infinite ease-in-out;
 }
 
-.cs-loader-inner label:nth-child(2) {
+.cs-loader-inner span:nth-child(2) {
   -webkit-animation: lol 3s 400ms infinite ease-in-out;
   animation: lol 3s 400ms infinite ease-in-out;
 }
 
-.cs-loader-inner label:nth-child(1) {
+.cs-loader-inner span:nth-child(1) {
   -webkit-animation: lol 3s 500ms infinite ease-in-out;
   animation: lol 3s 500ms infinite ease-in-out;
 }

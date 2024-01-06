@@ -4,34 +4,26 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using DAL.Models;
-
 namespace QuickApp.Core.Models.Shop
 {
-    public class Product : AuditableEntity
+    public class Product : BaseEntity
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Icon { get; set; }
+        public required string Name { get; set; }
+        public string? Description { get; set; }
+        public string? Icon { get; set; }
         public decimal BuyingPrice { get; set; }
         public decimal SellingPrice { get; set; }
         public int UnitsInStock { get; set; }
         public bool IsActive { get; set; }
         public bool IsDiscontinued { get; set; }
-        public DateTime DateCreated { get; set; }
-        public DateTime DateModified { get; set; }
 
         public int? ParentId { get; set; }
-        public Product Parent { get; set; }
+        public Product? Parent { get; set; }
 
         public int ProductCategoryId { get; set; }
-        public ProductCategory ProductCategory { get; set; }
+        public required ProductCategory ProductCategory { get; set; }
 
-        public ICollection<Product> Children { get; set; }
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        public ICollection<Product> Children { get; } = new List<Product>();
+        public ICollection<OrderDetail> OrderDetails { get; } = new List<OrderDetail>();
     }
 }

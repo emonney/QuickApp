@@ -31,6 +31,9 @@ import { AccountEndpoint } from './services/account-endpoint.service';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [
+        AppComponent
+      ],
       imports: [
         HttpClientModule,
         FormsModule,
@@ -43,9 +46,6 @@ describe('AppComponent', () => {
         }),
         NgxDatatableModule,
         ToastaModule.forRoot()
-      ],
-      declarations: [
-        AppComponent
       ],
       providers: [
         AuthService,

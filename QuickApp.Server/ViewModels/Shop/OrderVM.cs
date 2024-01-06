@@ -4,15 +4,12 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using System;
-using System.Linq;
-
 namespace QuickApp.Server.ViewModels.Shop
 {
-    public class OrderViewModel
+    public class OrderVM
     {
         public int Id { get; set; }
         public decimal Discount { get; set; }
-        public string Comments { get; set; }
+        public string? Comments { get; set; }
     }
 }

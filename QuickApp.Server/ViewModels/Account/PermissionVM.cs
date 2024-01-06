@@ -4,22 +4,25 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using QuickApp.Core.Services.Account;
-using System;
-using System.Linq;
+using QuickApp.Core.Models.Account;
+using System.Diagnostics.CodeAnalysis;
 
 namespace QuickApp.Server.ViewModels.Account
 {
-    public class PermissionViewModel
+    public class PermissionVM
     {
-        public string Name { get; set; }
-        public string Value { get; set; }
-        public string GroupName { get; set; }
-        public string Description { get; set; }
+        public string? Name { get; set; }
+        public string? Value { get; set; }
+        public string? GroupName { get; set; }
+        public string? Description { get; set; }
 
-        public static explicit operator PermissionViewModel(ApplicationPermission permission)
+        [return: NotNullIfNotNull(nameof(permission))]
+        public static explicit operator PermissionVM?(ApplicationPermission? permission)
         {
-            return new PermissionViewModel
+            if (permission == null)
+                return null;
+
+            return new PermissionVM
             {
                 Name = permission.Name,
                 Value = permission.Value,

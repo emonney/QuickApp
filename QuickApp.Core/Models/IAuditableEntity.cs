@@ -4,14 +4,12 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using System;
-
 namespace QuickApp.Core.Models
 {
     public interface IAuditableEntity
     {
-        string CreatedBy { get; set; }
-        string UpdatedBy { get; set; }
+        string? CreatedBy { get; set; }
+        string? UpdatedBy { get; set; }
         DateTime CreatedDate { get; set; }
         DateTime UpdatedDate { get; set; }
     }

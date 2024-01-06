@@ -5,47 +5,43 @@
 // ---------------------------------------
 
 using AutoMapper;
-using DAL;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using QuickApp.Core.Services;
+using QuickApp.Core.Services.Shop;
 using QuickApp.Server.Services.Email;
 using QuickApp.Server.ViewModels.Shop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace QuickApp.Controllers
+namespace QuickApp.Server.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class CustomerController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ICustomerService _customerService;
 
-        public CustomerController(IMapper mapper, IUnitOfWork unitOfWork, ILogger<CustomerController> logger, IEmailSender emailSender)
+        public CustomerController(IMapper mapper, ILogger<CustomerController> logger, IEmailSender emailSender,
+            ICustomerService customerService)
         {
             _mapper = mapper;
-            _unitOfWork = unitOfWork;
             _logger = logger;
             _emailSender = emailSender;
+            _customerService = customerService;
         }
 
-        // GET: api/values
         [HttpGet]
         public IActionResult Get()
         {
-            var allCustomers = _unitOfWork.Customers.GetAllCustomersData();
-            return Ok(_mapper.Map<IEnumerable<CustomerViewModel>>(allCustomers));
+            var allCustomers = _customerService.GetAllCustomersData();
+            return Ok(_mapper.Map<IEnumerable<CustomerVM>>(allCustomers));
         }
 
         [HttpGet("throw")]
-        public IEnumerable<CustomerViewModel> Throw()
+        public IEnumerable<CustomerVM> Throw()
         {
-            throw new InvalidOperationException($"This is a test exception: {DateTime.Now}");
+            throw new CustomerException($"This is a test exception: {DateTime.Now}");
         }
 
         [HttpGet("email")]
@@ -56,7 +52,8 @@ namespace QuickApp.Controllers
 
             var message = EmailTemplates.GetTestEmail(recipientName, DateTime.UtcNow);
 
-            (var success, var errorMsg) = await _emailSender.SendEmailAsync(recipientName, recipientEmail, "Test Email from QuickApp", message);
+            (var success, var errorMsg) = await _emailSender.SendEmailAsync(recipientName, recipientEmail,
+                "Test Email from QuickApp", message);
 
             if (success)
                 return "Success";
@@ -64,26 +61,22 @@ namespace QuickApp.Controllers
             return $"Error: {errorMsg}";
         }
 
-        // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return $"value: {id}";
         }
 
-        // POST api/values
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/values/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

@@ -4,14 +4,11 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using System;
-using System.Linq;
-
 namespace QuickApp.Server.ViewModels.Account
 {
-    public class ClaimViewModel
+    public class ClaimVM
     {
-        public string Type { get; set; }
-        public string Value { get; set; }
+        public string? Type { get; set; }
+        public string? Value { get; set; }
     }
 }

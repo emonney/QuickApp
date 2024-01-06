@@ -5,13 +5,10 @@
 // ---------------------------------------
 
 using QuickApp.Core.Models.Shop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace QuickApp.Core.Services.Shop.Interfaces
+namespace QuickApp.Core.Services.Shop
 {
-    public interface ICustomerRepository : IRepository<Customer>
+    public interface ICustomerService
     {
         IEnumerable<Customer> GetTopActiveCustomers(int count);
         IEnumerable<Customer> GetAllCustomersData();

@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 import { fadeInOut } from '../../services/animations';
 import { BootstrapTabDirective, EventArg } from '../../directives/bootstrap-tab.directive';
 import { AccountService } from '../../services/account.service';
-import { Permission } from '../../models/permission.model';
+import { Permissions } from '../../models/permission.model';
 
 
 @Component({
@@ -85,10 +85,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   get canViewUsers() {
-    return this.accountService.userHasPermission(Permission.viewUsers);
+    return this.accountService.userHasPermission(Permissions.viewUsers);
   }
 
   get canViewRoles() {
-    return this.accountService.userHasPermission(Permission.viewRoles);
+    return this.accountService.userHasPermission(Permissions.viewRoles);
   }
 }

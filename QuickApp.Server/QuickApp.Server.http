@@ -1,0 +1,149 @@
+@QuickApp.Server_HostAddress = https://localhost:7085
+@QuickApp.Client_HostAddress = https://localhost:4200
+@AccessToken = <Paste Access Token Here>
+
+#### This file enables you to test the APIs of QuickApp.
+#### You can also test the APIs with Swagger by appending "/swagger"" to the home url or by using postman
+#### See https://learn.microsoft.com/en-us/aspnet/core/test/http-files?view=aspnetcore-8.0 for more info on http files
+
+### Login to get access token
+POST {{QuickApp.Server_HostAddress}}/connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=swagger_ui&grant_type=password&username=admin&password=tempP@ss123
+
+#### User APIs ####
+
+### Get all users
+GET {{QuickApp.Server_HostAddress}}/api/account/users
+Accept: application/json
+Authorization: Bearer {{AccessToken}}
+
+### Get current user
+GET {{QuickApp.Server_HostAddress}}/api/account/users/me
+Accept: application/json
+Authorization: Bearer {{AccessToken}}
+
+### Get user with username "admin"
+GET {{QuickApp.Server_HostAddress}}/api/account/users/username/admin
+Accept: application/json
+Authorization: Bearer {{AccessToken}}
+
+### Register new user
+POST {{QuickApp.Server_HostAddress}}/api/account/users
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+    "userName": "test_1",
+    "email": "test_1@ebenmonney.com",
+    "isEnabled": true,
+    "newPassword": "testP@ss123",
+    "roles": ["administrator"]
+}
+
+### Delete an exisint user
+POST {{QuickApp.Server_HostAddress}}/api/account/users
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+    "userName": "test_1",
+    "email": "test_1@ebenmonney.com",
+    "isEnabled": true,
+    "newPassword": "testP@ss123",
+    "roles": ["administrator"]
+}
+
+### Update user with id "1445aa42-b5d3-4f2b-b702-8c2b9f526c0f"
+PUT {{QuickApp.Server_HostAddress}}/api/account/users/1445aa42-b5d3-4f2b-b702-8c2b9f526c0f
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+    "id": "1445aa42-b5d3-4f2b-b702-8c2b9f526c0f",
+    "userName": "admin",
+    "fullName": "Inbuilt Administrator",
+    "email": "admin@ebenmonney.com",
+    "isEnabled": true,
+    "isLockedOut": false,
+    "jobTitle": "Dr",
+    "phoneNumber": "+1 (123) 000-0000",
+    "roles": ["administrator"]
+}
+
+### Delete user with id "1445aa42-b5d3-4f2b-b702-8c2b9f526c0f"
+DELETE {{QuickApp.Server_HostAddress}}/api/account/users/a5ce6e4a-ccb9-4c73-b0bb-157f1c6672a9
+Authorization: Bearer {{AccessToken}}
+
+### Role APIs ####
+
+### Get all roles
+GET {{QuickApp.Server_HostAddress}}/api/account/roles
+Accept: application/json
+Authorization: Bearer {{AccessToken}}
+
+### Get current role
+GET {{QuickApp.Server_HostAddress}}/api/account/roles/7ededf4b-c535-4976-ad10-feb3e1aa681c
+Accept: application/json
+Authorization: Bearer {{AccessToken}}
+
+### Get role with rolename "admin"
+GET {{QuickApp.Server_HostAddress}}/api/account/roles/rolename/admin
+Accept: application/json
+Authorization: Bearer {{AccessToken}}
+
+### Register new role
+POST {{QuickApp.Server_HostAddress}}/api/account/roles
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+    "roleName": "test_1",
+    "email": "test_1@ebenmonney.com",
+    "isEnabled": true,
+    "newPassword": "testP@ss123",
+    "roles": ["administrator"]
+}
+
+### Delete an exisint role
+POST {{QuickApp.Server_HostAddress}}/api/account/roles
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+    "roleName": "test_1",
+    "email": "test_1@ebenmonney.com",
+    "isEnabled": true,
+    "newPassword": "testP@ss123",
+    "roles": ["administrator"]
+}
+
+### Update role with id "7ededf4b-c535-4976-ad10-feb3e1aa681c"
+PUT {{QuickApp.Server_HostAddress}}/api/account/roles/7ededf4b-c535-4976-ad10-feb3e1aa681c
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+    "id": "7ededf4b-c535-4976-ad10-feb3e1aa681c",
+    "roleName": "admin",
+    "fullName": "Inbuilt Administrator",
+    "email": "admin@ebenmonney.com",
+    "isEnabled": true,
+    "isLockedOut": false,
+    "jobTitle": "Dr",
+    "phoneNumber": "+1 (123) 000-0000",
+    "roles": ["administrator"]
+}
+
+### Delete role with id "7ededf4b-c535-4976-ad10-feb3e1aa681c"
+DELETE {{QuickApp.Server_HostAddress}}/api/account/roles/7ededf4b-c535-4976-ad10-feb3e1aa681c
+Authorization: Bearer {{AccessToken}}
+
+### Customer APIs ###
+
+### Get dummy customers
+GET {{QuickApp.Client_HostAddress}}/api/Customer
+Accept: */*
+
+###

@@ -36,8 +36,9 @@
           </li>
         </ul>
         <span class="navbar-text notifications-popup d-lg-none d-xl-inline-block">{{'app.Welcome' | translate}}</span>
-        <a class="nav-link user-name d-inline-block px-1" [ngbPopover]="popTemplate" (hidden)="markNotificationsAsRead()"
-           placement="bottom" [popoverTitle]="notificationsTitle" href="javascript:;" triggers="focus" popoverClass="notifications-popup">
+        <a class="nav-link user-name d-inline-block px-1" [ngbPopover]="popTemplate"
+           (hidden)="markNotificationsAsRead()" placement="bottom" [popoverTitle]="notificationsTitle"
+           href="javascript:;" triggers="focus" popoverClass="notifications-popup">
           {{userName}}
           <span *ngIf="newNotificationCount > 0" class="badge bg-secondary">{{newNotificationCount}}</span>
         </a>
@@ -47,7 +48,9 @@
         <span *ngIf="newNotificationCount > 0" class="navbar-text d-none d-lg-inline">, </span>
         <ul class="nav nav-pills flex-column flex-lg-row ms-lg-1">
           <li class="nav-item">
-            <a class="nav-link" href="javascript:;" (click)="logout()"><i class="fa fa-sign-out"></i> {{'mainMenu.Logout' | translate}}</a>
+            <a class="nav-link" href="javascript:;" (click)="logout()">
+              <i class="fa fa-sign-out"></i> {{'mainMenu.Logout' | translate}}
+            </a>
           </li>
         </ul>
       </div>
@@ -55,7 +58,9 @@
       <div *ngIf="!isUserLoggedIn" class="collapse navbar-collapse menuItemsContainer">
         <ul class="nav nav-pills flex-column flex-lg-row ms-auto">
           <li class="nav-item" routerLinkActive="active">
-            <a *ngIf="router.isActive('/about', false); else aboutPageNavTemplate" class="nav-link" routerLink="/login"><i class="fa fa-sign-in"></i></a>
+            <a *ngIf="router.isActive('/about', false); else aboutPageNavTemplate" class="nav-link" routerLink="/login">
+              <i class="fa fa-sign-in"></i>
+            </a>
             <ng-template #aboutPageNavTemplate>
               <a class="nav-link" routerLink="/about"><i class="fa fa-info-circle"></i></a>
             </ng-template>
@@ -71,7 +76,8 @@
         Loaded!
       </h1>
       <p>
-        QUICK APPLICATION SYSTEM - <span style="font-style:italic">quick</span>App &copy; <a class="text-link" href="https://www.ebenmonney.com">WWW.EBENMONNEY.COM</a>
+        QUICK APPLICATION SYSTEM - <span style="font-style:italic">quick</span>App &copy;
+        <a class="text-link" href="https://www.ebenmonney.com">WWW.EBENMONNEY.COM</a>
       </p>
 
     </div>
@@ -87,7 +93,8 @@
       <p class="text-center text-muted">
         <span style="font-style:italic">quick</span>App &copy; {{getYear()}}
         <a class="text-link" href="https://www.ebenmonney.com" target="_blank">www.ebenmonney.com</a>
-        <!--<span class="small display-none">- Powered by <a href="https://www.ebenmonney.com/quickapp" target="_blank"><span style="font-style:italic">quick</span>App</a></span>-->
+        <!--<span class="small display-none">- Powered by <a href="https://www.ebenmonney.com/quickapp"
+          target="_blank"><span style="font-style:italic">quick</span>App</a></span>-->
       </p>
     </div>
   </footer>

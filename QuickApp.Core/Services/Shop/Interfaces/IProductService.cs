@@ -4,13 +4,9 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using QuickApp.Core.Models.Shop;
-using System;
-using System.Linq;
-
-namespace QuickApp.Core.Services.Shop.Interfaces
+namespace QuickApp.Core.Services.Shop
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IProductService
     {
 
     }

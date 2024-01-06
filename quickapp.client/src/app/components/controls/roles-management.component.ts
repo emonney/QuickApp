@@ -13,7 +13,7 @@ import { AppTranslationService } from '../../services/app-translation.service';
 import { AccountService } from '../../services/account.service';
 import { Utilities } from '../../services/utilities';
 import { Role } from '../../models/role.model';
-import { Permission } from '../../models/permission.model';
+import { Permission, Permissions } from '../../models/permission.model';
 import { RoleEditorComponent } from './role-editor.component';
 
 
@@ -225,6 +225,6 @@ export class RolesManagementComponent implements OnInit {
   }
 
   get canManageRoles() {
-    return this.accountService.userHasPermission(Permission.manageRoles);
+    return this.accountService.userHasPermission(Permissions.manageRoles);
   }
 }

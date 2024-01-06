@@ -6,13 +6,11 @@
 
 using QuickApp.Core.Extensions;
 using QuickApp.Server.Attributes;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace QuickApp.Server.ViewModels.Account
 {
-    public class RoleViewModel : ISanitizeModel
+    public class RoleVM : ISanitizeModel
     {
         public virtual void SanitizeModel()
         {
@@ -21,15 +19,16 @@ namespace QuickApp.Server.ViewModels.Account
             Description = Description.NullIfWhiteSpace();
         }
 
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
-        [Required(ErrorMessage = "Role name is required"), StringLength(200, MinimumLength = 2, ErrorMessage = "Role name must be between 2 and 200 characters")]
-        public string Name { get; set; }
+        [Required(ErrorMessage = "Role name is required"),
+         StringLength(200, MinimumLength = 2, ErrorMessage = "Role name must be between 2 and 200 characters")]
+        public string? Name { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public int UsersCount { get; set; }
 
-        public PermissionViewModel[] Permissions { get; set; }
+        public PermissionVM[]? Permissions { get; set; }
     }
 }

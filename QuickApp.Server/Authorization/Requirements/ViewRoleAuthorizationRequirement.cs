@@ -6,7 +6,6 @@
 
 using Microsoft.AspNetCore.Authorization;
 using QuickApp.Core.Services.Account;
-using System.Threading.Tasks;
 
 namespace QuickApp.Server.Authorization.Requirements
 {
@@ -17,12 +16,14 @@ namespace QuickApp.Server.Authorization.Requirements
 
     public class ViewRoleAuthorizationHandler : AuthorizationHandler<ViewRoleAuthorizationRequirement, string>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ViewRoleAuthorizationRequirement requirement, string roleName)
+        protected override Task HandleRequirementAsync(
+            AuthorizationHandlerContext context, ViewRoleAuthorizationRequirement requirement, string roleName)
         {
             if (context.User == null)
                 return Task.CompletedTask;
 
-            if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ViewRoles) || context.User.IsInRole(roleName))
+            if (context.User.HasClaim(CustomClaims.Permission, ApplicationPermissions.ViewRoles)
+                || context.User.IsInRole(roleName))
                 context.Succeed(requirement);
 
             return Task.CompletedTask;

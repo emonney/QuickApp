@@ -4,17 +4,13 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using Microsoft.AspNetCore.Hosting;
-using System;
-using System.IO;
-
 namespace QuickApp.Server.Services.Email
 {
     public static class EmailTemplates
     {
-        private static IWebHostEnvironment _hostingEnvironment;
-        private static string testEmailTemplate;
-        private static string plainTextTestEmailTemplate;
+        private static IWebHostEnvironment? _hostingEnvironment;
+        private static string? testEmailTemplate;
+        private static string? plainTextTestEmailTemplate;
 
         public static void Initialize(IWebHostEnvironment hostingEnvironment)
         {
@@ -23,7 +19,7 @@ namespace QuickApp.Server.Services.Email
 
         public static string GetTestEmail(string recipientName, DateTime testDate)
         {
-            testEmailTemplate ??= ReadPhysicalFile("Helpers/Templates/TestEmail.template");
+            testEmailTemplate ??= ReadPhysicalFile("Services/Email/TestEmail.template");
 
             var emailMessage = testEmailTemplate
                 .Replace("{user}", recipientName)
@@ -34,7 +30,7 @@ namespace QuickApp.Server.Services.Email
 
         public static string GetPlainTextTestEmail(DateTime date)
         {
-            plainTextTestEmailTemplate ??= ReadPhysicalFile("Helpers/Templates/PlainTextTestEmail.template");
+            plainTextTestEmailTemplate ??= ReadPhysicalFile("Services/Email/PlainTextTestEmail.template");
 
             var emailMessage = plainTextTestEmailTemplate
                 .Replace("{date}", date.ToString());
@@ -52,13 +48,9 @@ namespace QuickApp.Server.Services.Email
             if (!fileInfo.Exists)
                 throw new FileNotFoundException($"Template file located at \"{path}\" was not found");
 
-            using (var fs = fileInfo.CreateReadStream())
-            {
-                using (var sr = new StreamReader(fs))
-                {
-                    return sr.ReadToEnd();
-                }
-            }
+            using var fs = fileInfo.CreateReadStream();
+            using var sr = new StreamReader(fs);
+            return sr.ReadToEnd();
         }
     }
 }

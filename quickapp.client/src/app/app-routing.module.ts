@@ -20,7 +20,6 @@ import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth-guard';
 import { Utilities } from './services/utilities';
 
-
 @Injectable()
 export class LowerCaseUrlSerializer extends DefaultUrlSerializer {
   override parse(url: string): UrlTree {
@@ -42,7 +41,6 @@ export class LowerCaseUrlSerializer extends DefaultUrlSerializer {
   }
 }
 
-
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard], title: 'Home' },
   { path: 'login', component: LoginComponent, title: 'Login' },
@@ -54,7 +52,6 @@ const routes: Routes = [
   { path: 'home', redirectTo: '/', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent, title: 'Page Not Found' }
 ];
-
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

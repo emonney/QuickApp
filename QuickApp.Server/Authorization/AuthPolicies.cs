@@ -4,13 +4,9 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using System;
-using System.Linq;
-using QuickApp.Server.Authorization.Requirements;
-
-namespace QuickApp.Authorization
+namespace QuickApp.Server.Authorization
 {
-    public class Policies
+    public static class AuthPolicies
     {
         ///<summary>Policy to allow viewing all user records.</summary>
         public const string ViewAllUsersPolicy = "View All Users";
@@ -29,21 +25,5 @@ namespace QuickApp.Authorization
 
         /// <summary>Policy to allow assigning roles the user has access to (Requires new and current roles as parameter).</summary>
         public const string AssignAllowedRolesPolicy = "Assign Allowed Roles";
-    }
-
-    /// <summary>
-    /// Operation Policy to allow adding, viewing, updating and deleting general or specific user records.
-    /// </summary>
-    public static class AccountManagementOperations
-    {
-        public const string CreateOperationName = "Create";
-        public const string ReadOperationName = "Read";
-        public const string UpdateOperationName = "Update";
-        public const string DeleteOperationName = "Delete";
-
-        public static UserAccountAuthorizationRequirement Create = new UserAccountAuthorizationRequirement(CreateOperationName);
-        public static UserAccountAuthorizationRequirement Read = new UserAccountAuthorizationRequirement(ReadOperationName);
-        public static UserAccountAuthorizationRequirement Update = new UserAccountAuthorizationRequirement(UpdateOperationName);
-        public static UserAccountAuthorizationRequirement Delete = new UserAccountAuthorizationRequirement(DeleteOperationName);
     }
 }

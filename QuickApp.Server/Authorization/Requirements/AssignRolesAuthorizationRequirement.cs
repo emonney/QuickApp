@@ -6,10 +6,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using QuickApp.Core.Services.Account;
-using System;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace QuickApp.Server.Authorization.Requirements
 {
@@ -18,31 +15,34 @@ namespace QuickApp.Server.Authorization.Requirements
 
     }
 
-    public class AssignRolesAuthorizationHandler : AuthorizationHandler<AssignRolesAuthorizationRequirement, (string[] newRoles, string[] currentRoles)>
+    public class AssignRolesAuthorizationHandler :
+        AuthorizationHandler<AssignRolesAuthorizationRequirement, (string[] newRoles, string[] currentRoles)>
     {
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, AssignRolesAuthorizationRequirement requirement, (string[] newRoles, string[] currentRoles) roles)
+        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
+            AssignRolesAuthorizationRequirement requirement, (string[] newRoles, string[] currentRoles) roles)
         {
             if (!GetIsRolesChanged(roles.newRoles, roles.currentRoles))
             {
                 context.Succeed(requirement);
             }
-            else if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.AssignRoles))
+            else if (context.User.HasClaim(CustomClaims.Permission, ApplicationPermissions.AssignRoles))
             {
-                if (context.User.HasClaim(ClaimConstants.Permission, ApplicationPermissions.ViewRoles)) // If user has ViewRoles permission, then he can assign any roles
+                // If user has ViewRoles permission, then he can assign any roles
+                if (context.User.HasClaim(CustomClaims.Permission, ApplicationPermissions.ViewRoles))
                     context.Succeed(requirement);
 
-                else if (GetIsUserInAllAddedRoles(context.User, roles.newRoles, roles.currentRoles)) // Else user can only assign roles they're part of
+                // Else user can only assign roles they're part of
+                else if (GetIsUserInAllAddedRoles(context.User, roles.newRoles, roles.currentRoles))
                     context.Succeed(requirement);
             }
 
             return Task.CompletedTask;
         }
 
-        private bool GetIsRolesChanged(string[] newRoles, string[] currentRoles)
+        private static bool GetIsRolesChanged(string[] newRoles, string[] currentRoles)
         {
-            newRoles ??= new string[] { };
-
-            currentRoles ??= new string[] { };
+            newRoles ??= [];
+            currentRoles ??= [];
 
             var roleAdded = newRoles.Except(currentRoles).Any();
             var roleRemoved = currentRoles.Except(newRoles).Any();
@@ -50,11 +50,10 @@ namespace QuickApp.Server.Authorization.Requirements
             return roleAdded || roleRemoved;
         }
 
-        private bool GetIsUserInAllAddedRoles(ClaimsPrincipal contextUser, string[] newRoles, string[] currentRoles)
+        private static bool GetIsUserInAllAddedRoles(ClaimsPrincipal contextUser, string[] newRoles, string[] currentRoles)
         {
-            newRoles ??= new string[] { };
-
-            currentRoles ??= new string[] { };
+            newRoles ??= [];
+            currentRoles ??= [];
 
             var addedRoles = newRoles.Except(currentRoles);
 

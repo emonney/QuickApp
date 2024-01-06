@@ -12,7 +12,7 @@ import { AppTranslationService } from '../../services/app-translation.service';
 import { AccountService } from '../../services/account.service';
 import { ThemeManager } from '../../services/theme-manager';
 import { Utilities } from '../../services/utilities';
-import { Permission } from '../../models/permission.model';
+import { Permissions } from '../../models/permission.model';
 
 
 @Component({
@@ -100,11 +100,11 @@ export class UserPreferencesComponent {
   }
 
   get canViewCustomers() {
-    return this.accountService.userHasPermission(Permission.viewUsers); // eg. viewCustomersPermission
+    return this.accountService.userHasPermission(Permissions.viewUsers); // eg. viewCustomersPermission
   }
 
   get canViewProducts() {
-    return this.accountService.userHasPermission(Permission.viewUsers); // eg. viewProductsPermission
+    return this.accountService.userHasPermission(Permissions.viewUsers); // eg. viewProductsPermission
   }
 
   get canViewOrders() {

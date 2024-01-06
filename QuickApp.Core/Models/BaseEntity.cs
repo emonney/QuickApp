@@ -4,19 +4,22 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using QuickApp.Core.Models;
-using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DAL.Models
+namespace QuickApp.Core.Models
 {
-    public class AuditableEntity : IAuditableEntity
+    public class BaseEntity : IAuditableEntity
     {
-        [MaxLength(256)]
-        public string CreatedBy { get; set; }
-        [MaxLength(256)]
-        public string UpdatedBy { get; set; }
+        public int Id { get; set; }
+
+        [MaxLength(40)]
+        public string? CreatedBy { get; set; }
+
+        [MaxLength(40)]
+        public string? UpdatedBy { get; set; }
+
         public DateTime UpdatedDate { get; set; }
+
         public DateTime CreatedDate { get; set; }
     }
 }

@@ -4,51 +4,37 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace QuickApp.Server.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public sealed class MinimumCountAttribute : ValidationAttribute
+    public sealed class MinimumCountAttribute(int minCount, bool required = true, bool allowEmptyStringValues = false) :
+        ValidationAttribute("'{0}' must have at least {1} item.")
     {
-        private readonly int _minCount;
-        private readonly bool _allowEmptyStringValues;
-        private readonly bool _required;
-        private const string _defaultError = "'{0}' must have at least {1} item.";
-
         public MinimumCountAttribute() : this(1)
         {
 
         }
 
-        public MinimumCountAttribute(int minCount, bool required = true, bool allowEmptyStringValues = false) : base(_defaultError)
-        {
-            _minCount = minCount;
-            _required = required;
-            _allowEmptyStringValues = allowEmptyStringValues;
-        }
-
-        public override bool IsValid(object value)
+        public override bool IsValid(object? value)
         {
             if (value == null)
-                return !_required;
+                return !required;
 
-            if (!_allowEmptyStringValues && value is ICollection<string> stringList)
-                return stringList.Count(s => !string.IsNullOrWhiteSpace(s)) >= _minCount;
+            if (!allowEmptyStringValues && value is ICollection<string> stringList)
+                return stringList.Count(s => !string.IsNullOrWhiteSpace(s)) >= minCount;
 
             if (value is ICollection list)
-                return list.Count >= _minCount;
+                return list.Count >= minCount;
 
             return false;
         }
 
         public override string FormatErrorMessage(string name)
         {
-            return string.Format(ErrorMessageString, name, _minCount);
+            return string.Format(ErrorMessageString, name, minCount);
         }
     }
 }

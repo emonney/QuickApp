@@ -5,74 +5,52 @@
 // ---------------------------------------
 
 using MailKit.Net.Smtp;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using QuickApp.Helpers;
+using QuickApp.Core.Services;
 using QuickApp.Server.Configuration;
-using System;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
 
 namespace QuickApp.Server.Services.Email
 {
-    public interface IEmailSender
+    public class EmailSender(IOptions<AppSettings> config, ILogger<EmailSender> logger) : IEmailSender
     {
-        Task<(bool success, string errorMsg)> SendEmailAsync(MailboxAddress sender, MailboxAddress[] recipients, string subject, string body, SmtpConfig config = null, bool isHtml = true);
-        Task<(bool success, string errorMsg)> SendEmailAsync(string recipientName, string recipientEmail, string subject, string body, SmtpConfig config = null, bool isHtml = true);
-        Task<(bool success, string errorMsg)> SendEmailAsync(string senderName, string senderEmail, string recipientName, string recipientEmail, string subject, string body, SmtpConfig config = null, bool isHtml = true);
-    }
+        private readonly SmtpConfig config = config.Value.SmtpConfig!;
 
-    public class EmailSender : IEmailSender
-    {
-        private readonly SmtpConfig _config;
-        private readonly ILogger _logger;
-
-        public EmailSender(IOptions<AppSettings> config, ILogger<EmailSender> logger)
-        {
-            _config = config.Value.SmtpConfig;
-            _logger = logger;
-        }
-
-        public async Task<(bool success, string errorMsg)> SendEmailAsync(
+        public async Task<(bool success, string? errorMsg)> SendEmailAsync(
             string recipientName,
             string recipientEmail,
             string subject,
             string body,
-            SmtpConfig config = null,
             bool isHtml = true)
         {
-            var from = new MailboxAddress(_config.Name, _config.EmailAddress);
+            var from = new MailboxAddress(config.Name, config.EmailAddress);
             var to = new MailboxAddress(recipientName, recipientEmail);
 
-            return await SendEmailAsync(from, new MailboxAddress[] { to }, subject, body, config, isHtml);
+            return await SendEmailAsync(from, [to], subject, body, isHtml);
         }
 
-        public async Task<(bool success, string errorMsg)> SendEmailAsync(
+        public async Task<(bool success, string? errorMsg)> SendEmailAsync(
             string senderName,
             string senderEmail,
             string recipientName,
             string recipientEmail,
             string subject,
             string body,
-            SmtpConfig config = null,
             bool isHtml = true)
         {
             var from = new MailboxAddress(senderName, senderEmail);
             var to = new MailboxAddress(recipientName, recipientEmail);
 
-            return await SendEmailAsync(from, new MailboxAddress[] { to }, subject, body, config, isHtml);
+            return await SendEmailAsync(from, [to], subject, body, isHtml);
         }
 
-        //For background tasks such as sending emails, its good practice to use job runners such as hangfire https://www.hangfire.io
-        //or a service such as SendGrid https://sendgrid.com/
-        public async Task<(bool success, string errorMsg)> SendEmailAsync(
+        // For background tasks such as sending emails, its good practice to use job runners such
+        // as hangfire https://www.hangfire.io or a service such as SendGrid https://sendgrid.com/
+        public async Task<(bool success, string? errorMsg)> SendEmailAsync(
             MailboxAddress sender,
             MailboxAddress[] recipients,
             string subject,
             string body,
-            SmtpConfig config = null,
             bool isHtml = true)
         {
             var message = new MimeMessage();
@@ -80,16 +58,19 @@ namespace QuickApp.Server.Services.Email
             message.From.Add(sender);
             message.To.AddRange(recipients);
             message.Subject = subject;
-            message.Body = isHtml ? new BodyBuilder { HtmlBody = body }.ToMessageBody() : new TextPart("plain") { Text = body };
+            message.Body = isHtml ?
+                new BodyBuilder { HtmlBody = body }.ToMessageBody() :
+                new TextPart("plain") { Text = body };
 
             try
             {
-                config ??= _config;
-
                 using (var client = new SmtpClient())
                 {
                     if (!config.UseSSL)
-                        client.ServerCertificateValidationCallback = (sender2, certificate, chain, sslPolicyErrors) => true;
+                    {
+                        client.ServerCertificateValidationCallback =
+                            (sender2, certificate, chain, sslPolicyErrors) => true;
+                    }
 
                     await client.ConnectAsync(config.Host, config.Port, config.UseSSL).ConfigureAwait(false);
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
@@ -105,7 +86,7 @@ namespace QuickApp.Server.Services.Email
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred whilst sending email");
+                logger.LogError(ex, "An error occurred whilst sending email");
                 return (false, ex.Message);
             }
         }

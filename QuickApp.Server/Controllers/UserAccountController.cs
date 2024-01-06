@@ -8,103 +8,92 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using QuickApp.Authorization;
 using QuickApp.Core.Models.Account;
 using QuickApp.Core.Services.Account;
-using QuickApp.Helpers;
-using QuickApp.Server.Attributes;
-using QuickApp.Server.Services;
+using QuickApp.Server.Authorization;
 using QuickApp.Server.ViewModels.Account;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace QuickApp.Controllers
+namespace QuickApp.Server.Controllers
 {
+    [Route("api/account")]
     [Authorize]
-    [SanitizeModel]
-    [Route("api/[controller]")]
-    public class AccountController : ControllerBase
+    public class UserAccountController : BaseApiController
     {
-        private readonly IMapper _mapper;
-        private readonly IAccountManager _accountManager;
+        private readonly IUserAccountService _userAccountService;
         private readonly IAuthorizationService _authorizationService;
-        private readonly ILogger<AccountController> _logger;
-        private const string GetUserByIdActionName = "GetUserById";
-        private const string GetRoleByIdActionName = "GetRoleById";
 
-        public AccountController(IMapper mapper, IAccountManager accountManager, IAuthorizationService authorizationService,
-            ILogger<AccountController> logger)
+        public UserAccountController(ILogger<UserAccountController> logger, IMapper mapper,
+            IUserAccountService userAccountService, IAuthorizationService authorizationService) : base(logger, mapper)
         {
-            _mapper = mapper;
-            _accountManager = accountManager;
+            _userAccountService = userAccountService;
             _authorizationService = authorizationService;
-            _logger = logger;
         }
 
         [HttpGet("users/me")]
-        [ProducesResponseType(200, Type = typeof(UserViewModel))]
+        [ProducesResponseType(200, Type = typeof(UserVM))]
         public async Task<IActionResult> GetCurrentUser()
         {
-            return await GetUserById(Utilities.GetUserId(User));
+            return await GetUserById(GetCurrentUserId());
         }
 
-        [HttpGet("users/{id}", Name = GetUserByIdActionName)]
-        [ProducesResponseType(200, Type = typeof(UserViewModel))]
+        [HttpGet("users/{id}", Name = nameof(GetUserById))]
+        [ProducesResponseType(200, Type = typeof(UserVM))]
         [ProducesResponseType(403)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetUserById(string id)
         {
-            if (!(await _authorizationService.AuthorizeAsync(User, id, AccountManagementOperations.Read)).Succeeded)
+            if (!(await _authorizationService.AuthorizeAsync(User, id,
+                UserAccountManagementOperations.ReadOperationRequirement)).Succeeded)
                 return new ChallengeResult();
 
             var userVM = await GetUserViewModelHelper(id);
 
             if (userVM != null)
                 return Ok(userVM);
-            else
-                return NotFound(id);
+
+            return NotFound(id);
         }
 
         [HttpGet("users/username/{userName}")]
-        [ProducesResponseType(200, Type = typeof(UserViewModel))]
+        [ProducesResponseType(200, Type = typeof(UserVM))]
         [ProducesResponseType(403)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetUserByUserName(string userName)
         {
-            var appUser = await _accountManager.GetUserByUserNameAsync(userName);
+            var appUser = await _userAccountService.GetUserByUserNameAsync(userName);
 
-            if (!(await _authorizationService.AuthorizeAsync(User, appUser?.Id ?? string.Empty, AccountManagementOperations.Read)).Succeeded)
+            if (!(await _authorizationService.AuthorizeAsync(User, appUser?.Id ?? string.Empty,
+                UserAccountManagementOperations.ReadOperationRequirement)).Succeeded)
                 return new ChallengeResult();
 
-            if (appUser == null)
-                return NotFound(userName);
+            var userVM = appUser != null ? await GetUserViewModelHelper(appUser.Id) : null;
 
-            return await GetUserById(appUser.Id);
+            if (userVM != null)
+                return Ok(userVM);
+
+            return NotFound(userName);
         }
 
         [HttpGet("users")]
-        [Authorize(Policies.ViewAllUsersPolicy)]
-        [ProducesResponseType(200, Type = typeof(List<UserViewModel>))]
+        [Authorize(AuthPolicies.ViewAllUsersPolicy)]
+        [ProducesResponseType(200, Type = typeof(List<UserVM>))]
         public async Task<IActionResult> GetUsers()
         {
             return await GetUsers(-1, -1);
         }
 
         [HttpGet("users/{pageNumber:int}/{pageSize:int}")]
-        [Authorize(Policies.ViewAllUsersPolicy)]
-        [ProducesResponseType(200, Type = typeof(List<UserViewModel>))]
+        [Authorize(AuthPolicies.ViewAllUsersPolicy)]
+        [ProducesResponseType(200, Type = typeof(List<UserVM>))]
         public async Task<IActionResult> GetUsers(int pageNumber, int pageSize)
         {
-            var usersAndRoles = await _accountManager.GetUsersAndRolesAsync(pageNumber, pageSize);
+            var usersAndRoles = await _userAccountService.GetUsersAndRolesAsync(pageNumber, pageSize);
 
-            var usersVM = new List<UserViewModel>();
+            var usersVM = new List<UserVM>();
 
             foreach (var item in usersAndRoles)
             {
-                var userVM = _mapper.Map<UserViewModel>(item.User);
+                var userVM = _mapper.Map<UserVM>(item.User);
                 userVM.Roles = item.Roles;
 
                 usersVM.Add(userVM);
@@ -117,9 +106,10 @@ namespace QuickApp.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
-        public async Task<IActionResult> UpdateCurrentUser([FromBody] UserEditViewModel user)
+        public async Task<IActionResult> UpdateCurrentUser([FromBody] UserEditVM user)
         {
-            return await UpdateUser(Utilities.GetUserId(User), user);
+            var userId = GetCurrentUserId($"Error retrieving the userId for user \"{user.UserName}\".");
+            return await UpdateUser(userId, user);
         }
 
         [HttpPut("users/{id}")]
@@ -127,69 +117,68 @@ namespace QuickApp.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> UpdateUser(string id, [FromBody] UserEditViewModel user)
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] UserEditVM user)
         {
-            var appUser = await _accountManager.GetUserByIdAsync(id);
-            var currentRoles = appUser != null ? (await _accountManager.GetUserRolesAsync(appUser)).ToArray() : null;
+            var appUser = await _userAccountService.GetUserByIdAsync(id);
+            var currentRoles = appUser != null
+                ? (await _userAccountService.GetUserRolesAsync(appUser)).ToArray() : null;
 
-            var manageUsersPolicy = _authorizationService.AuthorizeAsync(User, id, AccountManagementOperations.Update);
-            var assignRolePolicy = _authorizationService.AuthorizeAsync(User, (user.Roles, currentRoles), Policies.AssignAllowedRolesPolicy);
+            var manageUsersPolicy = _authorizationService.AuthorizeAsync(User, id,
+                UserAccountManagementOperations.UpdateOperationRequirement);
+            var assignRolePolicy = _authorizationService.AuthorizeAsync(User, (user.Roles, currentRoles),
+                AuthPolicies.AssignAllowedRolesPolicy);
 
             if ((await Task.WhenAll(manageUsersPolicy, assignRolePolicy)).Any(r => !r.Succeeded))
                 return new ChallengeResult();
 
+            if (appUser == null)
+                return NotFound(id);
+
+            if (!string.IsNullOrWhiteSpace(user.Id) && id != user.Id)
+                AddModelError("Conflicting user id in parameter and model data", nameof(id));
+
+            var isNewPassword = !string.IsNullOrWhiteSpace(user.NewPassword);
+            var isNewUserName = !appUser.UserName!.Equals(user.UserName, StringComparison.OrdinalIgnoreCase);
+
+            if (GetCurrentUserId() == id)
+            {
+                if (string.IsNullOrWhiteSpace(user.CurrentPassword))
+                {
+                    if (isNewPassword)
+                        AddModelError("Current password is required when changing your own password", "Password");
+
+                    if (isNewUserName)
+                        AddModelError("Current password is required when changing your own username", "Username");
+                }
+                else if (isNewPassword || isNewUserName)
+                {
+                    if (!await _userAccountService.CheckPasswordAsync(appUser, user.CurrentPassword))
+                        AddModelError("The username/password couple is invalid.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
-                if (user == null)
-                    return BadRequest($"{nameof(user)} cannot be null");
+                _mapper.Map(user, appUser);
 
-                if (!string.IsNullOrWhiteSpace(user.Id) && id != user.Id)
-                    return BadRequest("Conflicting user id in parameter and model data");
+                var result = await _userAccountService.UpdateUserAsync(appUser, user.Roles);
 
-                if (appUser == null)
-                    return NotFound(id);
-
-                var isPasswordChanged = !string.IsNullOrWhiteSpace(user.NewPassword);
-                var isUserNameChanged = !appUser.UserName.Equals(user.UserName, StringComparison.OrdinalIgnoreCase);
-
-                if (Utilities.GetUserId(User) == id)
+                if (result.Succeeded)
                 {
-                    if (string.IsNullOrWhiteSpace(user.CurrentPassword))
+                    if (isNewPassword)
                     {
-                        if (isPasswordChanged)
-                            AddError("Current password is required when changing your own password", "Password");
-
-                        if (isUserNameChanged)
-                            AddError("Current password is required when changing your own username", "Username");
+                        if (!string.IsNullOrWhiteSpace(user.CurrentPassword))
+                            result = await _userAccountService.UpdatePasswordAsync(appUser, user.CurrentPassword,
+                                user.NewPassword!);
+                        else
+                            result = await _userAccountService.ResetPasswordAsync(appUser, user.NewPassword!);
                     }
-                    else if (isPasswordChanged || isUserNameChanged)
-                    {
-                        if (!await _accountManager.CheckPasswordAsync(appUser, user.CurrentPassword))
-                            AddError("The username/password couple is invalid.");
-                    }
-                }
 
-                if (ModelState.IsValid)
-                {
-                    _mapper.Map(user, appUser);
-
-                    var result = await _accountManager.UpdateUserAsync(appUser, user.Roles);
                     if (result.Succeeded)
-                    {
-                        if (isPasswordChanged)
-                        {
-                            if (!string.IsNullOrWhiteSpace(user.CurrentPassword))
-                                result = await _accountManager.UpdatePasswordAsync(appUser, user.CurrentPassword, user.NewPassword);
-                            else
-                                result = await _accountManager.ResetPasswordAsync(appUser, user.NewPassword);
-                        }
-
-                        if (result.Succeeded)
-                            return NoContent();
-                    }
-
-                    AddError(result.Errors);
+                        return NoContent();
                 }
+
+                AddModelError(result.Errors);
             }
 
             return BadRequest(ModelState);
@@ -198,9 +187,10 @@ namespace QuickApp.Controllers
         [HttpPatch("users/me")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> UpdateCurrentUser([FromBody] JsonPatchDocument<UserPatchViewModel> patch)
+        public async Task<IActionResult> UpdateCurrentUser([FromBody] JsonPatchDocument<UserPatchVM> patch)
         {
-            return await UpdateUser(Utilities.GetUserId(User), patch);
+            var userId = GetCurrentUserId();
+            return await UpdateUser(userId, patch);
         }
 
         [HttpPatch("users/{id}")]
@@ -208,111 +198,129 @@ namespace QuickApp.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> UpdateUser(string id, [FromBody] JsonPatchDocument<UserPatchViewModel> patch)
+        public async Task<IActionResult> UpdateUser(string id, [FromBody] JsonPatchDocument<UserPatchVM> patch)
         {
-            if (!(await _authorizationService.AuthorizeAsync(User, id, AccountManagementOperations.Update)).Succeeded)
+            if (!(await _authorizationService.AuthorizeAsync(User, id,
+                UserAccountManagementOperations.UpdateOperationRequirement)).Succeeded)
                 return new ChallengeResult();
+
+            var appUser = await _userAccountService.GetUserByIdAsync(id);
+            if (appUser == null)
+                return NotFound(id);
+
+            var userPVM = _mapper.Map<UserPatchVM>(appUser);
+            patch.ApplyTo(userPVM, e => AddModelError(e.ErrorMessage));
 
             if (ModelState.IsValid)
             {
-                if (patch == null)
-                    return BadRequest($"{nameof(patch)} cannot be null");
+                _mapper.Map(userPVM, appUser);
 
-                var appUser = await _accountManager.GetUserByIdAsync(id);
+                var result = await _userAccountService.UpdateUserAsync(appUser);
 
-                if (appUser == null)
-                    return NotFound(id);
+                if (result.Succeeded)
+                    return NoContent();
 
-                var userPVM = _mapper.Map<UserPatchViewModel>(appUser);
-                patch.ApplyTo(userPVM, (e) => AddError(e.ErrorMessage));
-
-                if (ModelState.IsValid)
-                {
-                    _mapper.Map<UserPatchViewModel, ApplicationUser>(userPVM, appUser);
-
-                    var result = await _accountManager.UpdateUserAsync(appUser);
-                    if (result.Succeeded)
-                        return NoContent();
-
-                    AddError(result.Errors);
-                }
+                AddModelError(result.Errors);
             }
 
             return BadRequest(ModelState);
         }
 
         [HttpPost("users")]
-        [Authorize(Policies.ManageAllUsersPolicy)]
-        [ProducesResponseType(201, Type = typeof(UserViewModel))]
+        [Authorize(AuthPolicies.ManageAllUsersPolicy)]
+        [ProducesResponseType(201, Type = typeof(UserVM))]
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
-        public async Task<IActionResult> Register([FromBody] UserEditViewModel user)
+        public async Task<IActionResult> Register([FromBody] UserEditVM user)
         {
-            if (!(await _authorizationService.AuthorizeAsync(User, (user.Roles, new string[] { }), Policies.AssignAllowedRolesPolicy)).Succeeded)
+            if (!(await _authorizationService.AuthorizeAsync(User, (user.Roles, Array.Empty<string>()),
+                AuthPolicies.AssignAllowedRolesPolicy)).Succeeded)
                 return new ChallengeResult();
+
+            if (string.IsNullOrWhiteSpace(user.NewPassword))
+                AddModelError($"{nameof(user.NewPassword)} is required when registering a new user",
+                    nameof(user.NewPassword));
+
+            if (user.Roles == null)
+                AddModelError($"{nameof(user.Roles)} is required when registering a new user", nameof(user.Roles));
 
             if (ModelState.IsValid)
             {
-                if (user == null)
-                    return BadRequest($"{nameof(user)} cannot be null");
-
                 var appUser = _mapper.Map<ApplicationUser>(user);
+                var result = await _userAccountService.CreateUserAsync(appUser, user.Roles!, user.NewPassword!);
 
-                var result = await _accountManager.CreateUserAsync(appUser, user.Roles, user.NewPassword);
                 if (result.Succeeded)
                 {
                     var userVM = await GetUserViewModelHelper(appUser.Id);
-                    return CreatedAtAction(GetUserByIdActionName, new { id = userVM.Id }, userVM);
+                    return CreatedAtAction(nameof(GetUserById), new { id = userVM?.Id }, userVM);
                 }
 
-                AddError(result.Errors);
+                AddModelError(result.Errors);
             }
 
             return BadRequest(ModelState);
         }
 
         [HttpDelete("users/{id}")]
-        [ProducesResponseType(200, Type = typeof(UserViewModel))]
+        [ProducesResponseType(200, Type = typeof(UserVM))]
         [ProducesResponseType(400)]
         [ProducesResponseType(403)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteUser(string id)
         {
-            if (!(await _authorizationService.AuthorizeAsync(User, id, AccountManagementOperations.Delete)).Succeeded)
+            if (!(await _authorizationService.AuthorizeAsync(User, id,
+                UserAccountManagementOperations.DeleteOperationRequirement)).Succeeded)
                 return new ChallengeResult();
 
-            var appUser = await _accountManager.GetUserByIdAsync(id);
+            var appUser = await _userAccountService.GetUserByIdAsync(id);
 
             if (appUser == null)
                 return NotFound(id);
 
-            if (!await _accountManager.TestCanDeleteUserAsync(id))
-                return BadRequest("User cannot be deleted. Delete all orders associated with this user and try again");
+            var canDelete = await _userAccountService.TestCanDeleteUserAsync(id);
+            if (!canDelete.Success)
+            {
+                AddModelError($"User \"{appUser.UserName}\" cannot be deleted at this time. " +
+                    "Delete the associated records and try again");
+                AddModelError(canDelete.Errors, "Records");
+            }
 
-            var userVM = await GetUserViewModelHelper(appUser.Id);
+            if (ModelState.IsValid)
+            {
+                var userVM = await GetUserViewModelHelper(appUser.Id);
+                var result = await _userAccountService.DeleteUserAsync(appUser);
 
-            var result = await _accountManager.DeleteUserAsync(appUser);
-            if (!result.Succeeded)
-                throw new Exception($"The following errors occurred whilst deleting user: {string.Join(", ", result.Errors)}");
+                if (!result.Succeeded)
+                {
+                    throw new UserAccountException($"The following errors occurred whilst deleting user \"{id}\": " +
+                        $"{string.Join(", ", result.Errors)}");
+                }
 
-            return Ok(userVM);
+                return Ok(userVM);
+            }
+
+            return BadRequest(ModelState);
         }
 
         [HttpPut("users/unblock/{id}")]
-        [Authorize(Policies.ManageAllUsersPolicy)]
+        [Authorize(AuthPolicies.ManageAllUsersPolicy)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> UnblockUser(string id)
         {
-            var appUser = await _accountManager.GetUserByIdAsync(id);
+            var appUser = await _userAccountService.GetUserByIdAsync(id);
 
             if (appUser == null)
                 return NotFound(id);
 
             appUser.LockoutEnd = null;
-            var result = await _accountManager.UpdateUserAsync(appUser);
+            var result = await _userAccountService.UpdateUserAsync(appUser);
+
             if (!result.Succeeded)
-                throw new Exception($"The following errors occurred whilst unblocking user: {string.Join(", ", result.Errors)}");
+            {
+                throw new UserAccountException($"The following errors occurred whilst unblocking user: " +
+                    $"{string.Join(", ", result.Errors)}");
+            }
 
             return NoContent();
         }
@@ -321,202 +329,49 @@ namespace QuickApp.Controllers
         [ProducesResponseType(200, Type = typeof(string))]
         public async Task<IActionResult> UserPreferences()
         {
-            var userId = Utilities.GetUserId(User);
-            var appUser = await _accountManager.GetUserByIdAsync(userId);
+            var userId = GetCurrentUserId();
 
-            return Ok(appUser.Configuration);
+            var appUser = await _userAccountService.GetUserByIdAsync(userId);
+            if (appUser != null)
+                return Ok(appUser.Configuration);
+
+            return NotFound(userId);
         }
 
         [HttpPut("users/me/preferences")]
         [ProducesResponseType(204)]
         public async Task<IActionResult> UserPreferences([FromBody] string data)
         {
-            var userId = Utilities.GetUserId(User);
-            var appUser = await _accountManager.GetUserByIdAsync(userId);
+            var userId = GetCurrentUserId();
+            var appUser = await _userAccountService.GetUserByIdAsync(userId);
 
-            appUser.Configuration = data;
-
-            var result = await _accountManager.UpdateUserAsync(appUser);
-            if (!result.Succeeded)
-                throw new Exception($"The following errors occurred whilst updating User Configurations: {string.Join(", ", result.Errors)}");
-
-            return NoContent();
-        }
-
-        [HttpGet("roles/{id}", Name = GetRoleByIdActionName)]
-        [ProducesResponseType(200, Type = typeof(RoleViewModel))]
-        [ProducesResponseType(403)]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> GetRoleById(string id)
-        {
-            var appRole = await _accountManager.GetRoleByIdAsync(id);
-
-            if (!(await _authorizationService.AuthorizeAsync(User, appRole?.Name ?? string.Empty, Policies.ViewRoleByRoleNamePolicy)).Succeeded)
-                return new ChallengeResult();
-
-            if (appRole == null)
-                return NotFound(id);
-
-            return await GetRoleByName(appRole.Name);
-        }
-
-        [HttpGet("roles/name/{name}")]
-        [ProducesResponseType(200, Type = typeof(RoleViewModel))]
-        [ProducesResponseType(403)]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> GetRoleByName(string name)
-        {
-            if (!(await _authorizationService.AuthorizeAsync(User, name, Policies.ViewRoleByRoleNamePolicy)).Succeeded)
-                return new ChallengeResult();
-
-            var roleVM = await GetRoleViewModelHelper(name);
-
-            if (roleVM == null)
-                return NotFound(name);
-
-            return Ok(roleVM);
-        }
-
-        [HttpGet("roles")]
-        [Authorize(Policies.ViewAllRolesPolicy)]
-        [ProducesResponseType(200, Type = typeof(List<RoleViewModel>))]
-        public async Task<IActionResult> GetRoles()
-        {
-            return await GetRoles(-1, -1);
-        }
-
-        [HttpGet("roles/{pageNumber:int}/{pageSize:int}")]
-        [Authorize(Policies.ViewAllRolesPolicy)]
-        [ProducesResponseType(200, Type = typeof(List<RoleViewModel>))]
-        public async Task<IActionResult> GetRoles(int pageNumber, int pageSize)
-        {
-            var roles = await _accountManager.GetRolesLoadRelatedAsync(pageNumber, pageSize);
-            return Ok(_mapper.Map<List<RoleViewModel>>(roles));
-        }
-
-        [HttpPut("roles/{id}")]
-        [Authorize(Policies.ManageAllRolesPolicy)]
-        [ProducesResponseType(204)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> UpdateRole(string id, [FromBody] RoleViewModel role)
-        {
-            if (ModelState.IsValid)
+            if (appUser != null)
             {
-                if (role == null)
-                    return BadRequest($"{nameof(role)} cannot be null");
+                appUser.Configuration = data;
+                var result = await _userAccountService.UpdateUserAsync(appUser);
 
-                if (!string.IsNullOrWhiteSpace(role.Id) && id != role.Id)
-                    return BadRequest("Conflicting role id in parameter and model data");
-
-                var appRole = await _accountManager.GetRoleByIdAsync(id);
-
-                if (appRole == null)
-                    return NotFound(id);
-
-                _mapper.Map(role, appRole);
-
-                var result = await _accountManager.UpdateRoleAsync(appRole, role.Permissions?.Select(p => p.Value).ToArray());
-                if (result.Succeeded)
-                    return NoContent();
-
-                AddError(result.Errors);
-
-            }
-
-            return BadRequest(ModelState);
-        }
-
-        [HttpPost("roles")]
-        [Authorize(Policies.ManageAllRolesPolicy)]
-        [ProducesResponseType(201, Type = typeof(RoleViewModel))]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> CreateRole([FromBody] RoleViewModel role)
-        {
-            if (ModelState.IsValid)
-            {
-                if (role == null)
-                    return BadRequest($"{nameof(role)} cannot be null");
-
-                var appRole = _mapper.Map<ApplicationRole>(role);
-
-                var result = await _accountManager.CreateRoleAsync(appRole, role.Permissions?.Select(p => p.Value).ToArray());
-                if (result.Succeeded)
+                if (!result.Succeeded)
                 {
-                    var roleVM = await GetRoleViewModelHelper(appRole.Name);
-                    return CreatedAtAction(GetRoleByIdActionName, new { id = roleVM.Id }, roleVM);
+                    throw new UserAccountException($"The following errors occurred whilst updating User Configurations: " +
+                        $"{string.Join(", ", result.Errors)}");
                 }
 
-                AddError(result.Errors);
+                return NoContent();
             }
 
-            return BadRequest(ModelState);
+            return NotFound(userId);
         }
 
-        [HttpDelete("roles/{id}")]
-        [Authorize(Policies.ManageAllRolesPolicy)]
-        [ProducesResponseType(200, Type = typeof(RoleViewModel))]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
-        public async Task<IActionResult> DeleteRole(string id)
+        private async Task<UserVM?> GetUserViewModelHelper(string userId)
         {
-            var appRole = await _accountManager.GetRoleByIdAsync(id);
-
-            if (appRole == null)
-                return NotFound(id);
-
-            if (!await _accountManager.TestCanDeleteRoleAsync(id))
-                return BadRequest("Role cannot be deleted. Remove all users from this role and try again");
-
-            var roleVM = await GetRoleViewModelHelper(appRole.Name);
-
-            var result = await _accountManager.DeleteRoleAsync(appRole);
-            if (!result.Succeeded)
-                throw new Exception($"The following errors occurred whilst deleting role: {string.Join(", ", result.Errors)}");
-
-            return Ok(roleVM);
-        }
-
-        [HttpGet("permissions")]
-        [Authorize(Policies.ViewAllRolesPolicy)]
-        [ProducesResponseType(200, Type = typeof(List<PermissionViewModel>))]
-        public IActionResult GetAllPermissions()
-        {
-            return Ok(_mapper.Map<List<PermissionViewModel>>(ApplicationPermissions.AllPermissions));
-        }
-
-        private async Task<UserViewModel> GetUserViewModelHelper(string userId)
-        {
-            var userAndRoles = await _accountManager.GetUserAndRolesAsync(userId);
+            var userAndRoles = await _userAccountService.GetUserAndRolesAsync(userId);
             if (userAndRoles == null)
                 return null;
 
-            var userVM = _mapper.Map<UserViewModel>(userAndRoles.Value.User);
+            var userVM = _mapper.Map<UserVM>(userAndRoles.Value.User);
             userVM.Roles = userAndRoles.Value.Roles;
 
             return userVM;
-        }
-
-        private async Task<RoleViewModel> GetRoleViewModelHelper(string roleName)
-        {
-            var role = await _accountManager.GetRoleLoadRelatedAsync(roleName);
-            if (role != null)
-                return _mapper.Map<RoleViewModel>(role);
-
-            return null;
-        }
-
-        private void AddError(IEnumerable<string> errors, string key = "")
-        {
-            foreach (var error in errors)
-            {
-                AddError(error, key);
-            }
-        }
-
-        private void AddError(string error, string key = "")
-        {
-            ModelState.AddModelError(key, error);
         }
     }
 }

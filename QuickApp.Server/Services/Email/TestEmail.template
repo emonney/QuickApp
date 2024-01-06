@@ -1,6 +1,12 @@
-﻿<p>Hello {user},</p>
-<p>This is a <strong>TEST</strong> email.</p>
-<p>The request was on {testDate}.</p>
-<p><br /></p>
-<p>Regards,</p>
-<p>QuickApp Template</p>
+﻿<div>
+	<p>Hello {user},</p>
+	<p>
+		This is a <strong>TEST</strong> email.
+	</p>
+	<p>The request was on {testDate}.</p>
+	<p>
+		<br />
+	</p>
+	<p>Regards,</p>
+	<p>QuickApp Template</p>
+</div>

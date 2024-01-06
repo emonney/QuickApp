@@ -1,16 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Version>7.6.1</Version>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>8.0.0</Version>
+    <Company>www.ebenmonney.com</Company>
+    <Authors>$(Company)</Authors>
     <Description>Data Access Layer for the Quick Application template</Description>
     <Copyright>Copyright © 2023 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://www.ebenmonney.com/quickapp</PackageProjectUrl>
-    <Company>EBENMONNEY</Company>
   </PropertyGroup>
+  
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
   </ItemGroup>
+
 </Project>

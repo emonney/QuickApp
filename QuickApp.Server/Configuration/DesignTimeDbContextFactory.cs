@@ -6,11 +6,9 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 using QuickApp.Core.Infrastructure;
-using System;
-using System.IO;
-using System.Linq;
+using QuickApp.Server.Services;
+using System.Reflection;
 
 namespace QuickApp.Server.Configuration
 {
@@ -18,18 +16,21 @@ namespace QuickApp.Server.Configuration
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
-                .AddJsonFile("appsettings.Development.json", optional: true)
+                .AddJsonFile($"appsettings.{env}.json", optional: true)
                 .Build();
 
             var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
 
-            builder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly("QuickApp"));
+            builder.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"], b => b.MigrationsAssembly(migrationsAssembly));
             builder.UseOpenIddict();
 
-            return new ApplicationDbContext(builder.Options);
+            return new ApplicationDbContext(builder.Options, SystemUserIdAccessor.GetNewAccessor());
         }
     }
 }

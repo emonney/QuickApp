@@ -4,21 +4,18 @@
 // (c) 2023 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-using Microsoft.Extensions.DependencyInjection;
 using OpenIddict.Abstractions;
-using System;
-using System.Threading.Tasks;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace QuickApp.Server.Configuration
 {
-    public class OidcServerManager
+    public static class OidcServerConfig
     {
-        public const string ApiFriendlyName = "QuickApp API";
+        public const string ServerName = "QuickApp API";
         public const string QuickAppClientID = "quickapp_spa";
         public const string SwaggerClientID = "swagger_ui";
 
-        public static async Task RegisterApplicationsAsync(IServiceProvider provider)
+        public static async Task RegisterClientApplicationsAsync(IServiceProvider provider)
         {
             var manager = provider.GetRequiredService<IOpenIddictApplicationManager>();
 
@@ -28,7 +25,7 @@ namespace QuickApp.Server.Configuration
                 await manager.CreateAsync(new OpenIddictApplicationDescriptor
                 {
                     ClientId = QuickAppClientID,
-                    Type = ClientTypes.Public,
+                    ClientType = ClientTypes.Public,
                     DisplayName = "QuickApp SPA",
                     Permissions =
                     {
@@ -50,7 +47,7 @@ namespace QuickApp.Server.Configuration
                 await manager.CreateAsync(new OpenIddictApplicationDescriptor
                 {
                     ClientId = SwaggerClientID,
-                    Type = ClientTypes.Public,
+                    ClientType = ClientTypes.Public,
                     DisplayName = "Swagger UI",
                     Permissions =
                     {

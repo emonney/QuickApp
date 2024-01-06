@@ -19,7 +19,7 @@ export interface Permission {
   description: string;
 }
 
-export class Permission {
+export class Permissions {
   public static readonly viewUsers: PermissionValues = 'users.view';
   public static readonly manageUsers: PermissionValues = 'users.manage';
 

@@ -10,75 +10,75 @@ using QuickApp.Core.Models;
 using QuickApp.Core.Models.Account;
 using QuickApp.Core.Models.Shop;
 using QuickApp.Core.Services.Account;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace QuickApp.Core.Infrastructure
 {
-    public interface IDatabaseInitializer
+    public class DatabaseSeeder(ApplicationDbContext dbContext, ILogger<DatabaseSeeder> logger,
+        IUserAccountService userAccountService, IUserRoleService userRoleService) : IDatabaseSeeder
     {
-        Task SeedAsync();
-    }
-
-    public class DatabaseInitializer : IDatabaseInitializer
-    {
-        private readonly ApplicationDbContext _context;
-        private readonly IAccountManager _accountManager;
-        private readonly ILogger _logger;
-
-        public DatabaseInitializer(ApplicationDbContext context, IAccountManager accountManager, ILogger<DatabaseInitializer> logger)
-        {
-            _accountManager = accountManager;
-            _context = context;
-            _logger = logger;
-        }
-
         public async Task SeedAsync()
         {
-            await _context.Database.MigrateAsync().ConfigureAwait(false);
+            await dbContext.Database.MigrateAsync();
             await SeedDefaultUsersAsync();
             await SeedDemoDataAsync();
         }
 
+        /************ DEFAULT USERS **************/
+
         private async Task SeedDefaultUsersAsync()
         {
-            if (!await _context.Users.AnyAsync())
+            if (!await dbContext.Users.AnyAsync())
             {
-                _logger.LogInformation("Generating inbuilt accounts");
+                logger.LogInformation("Generating inbuilt accounts");
 
                 const string adminRoleName = "administrator";
                 const string userRoleName = "user";
 
-                await EnsureRoleAsync(adminRoleName, "Default administrator", ApplicationPermissions.GetAllPermissionValues());
-                await EnsureRoleAsync(userRoleName, "Default user", new string[] { });
+                await EnsureRoleAsync(adminRoleName, "Default administrator",
+                    ApplicationPermissions.GetAllPermissionValues());
 
-                await CreateUserAsync("admin", "tempP@ss123", "Inbuilt Administrator", "admin@ebenmonney.com", "+1 (123) 000-0000", new string[] { adminRoleName });
-                await CreateUserAsync("user", "tempP@ss123", "Inbuilt Standard User", "user@ebenmonney.com", "+1 (123) 000-0001", new string[] { userRoleName });
+                await EnsureRoleAsync(userRoleName, "Default user", []);
 
-                _logger.LogInformation("Inbuilt account generation completed");
+                await CreateUserAsync("admin",
+                                      "tempP@ss123",
+                                      "Inbuilt Administrator",
+                                      "admin@ebenmonney.com",
+                                      "+1 (123) 000-0000",
+                                      [adminRoleName]);
+
+                await CreateUserAsync("user",
+                                      "tempP@ss123",
+                                      "Inbuilt Standard User",
+                                      "user@ebenmonney.com",
+                                      "+1 (123) 000-0001",
+                                      [userRoleName]);
+
+                logger.LogInformation("Inbuilt account generation completed");
             }
         }
 
         private async Task EnsureRoleAsync(string roleName, string description, string[] claims)
         {
-            if (await _accountManager.GetRoleByNameAsync(roleName) == null)
+            if (await userRoleService.GetRoleByNameAsync(roleName) == null)
             {
-                _logger.LogInformation($"Generating default role: {roleName}");
+                logger.LogInformation("Generating default role: {roleName}", roleName);
 
                 var applicationRole = new ApplicationRole(roleName, description);
 
-                var result = await _accountManager.CreateRoleAsync(applicationRole, claims);
+                var result = await userRoleService.CreateRoleAsync(applicationRole, claims);
 
                 if (!result.Succeeded)
-                    throw new Exception($"Seeding \"{description}\" role failed. Errors: {string.Join(Environment.NewLine, result.Errors)}");
+                {
+                    throw new UserRoleException($"Seeding \"{description}\" role failed. Errors: " +
+                        $"{string.Join(Environment.NewLine, result.Errors)}");
+                }
             }
         }
 
-        private async Task<ApplicationUser> CreateUserAsync(string userName, string password, string fullName, string email, string phoneNumber, string[] roles)
+        private async Task<ApplicationUser> CreateUserAsync(
+            string userName, string password, string fullName, string email, string phoneNumber, string[] roles)
         {
-            _logger.LogInformation($"Generating default user: {userName}");
+            logger.LogInformation("Generating default user: {userName}", userName);
 
             var applicationUser = new ApplicationUser
             {
@@ -90,27 +90,30 @@ namespace QuickApp.Core.Infrastructure
                 IsEnabled = true
             };
 
-            var result = await _accountManager.CreateUserAsync(applicationUser, roles, password);
+            var result = await userAccountService.CreateUserAsync(applicationUser, roles, password);
 
             if (!result.Succeeded)
-                throw new Exception($"Seeding \"{userName}\" user failed. Errors: {string.Join(Environment.NewLine, result.Errors)}");
+            {
+                throw new UserAccountException($"Seeding \"{userName}\" user failed. Errors: " +
+                    $"{string.Join(Environment.NewLine, result.Errors)}");
+            }
 
             return applicationUser;
         }
 
+        /************ DEMO DATA **************/
+
         private async Task SeedDemoDataAsync()
         {
-            if (!await _context.Customers.AnyAsync() && !await _context.ProductCategories.AnyAsync())
+            if (!await dbContext.Customers.AnyAsync() && !await dbContext.ProductCategories.AnyAsync())
             {
-                _logger.LogInformation("Seeding demo data");
+                logger.LogInformation("Seeding demo data");
 
                 var cust_1 = new Customer
                 {
                     Name = "Ebenezer Monney",
                     Email = "contact@ebenmonney.com",
-                    Gender = Gender.Male,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
+                    Gender = Gender.Male
                 };
 
                 var cust_2 = new Customer
@@ -120,9 +123,7 @@ namespace QuickApp.Core.Infrastructure
                     PhoneNumber = "+81123456789",
                     Address = "Some fictional Address, Street 123, Konoha",
                     City = "Konoha",
-                    Gender = Gender.Male,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
+                    Gender = Gender.Male
                 };
 
                 var cust_3 = new Customer
@@ -131,11 +132,9 @@ namespace QuickApp.Core.Infrastructure
                     Email = "johndoe@anonymous.com",
                     PhoneNumber = "+18585858",
                     Address = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
-                    Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet",
+                    Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at elementum imperdiet",
                     City = "Lorem Ipsum",
-                    Gender = Gender.Male,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
+                    Gender = Gender.Male
                 };
 
                 var cust_4 = new Customer
@@ -144,19 +143,15 @@ namespace QuickApp.Core.Infrastructure
                     Email = "Janedoe@anonymous.com",
                     PhoneNumber = "+18585858",
                     Address = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
-                    Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet",
+                    Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at elementum imperdiet",
                     City = "Lorem Ipsum",
-                    Gender = Gender.Male,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
+                    Gender = Gender.Male
                 };
 
                 var prodCat_1 = new ProductCategory
                 {
                     Name = "None",
-                    Description = "Default category. Products that have not been assigned a category",
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
+                    Description = "Default category. Products that have not been assigned a category"
                 };
 
                 var prod_1 = new Product
@@ -167,9 +162,7 @@ namespace QuickApp.Core.Infrastructure
                     SellingPrice = 114234,
                     UnitsInStock = 12,
                     IsActive = true,
-                    ProductCategory = prodCat_1,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
+                    ProductCategory = prodCat_1
                 };
 
                 var prod_2 = new Product
@@ -180,51 +173,59 @@ namespace QuickApp.Core.Infrastructure
                     SellingPrice = 86990,
                     UnitsInStock = 4,
                     IsActive = true,
-                    ProductCategory = prodCat_1,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow
+                    ProductCategory = prodCat_1
                 };
 
                 var ordr_1 = new Order
                 {
                     Discount = 500,
-                    Cashier = await _context.Users.OrderBy(u => u.UserName).FirstAsync(),
-                    Customer = cust_1,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow,
-                    OrderDetails = new List<OrderDetail>
-                    {
-                        new OrderDetail {UnitPrice = prod_1.SellingPrice, Quantity=1, Product = prod_1 },
-                        new OrderDetail {UnitPrice = prod_2.SellingPrice, Quantity=1, Product = prod_2 },
-                    }
+                    Cashier = await dbContext.Users.OrderBy(u => u.UserName).FirstAsync(),
+                    Customer = cust_1
                 };
 
                 var ordr_2 = new Order
                 {
-                    Cashier = await _context.Users.OrderBy(u => u.UserName).FirstAsync(),
-                    Customer = cust_2,
-                    DateCreated = DateTime.UtcNow,
-                    DateModified = DateTime.UtcNow,
-                    OrderDetails = new List<OrderDetail>
-                    {
-                        new OrderDetail {UnitPrice = prod_2.SellingPrice, Quantity=1, Product = prod_2 },
-                    }
+                    Cashier = await dbContext.Users.OrderBy(u => u.UserName).FirstAsync(),
+                    Customer = cust_2
                 };
 
-                _context.Customers.Add(cust_1);
-                _context.Customers.Add(cust_2);
-                _context.Customers.Add(cust_3);
-                _context.Customers.Add(cust_4);
+                ordr_1.OrderDetails.Add(new()
+                {
+                    UnitPrice = prod_1.SellingPrice,
+                    Quantity = 1,
+                    Product = prod_1,
+                    Order = ordr_1
+                });
+                ordr_1.OrderDetails.Add(new()
+                {
+                    UnitPrice = prod_2.SellingPrice,
+                    Quantity = 1,
+                    Product = prod_2,
+                    Order = ordr_1
+                });
 
-                _context.Products.Add(prod_1);
-                _context.Products.Add(prod_2);
+                ordr_2.OrderDetails.Add(new()
+                {
+                    UnitPrice = prod_2.SellingPrice,
+                    Quantity = 1,
+                    Product = prod_2,
+                    Order = ordr_2
+                });
 
-                _context.Orders.Add(ordr_1);
-                _context.Orders.Add(ordr_2);
+                dbContext.Customers.Add(cust_1);
+                dbContext.Customers.Add(cust_2);
+                dbContext.Customers.Add(cust_3);
+                dbContext.Customers.Add(cust_4);
 
-                await _context.SaveChangesAsync();
+                dbContext.Products.Add(prod_1);
+                dbContext.Products.Add(prod_2);
 
-                _logger.LogInformation("Seeding demo data completed");
+                dbContext.Orders.Add(ordr_1);
+                dbContext.Orders.Add(ordr_2);
+
+                await dbContext.SaveChangesAsync();
+
+                logger.LogInformation("Seeding demo data completed");
             }
         }
     }

@@ -1,9 +1,9 @@
-# **QuickApp** - ASPNET Core 7 / Angular 16 project template
+# **QuickApp** - ASPNET Core 8 / Angular 17 project template
 [![MIT license](https://cdn.rawgit.com/emonney/tempa/7e9d69ad/MITLicense.png)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 [![VSIX Downloads](https://img.shields.io/visual-studio-marketplace/d/adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)
 [![Twitter Follow](https://img.shields.io/twitter/follow/kommand?style=social)](https://twitter.com/kommand)
 
-A startup **Angular 16 / ASP.NET Core 7** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
+A startup **Angular 17 / ASP.NET Core 8** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
 As well as other common functionalities for **Quick Application Development**.
 
 [LIVE DEMO](https://quickapp-standard.azurewebsites.net)
@@ -29,8 +29,8 @@ ___
 
 ## This application consists of:
 
-*   Template pages with Angular 16 and TypeScript
-*   RESTful API Backend using ASP.NET Core 7 Web API
+*   Template pages with Angular 17 and TypeScript
+*   RESTful API Backend using ASP.NET Core 8 Web API
 *   Database using Entity Framework Core
 *   Authentication/Authorization based on OIDC/OAuth2 and ASP.NET Core Identity
 *   API Documentation using Swagger
@@ -99,7 +99,7 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 *   [Overview of QuickApp](https://www.ebenmonney.com/quickapp)
 *   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
 *   [Working with Data](https://docs.microsoft.com/en-us/ef/#pivot=efcore)
-*   [Angular 16 documentation overview](https://angular.io/guide/quickstart)
+*   [Angular 17 documentation overview](https://angular.io/guide/quickstart)
 *   [Getting started with Angular CLI](https://cli.angular.io)
 *   [Introduction to Bootstrap 5](https://getbootstrap.com/docs/5.2/getting-started/introduction)
 

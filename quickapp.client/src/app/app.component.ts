@@ -19,16 +19,15 @@ import { AppTitleService } from './services/app-title.service';
 import { AuthService } from './services/auth.service';
 import { ConfigurationService } from './services/configuration.service';
 import { Alertify } from './models/Alertify';
-import { Permission } from './models/permission.model';
+import { Permissions } from './models/permission.model';
 import { LoginComponent } from './components/login/login.component';
 
 declare let alertify: Alertify;
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
   isAppLoaded = false;
@@ -43,7 +42,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   loginControl: LoginComponent | undefined;
 
-  gT = (key: string | Array<string>, interpolateParams?: object) => this.translationService.getTranslation(key, interpolateParams);
+  gT = (key: string | Array<string>, interpolateParams?: object) =>
+    this.translationService.getTranslation(key, interpolateParams);
 
   get notificationsTitle() {
     if (this.newNotificationCount) {
@@ -86,7 +86,8 @@ export class AppComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       if (this.isUserLoggedIn) {
         this.alertService.resetStickyMessage();
-        this.alertService.showMessage(this.gT('app.alerts.Login'), this.gT('app.alerts.WelcomeBack', { username: this.userName }), MessageSeverity.default);
+        this.alertService.showMessage(this.gT('app.alerts.Login'), this.gT('app.alerts.WelcomeBack',
+          { username: this.userName }), MessageSeverity.default);
       }
     }, 2000);
 
@@ -133,7 +134,8 @@ export class AppComponent implements OnInit, OnDestroy {
           if (this.dataLoadingConsecutiveFailures++ < 20) {
             setTimeout(() => this.initNotificationsLoading(), 5000);
           } else {
-            this.alertService.showStickyMessage(this.gT('app.alerts.LoadingError'), this.gT('app.alerts.LoadingNewNotificationsFailed'), MessageSeverity.error);
+            this.alertService.showStickyMessage(this.gT('app.alerts.LoadingError'),
+              this.gT('app.alerts.LoadingNewNotificationsFailed'), MessageSeverity.error);
           }
         }
       });
@@ -154,7 +156,8 @@ export class AppComponent implements OnInit, OnDestroy {
           },
           error: error => {
             this.alertService.logError(error);
-            this.alertService.showMessage(this.gT('app.alerts.NotificationError'), this.gT('app.alerts.MarkingReadNotificationsFailed'), MessageSeverity.error);
+            this.alertService.showMessage(this.gT('app.alerts.NotificationError'),
+              this.gT('app.alerts.MarkingReadNotificationsFailed'), MessageSeverity.error);
           }
         });
     }
@@ -174,7 +177,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.loginControl.modalClosedCallback = () => modalRef.close();
 
     modalRef.shown.subscribe(() => {
-      this.alertService.showStickyMessage(this.gT('app.alerts.SessionExpired'), this.gT('app.alerts.SessionExpiredLoginAgain'), MessageSeverity.info);
+      this.alertService.showStickyMessage(this.gT('app.alerts.SessionExpired'),
+        this.gT('app.alerts.SessionExpiredLoginAgain'), MessageSeverity.info);
     });
 
     modalRef.hidden.subscribe(() => {
@@ -182,7 +186,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this.loginControl?.reset();
 
       if (this.authService.isSessionExpired) {
-        this.alertService.showStickyMessage(this.gT('app.alerts.SessionExpired'), this.gT('app.alerts.SessionExpiredLoginToRenewSession'), MessageSeverity.warn);
+        this.alertService.showStickyMessage(this.gT('app.alerts.SessionExpired'),
+          this.gT('app.alerts.SessionExpiredLoginToRenewSession'), MessageSeverity.warn);
       }
     });
   }
@@ -292,11 +297,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   get canViewCustomers() {
-    return this.accountService.userHasPermission(Permission.viewUsers); // eg. viewCustomersPermission
+    return this.accountService.userHasPermission(Permissions.viewUsers); // eg. viewCustomersPermission
   }
 
   get canViewProducts() {
-    return this.accountService.userHasPermission(Permission.viewUsers); // eg. viewProductsPermission
+    return this.accountService.userHasPermission(Permissions.viewUsers); // eg. viewProductsPermission
   }
 
   get canViewOrders() {

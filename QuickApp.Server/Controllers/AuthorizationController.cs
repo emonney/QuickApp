@@ -12,20 +12,18 @@ using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 using QuickApp.Core.Models.Account;
 using QuickApp.Core.Services.Account;
-using System;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using static OpenIddict.Abstractions.OpenIddictConstants;
 
-namespace QuickApp.Controllers
+namespace QuickApp.Server.Controllers
 {
     public class AuthorizationController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public AuthorizationController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public AuthorizationController(SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -36,11 +34,16 @@ namespace QuickApp.Controllers
         [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> Exchange()
         {
-            var request = HttpContext.GetOpenIddictServerRequest();
+            var request = HttpContext.GetOpenIddictServerRequest()
+                ?? throw new InvalidOperationException("The OpenID Connect request cannot be retrieved.");
 
             if (request.IsPasswordGrantType())
             {
-                var user = await _userManager.FindByNameAsync(request.Username) ?? await _userManager.FindByEmailAsync(request.Username);
+                if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
+                    return GetForbidResult("Username or password cannot be empty.");
+
+                var user = await _userManager.FindByNameAsync(request.Username)
+                    ?? await _userManager.FindByEmailAsync(request.Username);
 
                 if (user == null)
                     return GetForbidResult("Please check that your username and password is correct.");
@@ -48,7 +51,8 @@ namespace QuickApp.Controllers
                 if (!user.IsEnabled)
                     return GetForbidResult("The specified user account is disabled.");
 
-                var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: true);
+                var result =
+                    await _signInManager.CheckPasswordSignInAsync(user, request.Password, lockoutOnFailure: true);
 
                 if (result.IsLockedOut)
                     return GetForbidResult("The specified user account has been suspended.");
@@ -65,9 +69,11 @@ namespace QuickApp.Controllers
             }
             else if (request.IsRefreshTokenGrantType())
             {
-                var result = await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+                var result =
+                    await HttpContext.AuthenticateAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
 
-                var user = await _userManager.FindByIdAsync(result.Principal.GetClaim(Claims.Subject));
+                var userId = result?.Principal?.GetClaim(Claims.Subject);
+                var user = userId != null ? await _userManager.FindByIdAsync(userId) : null;
 
                 if (user == null)
                     return GetForbidResult("The refresh token is no longer valid.");
@@ -79,7 +85,7 @@ namespace QuickApp.Controllers
                     return GetForbidResult("The user is no longer allowed to sign in.");
 
                 var scopes = request.GetScopes();
-                if (scopes.Length == 0)
+                if (scopes.Length == 0 && result?.Principal != null)
                     scopes = result.Principal.GetScopes();
 
                 // Recreate the claims principal in case they changed since the refresh token was issued.
@@ -93,7 +99,7 @@ namespace QuickApp.Controllers
 
         private ForbidResult GetForbidResult(string errorDescription, string error = Errors.InvalidGrant)
         {
-            var properties = new AuthenticationProperties(new Dictionary<string, string>
+            var properties = new AuthenticationProperties(new Dictionary<string, string?>
             {
                 [OpenIddictServerAspNetCoreConstants.Properties.Error] = error,
                 [OpenIddictServerAspNetCoreConstants.Properties.ErrorDescription] = errorDescription
@@ -107,11 +113,12 @@ namespace QuickApp.Controllers
             var principal = await _signInManager.CreateUserPrincipalAsync(user);
             principal.SetScopes(scopes);
 
-            var identity = principal.Identity as ClaimsIdentity;
+            var identity = principal.Identity as ClaimsIdentity
+                ?? throw new InvalidOperationException("The ClaimsPrincipal's Identity is null.");
 
-            if (user.JobTitle != null) identity.SetClaim(PropertyConstants.JobTitle, user.JobTitle);
-            if (user.FullName != null) identity.SetClaim(PropertyConstants.FullName, user.FullName);
-            if (user.Configuration != null) identity.SetClaim(PropertyConstants.Configuration, user.Configuration);
+            if (user.JobTitle != null) identity.SetClaim(CustomClaims.JobTitle, user.JobTitle);
+            if (user.FullName != null) identity.SetClaim(CustomClaims.FullName, user.FullName);
+            if (user.Configuration != null) identity.SetClaim(CustomClaims.Configuration, user.Configuration);
 
             principal.SetDestinations(GetDestinations);
 
@@ -120,6 +127,9 @@ namespace QuickApp.Controllers
 
         private static IEnumerable<string> GetDestinations(Claim claim)
         {
+            if (claim.Subject == null)
+                throw new InvalidOperationException("The Claim's Subject is null.");
+
             switch (claim.Type)
             {
                 case Claims.Name:
@@ -134,19 +144,19 @@ namespace QuickApp.Controllers
 
                     yield break;
 
-                case PropertyConstants.JobTitle:
+                case CustomClaims.JobTitle:
                     if (claim.Subject.HasScope(Scopes.Profile))
                         yield return Destinations.IdentityToken;
 
                     yield break;
 
-                case PropertyConstants.FullName:
+                case CustomClaims.FullName:
                     if (claim.Subject.HasScope(Scopes.Profile))
                         yield return Destinations.IdentityToken;
 
                     yield break;
 
-                case PropertyConstants.Configuration:
+                case CustomClaims.Configuration:
                     if (claim.Subject.HasScope(Scopes.Profile))
                         yield return Destinations.IdentityToken;
 
@@ -160,7 +170,7 @@ namespace QuickApp.Controllers
 
                     yield break;
 
-                case ClaimConstants.Permission:
+                case CustomClaims.Permission:
                     yield return Destinations.AccessToken;
 
                     if (claim.Subject.HasScope(Scopes.Roles))

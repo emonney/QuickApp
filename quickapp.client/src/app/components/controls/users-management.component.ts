@@ -15,7 +15,7 @@ import { AccountService } from '../../services/account.service';
 import { Utilities } from '../../services/utilities';
 import { User } from '../../models/user.model';
 import { Role } from '../../models/role.model';
-import { Permission } from '../../models/permission.model';
+import { Permissions } from '../../models/permission.model';
 import { UserEdit } from '../../models/user-edit.model';
 import { UserInfoComponent } from './user-info.component';
 
@@ -255,14 +255,14 @@ export class UsersManagementComponent implements OnInit {
   }
 
   get canAssignRoles() {
-    return this.accountService.userHasPermission(Permission.assignRoles);
+    return this.accountService.userHasPermission(Permissions.assignRoles);
   }
 
   get canViewRoles() {
-    return this.accountService.userHasPermission(Permission.viewRoles);
+    return this.accountService.userHasPermission(Permissions.viewRoles);
   }
 
   get canManageUsers() {
-    return this.accountService.userHasPermission(Permission.manageUsers);
+    return this.accountService.userHasPermission(Permissions.manageUsers);
   }
 }

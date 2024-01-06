@@ -5,11 +5,10 @@
 // ---------------------------------------
 
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 #nullable disable
 
-namespace QuickApp.Migrations
+namespace QuickApp.Server.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -24,15 +23,13 @@ namespace QuickApp.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     PhoneNumber = table.Column<string>(type: "varchar(30)", unicode: false, maxLength: 30, nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     City = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Gender = table.Column<int>(type: "int", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -50,10 +47,8 @@ namespace QuickApp.Migrations
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Icon = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -119,18 +114,21 @@ namespace QuickApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ApplicationType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     ClientId = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     ClientSecret = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClientType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     ConcurrencyToken = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     ConsentType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DisplayNames = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JsonWebKeySet = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Permissions = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PostLogoutRedirectUris = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Properties = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RedirectUris = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Requirements = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    Settings = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -170,12 +168,10 @@ namespace QuickApp.Migrations
                     UnitsInStock = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDiscontinued = table.Column<bool>(type: "bit", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ParentId = table.Column<int>(type: "int", nullable: true),
                     ProductCategoryId = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -225,12 +221,10 @@ namespace QuickApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Comments = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DateModified = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CashierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -370,8 +364,8 @@ namespace QuickApp.Migrations
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

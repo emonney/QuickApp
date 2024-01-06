@@ -11,7 +11,7 @@ import { NgForm } from '@angular/forms';
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { AccountService } from '../../services/account.service';
 import { Role } from '../../models/role.model';
-import { Permission } from '../../models/permission.model';
+import { Permission, Permissions } from '../../models/permission.model';
 
 
 @Component({
@@ -200,6 +200,6 @@ export class RoleEditorComponent implements OnInit {
   }
 
   get canManageRoles() {
-    return this.accountService.userHasPermission(Permission.manageRoles);
+    return this.accountService.userHasPermission(Permissions.manageRoles);
   }
 }

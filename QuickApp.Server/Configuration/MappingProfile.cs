@@ -11,55 +11,53 @@ using QuickApp.Core.Models.Shop;
 using QuickApp.Core.Services.Account;
 using QuickApp.Server.ViewModels.Account;
 using QuickApp.Server.ViewModels.Shop;
-using System;
-using System.Linq;
 
 namespace QuickApp.Server.Configuration
 {
-    public class AutoMapperProfile : Profile
+    public class MappingProfile : Profile
     {
-        public AutoMapperProfile()
+        public MappingProfile()
         {
-            CreateMap<ApplicationUser, UserViewModel>()
+            CreateMap<ApplicationUser, UserVM>()
                    .ForMember(d => d.Roles, map => map.Ignore());
-            CreateMap<UserViewModel, ApplicationUser>()
+            CreateMap<UserVM, ApplicationUser>()
                 .ForMember(d => d.Roles, map => map.Ignore())
                 .ForMember(d => d.Id, map => map.Condition(src => src.Id != null));
 
-            CreateMap<ApplicationUser, UserEditViewModel>()
+            CreateMap<ApplicationUser, UserEditVM>()
                 .ForMember(d => d.Roles, map => map.Ignore());
-            CreateMap<UserEditViewModel, ApplicationUser>()
+            CreateMap<UserEditVM, ApplicationUser>()
                 .ForMember(d => d.Roles, map => map.Ignore())
                 .ForMember(d => d.Id, map => map.Condition(src => src.Id != null));
 
-            CreateMap<ApplicationUser, UserPatchViewModel>()
+            CreateMap<ApplicationUser, UserPatchVM>()
                 .ReverseMap();
 
-            CreateMap<ApplicationRole, RoleViewModel>()
+            CreateMap<ApplicationRole, RoleVM>()
                 .ForMember(d => d.Permissions, map => map.MapFrom(s => s.Claims))
                 .ForMember(d => d.UsersCount, map => map.MapFrom(s => s.Users != null ? s.Users.Count : 0))
                 .ReverseMap();
-            CreateMap<RoleViewModel, ApplicationRole>()
+            CreateMap<RoleVM, ApplicationRole>()
                 .ForMember(d => d.Id, map => map.Condition(src => src.Id != null));
 
-            CreateMap<IdentityRoleClaim<string>, ClaimViewModel>()
+            CreateMap<IdentityRoleClaim<string>, ClaimVM>()
                 .ForMember(d => d.Type, map => map.MapFrom(s => s.ClaimType))
                 .ForMember(d => d.Value, map => map.MapFrom(s => s.ClaimValue))
                 .ReverseMap();
 
-            CreateMap<ApplicationPermission, PermissionViewModel>()
+            CreateMap<ApplicationPermission, PermissionVM>()
                 .ReverseMap();
 
-            CreateMap<IdentityRoleClaim<string>, PermissionViewModel>()
-                .ConvertUsing(s => (PermissionViewModel)ApplicationPermissions.GetPermissionByValue(s.ClaimValue));
+            CreateMap<IdentityRoleClaim<string>, PermissionVM>()
+                .ConvertUsing(s => ((PermissionVM)ApplicationPermissions.GetPermissionByValue(s.ClaimValue))!);
 
-            CreateMap<Customer, CustomerViewModel>()
+            CreateMap<Customer, CustomerVM>()
                 .ReverseMap();
 
-            CreateMap<Product, ProductViewModel>()
+            CreateMap<Product, ProductVM>()
                 .ReverseMap();
 
-            CreateMap<Order, OrderViewModel>()
+            CreateMap<Order, OrderVM>()
                 .ReverseMap();
         }
     }
