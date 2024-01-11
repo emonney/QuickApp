@@ -1,7 +1,7 @@
 ﻿// ---------------------------------------
 // Email: quickapp@ebenmonney.com
 // Templates: www.ebenmonney.com/templates
-// (c) 2023 www.ebenmonney.com/mit-license
+// (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
 using System.Security.Claims;
