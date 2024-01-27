@@ -6,6 +6,14 @@
 A startup **Angular 17 / ASP.NET Core 8** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
 As well as other common functionalities for **Quick Application Development**.
 
+🚀The mission with QuickApp is to simplify the software development process using ASP.Net Core and Angular, empowering engineers to efficiently build amazing software.
+
+💥QuickApp is designed to be easy to use, customize, and extend. It follows the best practices and conventions of Angular and ASP.NET Core, and uses the latest technologies and tools for an efficient workflow.
+
+🎉QuickApp has been used by thousands of developers🧑🏼‍💻 around the world to create web applications for various domains and purposes. It is highly rated with positive reviews on the Visual Studio Marketplace website.
+
+💝If you've found QuickApp helpful, kindly consider [becoming a sponsor](https://github.com/sponsors/emonney) . Even a small amount goes a long way to keep the project alive.
+
 [LIVE DEMO](https://quickapp-standard.azurewebsites.net)
 
 [![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
