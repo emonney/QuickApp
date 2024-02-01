@@ -11,13 +11,13 @@
     <Copyright>Copyright © 2023 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://www.ebenmonney.com/quickapp</PackageProjectUrl>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1" />
   </ItemGroup>
 
 </Project>

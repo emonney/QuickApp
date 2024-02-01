@@ -27,7 +27,7 @@ interface Todo {
 @Component({
   selector: 'app-todo-demo',
   templateUrl: './todo-demo.component.html',
-  styleUrls: ['./todo-demo.component.scss']
+  styleUrl: './todo-demo.component.scss'
 })
 export class TodoDemoComponent implements OnInit, OnDestroy {
   public static readonly DBKeyTodoDemo = 'todo-demo.todo_list';

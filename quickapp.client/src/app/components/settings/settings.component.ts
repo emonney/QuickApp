@@ -17,7 +17,7 @@ import { Permissions } from '../../models/permission.model';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
+  styleUrl: './settings.component.scss',
   animations: [fadeInOut]
 })
 export class SettingsComponent implements OnInit, OnDestroy {

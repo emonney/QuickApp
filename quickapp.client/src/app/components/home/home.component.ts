@@ -15,7 +15,7 @@ interface WidgetIndex { element: string, index: number }
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrl: './home.component.scss',
   animations: [fadeInOut]
 })
 export class HomeComponent implements AfterViewInit {

@@ -11,7 +11,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 namespace QuickApp.Server.Authorization
 {
     // Swagger IOperationFilter implementation that will decide which api action needs authorization
-    internal class SwaggerAuthorizeCheckFilter : IOperationFilter
+    internal class SwaggerAuthorizeOperationFilter : IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {

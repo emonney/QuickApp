@@ -9,7 +9,7 @@ import { Component, ViewChild, ElementRef, Input, Output, EventEmitter, HostList
 @Component({
   selector: 'app-search-box',
   templateUrl: './search-box.component.html',
-  styleUrls: ['./search-box.component.scss']
+  styleUrl: './search-box.component.scss'
 })
 export class SearchBoxComponent {
 

@@ -19,7 +19,7 @@ import { Notification } from '../../models/notification.model';
 @Component({
   selector: 'app-notifications-viewer',
   templateUrl: './notifications-viewer.component.html',
-  styleUrls: ['./notifications-viewer.component.scss']
+  styleUrl: './notifications-viewer.component.scss'
 })
 export class NotificationsViewerComponent implements OnInit, OnDestroy {
   columns: TableColumn[] = [];

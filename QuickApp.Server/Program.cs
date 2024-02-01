@@ -110,8 +110,8 @@ builder.Services.AddOpenIddict()
         }
         else
         {
-            var oidcCertFileName = builder.Configuration["Certificates:OIDC:Path"];
-            var oidcCertFilePassword = builder.Configuration["Certificates:OIDC:Password"];
+            var oidcCertFileName = builder.Configuration["OIDC:Certificates:Path"];
+            var oidcCertFilePassword = builder.Configuration["OIDC:Certificates:Password"];
 
             if (string.IsNullOrWhiteSpace(oidcCertFileName))
             {
@@ -122,7 +122,6 @@ builder.Services.AddOpenIddict()
             }
             else
             {
-                //Todo: //Testa: test me
                 var oidcCertificate = new X509Certificate2(oidcCertFileName, oidcCertFilePassword);
 
                 options.AddEncryptionCertificate(oidcCertificate)
@@ -171,7 +170,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = OidcServerConfig.ServerName, Version = "v1" });
-    c.OperationFilter<SwaggerAuthorizeCheckFilter>();
+    c.OperationFilter<SwaggerAuthorizeOperationFilter>();
     c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.OAuth2,
@@ -198,7 +197,6 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 
 // Other Services
-//builder.Services.AddHttpContextAccessor(); // Todo: Test if needed. If IUserIdAccessor works
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IUserIdAccessor, UserIdAccessor>();
 

@@ -16,7 +16,7 @@ import { UserLogin } from '../../models/user-login.model';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrl: './login.component.scss'
 })
 
 export class LoginComponent implements OnInit, OnDestroy {

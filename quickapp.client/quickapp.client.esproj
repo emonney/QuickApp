@@ -5,6 +5,6 @@
     <!-- Allows the build (or compile) script located on package.json to run on Build -->
     <ShouldRunBuildScript>false</ShouldRunBuildScript>
     <!-- Folder where production build objects will be placed -->
-    <PublishAssetsDirectory>$(MSBuildProjectDirectory)\dist\quickapp.client\</PublishAssetsDirectory>
+    <PublishAssetsDirectory>$(MSBuildProjectDirectory)\dist\quickapp.client\browser\</PublishAssetsDirectory>
   </PropertyGroup>
 </Project>

@@ -15,7 +15,7 @@ type ChartEventArgs = { event: ChartEvent; active: object[] }
 @Component({
   selector: 'app-statistics-demo',
   templateUrl: './statistics-demo.component.html',
-  styleUrls: ['./statistics-demo.component.scss']
+  styleUrl: './statistics-demo.component.scss'
 })
 export class StatisticsDemoComponent implements OnInit, OnDestroy {
   chartOptions: object | undefined;

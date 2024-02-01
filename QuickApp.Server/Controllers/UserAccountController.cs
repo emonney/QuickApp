@@ -135,7 +135,7 @@ namespace QuickApp.Server.Controllers
                 return NotFound(id);
 
             if (!string.IsNullOrWhiteSpace(user.Id) && id != user.Id)
-                AddModelError("Conflicting user id in parameter and model data", nameof(id));
+                AddModelError("Conflicting user id in parameter and model data.", nameof(id));
 
             var isNewPassword = !string.IsNullOrWhiteSpace(user.NewPassword);
             var isNewUserName = !appUser.UserName!.Equals(user.UserName, StringComparison.OrdinalIgnoreCase);
@@ -145,10 +145,10 @@ namespace QuickApp.Server.Controllers
                 if (string.IsNullOrWhiteSpace(user.CurrentPassword))
                 {
                     if (isNewPassword)
-                        AddModelError("Current password is required when changing your own password", "Password");
+                        AddModelError("Current password is required when changing your own password.", "Password");
 
                     if (isNewUserName)
-                        AddModelError("Current password is required when changing your own username", "Username");
+                        AddModelError("Current password is required when changing your own username.", "Username");
                 }
                 else if (isNewPassword || isNewUserName)
                 {
@@ -189,8 +189,7 @@ namespace QuickApp.Server.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> UpdateCurrentUser([FromBody] JsonPatchDocument<UserPatchVM> patch)
         {
-            var userId = GetCurrentUserId();
-            return await UpdateUser(userId, patch);
+            return await UpdateUser(GetCurrentUserId(), patch);
         }
 
         [HttpPatch("users/{id}")]
@@ -238,11 +237,11 @@ namespace QuickApp.Server.Controllers
                 return new ChallengeResult();
 
             if (string.IsNullOrWhiteSpace(user.NewPassword))
-                AddModelError($"{nameof(user.NewPassword)} is required when registering a new user",
+                AddModelError($"{nameof(user.NewPassword)} is required when registering a new user.",
                     nameof(user.NewPassword));
 
             if (user.Roles == null)
-                AddModelError($"{nameof(user.Roles)} is required when registering a new user", nameof(user.Roles));
+                AddModelError($"{nameof(user.Roles)} is required when registering a new user.", nameof(user.Roles));
 
             if (ModelState.IsValid)
             {
@@ -281,7 +280,7 @@ namespace QuickApp.Server.Controllers
             if (!canDelete.Success)
             {
                 AddModelError($"User \"{appUser.UserName}\" cannot be deleted at this time. " +
-                    "Delete the associated records and try again");
+                    "Delete the associated records and try again.");
                 AddModelError(canDelete.Errors, "Records");
             }
 
@@ -352,7 +351,8 @@ namespace QuickApp.Server.Controllers
 
                 if (!result.Succeeded)
                 {
-                    throw new UserAccountException($"The following errors occurred whilst updating User Configurations: " +
+                    throw new UserAccountException(
+                        $"The following errors occurred whilst updating User Configurations: " +
                         $"{string.Join(", ", result.Errors)}");
                 }
 
