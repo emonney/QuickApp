@@ -14,6 +14,8 @@ As well as other common functionalities for **Quick Application Development**.
 
 💝If you've found QuickApp helpful, kindly consider [becoming a sponsor](https://github.com/sponsors/emonney) . Even a small amount goes a long way to keep the project alive.
 
+👍🏼As a [sponsor](https://github.com/sponsors/emonney) you will gain access to the private repos of **QuickApp Pro** and **QuickApp Standard** which have more advanced features, and also priority email support.
+
 [LIVE DEMO](https://quickapp-standard.azurewebsites.net)
 
 [![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
