@@ -339,7 +339,7 @@ namespace QuickApp.Server.Controllers
 
         [HttpPut("users/me/preferences")]
         [ProducesResponseType(204)]
-        public async Task<IActionResult> UserPreferences([FromBody] string data)
+        public async Task<IActionResult> UserPreferences([FromBody] string? data)
         {
             var userId = GetCurrentUserId();
             var appUser = await _userAccountService.GetUserByIdAsync(userId);

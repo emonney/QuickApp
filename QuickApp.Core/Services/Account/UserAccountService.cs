@@ -159,10 +159,7 @@ namespace QuickApp.Core.Services.Account
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
             var result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
-            if (!result.Succeeded)
-                return (false, result.Errors.Select(e => e.Description).ToArray());
-
-            return (true, []);
+            return (result.Succeeded, result.Errors.Select(e => e.Description).ToArray());
         }
 
         public async Task<(bool Succeeded, string[] Errors)> UpdatePasswordAsync(ApplicationUser user,

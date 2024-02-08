@@ -362,7 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# QuickApp Files
-QuickApp.sln.licenseheader
+# QuickApp
+**/Properties/PublishProfiles/
 QuickApp.Server/ReadMe.html
-Properties/PublishProfiles/
+QuickApp.sln.licenseheader

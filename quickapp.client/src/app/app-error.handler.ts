@@ -13,8 +13,8 @@ export class AppErrorHandler extends ErrorHandler {
   }
 
   override handleError(error: Error) {
-    if (confirm(`Fatal Error!\nAn unresolved error has occurred. Do you want to reload the page to correct this?\n\n
-                 Error: ${error.message}`)) {
+    if (confirm("Fatal Error!\nAn unresolved error has occurred. Do you want to reload the page to correct this?\n\n" +
+      `Error: ${error.message}`)) {
       window.location.reload();
     }
 

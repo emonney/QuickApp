@@ -94,13 +94,13 @@ namespace QuickApp.Server.Controllers
             if (role == null)
                 return BadRequest($"{nameof(role)} cannot be null");
 
-            if (!string.IsNullOrWhiteSpace(role.Id) && id != role.Id)
-                return BadRequest("Conflicting role id in parameter and model data");
-
             var appRole = await _userRoleService.GetRoleByIdAsync(id);
 
             if (appRole == null)
                 return NotFound(id);
+
+            if (!string.IsNullOrWhiteSpace(role.Id) && id != role.Id)
+                return BadRequest("Conflicting role id in parameter and model data");
 
             _mapper.Map(role, appRole);
 
