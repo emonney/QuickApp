@@ -1,10 +1,10 @@
 @import '../styles/custom-vendor';
 
-$table-bg-scale: 0% !default; // Hack: Fix for depreciation: https://sass-lang.com/d/function-units
+$table-bg-scale: 0% !default; // Fix for deprecation: https://sass-lang.com/d/function-units
 
 @import 'bootswatch/dist/flatly/variables';
 @import 'bootstrap/scss/bootstrap';
-@import 'bootswatch/dist/flatly/bootswatch';
+@import 'bootswatch_fix/flatly'; // import from 'bootswatch/dist/flatly/bootswatch' when font import issue is fixed
 
 @import 'app-theme';
 

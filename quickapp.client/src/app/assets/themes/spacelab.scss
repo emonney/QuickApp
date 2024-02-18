@@ -2,6 +2,6 @@
 
 @import 'bootswatch/dist/spacelab/variables';
 @import 'bootstrap/scss/bootstrap';
-@import 'bootswatch/dist/spacelab/bootswatch';
+@import 'bootswatch_fix/spacelab'; // import from 'bootswatch/dist/spacelab/bootswatch' when font import issue is fixed
 
 @import 'app-theme';

@@ -7,7 +7,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 
@@ -34,9 +34,7 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
-      imports: [
-        HttpClientModule,
-        FormsModule,
+      imports: [FormsModule,
         RouterTestingModule,
         TranslateModule.forRoot({
           loader: {
@@ -45,8 +43,7 @@ describe('AppComponent', () => {
           }
         }),
         NgxDatatableModule,
-        ToastaModule.forRoot()
-      ],
+        ToastaModule.forRoot()],
       providers: [
         AuthService,
         AlertService,
@@ -59,7 +56,8 @@ describe('AppComponent', () => {
         AccountService,
         AccountEndpoint,
         LocalStoreManager,
-        OidcHelperService
+        OidcHelperService,
+        provideHttpClient(withInterceptorsFromDi())
       ]
     }).compileComponents();
   });

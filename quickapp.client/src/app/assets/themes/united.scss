@@ -2,6 +2,6 @@
 
 @import 'bootswatch/dist/united/variables';
 @import 'bootstrap/scss/bootstrap';
-@import 'bootswatch/dist/united/bootswatch';
+@import 'bootswatch_fix/united'; // import from 'bootswatch/dist/united/bootswatch' when font import issue is fixed
 
 @import 'app-theme';

@@ -2,7 +2,7 @@
 
 @import 'bootswatch/dist/cosmo/variables';
 @import 'bootstrap/scss/bootstrap';
-@import 'bootswatch/dist/cosmo/bootswatch';
+@import 'bootswatch_fix/cosmo'; // import from 'bootswatch/dist/cosmo/bootswatch' when font import issue is fixed
 
 @import 'app-theme';
 

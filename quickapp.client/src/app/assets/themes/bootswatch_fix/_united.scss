@@ -1,0 +1,24 @@
+// United 5.3.3
+// Bootswatch
+
+
+// Variables
+
+/*
+    This is a temporary fix for the issue with importing the font path in the theme.
+    Once it is fixed delete this file and import from node_modules "bootswatch/dist/<theme>/bootswatch" file instead.
+*/
+
+$web-font-path: "https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" !default;
+
+@if $web-font-path {
+  @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
+}
+
+// Indicators
+
+.badge {
+  &.bg-light {
+    color: $body-color;
+  }
+}

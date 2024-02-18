@@ -23,7 +23,7 @@
     <PackageReference Include="OpenIddict.AspNetCore" Version="5.2.0" />
     <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="5.2.0" />
     <PackageReference Include="OpenIddict.Quartz" Version="5.2.0" />
-    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.8.0" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.8.1" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="3.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="8.0.2" />

@@ -2,7 +2,7 @@
 
 @import 'bootswatch/dist/sketchy/variables';
 @import 'bootstrap/scss/bootstrap';
-@import 'bootswatch/dist/sketchy/bootswatch';
+@import 'bootswatch_fix/sketchy'; // import from 'bootswatch/dist/sketchy/bootswatch' when font import issue is fixed
 
 @import 'app-theme';
 

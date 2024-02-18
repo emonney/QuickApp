@@ -8,7 +8,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DragDropModule } from '@angular/cdk/drag-drop'
 
 import { NgbModalModule, NgbTooltipModule, NgbPopoverModule, NgbDropdownModule, NgbCarouselModule }
@@ -17,7 +17,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ToastaModule } from 'ngx-toasta';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppErrorHandler } from './app-error.handler';
@@ -82,7 +82,6 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     FormsModule,
     DragDropModule,
     AppRoutingModule,
@@ -100,7 +99,7 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
     NgxDatatableModule,
     ToastaModule.forRoot(),
     NgSelectModule,
-    NgChartsModule
+    BaseChartDirective
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
@@ -113,7 +112,9 @@ import { RoleEditorComponent } from './components/controls/role-editor.component
     AccountService,
     AccountEndpoint,
     LocalStoreManager,
-    OidcHelperService
+    OidcHelperService,
+    provideCharts(withDefaultRegisterables()),
+    provideHttpClient(withInterceptorsFromDi())
   ],
   bootstrap: [AppComponent]
 })

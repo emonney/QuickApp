@@ -1,3 +1,5 @@
+/// <reference types="@angular/localize" />
+
 // ---------------------------------------
 // Email: quickapp@ebenmonney.com
 // Templates: www.ebenmonney.com/templates

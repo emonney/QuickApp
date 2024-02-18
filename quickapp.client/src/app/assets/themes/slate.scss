@@ -1,6 +1,6 @@
 @import '../styles/custom-vendor';
 
-$table-bg-scale: 0% !default; // Hack: Fix for depreciation: https://sass-lang.com/d/function-units
+$table-bg-scale: 0% !default; // Fix for deprecation: https://sass-lang.com/d/function-units
 
 @import 'bootswatch/dist/slate/variables';
 @import 'bootstrap/scss/bootstrap';
