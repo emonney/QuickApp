@@ -21,7 +21,9 @@
     <label for="language" class="col-sm-3 col-form-label">{{'preferences.Language' | translate}} </label>
     <div class="col-sm-4">
       <ng-select id="language" [(ngModel)]="configurations.language" [searchable]="false" [clearable]="false" class="form-control">
-        <ng-option [value]="'en'">{{'preferences.English' | translate}} <small class="text-muted"><i>({{'preferences.Default' | translate}})</i></small></ng-option>
+        <ng-option [value]="'en'">
+          {{'preferences.English' | translate}} <small class="text-muted"><i>({{'preferences.Default' | translate}})</i></small>
+        </ng-option>
         <ng-option [value]="'fr'">{{'preferences.French' | translate}}</ng-option>
         <ng-option [value]="'de'">{{'preferences.German' | translate}}</ng-option>
         <ng-option [value]="'pt'">{{'preferences.Portuguese' | translate}}</ng-option>
@@ -44,10 +46,19 @@
     <label for="homePage" class="col-sm-3 col-form-label">{{'preferences.HomePage' | translate}} </label>
     <div class="col-sm-4">
       <ng-select id="homePage" [(ngModel)]="configurations.homeUrl" [searchable]="false" [clearable]="false" class="form-control">
-        <ng-option [value]="'/'"><i class=" fa fa-tachometer"></i> {{'preferences.Dashboard' | translate}} <small class="text-muted"><i>({{'preferences.Default' | translate}})</i></small></ng-option>
-        <ng-option [value]="'/customers'" *ngIf="canViewCustomers"><i class=" fa fa-handshake-o"></i> {{'preferences.Customers' | translate}}</ng-option>
-        <ng-option [value]="'/products'" *ngIf="canViewProducts"><i class=" fa fa-truck"></i> {{'preferences.Products' | translate}}</ng-option>
-        <ng-option [value]="'/orders'" *ngIf="canViewOrders"><i class=" fa fa-shopping-cart"></i> {{'preferences.Orders' | translate}}</ng-option>
+        <ng-option [value]="'/'">
+          <i class=" fa fa-tachometer"></i> {{'preferences.Dashboard' | translate}}
+          <small class="text-muted"><i>({{'preferences.Default' | translate}})</i></small>
+        </ng-option>
+        @if (canViewCustomers) {
+          <ng-option [value]="'/customers'"><i class=" fa fa-handshake-o"></i> {{'preferences.Customers' | translate}}</ng-option>
+        }
+        @if (canViewProducts) {
+          <ng-option [value]="'/products'"><i class=" fa fa-truck"></i> {{'preferences.Products' | translate}}</ng-option>
+        }
+        @if (canViewOrders) {
+          <ng-option [value]="'/orders'"><i class=" fa fa-shopping-cart"></i> {{'preferences.Orders' | translate}}</ng-option>
+        }
         <ng-option [value]="'/about'"><i class=" fa fa-info-circle"></i> {{'preferences.About' | translate}}</ng-option>
         <ng-option [value]="'/settings'"><i class=" fa fa-cog"></i> {{'preferences.Settings' | translate}}</ng-option>
       </ng-select>
@@ -67,11 +78,13 @@
     <label for="defaultTheme" class="col-sm-3 col-form-label">{{'preferences.Theme' | translate}} </label>
     <div class="col-sm-4">
       <ng-select id="defaultTheme" [(ngModel)]="configurations.themeId" [searchable]="false" [clearable]="false" class="form-control theme-picker">
-        <ng-option *ngFor="let theme of themeManager.themes" [value]="theme.id">
-          <div class="theme-item" style="background-color: {{theme.background}}; color: {{theme.color}}">
-            {{'preferences.' + theme.name + 'Theme' | translate}} <span class="small">{{theme.isDark ? '(Dark)' : ''}}</span>
-          </div>
-        </ng-option>
+        @for (theme of themeManager.themes; track theme) {
+          <ng-option [value]="theme.id">
+            <div class="theme-item" style="background-color: {{theme.background}}; color: {{theme.color}}">
+              {{'preferences.' + theme.name + 'Theme' | translate}} <span class="small">{{theme.isDark ? '(Dark)' : ''}}</span>
+            </div>
+          </ng-option>
+        }
       </ng-select>
     </div>
     <div class="col-sm-5">
@@ -89,7 +102,8 @@
     <label class="col-sm-3 col-form-label" for="dashboardStatistics">{{'preferences.DashboardStatistics' | translate}} </label>
     <div class="col-sm-4">
       <div class="form-check form-switch fs-5 pt-sm-1">
-        <input name="dashboardStatistics" [(ngModel)]="configurations.showDashboardStatistics" class="form-check-input" type="checkbox" id="dashboardStatistics">
+        <input name="dashboardStatistics" [(ngModel)]="configurations.showDashboardStatistics" class="form-check-input"
+               type="checkbox" id="dashboardStatistics">
       </div>
     </div>
     <div class="col-sm-5">
@@ -105,10 +119,13 @@
   </div>
 
   <div class="row">
-    <label class="col-sm-3 col-form-label" for="dashboardNotifications">{{'preferences.DashboardNotifications' | translate}} </label>
+    <label class="col-sm-3 col-form-label" for="dashboardNotifications">
+      {{'preferences.DashboardNotifications' | translate}}
+    </label>
     <div class="col-sm-4">
       <div class="form-check form-switch fs-5 pt-sm-1">
-        <input name="dashboardNotifications" [(ngModel)]="configurations.showDashboardNotifications" class="form-check-input" type="checkbox" id="dashboardNotifications">
+        <input name="dashboardNotifications" [(ngModel)]="configurations.showDashboardNotifications"
+               class="form-check-input" type="checkbox" id="dashboardNotifications">
       </div>
     </div>
     <div class="col-sm-5">
@@ -127,7 +144,8 @@
     <label class="col-sm-3 col-form-label" for="dashboardTodo">{{'preferences.DashboardTodo' | translate}} </label>
     <div class="col-sm-4">
       <div class="form-check form-switch fs-5 pt-sm-1">
-        <input name="dashboardTodo" [(ngModel)]="configurations.showDashboardTodo" class="form-check-input" type="checkbox" id="dashboardTodo">
+        <input name="dashboardTodo" [(ngModel)]="configurations.showDashboardTodo" class="form-check-input"
+               type="checkbox" id="dashboardTodo">
       </div>
     </div>
     <div class="col-sm-5">
@@ -147,7 +165,8 @@
     <label class="col-sm-3 col-form-label" for="dashboardBanner">{{'preferences.DashboardBanner' | translate}}</label>
     <div class="col-sm-4">
       <div class="form-check form-switch fs-5 pt-sm-1">
-        <input name="dashboardBanner" [(ngModel)]="configurations.showDashboardBanner" class="form-check-input" type="checkbox" id="dashboardBanner">
+        <input name="dashboardBanner" [(ngModel)]="configurations.showDashboardBanner" class="form-check-input"
+               type="checkbox" id="dashboardBanner">
       </div>
     </div>
     <div class="col-sm-5">

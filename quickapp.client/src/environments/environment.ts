@@ -10,8 +10,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: null, // Change this to the address of your backend API if different from frontend address
-  loginUrl: '/login'
+  baseUrl: 'https://localhost:7085', // API Server url
+  fallbackBaseUrl: 'https://quickapp.azurewebsites.net', // Fallback API Server for development without local API server
 };
 
 /*

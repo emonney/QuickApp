@@ -4,15 +4,20 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, OnDestroy, Input, TemplateRef, ViewChild } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TableColumn } from '@swimlane/ngx-datatable';
+import { Component, OnInit, OnDestroy, Input, TemplateRef, ViewChild, inject } from '@angular/core';
+import { NgbModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
 
 import { AuthService } from '../../services/auth.service';
 import { AlertService, MessageSeverity, DialogType } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
 import { LocalStoreManager } from '../../services/local-store-manager.service';
 import { Utilities } from '../../services/utilities';
+import { SearchBoxComponent } from './search-box.component';
+import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
+import { AutofocusDirective } from '../../directives/autofocus.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 interface Todo {
@@ -27,15 +32,23 @@ interface Todo {
 @Component({
   selector: 'app-todo-demo',
   templateUrl: './todo-demo.component.html',
-  styleUrl: './todo-demo.component.scss'
+  styleUrl: './todo-demo.component.scss',
+  standalone: true,
+  imports: [SearchBoxComponent, NgxDatatableModule, FormsModule, AutofocusDirective, NgbTooltip, NgClass, TranslateModule]
 })
 export class TodoDemoComponent implements OnInit, OnDestroy {
+  private alertService = inject(AlertService);
+  private translationService = inject(AppTranslationService);
+  private localStorage = inject(LocalStoreManager);
+  private authService = inject(AuthService);
+  private modalService = inject(NgbModal);
+
   public static readonly DBKeyTodoDemo = 'todo-demo.todo_list';
 
   columns: TableColumn[] = [];
   rows: Todo[] = [];
   rowsCache: Todo[] = [];
-  editing: { [key: string]: boolean } = {};
+  editing: Record<string, boolean> = {};
   taskEdit: Partial<Todo> = {};
   isDataLoaded = false;
   loadingIndicator = true;
@@ -86,11 +99,6 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
   @ViewChild('editorModal', { static: true })
   editorModalTemplate!: TemplateRef<unknown>;
 
-
-  constructor(private alertService: AlertService, private translationService: AppTranslationService,
-    private localStorage: LocalStoreManager, private authService: AuthService, private modalService: NgbModal) {
-  }
-
   ngOnInit() {
     this.loadingIndicator = true;
 
@@ -106,10 +114,38 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
     const gT = (key: string) => this.translationService.getTranslation(key);
 
     this.columns = [
-      { prop: 'completed', name: '', width: 30, headerTemplate: this.statusHeaderTemplate, cellTemplate: this.statusTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false },
-      { prop: 'name', name: gT('todoDemo.management.Task'), cellTemplate: this.nameTemplate, width: 100 },
-      { prop: 'description', name: gT('todoDemo.management.Description'), cellTemplate: this.descriptionTemplate, width: 300 },
-      { name: '', width: 80, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false }
+      {
+        prop: 'completed',
+        name: '',
+        width: 30,
+        headerTemplate: this.statusHeaderTemplate,
+        cellTemplate: this.statusTemplate,
+        resizeable: false,
+        canAutoResize: false,
+        sortable: false,
+        draggable: false
+      },
+      {
+        prop: 'name',
+        name: gT('todoDemo.management.Task'),
+        width: 100,
+        cellTemplate: this.nameTemplate
+      },
+      {
+        prop: 'description',
+        name: gT('todoDemo.management.Description'),
+        width: 300,
+        cellTemplate: this.descriptionTemplate
+      },
+      {
+        name: '',
+        width: 80,
+        cellTemplate: this.actionsTemplate,
+        resizeable: false,
+        canAutoResize: false,
+        sortable: false,
+        draggable: false
+      }
     ];
   }
 
@@ -143,7 +179,8 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
               important: false,
               name: 'Create aspnet-core/Angular tutorials based on this project',
               description: 'Create tutorials (blog/video/youtube) on how to build applications (full stack)' +
-                ' using aspnet-core/Angular. The tutorial will focus on getting productive with the technology right away rather than the details on how and why they work so audience can get onboard quickly.'
+                ' using aspnet-core/Angular. The tutorial will focus on getting productive with the technology right' +
+                ' away rather than the details on how and why they work so audience can get onboard quickly.'
             },
           ];
         }

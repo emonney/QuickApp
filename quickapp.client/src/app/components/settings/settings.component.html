@@ -4,58 +4,66 @@
 
 <div [@fadeInOut]>
   <div class="d-sm-flex flex-row mb-2">
-    <ul appBootstrapTab #tab="bootstrap-tab" (showBSTab)="onShowTab($event)" class="nav nav-tabs nav-tabs--vertical nav-tabs--left" role="navigation">
-      <li class="nav-item">
-        <a id="profileTab" [routerLink]="[]" fragment="profile" data-bs-target="#profile" class="nav-link active" role="tab" aria-controls="profile">
+    <ul ngbNav #tab="ngbNav" class="nav nav-tabs nav-tabs--vertical nav-tabs--left"
+        [activeId]="activeTab" [orientation]="'vertical'" [animation]="false"
+        (activeIdChange)="showDatatable = false" (shown)="showDatatable = true">
+      <li [ngbNavItem]="profileTab">
+        <a ngbNavLink routerLink="." [fragment]="profileTab">
           <i class="fa fa-user-circle-o fa-fw" aria-hidden="true"></i> {{'settings.tab.Profile' | translate}}
         </a>
+        <ng-template ngbNavContent>
+          <h4>{{'settings.header.UserProfile' | translate}}</h4>
+          <hr class="hr-separator" />
+          <div [@fadeInOut] class="content-container ps-lg-2">
+            <app-user-info></app-user-info>
+          </div>
+        </ng-template>
       </li>
-      <li class="nav-item">
-        <a id="preferencesTab" [routerLink]="[]" fragment="preferences" data-bs-target="#preferences" class="nav-link" role="tab" aria-controls="preferences">
+      <li [ngbNavItem]="preferencesTab">
+        <a ngbNavLink routerLink="." [fragment]="preferencesTab">
           <i class="fa fa-sliders fa-fw" aria-hidden="true"></i> {{'settings.tab.Preferences' | translate}}
         </a>
+        <ng-template ngbNavContent>
+          <h4>{{'settings.header.UserPreferences' | translate}}</h4>
+          <hr class="hr-separator" />
+          <div [@fadeInOut] class="content-container ps-lg-2">
+            <app-user-preferences></app-user-preferences>
+          </div>
+        </ng-template>
       </li>
-      <li [hidden]="!canViewUsers" class="nav-item">
-        <a id="usersTab" [routerLink]="[]" fragment="users" data-bs-target="#users" class="nav-link" role="tab" aria-controls="users">
-          <i class="fa fa-users fa-fw" aria-hidden="true"></i> {{'settings.tab.Users' | translate}}
-        </a>
-      </li>
-      <li [hidden]="!canViewRoles" class="nav-item">
-        <a id="rolesTab" [routerLink]="[]" fragment="roles" data-bs-target="#roles" class="nav-link" role="tab" aria-controls="roles">
-          <i class="fa fa-shield fa-fw" aria-hidden="true"></i> {{'settings.tab.Roles' | translate}}
-        </a>
-      </li>
+      @if (canViewUsers) {
+        <li [ngbNavItem]="usersTab">
+          <a ngbNavLink routerLink="." [fragment]="usersTab">
+            <i class="fa fa-users fa-fw" aria-hidden="true"></i> {{'settings.tab.Users' | translate}}
+          </a>
+          <ng-template ngbNavContent>
+            <h4>{{'settings.header.UsersManagements' | translate}}</h4>
+            <hr class="hr-separator" />
+            @if (showDatatable){
+              <div [@fadeInOut] class="content-container ps-lg-1">
+                <app-users-management></app-users-management>
+              </div>
+            }
+          </ng-template>
+        </li>
+      }
+      @if (canViewRoles) {
+        <li [ngbNavItem]="rolesTab">
+          <a ngbNavLink routerLink="." [fragment]="rolesTab">
+            <i class="fa fa-shield fa-fw" aria-hidden="true"></i> {{'settings.tab.Roles' | translate}}
+          </a>
+          <ng-template ngbNavContent>
+            <h4>{{'settings.header.RolesManagement' | translate}}</h4>
+            <hr class="hr-separator" />
+            @if (showDatatable){
+              <div [@fadeInOut] class="content-container ps-lg-1">
+                <app-roles-management></app-roles-management>
+              </div>
+            }
+          </ng-template>
+        </li>
+      }
     </ul>
-    <div class="tab-content w-100">
-      <div class="tab-pane show active" id="profile" role="tabpanel">
-        <h4>{{'settings.header.UserProfile' | translate}}</h4>
-        <hr class="hr-separator" />
-        <div [@fadeInOut] *ngIf="isProfileActivated" class="content-container ps-lg-2">
-          <app-user-info></app-user-info>
-        </div>
-
-      </div>
-      <div class="tab-pane" id="preferences" role="tabpanel">
-        <h4>{{'settings.header.UserPreferences' | translate}}</h4>
-        <hr class="hr-separator" />
-        <div [@fadeInOut] *ngIf="isPreferencesActivated" class="content-container ps-lg-2">
-          <app-user-preferences></app-user-preferences>
-        </div>
-      </div>
-      <div class="tab-pane" id="users" role="tabpanel">
-        <h4>{{'settings.header.UsersManagements' | translate}}</h4>
-        <hr class="hr-separator" />
-        <div [@fadeInOut] *ngIf="canViewUsers && isUsersActivated" class="content-container ps-lg-1">
-          <app-users-management></app-users-management>
-        </div>
-      </div>
-      <div class="tab-pane" id="roles" role="tabpanel">
-        <h4>{{'settings.header.RolesManagement' | translate}}</h4>
-        <hr class="hr-separator" />
-        <div [@fadeInOut] *ngIf="canViewRoles && isRolesActivated" class="content-container ps-lg-1">
-          <app-roles-management></app-roles-management>
-        </div>
-      </div>
-    </div>
+    <div [ngbNavOutlet]="tab" class="w-100"></div>
   </div>
 </div>

@@ -4,11 +4,11 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ToastaService, ToastaConfig, ToastOptions, ToastData } from 'ngx-toasta';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastaService, ToastaConfig, ToastOptions, ToastData, ToastaModule } from 'ngx-toasta';
+import { NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 import { AlertService, AlertDialog, DialogType, AlertCommand, MessageSeverity } from './services/alert.service';
 import { NotificationService } from './services/notification.service';
@@ -22,14 +22,30 @@ import { Alertify } from './models/Alertify';
 import { Permissions } from './models/permission.model';
 import { LoginComponent } from './components/login/login.component';
 
+import { NotificationsViewerComponent } from './components/controls/notifications-viewer.component';
+import { TranslateModule } from '@ngx-translate/core';
+
 declare let alertify: Alertify;
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  standalone: true,
+  imports: [ToastaModule, RouterLink, RouterLinkActive, NgbPopover, NotificationsViewerComponent, RouterOutlet, TranslateModule]
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private toastaService = inject(ToastaService);
+  private toastaConfig = inject(ToastaConfig);
+  private accountService = inject(AccountService);
+  private alertService = inject(AlertService);
+  private modalService = inject(NgbModal);
+  private notificationService = inject(NotificationService);
+  private authService = inject(AuthService);
+  private translationService = inject(AppTranslationService);
+  configurations = inject(ConfigurationService);
+  router = inject(Router);
+
   isAppLoaded = false;
   isUserLoggedIn = false;
   newNotificationCount = 0;
@@ -42,7 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   loginControl: LoginComponent | undefined;
 
-  gT = (key: string | Array<string>, interpolateParams?: object) =>
+  gT = (key: string | string[], interpolateParams?: object) =>
     this.translationService.getTranslation(key, interpolateParams);
 
   get notificationsTitle() {
@@ -53,18 +69,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(
-    storageManager: LocalStoreManager,
-    private toastaService: ToastaService,
-    private toastaConfig: ToastaConfig,
-    private accountService: AccountService,
-    private alertService: AlertService,
-    private modalService: NgbModal,
-    private notificationService: NotificationService,
-    private authService: AuthService,
-    private translationService: AppTranslationService,
-    public configurations: ConfigurationService,
-    public router: Router) {
+  constructor() {
+    const storageManager = inject(LocalStoreManager);
 
     storageManager.initialiseStorageSyncListener();
 
@@ -305,6 +311,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   get canViewOrders() {
-    return true; // eg. viewOrdersPermission
+    return !!true; // eg. viewOrdersPermission
   }
 }

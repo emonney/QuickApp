@@ -1,7 +1,7 @@
 {
   "name": "quickapp.client",
-  "version": "8.0.0",
-  "description": "ASP.NET Core 8.0/Angular 17 startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
+  "version": "8.1.0",
+  "description": "ASP.NET Core 8.0/Angular 18 startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
   "author": {
     "name": "Ebenezer Monney",
     "email": "info@ebenmonney.com",
@@ -36,7 +36,7 @@
     "@ng-select/ng-select": "^13.9.1",
     "@ngx-translate/core": "^15.0.0",
     "@popperjs/core": "^2.11.8",
-    "@swimlane/ngx-datatable": "^20.1.0",
+    "@siemens/ngx-datatable": "^22.4.1",
     "bootstrap": "^5.3.3",
     "bootswatch": "^5.3.3",
     "chart.js": "^4.4.4",
@@ -50,14 +50,14 @@
     "zone.js": "~0.14.10"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.8",
-    "@angular/cli": "^18.2.8",
+    "@angular-devkit/build-angular": "^18.2.9",
+    "@angular/cli": "^18.2.9",
     "@angular/compiler-cli": "^18.2.0",
     "@angular/localize": "^18.2.0",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^22.7.5",
-    "angular-eslint": "18.3.1",
-    "eslint": "^9.9.1",
+    "angular-eslint": "18.4.0",
+    "eslint": "^9.13.0",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -65,6 +65,6 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.5.2",
-    "typescript-eslint": "8.2.0"
+    "typescript-eslint": "8.10.0"
   }
 }

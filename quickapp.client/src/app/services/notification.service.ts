@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, interval } from 'rxjs';
 import { map, mergeMap, startWith } from 'rxjs/operators';
 
@@ -14,6 +14,9 @@ import { Notification } from '../models/notification.model';
 
 @Injectable()
 export class NotificationService {
+  private notificationEndpoint = inject(NotificationEndpoint);
+  private authService = inject(AuthService);
+
   private lastNotificationDate: Date | undefined;
   private _newNotifications: Notification[] | undefined;
 
@@ -23,10 +26,6 @@ export class NotificationService {
 
   get newNotifications() {
     return this._newNotifications;
-  }
-
-
-  constructor(private notificationEndpoint: NotificationEndpoint, private authService: AuthService) {
   }
 
   getNotification(notificationId: number) {

@@ -4,35 +4,44 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
 
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { AccountService } from '../../services/account.service';
 import { Role } from '../../models/role.model';
 import { Permission, Permissions } from '../../models/permission.model';
+import { NgClass } from '@angular/common';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { GroupByPipe } from '../../pipes/group-by.pipe';
 
 
 @Component({
-  selector: 'app-role-editor',
-  templateUrl: './role-editor.component.html',
-  styleUrl: './role-editor.component.scss'
+    selector: 'app-role-editor',
+    templateUrl: './role-editor.component.html',
+    styleUrl: './role-editor.component.scss',
+    standalone: true,
+    imports: [FormsModule, NgClass, NgbTooltip, TranslateModule, GroupByPipe]
 })
 export class RoleEditorComponent implements OnInit {
+  private alertService = inject(AlertService);
+  private accountService = inject(AccountService);
+
   private isNewRole = false;
   public isSaving = false;
   public showValidationErrors = true;
   public roleEdit = new Role();
   public allPermissions: Permission[] = [];
-  public selectedValues: { [key: string]: boolean; } = {};
+  public selectedValues: Record<string, boolean> = {};
   private editingRoleName: string | null = null;
 
   public formResetToggle = true;
 
-  public changesSavedCallback: { (): void } | undefined;
-  public changesFailedCallback: { (): void } | undefined;
-  public changesCancelledCallback: { (): void } | undefined;
+  public changesSavedCallback: (() => void) | undefined;
+  public changesFailedCallback: (() => void) | undefined;
+  public changesCancelledCallback: (() => void) | undefined;
 
   // Outupt to broadcast this instance so it can be accessible from within ng-bootstrap modal template
   @Output()
@@ -40,9 +49,6 @@ export class RoleEditorComponent implements OnInit {
 
   @ViewChild('f')
   private form!: NgForm;
-
-  constructor(private alertService: AlertService, private accountService: AccountService) {
-  }
 
   ngOnInit() {
     this.afterOnInit.emit(this);

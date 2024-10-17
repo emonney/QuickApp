@@ -4,8 +4,8 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 import { Observable, Subject, from, throwError } from 'rxjs';
 import { mergeMap, switchMap, catchError } from 'rxjs/operators';
 
@@ -23,15 +23,12 @@ interface ServerError {
 
 @Injectable()
 export class EndpointBase {
+  private authService = inject(AuthService);
+
   private taskPauser: Subject<boolean> | null = null;
   private isRefreshingLogin = false;
 
-  constructor(
-    protected http: HttpClient,
-    private authService: AuthService) {
-  }
-
-  protected get requestHeaders(): { headers: HttpHeaders | { [header: string]: string | string[]; } } {
+  protected get requestHeaders(): { headers: HttpHeaders | Record<string, string | string[]> } {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.authService.accessToken}`,
       'Content-Type': 'application/json',

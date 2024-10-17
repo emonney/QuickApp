@@ -4,14 +4,16 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Directive, ElementRef, OnInit } from '@angular/core';
+import { Directive, ElementRef, OnInit, inject } from '@angular/core';
 
 
 @Directive({
-  selector: '[appAutofocus]'
+    selector: '[appAutofocus]',
+    standalone: true
 })
 export class AutofocusDirective implements OnInit {
-  constructor(public elementRef: ElementRef) { }
+  elementRef = inject(ElementRef);
+
 
   ngOnInit() {
     setTimeout(() => this.elementRef.nativeElement.focus(), 500);

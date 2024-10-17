@@ -266,7 +266,7 @@ export class Utilities {
   }
 
   public static getQueryParamsFromString(paramString: string) {
-    const params: { [key: string]: string | undefined } = {};
+    const params: Record<string, string | undefined> = {};
 
     for (const param of paramString.split('&')) {
       const keyValue = Utilities.splitInTwo(param, '=');
@@ -336,16 +336,16 @@ export class Utilities {
   public static JsonTryParse(value: string) {
     try {
       return JSON.parse(value);
-    } catch (e) {
+    } catch {
       return value;
     }
   }
 
-  public static GetObjectWithLoweredPropertyNames<T extends { [key: string]: unknown }>(obj: T) {
+  public static GetObjectWithLoweredPropertyNames<T extends Record<string, unknown>>(obj: T) {
     return Object.keys(obj).reduce((newObj, k) => {
       newObj[k.toLowerCase()] = obj[k];
       return newObj;
-    }, {} as { [key: string]: unknown }) as T;
+    }, {} as Record<string, unknown>) as T;
   }
 
   public static TestIsObjectEmpty(obj: object) {
@@ -641,7 +641,10 @@ export class Utilities {
         const propertyValue = item[k as keyof typeof item];
 
         if (propertyValue === null) {
-          isArray ? item.splice(+k, 1) : delete item[k as keyof typeof item];
+          if (isArray)
+            item.splice(+k, 1)
+          else
+            delete item[k as keyof typeof item];
         } else if (typeof propertyValue === 'object') {
           Utilities.removeNulls(propertyValue);
         }

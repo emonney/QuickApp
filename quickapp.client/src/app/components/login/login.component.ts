@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { AlertService, MessageSeverity, DialogType } from '../../services/alert.service';
@@ -12,27 +12,30 @@ import { AuthService } from '../../services/auth.service';
 import { ConfigurationService } from '../../services/configuration.service';
 import { Utilities } from '../../services/utilities';
 import { UserLogin } from '../../models/user-login.model';
+import { NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
+  standalone: true,
+  imports: [FormsModule, NgClass]
 })
 
 export class LoginComponent implements OnInit, OnDestroy {
+  private alertService = inject(AlertService);
+  private authService = inject(AuthService);
+  private configurations = inject(ConfigurationService);
+
   userLogin = new UserLogin();
   isLoading = false;
   formResetToggle = true;
-  modalClosedCallback: { (): void } | undefined;
+  modalClosedCallback: (() => void) | undefined;
   loginStatusSubscription: Subscription | undefined;
 
   @Input()
   isModal = false;
-
-
-  constructor(private alertService: AlertService, private authService: AuthService, private configurations: ConfigurationService) {
-
-  }
 
   ngOnInit() {
     this.userLogin.rememberMe = this.authService.rememberMe;
@@ -95,7 +98,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           if (Utilities.checkNoNetwork(error)) {
             this.alertService.showStickyMessage(Utilities.noNetworkMessageCaption, Utilities.noNetworkMessageDetail, MessageSeverity.error, error);
-            this.offerAlternateHost();
+            this.offerBackendDevServer();
           } else {
             const errorMessage = Utilities.getHttpResponseMessage(error);
 
@@ -114,10 +117,12 @@ export class LoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  offerAlternateHost() {
+  offerBackendDevServer() {
     if (Utilities.checkIsLocalHost(location.origin) && Utilities.checkIsLocalHost(this.configurations.baseUrl)) {
-      this.alertService.showDialog('Dear Developer!\nIt appears your backend Web API service is not running...\n' +
-        'Would you want to temporarily switch to the online Demo API below?(Or specify another)', DialogType.prompt, value => {
+      this.alertService.showDialog(
+        'Dear Developer!<br />' +
+        'It appears your backend Web API server is inaccessible or not running...<br />' +
+        'Would you want to temporarily switch to the fallback development API server below? (Or specify another)', DialogType.prompt, value => {
           this.configurations.baseUrl = value as string;
           this.alertService.showStickyMessage('API Changed!', 'The target Web API has been changed to: ' + value, MessageSeverity.warn);
         },

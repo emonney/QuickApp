@@ -7,7 +7,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 
-@Pipe({ name: 'groupBy' })
+@Pipe({
+    name: 'groupBy',
+    standalone: true
+})
 export class GroupByPipe implements PipeTransform {
   transform<T>(collection: T[], property: keyof T) {
     if (!collection) {

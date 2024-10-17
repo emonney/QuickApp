@@ -4,11 +4,18 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { AfterViewInit, Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragPlaceholder } from '@angular/cdk/drag-drop';
 import { fadeInOut } from '../../services/animations';
 import { ConfigurationService } from '../../services/configuration.service';
 import { AuthService } from '../../services/auth.service';
+
+import { RouterLink } from '@angular/router';
+import { StatisticsDemoComponent } from '../controls/statistics-demo.component';
+import { NotificationsViewerComponent } from '../controls/notifications-viewer.component';
+import { TodoDemoComponent } from '../controls/todo-demo.component';
+import { BannerDemoComponent } from '../controls/banner-demo.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface WidgetIndex { element: string, index: number }
 
@@ -16,18 +23,19 @@ interface WidgetIndex { element: string, index: number }
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
-  animations: [fadeInOut]
+  animations: [fadeInOut],
+  standalone: true,
+  imports: [CdkDropList, RouterLink, CdkDrag, CdkDragPlaceholder, StatisticsDemoComponent, NotificationsViewerComponent, TodoDemoComponent, BannerDemoComponent, TranslateModule]
 })
 export class HomeComponent implements AfterViewInit {
+  private authService = inject(AuthService);
+  configurations = inject(ConfigurationService);
+
   dragStartDelay = 200;
   readonly DBKeyWidgetsOrder = 'home-component.widgets_order';
 
   @ViewChild('widgetsContainer', { read: ElementRef })
   widgetsContainer!: ElementRef<HTMLDivElement>;
-
-  constructor(private authService: AuthService, public configurations: ConfigurationService) {
-
-  }
 
   ngAfterViewInit(): void {
     this.restoreWidgetsOrder();
@@ -41,8 +49,7 @@ export class HomeComponent implements AfterViewInit {
 
     const parentEle = this.widgetsContainer.nativeElement;
 
-    for (let i = 0; i < parentEle.children.length; i++) {
-      const widget = parentEle.children[i];
+    for (const widget of Array.from(parentEle.children)) {
       const index = widgetIndexes.find(w => w.element == widget.id)?.index;
 
       if (index != null)

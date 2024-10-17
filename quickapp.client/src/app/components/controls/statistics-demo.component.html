@@ -17,14 +17,20 @@
         <thead>
           <tr>
             <th class="border-top-0"></th>
-            <th class="border-top-0" *ngFor="let label of chartLabels">{{label}}</th>
+            @for (label of chartLabels; track label) {
+              <th class="border-top-0">{{label}}</th>
+            }
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let d of chartData">
-            <th>{{d && d.label.split(' ').pop()}}</th>
-            <td *ngFor="let label of chartLabels; let j=index">{{d && d.data[j]}}</td>
-          </tr>
+          @for (d of chartData; track d) {
+            <tr>
+              <th>{{d && d.label.split(' ').pop()}}</th>
+              @for (label of chartLabels; track label; let j = $index) {
+                <td>{{d && d.data[j]}}</td>
+              }
+            </tr>
+          }
         </tbody>
       </table>
     </div>

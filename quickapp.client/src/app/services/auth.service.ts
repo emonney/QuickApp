@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,22 +21,23 @@ import { PermissionValues } from '../models/permission.model';
 
 @Injectable()
 export class AuthService {
-  public get loginUrl() { return this.configurations.loginUrl; }
+  private router = inject(Router);
+  private oidcHelperService = inject(OidcHelperService);
+  private configurations = inject(ConfigurationService);
+  private localStorage = inject(LocalStoreManager);
+
+  public readonly loginUrl = '/login';
   public get homeUrl() { return this.configurations.homeUrl; }
 
   public loginRedirectUrl: string | null = null;
   public logoutRedirectUrl: string | null = null;
 
-  public reLoginDelegate: { (): void } | undefined;
+  public reLoginDelegate: (() => void) | undefined;
 
   private previousIsLoggedInCheck = false;
   private loginStatus = new Subject<boolean>();
 
-  constructor(
-    private router: Router,
-    private oidcHelperService: OidcHelperService,
-    private configurations: ConfigurationService,
-    private localStorage: LocalStoreManager) {
+  constructor() {
 
     this.initializeLoginStatus();
   }

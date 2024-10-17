@@ -1,15 +1,17 @@
 <div class="reduced-font text-link">
   <ngb-carousel [interval]="5000">
-    <ng-template ngbSlide *ngFor="let slide of carouselSlides">
-      <div class="carousel-slide-content">
-        <img [src]="slide.img" [alt]="slide.alt" class="img-fluid" />
-        <div class="carousel-caption">
-          <p>
-            {{slide.caption}} <a [ngClass]="slide.class" [href]="slide.link" target="_blank">Learn More</a>
-          </p>
+    @for (slide of carouselSlides; track slide) {
+      <ng-template ngbSlide>
+        <div class="carousel-slide-content">
+          <img [src]="slide.img" [alt]="slide.alt" class="img-fluid" />
+          <div class="carousel-caption">
+            <p>
+              {{slide.caption}} <a [ngClass]="slide.class" [href]="slide.link" target="_blank">Learn More</a>
+            </p>
+          </div>
         </div>
-      </div>
-    </ng-template>
+      </ng-template>
+    }
   </ngb-carousel>
 
   <div class="row px-2">

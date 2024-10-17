@@ -4,20 +4,26 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartEvent, ChartType } from 'chart.js';
 
-type ChartEventArgs = { event: ChartEvent; active: object[] }
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
+
+interface ChartEventArgs { event: ChartEvent; active: object[] }
 
 
 @Component({
   selector: 'app-statistics-demo',
   templateUrl: './statistics-demo.component.html',
-  styleUrl: './statistics-demo.component.scss'
+  styleUrl: './statistics-demo.component.scss',
+  standalone: true,
+  imports: [BaseChartDirective, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem, NgbDropdownItem]
 })
 export class StatisticsDemoComponent implements OnInit, OnDestroy {
+  private alertService = inject(AlertService);
+
   chartOptions: object | undefined;
   chartType: ChartType = 'line';
   chartLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
@@ -43,9 +49,6 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
 
   @ViewChild(BaseChartDirective)
   chart!: BaseChartDirective;
-
-  constructor(private alertService: AlertService) {
-  }
 
   ngOnInit() {
     this.refreshChartOptions();
@@ -84,9 +87,9 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
   }
 
   randomize(): void {
-    for (let i = 0; i < this.chartData.length; i++) {
-      for (let j = 0; j < this.chartData[i].data.length; j++) {
-        this.chartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
+    for (const series of this.chartData) {
+      for (let j = 0; j < series.data.length; j++) {
+        series.data[j] = Math.floor((Math.random() * 100) + 1);
       }
     }
 

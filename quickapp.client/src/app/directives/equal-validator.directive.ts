@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Directive, forwardRef, Attribute } from '@angular/core';
+import { Directive, forwardRef, HostAttributeToken, inject } from '@angular/core';
 import { Validator, AbstractControl, NG_VALIDATORS, ValidationErrors } from '@angular/forms';
 
 
@@ -12,12 +12,12 @@ import { Validator, AbstractControl, NG_VALIDATORS, ValidationErrors } from '@an
   selector: '[appValidateEqual][formControlName],[appValidateEqual][formControl],[appValidateEqual][ngModel]',
   providers: [
     { provide: NG_VALIDATORS, useExisting: forwardRef(() => EqualValidator), multi: true }
-  ]
+  ],
+  standalone: true
 })
 export class EqualValidator implements Validator {
-  constructor(@Attribute('appValidateEqual') public validateEqual: string,
-    @Attribute('reverse') public reverse: string) {
-  }
+  validateEqual = inject(new HostAttributeToken('appValidateEqual'));
+  reverse = inject(new HostAttributeToken('reverse'), { optional: true });
 
   validate(control: AbstractControl): ValidationErrors | null {
     const other = control.root.get(this.validateEqual);

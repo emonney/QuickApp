@@ -4,10 +4,10 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TableColumn } from '@swimlane/ngx-datatable';
+import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
@@ -18,6 +18,9 @@ import { Role } from '../../models/role.model';
 import { Permissions } from '../../models/permission.model';
 import { UserEdit } from '../../models/user-edit.model';
 import { UserInfoComponent } from './user-info.component';
+import { SearchBoxComponent } from './search-box.component';
+
+import { TranslateModule } from '@ngx-translate/core';
 
 interface UserIndex extends User {
   index: number;
@@ -25,11 +28,18 @@ interface UserIndex extends User {
 
 
 @Component({
-  selector: 'app-users-management',
-  templateUrl: './users-management.component.html',
-  styleUrl: './users-management.component.scss'
+    selector: 'app-users-management',
+    templateUrl: './users-management.component.html',
+    styleUrl: './users-management.component.scss',
+    standalone: true,
+    imports: [SearchBoxComponent, NgxDatatableModule, UserInfoComponent, TranslateModule]
 })
 export class UsersManagementComponent implements OnInit {
+  private alertService = inject(AlertService);
+  private translationService = inject(AppTranslationService);
+  private accountService = inject(AccountService);
+  private modalService = inject(NgbModal);
+
   columns: TableColumn[] = [];
   rows: User[] = [];
   rowsCache: User[] = [];
@@ -56,10 +66,6 @@ export class UsersManagementComponent implements OnInit {
   editorModalTemplate!: TemplateRef<unknown>;
 
   userEditor: UserInfoComponent | null = null;
-
-  constructor(private alertService: AlertService, private translationService: AppTranslationService,
-    private accountService: AccountService, private modalService: NgbModal) {
-  }
 
   ngOnInit() {
     const gT = (key: string) => this.translationService.getTranslation(key);

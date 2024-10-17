@@ -4,18 +4,20 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { AuthService } from './auth.service';
 import { EndpointBase } from './endpoint-base.service';
 import { ConfigurationService } from './configuration.service';
 
 
 @Injectable()
 export class AccountEndpoint extends EndpointBase {
+  private http = inject(HttpClient);
+  private configurations = inject(ConfigurationService);
+
   get usersUrl() { return this.configurations.baseUrl + '/api/account/users'; }
   get userByUserNameUrl() { return this.configurations.baseUrl + '/api/account/users/username'; }
   get currentUserUrl() { return this.configurations.baseUrl + '/api/account/users/me'; }
@@ -25,10 +27,6 @@ export class AccountEndpoint extends EndpointBase {
   get roleByRoleNameUrl() { return this.configurations.baseUrl + '/api/account/roles/name'; }
   get permissionsUrl() { return this.configurations.baseUrl + '/api/account/permissions'; }
 
-
-  constructor(private configurations: ConfigurationService, http: HttpClient, authService: AuthService) {
-    super(http, authService);
-  }
 
   getUserEndpoint<T>(userId?: string): Observable<T> {
     const endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;

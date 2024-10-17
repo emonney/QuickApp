@@ -4,9 +4,9 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, Input, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { TableColumn } from '@swimlane/ngx-datatable';
+import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
@@ -15,13 +15,23 @@ import { AccountService } from '../../services/account.service';
 import { Permissions } from '../../models/permission.model';
 import { Utilities } from '../../services/utilities';
 import { Notification } from '../../models/notification.model';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgClass } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-notifications-viewer',
-  templateUrl: './notifications-viewer.component.html',
-  styleUrl: './notifications-viewer.component.scss'
+    selector: 'app-notifications-viewer',
+    templateUrl: './notifications-viewer.component.html',
+    styleUrl: './notifications-viewer.component.scss',
+    standalone: true,
+    imports: [NgxDatatableModule, NgbTooltip, NgClass, TranslateModule]
 })
 export class NotificationsViewerComponent implements OnInit, OnDestroy {
+  private alertService = inject(AlertService);
+  private translationService = inject(AppTranslationService);
+  private accountService = inject(AccountService);
+  private notificationService = inject(NotificationService);
+
   columns: TableColumn[] = [];
   rows: Notification[] = [];
   loadingIndicator = false;
@@ -53,10 +63,6 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
 
   @ViewChild('actionsTemplate', { static: true })
   actionsTemplate!: TemplateRef<unknown>;
-
-  constructor(private alertService: AlertService, private translationService: AppTranslationService,
-    private accountService: AccountService, private notificationService: NotificationService) {
-  }
 
   ngOnInit() {
     if (this.isViewOnly) {

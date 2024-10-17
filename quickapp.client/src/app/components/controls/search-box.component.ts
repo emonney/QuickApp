@@ -5,11 +5,15 @@
 // ---------------------------------------
 
 import { Component, ViewChild, ElementRef, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
-  selector: 'app-search-box',
-  templateUrl: './search-box.component.html',
-  styleUrl: './search-box.component.scss'
+    selector: 'app-search-box',
+    templateUrl: './search-box.component.html',
+    styleUrl: './search-box.component.scss',
+    standalone: true,
+    imports: [FormsModule]
 })
 export class SearchBoxComponent {
 

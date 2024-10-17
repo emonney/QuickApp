@@ -6,12 +6,15 @@
 
 import { Component } from '@angular/core';
 import { fadeInOut } from '../../services/animations';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrl: './orders.component.scss',
-  animations: [fadeInOut]
+    selector: 'app-orders',
+    templateUrl: './orders.component.html',
+    styleUrl: './orders.component.scss',
+    animations: [fadeInOut],
+    standalone: true,
+    imports: [TranslateModule]
 })
 export class OrdersComponent {
 }

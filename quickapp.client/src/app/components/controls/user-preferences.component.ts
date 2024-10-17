@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { ConfigurationService } from '../../services/configuration.service';
@@ -13,21 +13,26 @@ import { AccountService } from '../../services/account.service';
 import { ThemeManager } from '../../services/theme-manager';
 import { Utilities } from '../../services/utilities';
 import { Permissions } from '../../models/permission.model';
+import { NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-user-preferences',
   templateUrl: './user-preferences.component.html',
-  styleUrl: './user-preferences.component.scss'
+  styleUrl: './user-preferences.component.scss',
+  standalone: true,
+  imports: [NgSelectComponent, FormsModule, NgOptionComponent, TranslateModule]
 })
 export class UserPreferencesComponent {
-  constructor(
-    private alertService: AlertService,
-    private translationService: AppTranslationService,
-    private accountService: AccountService,
-    public themeManager: ThemeManager,
-    public configurations: ConfigurationService) {
-  }
+  private alertService = inject(AlertService);
+  private translationService = inject(AppTranslationService);
+  private accountService = inject(AccountService);
+  themeManager = inject(ThemeManager);
+  configurations = inject(ConfigurationService);
+
 
   reloadFromServer() {
     this.alertService.startLoadingMessage();
@@ -108,6 +113,6 @@ export class UserPreferencesComponent {
   }
 
   get canViewOrders() {
-    return true; // eg. viewOrdersPermission
+    return !!true; // eg. viewOrdersPermission
   }
 }

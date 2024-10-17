@@ -2,16 +2,18 @@
   <div class="row control-box">
     <div class="col-lg-8">
       <div class="search-box">
-        <app-search-box (searchChange)="onSearchChanged($event)" placeholder="{{'users.management.Search' | translate}}"></app-search-box>
+        <app-search-box (searchChange)="onSearchChanged($event)" placeholder="{{'users.management.Search' | translate}}" />
       </div>
     </div>
     <div class="col-lg-4 pe-lg-5">
       <ul class="nav flex-column flex-lg-row justify-content-end">
-        <li *ngIf="canManageUsers && canAssignRoles" class="nav-item toolbaritem">
-          <a class="nav-link" href="javascript:;" (click)="newUser()">
-            <i class="fa fa-plus-circle"></i> {{'users.management.NewUser' | translate}}
-          </a>
-        </li>
+        @if (canManageUsers && canAssignRoles) {
+          <li class="nav-item toolbaritem">
+            <a class="nav-link" href="javascript:;" (click)="newUser()">
+              <i class="fa fa-plus-circle"></i> {{'users.management.NewUser' | translate}}
+            </a>
+          </li>
+        }
       </ul>
     </div>
   </div>
@@ -33,29 +35,45 @@
 
   <ng-template #userNameTemplate let-row="row" let-value="value">
     <span title="{{value}}" [class.locked-out]="row.isLockedOut" [class.user-disabled]="!row.isEnabled">
-      <i *ngIf="row.isLockedOut" class="fa fa-exclamation-triangle"> </i>
-      <i *ngIf="!row.isEnabled" class="fa fa-exclamation"> </i>
+      @if (row.isLockedOut) {
+        <i class="fa fa-exclamation-triangle"> </i>
+      }
+      @if (!row.isEnabled) {
+        <i class="fa fa-exclamation"> </i>
+      }
       {{value}}
     </span>
   </ng-template>
 
   <ng-template #rolesTemplate let-row="row" let-value="value" let-i="index">
     <div title="{{value?.join('\n')}}">
-      <span class="user-role badge rounded-pill bg-secondary" *ngFor="let role of value">{{role}}</span>
+      @for (role of value; track role) {
+        <span class="user-role badge rounded-pill bg-secondary">{{role}}</span>
+      }
     </div>
   </ng-template>
 
   <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
-    <div *ngIf="canManageUsers">
-      <a class="btn btn-link text-link btn-sm" href="javascript:;" (click)="editUser(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'users.management.Edit' | translate}}</a>|
-      <a class="btn btn-link text-link btn-sm" href="javascript:;" (click)="deleteUser(row)"><i class="fa fa-trash-o" aria-hidden="true"></i> {{'users.management.Delete' | translate}}</a>
-    </div>
+    @if (canManageUsers) {
+      <div>
+        <a class="btn btn-link text-link btn-sm" href="javascript:;" (click)="editUser(row)">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'users.management.Edit' | translate}}
+        </a>|
+        <a class="btn btn-link text-link btn-sm" href="javascript:;" (click)="deleteUser(row)">
+          <i class="fa fa-trash-o" aria-hidden="true"></i> {{'users.management.Delete' | translate}}
+        </a>
+      </div>
+    }
   </ng-template>
 
   <ng-template #editorModal let-modal>
     <div class="modal-header">
-      <h4 *ngIf="!editingUserName" class="modal-title"><i class="fa fa-user-plus"></i> {{'users.management.NewUser' | translate}}</h4>
-      <h4 *ngIf="editingUserName" class="modal-title"><i class="fa fa-user-circle-o"></i> {{'users.management.EditUser' | translate:editingUserName}}</h4>
+      @if (editingUserName) {
+        <h4 class="modal-title"><i class="fa fa-user-circle-o"></i> {{'users.management.EditUser' | translate:editingUserName}}</h4>
+      }
+      @else {
+        <h4 class="modal-title"><i class="fa fa-user-plus"></i> {{'users.management.NewUser' | translate}}</h4>
+      }
       <button type="button" class="btn-close fs-sm" title="Close" (click)="modal.close()" tabindex="-1"></button>
     </div>
     <div class="modal-body">

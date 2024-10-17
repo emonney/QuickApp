@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { AppTranslationService } from './app-translation.service';
@@ -26,10 +26,11 @@ interface UserConfiguration {
 
 @Injectable()
 export class ConfigurationService {
-  constructor(
-    private localStorage: LocalStoreManager,
-    private translationService: AppTranslationService,
-    private themeManager: ThemeManager) {
+  private localStorage = inject(LocalStoreManager);
+  private translationService = inject(AppTranslationService);
+  private themeManager = inject(ThemeManager);
+
+  constructor() {
 
     this.loadLocalChanges();
   }
@@ -103,11 +104,10 @@ export class ConfigurationService {
   public static readonly defaultShowDashboardNotifications = true;
   public static readonly defaultShowDashboardTodo = false;
   public static readonly defaultShowDashboardBanner = true;
+  // ***End of defaults***
 
   public baseUrl = environment.baseUrl ?? Utilities.baseUrl();
-  public loginUrl = environment.loginUrl;
-  public fallbackBaseUrl = 'https://quickapp-standard.ebenmonney.com';
-  // ***End of defaults***
+  public fallbackBaseUrl = environment.fallbackBaseUrl;
 
   private _language: string | null = null;
   private _homeUrl: string | null = null;

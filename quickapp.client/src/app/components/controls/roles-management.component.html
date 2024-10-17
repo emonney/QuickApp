@@ -2,16 +2,18 @@
   <div class="row control-box">
     <div class="col-lg-8">
       <div class="search-box">
-        <app-search-box (searchChange)="onSearchChanged($event)" placeholder="{{'roles.management.Search' | translate}}">></app-search-box>
+        <app-search-box (searchChange)="onSearchChanged($event)" placeholder="{{'roles.management.Search' | translate}}" />
       </div>
     </div>
     <div class="col-lg-4 pe-lg-5">
       <ul class="nav flex-column flex-lg-row justify-content-end">
-        <li *ngIf="canManageRoles" class="nav-item toolbaritem">
-          <a class="nav-link" href="javascript:;" (click)="newRole()">
-            <i class="fa fa-plus-circle"></i> {{'roles.management.NewRole' | translate}}
-          </a>
-        </li>
+        @if (canManageRoles) {
+          <li class="nav-item toolbaritem">
+            <a class="nav-link" href="javascript:;" (click)="newRole()">
+              <i class="fa fa-plus-circle"></i> {{'roles.management.NewRole' | translate}}
+            </a>
+          </li>
+        }
       </ul>
     </div>
   </div>
@@ -33,20 +35,39 @@
 
 
   <ng-template #actionsTemplate let-row="row" let-value="value" let-i="index">
-    <a *ngIf="canManageRoles" class="btn btn-link text-link btn-sm" href="javascript:;" (click)="editRole(row)"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'roles.management.Edit' | translate}}</a>
-    <a *ngIf="!canManageRoles" class="btn btn-link text-link btn-sm" href="javascript:;" (click)="editRole(row)"><i class="fa fa-eye" aria-hidden="true"></i> {{'roles.management.Details' | translate}}</a>
-    {{canManageRoles ? '|' : ''}}
-    <a *ngIf="canManageRoles" class="btn btn-link text-link btn-sm" href="javascript:;" (click)="deleteRole(row)"><i class="fa fa-trash-o" aria-hidden="true"></i> {{'roles.management.Delete' | translate}}</a>
+    @if (canManageRoles) {
+      <a class="btn btn-link text-link btn-sm" href="javascript:;" (click)="editRole(row)">
+        <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{'roles.management.Edit' | translate}}
+      </a>
+      |
+      <a class="btn btn-link text-link btn-sm" href="javascript:;" (click)="deleteRole(row)">
+        <i class="fa fa-trash-o" aria-hidden="true"></i> {{'roles.management.Delete' | translate}}
+      </a>
+    }
+    @else {
+      <a class="btn btn-link text-link btn-sm" href="javascript:;" (click)="editRole(row)">
+        <i class="fa fa-eye" aria-hidden="true"></i> {{'roles.management.Details' | translate}}
+      </a>
+    }
   </ng-template>
 
   <ng-template #editorModal let-modal>
     <div class="modal-header">
-      <h4 *ngIf="!canManageRoles" class="modal-title"><i class="fa fa-shield"></i> {{'roles.management.RoleDetails' | translate:editingRoleName}}</h4>
-      <h4 *ngIf="canManageRoles" class="modal-title"><i class="fa fa-shield"></i> {{editingRoleName ? ('roles.management.EditRole' | translate:editingRoleName) : ('roles.management.NewRole' | translate)}}</h4>
+      @if (canManageRoles) {
+        <h4 class="modal-title">
+          <i class="fa fa-shield"></i>
+          {{editingRoleName ? ('roles.management.EditRole' | translate:editingRoleName) : ('roles.management.NewRole' | translate)}}
+        </h4>
+      }
+      @else {
+        <h4 class="modal-title">
+          <i class="fa fa-shield"></i> {{'roles.management.RoleDetails' | translate:editingRoleName}}
+        </h4>
+      }
       <button type="button" class="btn-close fs-sm" title="Close" (click)="modal.close()" tabindex="-1"></button>
     </div>
     <div class="modal-body">
-      <app-role-editor #roleEditor (afterOnInit)="setRoleEditorComponent($event)"></app-role-editor>
+      <app-role-editor #roleEditor (afterOnInit)="setRoleEditorComponent($event)" />
     </div>
   </ng-template>
 </div>

@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, Subject, forkJoin } from 'rxjs';
 import { mergeMap, tap } from 'rxjs/operators';
 
@@ -20,17 +20,14 @@ export interface RolesChangedEventArg { roles: Role[] | string[]; operation: Rol
 
 @Injectable()
 export class AccountService {
+  private authService = inject(AuthService);
+  private accountEndpoint = inject(AccountEndpoint);
+
   public static readonly roleAddedOperation: RolesChangedOperation = 'add';
   public static readonly roleDeletedOperation: RolesChangedOperation = 'delete';
   public static readonly roleModifiedOperation: RolesChangedOperation = 'modify';
 
   private rolesChanged = new Subject<RolesChangedEventArg>();
-
-  constructor(
-    private authService: AuthService,
-    private accountEndpoint: AccountEndpoint) {
-
-  }
 
   getUser(userId?: string) {
     return this.accountEndpoint.getUserEndpoint<User>(userId);

@@ -4,25 +4,24 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { LocalStoreManager } from './local-store-manager.service';
+import { ConfigurationService } from './configuration.service';
 import { DBkeys } from './db-keys';
 import { LoginResponse } from '../models/login-response.model';
 
 @Injectable()
 export class OidcHelperService {
+  private http = inject(HttpClient);
+  private localStorage = inject(LocalStoreManager);
+  private configurations = inject(ConfigurationService);
+
   private readonly clientId = 'quickapp_spa';
   private readonly scope = 'openid email phone profile offline_access roles';
 
-  private readonly tokenEndpoint = '/connect/token';
-
-  constructor(
-    private http: HttpClient,
-    private localStorage: LocalStoreManager) {
-
-  }
+  private get tokenEndpoint() { return `${this.configurations.baseUrl}/connect/token`; }
 
   loginWithPassword(userName: string, password: string) {
     const header = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });

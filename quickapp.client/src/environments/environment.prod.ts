@@ -6,6 +6,5 @@
 
 export const environment = {
   production: true,
-  baseUrl: null, // Change this to the address of your backend API if different from frontend address
-  loginUrl: '/login'
+  baseUrl: null, // Set to null to use the current host (i.e if the client app and server api are hosted together)
 };

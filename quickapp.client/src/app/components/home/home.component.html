@@ -1,52 +1,70 @@
 <header class="pageHeader">
-  <h3><i class="fa fa-tachometer fa-lg page-caption" aria-hidden="true"></i> {{'pageHeader.Dashboard' | translate}}</h3>
+  <h3>
+    <i class="fa fa-tachometer fa-lg page-caption" aria-hidden="true"></i> {{'pageHeader.Dashboard' | translate}}
+  </h3>
 </header>
 <div [@fadeInOut]>
   <div #widgetsContainer cdkDropList (cdkDropListDropped)="drop($event)" class="row">
-    <div *ngIf="!configurations.showDashboardStatistics && !configurations.showDashboardNotifications &&
-         !configurations.showDashboardTodo && !configurations.showDashboardBanner" class="col-12 my-5">
-      <div class="card card-body bg-light">
-        <h4 class="text-muted text-center text-link">
-          {{'home.NoWidgets1' | translate}}
-          <a routerLink="/settings" fragment="preferences"><i class="fa fa-sliders"></i> {{'settings.tab.Preferences' | translate}}</a>
-          {{'home.NoWidgets2' | translate}}
-        </h4>
+    @if (!configurations.showDashboardStatistics && !configurations.showDashboardNotifications &&
+         !configurations.showDashboardTodo && !configurations.showDashboardBanner) {
+      <div class="col-12 my-5">
+        <div class="card card-body bg-light">
+          <h4 class="text-muted text-center text-link">
+            {{'home.NoWidgets1' | translate}}
+            <a routerLink="/settings" fragment="preferences">
+              <i class="fa fa-sliders"></i> {{'settings.tab.Preferences' | translate}}
+            </a>
+            {{'home.NoWidgets2' | translate}}
+          </h4>
+        </div>
       </div>
-    </div>
+    }
 
-    <div *ngIf="configurations.showDashboardStatistics" id="dashboardStatistics" #dashboardStatistics class="col-12 mb-4 widget-container px-0"
-         cdkDrag [cdkDragStartDelay]="dragStartDelay">
-      <button type="button" class="btn-close" aria-label="Close" title="Close" (click)="configurations.showDashboardStatistics = false"></button>
-      <div class="card card-body bg-light">
-        <h5 class="text-muted d-inline-block">{{'home.StatisticsTitle' | translate}}</h5>
+    @if (configurations.showDashboardStatistics) {
+      <div id="dashboardStatistics" #dashboardStatistics class="col-12 mb-4 widget-container px-0"
+           cdkDrag [cdkDragStartDelay]="dragStartDelay">
+        <button type="button" class="btn-close" aria-label="Close" title="Close"
+                (click)="configurations.showDashboardStatistics = false"></button>
+        <div class="card card-body bg-light">
+          <h5 class="text-muted d-inline-block">{{'home.StatisticsTitle' | translate}}</h5>
+          <div #dragPlaceholder *cdkDragPlaceholder class="widget-container-placeholder mb-4"
+               [style.minHeight.px]="getPlaceholderMinHeight(dragPlaceholder, dashboardStatistics)"></div>
+          <app-statistics-demo></app-statistics-demo>
+        </div>
+      </div>
+    }
+
+    @if (configurations.showDashboardNotifications) {
+      <div id="dashboardNotifications" #dashboardNotifications class="col-12 mb-4 widget-container px-0"
+           cdkDrag [cdkDragStartDelay]="dragStartDelay">
+        <button type="button" class="btn-close" aria-label="Close" title="Close"
+                (click)="configurations.showDashboardNotifications = false"></button>
         <div #dragPlaceholder *cdkDragPlaceholder class="widget-container-placeholder mb-4"
-             [style.minHeight.px]="getPlaceholderMinHeight(dragPlaceholder, dashboardStatistics)"></div>
-        <app-statistics-demo></app-statistics-demo>
+             [style.minHeight.px]="getPlaceholderMinHeight(dragPlaceholder, dashboardNotifications)"></div>
+        <app-notifications-viewer></app-notifications-viewer>
       </div>
-    </div>
+    }
 
-    <div *ngIf="configurations.showDashboardNotifications" id="dashboardNotifications" #dashboardNotifications class="col-12 mb-4 widget-container px-0"
-         cdkDrag [cdkDragStartDelay]="dragStartDelay">
-      <button type="button" class="btn-close" aria-label="Close" title="Close" (click)="configurations.showDashboardNotifications = false"></button>
-      <div #dragPlaceholder *cdkDragPlaceholder class="widget-container-placeholder mb-4"
-           [style.minHeight.px]="getPlaceholderMinHeight(dragPlaceholder, dashboardNotifications)"></div>
-      <app-notifications-viewer></app-notifications-viewer>
-    </div>
+    @if (configurations.showDashboardTodo) {
+      <div id="dashboardTodo" #dashboardTodo class="col-12 mb-4 pt-1 widget-container px-0"
+           cdkDrag [cdkDragStartDelay]="dragStartDelay">
+        <button type="button" class="btn-close extra-down" aria-label="Close" title="Close"
+                (click)="configurations.showDashboardTodo = false"></button>
+        <div #dragPlaceholder *cdkDragPlaceholder class="widget-container-placeholder mb-4"
+             [style.minHeight.px]="getPlaceholderMinHeight(dragPlaceholder, dashboardTodo)"></div>
+        <app-todo-demo></app-todo-demo>
+      </div>
+    }
 
-    <div *ngIf="configurations.showDashboardTodo" id="dashboardTodo" #dashboardTodo class="col-12 mb-4 pt-1 widget-container px-0"
-         cdkDrag [cdkDragStartDelay]="dragStartDelay">
-      <button type="button" class="btn-close extra-down" aria-label="Close" title="Close" (click)="configurations.showDashboardTodo = false"></button>
-      <div #dragPlaceholder *cdkDragPlaceholder class="widget-container-placeholder mb-4"
-           [style.minHeight.px]="getPlaceholderMinHeight(dragPlaceholder, dashboardTodo)"></div>
-      <app-todo-demo></app-todo-demo>
-    </div>
-
-    <div *ngIf="configurations.showDashboardBanner" id="dashboardBanner" #dashboardBanner class="col-12 mb-4 widget-container no-shadow px-0"
-         cdkDrag [cdkDragStartDelay]="dragStartDelay">
-      <button type="button" class="btn-close" aria-label="Close" title="Close" (click)="configurations.showDashboardBanner = false"></button>
-      <div #dragPlaceholder *cdkDragPlaceholder class="widget-container-placeholder mb-4"
-           [style.minHeight.px]="getPlaceholderMinHeight(dragPlaceholder, dashboardBanner)"></div>
-      <app-banner-demo></app-banner-demo>
-    </div>
+    @if (configurations.showDashboardBanner) {
+      <div id="dashboardBanner" #dashboardBanner class="col-12 mb-4 widget-container no-shadow px-0"
+           cdkDrag [cdkDragStartDelay]="dragStartDelay">
+        <button type="button" class="btn-close" aria-label="Close" title="Close"
+                (click)="configurations.showDashboardBanner = false"></button>
+        <div #dragPlaceholder *cdkDragPlaceholder class="widget-container-placeholder mb-4"
+             [style.minHeight.px]="getPlaceholderMinHeight(dragPlaceholder, dashboardBanner)"></div>
+        <app-banner-demo></app-banner-demo>
+      </div>
+    }
   </div>
 </div>

@@ -4,9 +4,9 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TableColumn } from '@swimlane/ngx-datatable';
+import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
@@ -15,6 +15,9 @@ import { Utilities } from '../../services/utilities';
 import { Role } from '../../models/role.model';
 import { Permission, Permissions } from '../../models/permission.model';
 import { RoleEditorComponent } from './role-editor.component';
+import { SearchBoxComponent } from './search-box.component';
+
+import { TranslateModule } from '@ngx-translate/core';
 
 
 interface RoleIndex extends Role {
@@ -23,11 +26,18 @@ interface RoleIndex extends Role {
 
 
 @Component({
-  selector: 'app-roles-management',
-  templateUrl: './roles-management.component.html',
-  styleUrl: './roles-management.component.scss'
+    selector: 'app-roles-management',
+    templateUrl: './roles-management.component.html',
+    styleUrl: './roles-management.component.scss',
+    standalone: true,
+    imports: [SearchBoxComponent, NgxDatatableModule, RoleEditorComponent, TranslateModule]
 })
 export class RolesManagementComponent implements OnInit {
+  private alertService = inject(AlertService);
+  private translationService = inject(AppTranslationService);
+  private accountService = inject(AccountService);
+  private modalService = inject(NgbModal);
+
   columns: TableColumn[] = [];
   rows: Role[] = [];
   rowsCache: Role[] = [];
@@ -48,10 +58,6 @@ export class RolesManagementComponent implements OnInit {
   editorModalTemplate!: TemplateRef<unknown>;
 
   roleEditor: RoleEditorComponent | null = null;
-
-  constructor(private alertService: AlertService, private translationService: AppTranslationService,
-    private accountService: AccountService, private modalService: NgbModal) {
-  }
 
   ngOnInit() {
     const gT = (key: string) => this.translationService.getTranslation(key);

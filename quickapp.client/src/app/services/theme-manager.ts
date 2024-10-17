@@ -9,7 +9,7 @@ import { AppTheme } from '../models/app-theme.model';
 
 @Injectable()
 export class ThemeManager {
-  themes: Array<AppTheme> = [
+  themes: AppTheme[] = [
     {
       id: 1,
       name: 'Default',

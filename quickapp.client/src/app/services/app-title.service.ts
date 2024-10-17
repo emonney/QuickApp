@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TitleStrategy, RouterStateSnapshot } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -12,11 +12,9 @@ import { Utilities } from './utilities';
 
 @Injectable()
 export class AppTitleService extends TitleStrategy {
-  static appName: string | undefined;
+  private readonly titleService = inject(Title);
 
-  constructor(private readonly titleService: Title) {
-    super();
-  }
+  static appName: string | undefined;
 
   override updateTitle(routerState: RouterStateSnapshot) {
     let title = this.buildTitle(routerState);

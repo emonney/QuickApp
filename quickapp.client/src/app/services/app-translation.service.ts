@@ -9,15 +9,17 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateService, TranslateLoader } from '@ngx-translate/core';
 import { Subject, of } from 'rxjs';
 
-import * as fallbackLangData from '../../assets/locale/en.json';
+import fallbackLangData from '../../../public/locale/en.json';
 
 
 @Injectable()
 export class AppTranslationService {
+  private translate = inject(TranslateService);
+
   private onLanguageChanged = new Subject<string>();
   languageChanged$ = this.onLanguageChanged.asObservable();
 
-  constructor(private translate: TranslateService) {
+  constructor() {
     this.addLanguages(['en', 'fr', 'de', 'pt', 'ar', 'ko']);
     this.setDefaultLanguage('en');
   }
@@ -76,11 +78,11 @@ export class AppTranslationService {
     return language;
   }
 
-  getTranslation(key: string | Array<string>, interpolateParams?: object) {
+  getTranslation(key: string | string[], interpolateParams?: object) {
     return this.translate.instant(key, interpolateParams);
   }
 
-  getTranslationAsync(key: string | Array<string>, interpolateParams?: object) {
+  getTranslationAsync(key: string | string[], interpolateParams?: object) {
     return this.translate.get(key, interpolateParams);
   }
 }
@@ -93,6 +95,6 @@ export class TranslateLanguageLoader implements TranslateLoader {
     if (lang === 'en')
       return of(fallbackLangData);
 
-    return this.http.get(`/assets/locale/${lang}.json`);
+    return this.http.get(`/locale/${lang}.json`);
   }
 }
