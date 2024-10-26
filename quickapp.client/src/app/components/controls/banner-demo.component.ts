@@ -31,7 +31,7 @@ export class BannerDemoComponent {
       alt: 'Visual Studio',
       caption: 'One platform for building modern web, native mobile and native desktop applications',
       class: 'btn btn-outline-primary btn-sm',
-      link: 'http://angular.io'
+      link: 'http://angular.dev'
     },
     {
       img: 'images/demo/banner3.png',

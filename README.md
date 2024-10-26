@@ -1,9 +1,9 @@
-# **QuickApp** - ASPNET Core 8 / Angular 17 project template
+# **QuickApp** - ASPNET Core 8 / Angular 18 project template
 [![MIT license](https://cdn.rawgit.com/emonney/tempa/7e9d69ad/MITLicense.png)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 [![VSIX Downloads](https://img.shields.io/visual-studio-marketplace/d/adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)
 [![Twitter Follow](https://img.shields.io/twitter/follow/kommand?style=social)](https://twitter.com/kommand)
 
-A startup **Angular 17 / ASP.NET Core 8** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
+A startup **Angular 18 / ASP.NET Core 8** (cross-platform ) **project template** with an end-to-end login, user and role management implementation.
 As well as other common functionalities for **Quick Application Development**.
 
 🚀The mission with QuickApp is to simplify the software development process using ASP.Net Core and Angular, empowering engineers to efficiently build amazing software.
@@ -39,7 +39,7 @@ ___
 
 ## This application consists of:
 
-*   Template pages with Angular 17 and TypeScript
+*   Template pages with Angular 18 and TypeScript
 *   RESTful API Backend using ASP.NET Core 8 Web API
 *   Database using Entity Framework Core
 *   Authentication/Authorization based on OIDC/OAuth2 and ASP.NET Core Identity
@@ -109,8 +109,8 @@ LOGIN WITH USERNAME OR EMAIL ADDRESS
 *   [Overview of QuickApp](https://www.ebenmonney.com/quickapp)
 *   [Conceptual overview of what is ASP.NET Core](https://go.microsoft.com/fwlink/?LinkId=518008)
 *   [Working with Data](https://docs.microsoft.com/en-us/ef/#pivot=efcore)
-*   [Angular 17 documentation overview](https://angular.io/guide/quickstart)
-*   [Getting started with Angular CLI](https://cli.angular.io)
+*   [Angular 18 documentation overview](https://angular.dev/overview)
+*   [Getting started with Angular CLI](https://angular.dev/cli)
 *   [Introduction to Bootstrap 5](https://getbootstrap.com/docs/5.2/getting-started/introduction)
 
 
