@@ -4,11 +4,13 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
+import { Environment } from "../app/models/environment.model";
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
+export const environment: Environment = {
   production: false,
   baseUrl: 'https://localhost:7085', // API Server url
   fallbackBaseUrl: 'https://quickapp.azurewebsites.net', // Fallback API Server for development without local API server
