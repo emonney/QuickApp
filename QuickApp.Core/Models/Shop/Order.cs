@@ -19,6 +19,6 @@ namespace QuickApp.Core.Models.Shop
         public int CustomerId { get; set; }
         public required Customer Customer { get; set; }
 
-        public ICollection<OrderDetail> OrderDetails { get; } = new List<OrderDetail>();
+        public ICollection<OrderDetail> OrderDetails { get; } = [];
     }
 }

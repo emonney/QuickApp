@@ -38,16 +38,16 @@ namespace QuickApp.Core.Models.Account
         /// <summary>
         /// Navigation property for the roles this user belongs to.
         /// </summary>
-        public ICollection<IdentityUserRole<string>> Roles { get; } = new List<IdentityUserRole<string>>();
+        public ICollection<IdentityUserRole<string>> Roles { get; } = [];
 
         /// <summary>
         /// Navigation property for the claims this user possesses.
         /// </summary>
-        public ICollection<IdentityUserClaim<string>> Claims { get; } = new List<IdentityUserClaim<string>>();
+        public ICollection<IdentityUserClaim<string>> Claims { get; } = [];
 
         /// <summary>
         /// Demo Navigation property for orders this user has processed
         /// </summary>
-        public ICollection<Order> Orders { get; } = new List<Order>();
+        public ICollection<Order> Orders { get; } = [];
     }
 }

@@ -5,6 +5,9 @@
 // ---------------------------------------
 
 import { Component, OnInit, OnDestroy, Input, TemplateRef, ViewChild, inject } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgbModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
 
@@ -14,11 +17,7 @@ import { AppTranslationService } from '../../services/app-translation.service';
 import { LocalStoreManager } from '../../services/local-store-manager.service';
 import { Utilities } from '../../services/utilities';
 import { SearchBoxComponent } from './search-box.component';
-import { FormsModule } from '@angular/forms';
-import { NgClass } from '@angular/common';
 import { AutofocusDirective } from '../../directives/autofocus.directive';
-import { TranslateModule } from '@ngx-translate/core';
-
 
 interface Todo {
   $$index?: number;
@@ -27,7 +26,6 @@ interface Todo {
   name: string;
   description: string
 }
-
 
 @Component({
   selector: 'app-todo-demo',

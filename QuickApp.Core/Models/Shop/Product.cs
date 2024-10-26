@@ -23,7 +23,7 @@ namespace QuickApp.Core.Models.Shop
         public int ProductCategoryId { get; set; }
         public required ProductCategory ProductCategory { get; set; }
 
-        public ICollection<Product> Children { get; } = new List<Product>();
-        public ICollection<OrderDetail> OrderDetails { get; } = new List<OrderDetail>();
+        public ICollection<Product> Children { get; } = [];
+        public ICollection<OrderDetail> OrderDetails { get; } = [];
     }
 }

@@ -7,7 +7,6 @@
 import { Directive, forwardRef, HostAttributeToken, inject } from '@angular/core';
 import { Validator, AbstractControl, NG_VALIDATORS, ValidationErrors } from '@angular/forms';
 
-
 @Directive({
   selector: '[appValidateEqual][formControlName],[appValidateEqual][formControl],[appValidateEqual][ngModel]',
   providers: [

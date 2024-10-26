@@ -5,16 +5,17 @@
 // ---------------------------------------
 
 import { Component } from '@angular/core';
-import { fadeInOut } from '../../services/animations';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { fadeInOut } from '../../services/animations';
+
 @Component({
-    selector: 'app-products',
-    templateUrl: './products.component.html',
-    styleUrl: './products.component.scss',
-    animations: [fadeInOut],
-    standalone: true,
-    imports: [TranslateModule]
+  selector: 'app-products',
+  templateUrl: './products.component.html',
+  styleUrl: './products.component.scss',
+  animations: [fadeInOut],
+  standalone: true,
+  imports: [TranslateModule]
 })
 export class ProductsComponent {
 }

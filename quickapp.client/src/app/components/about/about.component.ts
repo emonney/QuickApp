@@ -5,16 +5,17 @@
 // ---------------------------------------
 
 import { Component } from '@angular/core';
-import { fadeInOut } from '../../services/animations';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { fadeInOut } from '../../services/animations';
+
 @Component({
-    selector: 'app-about',
-    templateUrl: './about.component.html',
-    styleUrl: './about.component.scss',
-    animations: [fadeInOut],
-    standalone: true,
-    imports: [TranslateModule]
+  selector: 'app-about',
+  templateUrl: './about.component.html',
+  styleUrl: './about.component.scss',
+  animations: [fadeInOut],
+  standalone: true,
+  imports: [TranslateModule]
 })
 export class AboutComponent {
 }

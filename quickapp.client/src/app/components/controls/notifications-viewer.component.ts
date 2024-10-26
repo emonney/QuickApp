@@ -5,7 +5,10 @@
 // ---------------------------------------
 
 import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, Input, inject } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
@@ -15,16 +18,13 @@ import { AccountService } from '../../services/account.service';
 import { Permissions } from '../../models/permission.model';
 import { Utilities } from '../../services/utilities';
 import { Notification } from '../../models/notification.model';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { NgClass } from '@angular/common';
-import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-notifications-viewer',
-    templateUrl: './notifications-viewer.component.html',
-    styleUrl: './notifications-viewer.component.scss',
-    standalone: true,
-    imports: [NgxDatatableModule, NgbTooltip, NgClass, TranslateModule]
+  selector: 'app-notifications-viewer',
+  templateUrl: './notifications-viewer.component.html',
+  styleUrl: './notifications-viewer.component.scss',
+  standalone: true,
+  imports: [NgxDatatableModule, NgbTooltip, NgClass, TranslateModule]
 })
 export class NotificationsViewerComponent implements OnInit, OnDestroy {
   private alertService = inject(AlertService);

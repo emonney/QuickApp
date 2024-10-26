@@ -5,25 +5,24 @@
 // ---------------------------------------
 
 import { Component, OnInit, ViewChild, Output, EventEmitter, inject } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm, FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { AccountService } from '../../services/account.service';
 import { Role } from '../../models/role.model';
 import { Permission, Permissions } from '../../models/permission.model';
-import { NgClass } from '@angular/common';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
 import { GroupByPipe } from '../../pipes/group-by.pipe';
 
-
 @Component({
-    selector: 'app-role-editor',
-    templateUrl: './role-editor.component.html',
-    styleUrl: './role-editor.component.scss',
-    standalone: true,
-    imports: [FormsModule, NgClass, NgbTooltip, TranslateModule, GroupByPipe]
+  selector: 'app-role-editor',
+  templateUrl: './role-editor.component.html',
+  styleUrl: './role-editor.component.scss',
+  standalone: true,
+  imports: [FormsModule, NgClass, NgbTooltip, TranslateModule, GroupByPipe]
 })
 export class RoleEditorComponent implements OnInit {
   private alertService = inject(AlertService);

@@ -8,11 +8,10 @@ import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartEvent, ChartType } from 'chart.js';
-
-import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem, NgbDropdownItem }
+  from '@ng-bootstrap/ng-bootstrap';
 
 interface ChartEventArgs { event: ChartEvent; active: object[] }
-
 
 @Component({
   selector: 'app-statistics-demo',

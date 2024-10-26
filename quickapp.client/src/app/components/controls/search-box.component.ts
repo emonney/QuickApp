@@ -7,16 +7,14 @@
 import { Component, ViewChild, ElementRef, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-
 @Component({
-    selector: 'app-search-box',
-    templateUrl: './search-box.component.html',
-    styleUrl: './search-box.component.scss',
-    standalone: true,
-    imports: [FormsModule]
+  selector: 'app-search-box',
+  templateUrl: './search-box.component.html',
+  styleUrl: './search-box.component.scss',
+  standalone: true,
+  imports: [FormsModule]
 })
 export class SearchBoxComponent {
-
   @Input()
   placeholder = 'Search...';
 
@@ -25,7 +23,6 @@ export class SearchBoxComponent {
 
   @ViewChild('searchInput')
   searchInput!: ElementRef;
-
 
   onValueChange(value: string) {
     setTimeout(() => this.searchChange.emit(value));

@@ -1,4 +1,10 @@
-﻿using System;
+﻿// ---------------------------------------
+// Email: quickapp@ebenmonney.com
+// Templates: www.ebenmonney.com/templates
+// (c) 2024 www.ebenmonney.com/mit-license
+// ---------------------------------------
+
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable

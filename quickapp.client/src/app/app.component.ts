@@ -7,6 +7,7 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 import { ToastaService, ToastaConfig, ToastOptions, ToastData, ToastaModule } from 'ngx-toasta';
 import { NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
@@ -21,9 +22,7 @@ import { ConfigurationService } from './services/configuration.service';
 import { Alertify } from './models/Alertify';
 import { Permissions } from './models/permission.model';
 import { LoginComponent } from './components/login/login.component';
-
 import { NotificationsViewerComponent } from './components/controls/notifications-viewer.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 declare let alertify: Alertify;
 
@@ -32,7 +31,9 @@ declare let alertify: Alertify;
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   standalone: true,
-  imports: [ToastaModule, RouterLink, RouterLinkActive, NgbPopover, NotificationsViewerComponent, RouterOutlet, TranslateModule]
+  imports: [
+    ToastaModule, RouterLink, RouterLinkActive, NgbPopover, NotificationsViewerComponent, RouterOutlet, TranslateModule
+  ]
 })
 export class AppComponent implements OnInit, OnDestroy {
   private toastaService = inject(ToastaService);

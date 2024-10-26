@@ -5,6 +5,7 @@
 // ---------------------------------------
 
 import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
 
@@ -17,20 +18,16 @@ import { Permission, Permissions } from '../../models/permission.model';
 import { RoleEditorComponent } from './role-editor.component';
 import { SearchBoxComponent } from './search-box.component';
 
-import { TranslateModule } from '@ngx-translate/core';
-
-
 interface RoleIndex extends Role {
   index: number;
 }
 
-
 @Component({
-    selector: 'app-roles-management',
-    templateUrl: './roles-management.component.html',
-    styleUrl: './roles-management.component.scss',
-    standalone: true,
-    imports: [SearchBoxComponent, NgxDatatableModule, RoleEditorComponent, TranslateModule]
+  selector: 'app-roles-management',
+  templateUrl: './roles-management.component.html',
+  styleUrl: './roles-management.component.scss',
+  standalone: true,
+  imports: [SearchBoxComponent, NgxDatatableModule, RoleEditorComponent, TranslateModule]
 })
 export class RolesManagementComponent implements OnInit {
   private alertService = inject(AlertService);

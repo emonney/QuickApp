@@ -5,6 +5,7 @@
 // ---------------------------------------
 
 import { Injectable } from '@angular/core';
+
 import { AppTheme } from '../models/app-theme.model';
 
 @Injectable()

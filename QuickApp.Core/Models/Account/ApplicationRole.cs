@@ -54,11 +54,11 @@ namespace QuickApp.Core.Models.Account
         /// <summary>
         /// Navigation property for the users in this role.
         /// </summary>
-        public ICollection<IdentityUserRole<string>> Users { get; } = new List<IdentityUserRole<string>>();
+        public ICollection<IdentityUserRole<string>> Users { get; } = [];
 
         /// <summary>
         /// Navigation property for claims in this role.
         /// </summary>
-        public ICollection<IdentityRoleClaim<string>> Claims { get; } = new List<IdentityRoleClaim<string>>();
+        public ICollection<IdentityRoleClaim<string>> Claims { get; } = [];
     }
 }

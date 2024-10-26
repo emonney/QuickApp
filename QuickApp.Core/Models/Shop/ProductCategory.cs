@@ -12,6 +12,6 @@ namespace QuickApp.Core.Models.Shop
         public string? Description { get; set; }
         public string? Icon { get; set; }
 
-        public ICollection<Product> Products { get; } = new List<Product>();
+        public ICollection<Product> Products { get; } = [];
     }
 }

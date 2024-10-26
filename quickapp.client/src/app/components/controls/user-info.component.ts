@@ -7,6 +7,8 @@
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgModel, NgForm, FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgSelectComponent, NgLabelTemplateDirective, NgOptionTemplateDirective } from '@ng-select/ng-select';
 
 import { AlertService, MessageSeverity } from '../../services/alert.service';
 import { AccountService } from '../../services/account.service';
@@ -18,15 +20,16 @@ import { Permissions } from '../../models/permission.model';
 import { NgClass } from '@angular/common';
 import { AutofocusDirective } from '../../directives/autofocus.directive';
 import { EqualValidator } from '../../directives/equal-validator.directive';
-import { NgSelectComponent, NgLabelTemplateDirective, NgOptionTemplateDirective } from '@ng-select/ng-select';
-import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-user-info',
-    templateUrl: './user-info.component.html',
-    styleUrl: './user-info.component.scss',
-    standalone: true,
-    imports: [FormsModule, AutofocusDirective, NgClass, EqualValidator, NgSelectComponent, NgLabelTemplateDirective, NgOptionTemplateDirective, TranslateModule]
+  selector: 'app-user-info',
+  templateUrl: './user-info.component.html',
+  styleUrl: './user-info.component.scss',
+  standalone: true,
+  imports: [
+    FormsModule, AutofocusDirective, NgClass, EqualValidator, NgSelectComponent, NgLabelTemplateDirective,
+    NgOptionTemplateDirective, TranslateModule
+  ]
 })
 export class UserInfoComponent implements OnInit {
   private alertService = inject(AlertService);

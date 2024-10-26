@@ -1,3 +1,9 @@
+// ---------------------------------------
+// Email: quickapp@ebenmonney.com
+// Templates: www.ebenmonney.com/templates
+// (c) 2024 www.ebenmonney.com/mit-license
+// ---------------------------------------
+
 import { ApplicationConfig, ErrorHandler, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { PreloadAllModules, provideRouter, TitleStrategy, UrlSerializer, withPreloading } from '@angular/router';

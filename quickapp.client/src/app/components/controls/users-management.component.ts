@@ -8,6 +8,7 @@ import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
@@ -20,19 +21,16 @@ import { UserEdit } from '../../models/user-edit.model';
 import { UserInfoComponent } from './user-info.component';
 import { SearchBoxComponent } from './search-box.component';
 
-import { TranslateModule } from '@ngx-translate/core';
-
 interface UserIndex extends User {
   index: number;
 }
 
-
 @Component({
-    selector: 'app-users-management',
-    templateUrl: './users-management.component.html',
-    styleUrl: './users-management.component.scss',
-    standalone: true,
-    imports: [SearchBoxComponent, NgxDatatableModule, UserInfoComponent, TranslateModule]
+  selector: 'app-users-management',
+  templateUrl: './users-management.component.html',
+  styleUrl: './users-management.component.scss',
+  standalone: true,
+  imports: [SearchBoxComponent, NgxDatatableModule, UserInfoComponent, TranslateModule]
 })
 export class UsersManagementComponent implements OnInit {
   private alertService = inject(AlertService);

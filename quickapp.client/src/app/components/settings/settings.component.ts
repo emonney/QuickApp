@@ -6,7 +6,6 @@
 
 import { Component, inject, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -14,12 +13,10 @@ import { Subscription } from 'rxjs';
 import { fadeInOut } from '../../services/animations';
 import { AccountService } from '../../services/account.service';
 import { Permissions } from '../../models/permission.model';
-
 import { UserInfoComponent } from '../controls/user-info.component';
 import { UserPreferencesComponent } from '../controls/user-preferences.component';
 import { UsersManagementComponent } from '../controls/users-management.component';
 import { RolesManagementComponent } from '../controls/roles-management.component';
-
 
 @Component({
   selector: 'app-settings',

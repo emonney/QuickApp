@@ -1,3 +1,9 @@
+// ---------------------------------------
+// Email: quickapp@ebenmonney.com
+// Templates: www.ebenmonney.com/templates
+// (c) 2024 www.ebenmonney.com/mit-license
+// ---------------------------------------
+
 import { Injectable } from "@angular/core";
 import { DefaultUrlSerializer, UrlTree } from "@angular/router";
 import { Utilities } from "./utilities";

@@ -5,9 +5,8 @@
 // ---------------------------------------
 
 import { Component } from '@angular/core';
-import { NgbCarousel, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 import { NgClass } from '@angular/common';
-
+import { NgbCarousel, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-banner-demo',

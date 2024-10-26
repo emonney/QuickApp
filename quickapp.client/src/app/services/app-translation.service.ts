@@ -11,7 +11,6 @@ import { Subject, of } from 'rxjs';
 
 import fallbackLangData from '../../../public/locale/en.json';
 
-
 @Injectable()
 export class AppTranslationService {
   private translate = inject(TranslateService);

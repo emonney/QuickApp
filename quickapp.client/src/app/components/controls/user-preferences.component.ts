@@ -5,19 +5,16 @@
 // ---------------------------------------
 
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { ConfigurationService } from '../../services/configuration.service';
-import { AppTranslationService } from '../../services/app-translation.service';
 import { AccountService } from '../../services/account.service';
 import { ThemeManager } from '../../services/theme-manager';
 import { Utilities } from '../../services/utilities';
 import { Permissions } from '../../models/permission.model';
-import { NgSelectComponent, NgOptionComponent } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
-
-import { TranslateModule } from '@ngx-translate/core';
-
 
 @Component({
   selector: 'app-user-preferences',
@@ -28,11 +25,9 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class UserPreferencesComponent {
   private alertService = inject(AlertService);
-  private translationService = inject(AppTranslationService);
   private accountService = inject(AccountService);
   themeManager = inject(ThemeManager);
   configurations = inject(ConfigurationService);
-
 
   reloadFromServer() {
     this.alertService.startLoadingMessage();
