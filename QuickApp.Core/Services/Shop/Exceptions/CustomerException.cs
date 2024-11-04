@@ -12,7 +12,7 @@ namespace QuickApp.Core.Services.Shop
     public class CustomerException : Exception
     {
         /// <summary>Initializes a new instance of the <see cref="CustomerException" /> class.</summary>
-        public CustomerException() : base("A Customer Exception has occured.")
+        public CustomerException() : base("A Customer Exception has occurred.")
         {
 
         }

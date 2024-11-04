@@ -107,7 +107,7 @@
                 {{'users.editor.EmailRequired' | translate}}
               </span>
             }
-            @if (showValidationErrors && f.submitted && email.errors?.['pattern']) {
+            @else if (showValidationErrors && f.submitted && email.errors?.['pattern']) {
               <span class="invalid-feedback">
                 {{'users.editor.InvalidEmail' | translate}}
               </span>
@@ -206,7 +206,7 @@
                         {{'users.editor.ConfirmationPasswordRequired' | translate}}
                       </span>
                     }
-                    @if (showValidationErrors && f.submitted && confirmPassword.errors?.['validateEqual'] && !confirmPassword.errors?.['required']) {
+                    @else if (showValidationErrors && f.submitted && confirmPassword.errors?.['validateEqual']) {
                       <span class="invalid-feedback">
                         {{'users.editor.PasswordMismatch' | translate}}
                       </span>

@@ -19,7 +19,9 @@ import { IdToken, LoginResponse } from '../models/login-response.model';
 import { User } from '../models/user.model';
 import { PermissionValues } from '../models/permission.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthService {
   private router = inject(Router);
   private oidcHelperService = inject(OidcHelperService);

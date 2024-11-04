@@ -268,7 +268,7 @@ try
 catch (Exception ex)
 {
     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-    logger.LogCritical(ex, "An error occured whilst creating/seeding database");
+    logger.LogCritical(ex, "An error occurred whilst creating/seeding database");
 
     throw;
 }

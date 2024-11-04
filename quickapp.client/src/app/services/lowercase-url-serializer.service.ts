@@ -8,7 +8,7 @@ import { Injectable } from "@angular/core";
 import { DefaultUrlSerializer, UrlTree } from "@angular/router";
 import { Utilities } from "./utilities";
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class LowerCaseUrlSerializer extends DefaultUrlSerializer {
   override parse(url: string): UrlTree {
     const possibleSeparators = /[?;#]/;

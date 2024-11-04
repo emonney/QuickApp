@@ -18,7 +18,9 @@ import { UserEdit } from '../models/user-edit.model';
 export type RolesChangedOperation = 'add' | 'delete' | 'modify';
 export interface RolesChangedEventArg { roles: Role[] | string[]; operation: RolesChangedOperation; }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AccountService {
   private authService = inject(AuthService);
   private accountEndpoint = inject(AccountEndpoint);

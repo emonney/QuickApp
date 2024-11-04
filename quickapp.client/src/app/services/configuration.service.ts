@@ -24,7 +24,9 @@ interface UserConfiguration {
   showDashboardBanner: boolean | null;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ConfigurationService {
   private localStorage = inject(LocalStoreManager);
   private translationService = inject(AppTranslationService);

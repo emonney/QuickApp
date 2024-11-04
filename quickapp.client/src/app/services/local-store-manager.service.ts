@@ -9,7 +9,9 @@ import { Observable, Subject } from 'rxjs';
 
 import { Utilities } from './utilities';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 /**
  * Provides a wrapper for accessing the web storage API and synchronizing session storage across tabs/windows.
  */

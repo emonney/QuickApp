@@ -12,8 +12,9 @@ import { catchError } from 'rxjs/operators';
 import { EndpointBase } from './endpoint-base.service';
 import { ConfigurationService } from './configuration.service';
 
-
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AccountEndpoint extends EndpointBase {
   private http = inject(HttpClient);
   private configurations = inject(ConfigurationService);

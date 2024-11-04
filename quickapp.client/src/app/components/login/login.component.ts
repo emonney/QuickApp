@@ -5,6 +5,8 @@
 // ---------------------------------------
 
 import { Component, OnInit, OnDestroy, Input, inject } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { AlertService, MessageSeverity, DialogType } from '../../services/alert.service';
@@ -12,8 +14,6 @@ import { AuthService } from '../../services/auth.service';
 import { ConfigurationService } from '../../services/configuration.service';
 import { Utilities } from '../../services/utilities';
 import { UserLogin } from '../../models/user-login.model';
-import { NgClass } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',

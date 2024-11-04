@@ -12,7 +12,7 @@ namespace QuickApp.Core.Services.Account
     public class UserRoleException : Exception
     {
         /// <summary>Initializes a new instance of the <see cref="UserRoleException" /> class.</summary>
-        public UserRoleException() : base("A User Role Exception has occured.")
+        public UserRoleException() : base("A User Role Exception has occurred.")
         {
 
         }

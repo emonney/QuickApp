@@ -8,7 +8,9 @@ import { Injectable } from '@angular/core';
 
 import { AppTheme } from '../models/app-theme.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ThemeManager {
   themes: AppTheme[] = [
     {

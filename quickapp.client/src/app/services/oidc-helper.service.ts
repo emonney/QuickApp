@@ -12,7 +12,9 @@ import { ConfigurationService } from './configuration.service';
 import { DBkeys } from './db-keys';
 import { LoginResponse } from '../models/login-response.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class OidcHelperService {
   private http = inject(HttpClient);
   private localStorage = inject(LocalStoreManager);

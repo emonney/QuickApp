@@ -12,7 +12,7 @@ namespace QuickApp.Core.Services.Account
     public class UserAccountException : Exception
     {
         /// <summary>Initializes a new instance of the <see cref="UserAccountException" /> class.</summary>
-        public UserAccountException() : base("A User Account Exception has occured.")
+        public UserAccountException() : base("A User Account Exception has occurred.")
         {
 
         }
