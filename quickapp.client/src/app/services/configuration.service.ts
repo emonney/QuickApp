@@ -33,7 +33,6 @@ export class ConfigurationService {
   private themeManager = inject(ThemeManager);
 
   constructor() {
-
     this.loadLocalChanges();
   }
 

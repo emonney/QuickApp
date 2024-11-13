@@ -7,7 +7,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService, TranslateLoader } from '@ngx-translate/core';
-import { Subject, of } from 'rxjs';
+import { of } from 'rxjs';
 
 import fallbackLangData from '../../../public/locale/en.json';
 
@@ -17,11 +17,10 @@ import fallbackLangData from '../../../public/locale/en.json';
 export class AppTranslationService {
   private translate = inject(TranslateService);
 
-  private onLanguageChanged = new Subject<string>();
-  languageChanged$ = this.onLanguageChanged.asObservable();
+  languageChanged$ = this.translate.onLangChange.asObservable();
 
   constructor() {
-    this.addLanguages(['en', 'fr', 'de', 'pt', 'ar', 'ko']);
+    this.addLanguages(['en', 'fr', 'de', 'es', 'pt', 'zh', 'ko', 'ar']);
     this.setDefaultLanguage('en');
   }
 
@@ -52,7 +51,7 @@ export class AppTranslationService {
   useBrowserLanguage(): string | void {
     const browserLang = this.getBrowserLanguage();
 
-    if (browserLang?.match(/en|fr|de|pt|ar|ko/)) {
+    if (browserLang?.match(/en|fr|de|es|pt|zh|ko|ar/)) {
       this.changeLanguage(browserLang);
       return browserLang;
     }
@@ -67,14 +66,7 @@ export class AppTranslationService {
       language = this.getDefaultLanguage();
     }
 
-    if (language !== this.translate.currentLang) {
-      const lang = language;
-
-      setTimeout(() => {
-        this.translate.use(lang);
-        this.onLanguageChanged.next(lang);
-      });
-    }
+    setTimeout(() => { this.translate.use(language); });
 
     return language;
   }

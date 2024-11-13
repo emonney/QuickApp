@@ -84,7 +84,7 @@
     "facebookProvider": "موقع التواصل الاجتماعي الفيسبوك",
     "twitterProvider": "تويتر",
     "microsoftProvider": "مايكروسوفت",
-    "ConnectingToTwitter": "جارٍ الاتصال بـ twitter ...",
+    "ConnectingToTwitter": "جارِ الاتصال بتويتر...",
     "Processing": "معالجة...",
     "Error": "خطأ.",
     "alerts": {
@@ -240,6 +240,14 @@
     "ReloadPreferencesHint": "(تحميل التفضيلات الافتراضية (يتم تجاهل التغييرات المحلية",
     "Language": "لغة:",
     "Default": "إفتراضي",
+    "English": "English",
+    "French": "Français",
+    "German": "Deutsch",
+    "Spanish": "Español",
+    "Portuguese": "Português",
+    "Chinese": "简体中文",
+    "Korean": "한국어",
+    "Arabic": "العربية",
     "LanguageHint": "اختيار اللغة المفضلة لحسابك",
     "HomePage": "الصفحة الرئيسية:",
     "Dashboard": "لوحة القيادة",
@@ -362,7 +370,6 @@
       "Task": "مهمة",
       "Description": "وصف"
     },
-
     "editor": {
       "NewTask": "مهمة جديدة",
       "Name": "اسم",

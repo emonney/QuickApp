@@ -11,6 +11,29 @@ body, html {
   height: 100%
 }
 
+html[dir="rtl"] {
+  .app-component {
+    .navbar {
+      @media (min-width: 992px) {
+        .ms-lg-auto {
+          margin-left: 0.5rem !important;
+        }
+
+        .me-lg-2 {
+          margin-right: auto !important;
+        }
+      }
+    }
+  }
+
+  .login-container {
+    .btn-social.me-1 {
+      margin-right: 0 !important;
+      margin-left: 0.25rem !important;
+    }
+  }
+}
+
 .reduced-font {
   font-size: 0.875rem;
 }

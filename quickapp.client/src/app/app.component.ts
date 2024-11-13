@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, Renderer2 } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
@@ -46,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private translationService = inject(AppTranslationService);
   configurations = inject(ConfigurationService);
   router = inject(Router);
+  renderer = inject(Renderer2);
 
   isAppLoaded = false;
   isUserLoggedIn = false;
@@ -56,6 +57,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   dataLoadingConsecutiveFailures = 0;
   notificationsLoadingSubscription: Subscription | undefined;
+  languageChangedSubscription: Subscription | undefined;
 
   loginControl: LoginComponent | undefined;
 
@@ -98,6 +100,12 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     }, 2000);
 
+    this.languageChangedSubscription = this.translationService.languageChanged$
+      .subscribe(event => {
+        this.renderer.setAttribute(document.documentElement, 'dir', event.lang === 'ar' ? 'rtl' : 'ltr');
+        this.renderer.setAttribute(document.documentElement, 'lang', event.lang);
+      });
+
     this.alertService.getDialogEvent().subscribe(alert => this.showDialog(alert));
     this.alertService.getMessageEvent().subscribe(message => this.showToast(message));
 
@@ -122,6 +130,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribeNotifications();
+    this.languageChangedSubscription?.unsubscribe();
   }
 
   private unsubscribeNotifications() {
