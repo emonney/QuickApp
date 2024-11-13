@@ -20,20 +20,6 @@ footer {
   background-color: #f5f5f5;
 }
 
-.close-navbar-toggler {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  cursor: inherit;
-  z-index: 999;
-}
-
-.close-navbar-toggler.collapsed {
-  display: none;
-}
-
 .navbar-brand > img {
   height: 30px;
 }

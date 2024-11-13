@@ -1,103 +1,112 @@
 <div class="app-component app-container">
   <ngx-toasta></ngx-toasta>
 
-  <a class="close-navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target=".menuItemsContainer">
-  </a>
-
   <nav id="header" class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
     <div class="container-xl px-md-3 px-xxl-4">
-      <a ngPreserveWhitespaces class="navbar-brand" routerLink="/">
+      <a ngPreserveWhitespaces class="navbar-brand" routerLink="/" (click)="isMenuCollapsed = true">
         <img src="images/logo-white.png" class="d-inline-block align-top" alt="logo">
         <span class="d-lg-none d-xl-inline">{{appTitle}}</span>
       </a>
-      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".menuItemsContainer">
+      <button type="button" class="navbar-toggler" (click)="isMenuCollapsed = !isMenuCollapsed">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       @if (isUserLoggedIn) {
-        <div class="collapse navbar-collapse menuItemsContainer">
-          <ul class="nav nav-pills flex-column flex-lg-row flex-fill">
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-              <a class="nav-link" routerLink=""><i class="fa fa-home"></i></a>
-            </li>
-            @if (canViewCustomers) {
-              <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/customers">{{'mainMenu.Customers' | translate}}</a>
-              </li>
-            }
-            @if (canViewProducts) {
-              <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/products">{{'mainMenu.Products' | translate}}</a>
-              </li>
-            }
-            @if (canViewOrders) {
-              <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/orders">{{'mainMenu.Orders' | translate}}</a>
-              </li>
-            }
-            <li class="nav-item" routerLinkActive="active">
-              <a class="nav-link" routerLink="/about">{{'mainMenu.About' | translate}}</a>
-            </li>
-            <li class="nav-item ms-lg-auto me-lg-2" routerLinkActive="active">
-              <a class="nav-link" routerLink="/settings"><i class="fa fa-cog"></i></a>
-            </li>
-          </ul>
-          <span class="navbar-text notifications-popup d-lg-none d-xl-inline-block">{{'app.Welcome' | translate}}</span>
-          <a class="nav-link user-name d-inline-block px-1" [ngbPopover]="popTemplate"
-             (hidden)="markNotificationsAsRead()" placement="bottom" [popoverTitle]="notificationsTitle"
-             href="javascript:;" triggers="focus" popoverClass="notifications-popup">
-            {{userName}}
-            @if (newNotificationCount > 0) {
-              <span class="badge bg-secondary">{{newNotificationCount}}</span>
-            }
-          </a>
-          <ng-template #popTemplate>
-            <app-notifications-viewer [isViewOnly]="true"></app-notifications-viewer>
-          </ng-template>
-          @if (newNotificationCount > 0) {
-            <span class="navbar-text d-none d-lg-inline">, </span>
+      <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+        <ul class="nav nav-pills flex-column flex-lg-row flex-fill">
+          <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <a class="nav-link" routerLink="" (click)="isMenuCollapsed = true">
+              <i class="fa fa-home"></i>
+            </a>
+          </li>
+          @if (canViewCustomers) {
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/customers" (click)="isMenuCollapsed = true">
+              {{'mainMenu.Customers' | translate}}
+            </a>
+          </li>
           }
-          <ul class="nav nav-pills flex-column flex-lg-row ms-lg-1">
-            <li class="nav-item">
-              <a class="nav-link" href="javascript:;" (click)="logout()">
-                <i class="fa fa-sign-out"></i> {{'mainMenu.Logout' | translate}}
-              </a>
-            </li>
-          </ul>
-        </div>
+          @if (canViewProducts) {
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/products" (click)="isMenuCollapsed = true">
+              {{'mainMenu.Products' | translate}}
+            </a>
+          </li>
+          }
+          @if (canViewOrders) {
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/orders" (click)="isMenuCollapsed = true">
+              {{'mainMenu.Orders' | translate}}
+            </a>
+          </li>
+          }
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/about" (click)="isMenuCollapsed = true">
+              {{'mainMenu.About' | translate}}
+            </a>
+          </li>
+          <li class="nav-item ms-lg-auto me-lg-2" routerLinkActive="active">
+            <a class="nav-link" routerLink="/settings" (click)="isMenuCollapsed = true">
+              <i class="fa fa-cog"></i>
+            </a>
+          </li>
+        </ul>
+        <span class="navbar-text notifications-popup d-lg-none d-xl-inline-block">{{'app.Welcome' | translate}}</span>
+        <a class="nav-link user-name d-inline-block px-1" [ngbPopover]="popTemplate"
+           (hidden)="markNotificationsAsRead()" placement="bottom" [popoverTitle]="notificationsTitle"
+           href="javascript:;" triggers="focus" popoverClass="notifications-popup">
+          {{userName}}
+          @if (newNotificationCount > 0) {
+          <span class="badge bg-secondary">{{newNotificationCount}}</span>
+          }
+        </a>
+        <ng-template #popTemplate>
+          <app-notifications-viewer [isViewOnly]="true"></app-notifications-viewer>
+        </ng-template>
+        @if (newNotificationCount > 0) {
+        <span class="navbar-text d-none d-lg-inline">, </span>
+        }
+        <ul class="nav nav-pills flex-column flex-lg-row ms-lg-1">
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:;" (click)="logout(); isMenuCollapsed = true">
+              <i class="fa fa-sign-out"></i> {{'mainMenu.Logout' | translate}}
+            </a>
+          </li>
+        </ul>
+      </div>
       }
       @else {
-        <div class="collapse navbar-collapse menuItemsContainer">
-          <ul class="nav nav-pills flex-column flex-lg-row ms-auto">
-            <li class="nav-item" routerLinkActive="active">
-              @if (router.isActive('/about', false)) {
-                <a class="nav-link" routerLink="/login">
-                  <i class="fa fa-sign-in"></i>
-                </a>
-              } @else {
-                <a class="nav-link" routerLink="/about">
-                  <i class="fa fa-info-circle"></i>
-                </a>
-              }
-            </li>
-          </ul>
-        </div>
+      <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+        <ul class="nav nav-pills flex-column flex-lg-row ms-auto">
+          <li class="nav-item" routerLinkActive="active">
+            @if (router.isActive('/about', false)) {
+            <a class="nav-link" routerLink="/login" (click)="isMenuCollapsed = true">
+              <i class="fa fa-sign-in"></i>
+            </a>
+            } @else {
+            <a class="nav-link" routerLink="/about" (click)="isMenuCollapsed = true">
+              <i class="fa fa-info-circle"></i>
+            </a>
+            }
+          </li>
+        </ul>
+      </div>
       }
     </div>
   </nav>
 
   @if (!isAppLoaded) {
-    <div id="pre-bootstrap" class="prebootStep prebootShow">
-      <div class="messaging">
-        <h1>
-          Loaded!
-        </h1>
-        <p>
-          QUICK APPLICATION SYSTEM - <span style="font-style:italic">quick</span>App &copy;
-          <a class="text-link" href="https://www.ebenmonney.com">WWW.EBENMONNEY.COM</a>
-        </p>
-      </div>
+  <div id="pre-bootstrap" class="prebootStep prebootShow">
+    <div class="messaging">
+      <h1>
+        Loaded!
+      </h1>
+      <p>
+        QUICK APPLICATION SYSTEM - <span style="font-style:italic">quick</span>App &copy;
+        <a class="text-link" href="https://www.ebenmonney.com">WWW.EBENMONNEY.COM</a>
+      </p>
     </div>
+  </div>
   }
 
   <main class="container-xl px-3 px-md-4 px-xxl-5">

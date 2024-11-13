@@ -9,7 +9,7 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/rou
 import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
 import { ToastaService, ToastaConfig, ToastOptions, ToastData, ToastaModule } from 'ngx-toasta';
-import { NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 import { AlertService, AlertDialog, DialogType, AlertCommand, MessageSeverity } from './services/alert.service';
 import { NotificationService } from './services/notification.service';
@@ -32,7 +32,8 @@ declare let alertify: Alertify;
   styleUrl: './app.component.scss',
   standalone: true,
   imports: [
-    ToastaModule, RouterLink, RouterLinkActive, NgbPopover, NotificationsViewerComponent, RouterOutlet, TranslateModule
+    ToastaModule, RouterLink, RouterLinkActive, NgbCollapseModule, NgbPopover, NotificationsViewerComponent,
+    RouterOutlet, TranslateModule
   ]
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -48,6 +49,7 @@ export class AppComponent implements OnInit, OnDestroy {
   router = inject(Router);
   renderer = inject(Renderer2);
 
+  isMenuCollapsed = true;
   isAppLoaded = false;
   isUserLoggedIn = false;
   newNotificationCount = 0;
