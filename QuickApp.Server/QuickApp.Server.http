@@ -1,6 +1,7 @@
 @QuickApp.Server_HostAddress = https://localhost:7085
 @QuickApp.Client_HostAddress = https://localhost:4200
-@AccessToken = Paste_access_token_here
+@username = admin
+@password = tempP@ss123
 
 #### This file enables you to test the APIs of QuickApp.
 #### You can also test the APIs with Swagger by appending "/swagger"" to the home url or by using postman
@@ -10,10 +11,11 @@
 ###################################################
 ### Login to get access token
 ###################################################
+# @name login
 POST {{QuickApp.Server_HostAddress}}/connect/token
 Content-Type: application/x-www-form-urlencoded
 
-client_id=swagger_ui&grant_type=password&username=admin&password=tempP@ss123
+client_id=swagger_ui&grant_type=password&username={{username}}&password={{password}}
 
 
 ###################################################
@@ -23,40 +25,41 @@ client_id=swagger_ui&grant_type=password&username=admin&password=tempP@ss123
 ### Get all users
 GET {{QuickApp.Server_HostAddress}}/api/account/users
 Accept: application/json
-Authorization: Bearer {{AccessToken}}
+Authorization: Bearer {{login.response.body.$.access_token}}
 
 ### Get current user
 GET {{QuickApp.Server_HostAddress}}/api/account/users/me
 Accept: application/json
-Authorization: Bearer {{AccessToken}}
+Authorization: Bearer {{login.response.body.$.access_token}}
 
-### Register new user
+### Register new user test_user_1
 POST {{QuickApp.Server_HostAddress}}/api/account/users
-Authorization: Bearer {{AccessToken}}
+Authorization: Bearer {{login.response.body.$.access_token}}
 Content-Type: application/json
 
 {
-    "userName": "test_1",
-    "email": "test_1@ebenmonney.com",
+    "userName": "test_user_1",
+    "email": "test_user_1@ebenmonney.com",
     "isEnabled": true,
     "newPassword": "testP@ss123",
     "roles": ["administrator"]
 }
 
-### Get newly registered user with username "test_1"
-GET {{QuickApp.Server_HostAddress}}/api/account/users/username/test_1
+### Get newly registered user with username "test_user_1"
+# @name testUser1
+GET {{QuickApp.Server_HostAddress}}/api/account/users/username/test_user_1
 Accept: application/json
-Authorization: Bearer {{AccessToken}}
+Authorization: Bearer {{login.response.body.$.access_token}}
 
-### Update user with a specific id
-PUT {{QuickApp.Server_HostAddress}}/api/account/users/Paste_user_id_here
-Authorization: Bearer {{AccessToken}}
+### Update user with a specific id. E.g. test_user_1's id
+PUT {{QuickApp.Server_HostAddress}}/api/account/users/{{testUser1.response.body.$.id}}
+Authorization: Bearer {{login.response.body.$.access_token}}
 Content-Type: application/json
 
 {
-    "userName": "test_1",
+    "userName": "testUser1",
     "fullName": "My New Fullname",
-    "email": "test_1@ebenmonney.com",
+    "email": "testUser1@ebenmonney.com",
     "isEnabled": true,
     "isLockedOut": false,
     "jobTitle": "Dr.",
@@ -64,9 +67,9 @@ Content-Type: application/json
     "roles": ["administrator"]
 }
 
-### Delete user with a specific id
-DELETE {{QuickApp.Server_HostAddress}}/api/account/users/Paste_user_id_here
-Authorization: Bearer {{AccessToken}}
+### Delete user with a specific id. E.g. testUser1's id
+DELETE {{QuickApp.Server_HostAddress}}/api/account/users/{{testUser1.response.body.$.id}}
+Authorization: Bearer {{login.response.body.$.access_token}}
 
 
 ###################################################
@@ -76,46 +79,46 @@ Authorization: Bearer {{AccessToken}}
 ### Get all roles
 GET {{QuickApp.Server_HostAddress}}/api/account/roles
 Accept: application/json
-Authorization: Bearer {{AccessToken}}
-
-### Get role with a specific id
-GET {{QuickApp.Server_HostAddress}}/api/account/roles/Paste_role_id_here
-Accept: application/json
-Authorization: Bearer {{AccessToken}}
+Authorization: Bearer {{login.response.body.$.access_token}}
 
 ### Register new role
 POST {{QuickApp.Server_HostAddress}}/api/account/roles
-Authorization: Bearer {{AccessToken}}
+Authorization: Bearer {{login.response.body.$.access_token}}
 Content-Type: application/json
 
 {
-    "name": "test_1",
-    "description": "Test role 1"
+    "name": "test_role_1",
+    "description": "This is the Test Role 1"
 }
 
-### Get newly registered role with role name "test_1"
-GET {{QuickApp.Server_HostAddress}}/api/account/roles/name/test_1
+### Get newly registered role with role name "test_role_1"
+# @name testRole1
+GET {{QuickApp.Server_HostAddress}}/api/account/roles/name/test_role_1
 Accept: application/json
-Authorization: Bearer {{AccessToken}}
+Authorization: Bearer {{login.response.body.$.access_token}}
 
-### Update role with a specific id
-PUT {{QuickApp.Server_HostAddress}}/api/account/roles/Paste_role_id_here
-Authorization: Bearer {{AccessToken}}
+### Get role with a specific id. E.g. test_role_1's id
+GET {{QuickApp.Server_HostAddress}}/api/account/roles/{{testRole1.response.body.$.id}}
+Accept: application/json
+Authorization: Bearer {{login.response.body.$.access_token}}
+
+### Update role with a specific id. E.g. test_role_1's id
+PUT {{QuickApp.Server_HostAddress}}/api/account/roles/{{testRole1.response.body.$.id}}
+Authorization: Bearer {{login.response.body.$.access_token}}
 Content-Type: application/json
 
 {
-  "name": "test_123",
-  "description": "New test role 1 description",
+  "name": "test_role_123",
+  "description": "New name and description for test_role_1",
   "permissions": [
     {"value": "users.view"},
     {"value": "roles.view"}
   ]
 }
 
-
-### Delete role with a specific id
-DELETE {{QuickApp.Server_HostAddress}}/api/account/roles/Paste_role_id_here
-Authorization: Bearer {{AccessToken}}
+### Delete role with a specific id. E.g. test_role_1's id
+DELETE {{QuickApp.Server_HostAddress}}/api/account/roles/{{testRole1.response.body.$.id}}
+Authorization: Bearer {{login.response.body.$.access_token}}
 
 
 ###################################################

@@ -1,7 +1,7 @@
 {
   "name": "quickapp.client",
-  "version": "8.1.0",
-  "description": "ASP.NET Core 8.0/Angular 18 startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
+  "version": "9.18.0",
+  "description": "ASP.NET Core 9.0/Angular 18 startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
   "author": {
     "name": "Ebenezer Monney",
     "email": "info@ebenmonney.com",

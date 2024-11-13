@@ -122,7 +122,7 @@ builder.Services.AddOpenIddict()
             }
             else
             {
-                var oidcCertificate = new X509Certificate2(oidcCertFileName, oidcCertFilePassword);
+                var oidcCertificate = X509CertificateLoader.LoadPkcs12FromFile(oidcCertFileName, oidcCertFilePassword);
 
                 options.AddEncryptionCertificate(oidcCertificate)
                        .AddSigningCertificate(oidcCertificate);
@@ -220,7 +220,7 @@ var app = builder.Build();
 /************* CONFIGURE REQUEST PIPELINE *************/
 
 app.UseDefaultFiles();
-app.UseStaticFiles();
+app.MapStaticAssets();
 
 if (app.Environment.IsDevelopment())
 {
