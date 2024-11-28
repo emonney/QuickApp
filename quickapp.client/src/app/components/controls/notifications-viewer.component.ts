@@ -20,11 +20,10 @@ import { Utilities } from '../../services/utilities';
 import { Notification } from '../../models/notification.model';
 
 @Component({
-  selector: 'app-notifications-viewer',
-  templateUrl: './notifications-viewer.component.html',
-  styleUrl: './notifications-viewer.component.scss',
-  standalone: true,
-  imports: [NgxDatatableModule, NgbTooltip, NgClass, TranslateModule]
+    selector: 'app-notifications-viewer',
+    templateUrl: './notifications-viewer.component.html',
+    styleUrl: './notifications-viewer.component.scss',
+    imports: [NgxDatatableModule, NgbTooltip, NgClass, TranslateModule]
 })
 export class NotificationsViewerComponent implements OnInit, OnDestroy {
   private alertService = inject(AlertService);

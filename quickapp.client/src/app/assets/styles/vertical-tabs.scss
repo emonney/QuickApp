@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $padding-base: 15px;
 $color-body: transparent;
 $color-border: #ddd;
@@ -25,7 +27,7 @@ $border-radius: .25rem;
       white-space: nowrap;
 
       &:hover {
-        background-color: lighten($color-border, 10%);
+        background-color: color.adjust($color-border, $lightness: 10%);
         border-color: transparent;
       }
     }

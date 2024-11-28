@@ -89,6 +89,14 @@
                 "inject": false
               }
             ],
+            "stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": [
+                  "import",
+                  "global-builtin"
+                ]
+              }
+            },
             "scripts": [
               "src/app/assets/scripts/alertify.js"
             ]
@@ -214,6 +222,14 @@
                 "inject": false
               }
             ],
+            "stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": [
+                  "import",
+                  "global-builtin"
+                ]
+              }
+            },
             "scripts": [],
             "karmaConfig": "karma.conf.js"
           }
@@ -232,7 +248,7 @@
   },
   "cli": {
     "schematicCollections": [
-      "@angular-eslint/schematics"
+      "angular-eslint"
     ],
     "analytics": false
   }

@@ -1,0 +1,7 @@
+@use '../../../../node_modules/ngx-toasta/styles/style-bootstrap.css';
+@use '../../../../node_modules/@siemens/ngx-datatable/index.css';
+@use '../../../../node_modules/@siemens/ngx-datatable/assets/icons.css';
+@use '../../../../node_modules/@ng-select/ng-select/themes/default.theme.css'; /* or material.theme.css*/
+@use '../../../../node_modules/font-awesome/css/font-awesome.css';
+@use 'alertify.core.css';
+@use 'alertify.bootstrap.css' as alertify-bootstrap;

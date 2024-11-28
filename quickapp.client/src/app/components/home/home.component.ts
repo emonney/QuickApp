@@ -20,15 +20,14 @@ import { BannerDemoComponent } from '../controls/banner-demo.component';
 interface WidgetIndex { element: string, index: number }
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
-  animations: [fadeInOut],
-  standalone: true,
-  imports: [
-    CdkDropList, RouterLink, CdkDrag, CdkDragPlaceholder, StatisticsDemoComponent, NotificationsViewerComponent,
-    TodoDemoComponent, BannerDemoComponent, TranslateModule
-  ]
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss',
+    animations: [fadeInOut],
+    imports: [
+        CdkDropList, RouterLink, CdkDrag, CdkDragPlaceholder, StatisticsDemoComponent, NotificationsViewerComponent,
+        TodoDemoComponent, BannerDemoComponent, TranslateModule
+    ]
 })
 export class HomeComponent implements AfterViewInit {
   private authService = inject(AuthService);

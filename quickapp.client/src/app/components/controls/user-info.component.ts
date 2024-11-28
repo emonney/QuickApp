@@ -22,14 +22,13 @@ import { AutofocusDirective } from '../../directives/autofocus.directive';
 import { EqualValidator } from '../../directives/equal-validator.directive';
 
 @Component({
-  selector: 'app-user-info',
-  templateUrl: './user-info.component.html',
-  styleUrl: './user-info.component.scss',
-  standalone: true,
-  imports: [
-    FormsModule, AutofocusDirective, NgClass, EqualValidator, NgSelectComponent, NgLabelTemplateDirective,
-    NgOptionTemplateDirective, TranslateModule
-  ]
+    selector: 'app-user-info',
+    templateUrl: './user-info.component.html',
+    styleUrl: './user-info.component.scss',
+    imports: [
+        FormsModule, AutofocusDirective, NgClass, EqualValidator, NgSelectComponent, NgLabelTemplateDirective,
+        NgOptionTemplateDirective, TranslateModule
+    ]
 })
 export class UserInfoComponent implements OnInit {
   private alertService = inject(AlertService);

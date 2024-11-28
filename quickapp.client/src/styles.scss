@@ -1,11 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import 'app/assets/styles/custom-vendor';
-@import 'bootstrap/scss/bootstrap';
+@use 'app/assets/styles/custom-variables' as *;
+@use 'bootstrap/scss/bootstrap' as *;
 
-@import 'app/assets/styles/vertical-tabs';
-@import 'app/assets/styles/ngx-datatable';
-@import 'app/assets/styles/styles-vendor.css';
+@use 'app/assets/styles/vertical-tabs';
+@use 'app/assets/styles/ngx-datatable';
+@use 'app/assets/styles/styles-vendor';
 
 body, html {
   height: 100%

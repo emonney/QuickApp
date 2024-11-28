@@ -19,15 +19,14 @@ import { UsersManagementComponent } from '../controls/users-management.component
 import { RolesManagementComponent } from '../controls/roles-management.component';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrl: './settings.component.scss',
-  animations: [fadeInOut],
-  standalone: true,
-  imports: [
-    RouterLink, TranslateModule, NgbNavModule,
-    UserInfoComponent, UserPreferencesComponent, UsersManagementComponent, RolesManagementComponent
-  ]
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrl: './settings.component.scss',
+    animations: [fadeInOut],
+    imports: [
+        RouterLink, TranslateModule, NgbNavModule,
+        UserInfoComponent, UserPreferencesComponent, UsersManagementComponent, RolesManagementComponent
+    ]
 })
 export class SettingsComponent implements OnInit, AfterViewInit, OnDestroy {
   private router = inject(Router);

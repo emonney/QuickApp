@@ -23,11 +23,10 @@ interface RoleIndex extends Role {
 }
 
 @Component({
-  selector: 'app-roles-management',
-  templateUrl: './roles-management.component.html',
-  styleUrl: './roles-management.component.scss',
-  standalone: true,
-  imports: [SearchBoxComponent, NgxDatatableModule, RoleEditorComponent, TranslateModule]
+    selector: 'app-roles-management',
+    templateUrl: './roles-management.component.html',
+    styleUrl: './roles-management.component.scss',
+    imports: [SearchBoxComponent, NgxDatatableModule, RoleEditorComponent, TranslateModule]
 })
 export class RolesManagementComponent implements OnInit {
   private alertService = inject(AlertService);

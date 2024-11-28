@@ -9,11 +9,10 @@ import { NgClass } from '@angular/common';
 import { NgbCarousel, NgbSlide } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-banner-demo',
-  templateUrl: './banner-demo.component.html',
-  styleUrl: './banner-demo.component.scss',
-  standalone: true,
-  imports: [NgbCarousel, NgbSlide, NgClass]
+    selector: 'app-banner-demo',
+    templateUrl: './banner-demo.component.html',
+    styleUrl: './banner-demo.component.scss',
+    imports: [NgbCarousel, NgbSlide, NgClass]
 })
 export class BannerDemoComponent {
 

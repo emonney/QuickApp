@@ -18,11 +18,10 @@ import { Permission, Permissions } from '../../models/permission.model';
 import { GroupByPipe } from '../../pipes/group-by.pipe';
 
 @Component({
-  selector: 'app-role-editor',
-  templateUrl: './role-editor.component.html',
-  styleUrl: './role-editor.component.scss',
-  standalone: true,
-  imports: [FormsModule, NgClass, NgbTooltip, TranslateModule, GroupByPipe]
+    selector: 'app-role-editor',
+    templateUrl: './role-editor.component.html',
+    styleUrl: './role-editor.component.scss',
+    imports: [FormsModule, NgClass, NgbTooltip, TranslateModule, GroupByPipe]
 })
 export class RoleEditorComponent implements OnInit {
   private alertService = inject(AlertService);

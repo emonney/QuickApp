@@ -28,11 +28,10 @@ interface Todo {
 }
 
 @Component({
-  selector: 'app-todo-demo',
-  templateUrl: './todo-demo.component.html',
-  styleUrl: './todo-demo.component.scss',
-  standalone: true,
-  imports: [SearchBoxComponent, NgxDatatableModule, FormsModule, AutofocusDirective, NgbTooltip, NgClass, TranslateModule]
+    selector: 'app-todo-demo',
+    templateUrl: './todo-demo.component.html',
+    styleUrl: './todo-demo.component.scss',
+    imports: [SearchBoxComponent, NgxDatatableModule, FormsModule, AutofocusDirective, NgbTooltip, NgClass, TranslateModule]
 })
 export class TodoDemoComponent implements OnInit, OnDestroy {
   private alertService = inject(AlertService);

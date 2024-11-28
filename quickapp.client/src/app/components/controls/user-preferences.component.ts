@@ -17,11 +17,10 @@ import { Utilities } from '../../services/utilities';
 import { Permissions } from '../../models/permission.model';
 
 @Component({
-  selector: 'app-user-preferences',
-  templateUrl: './user-preferences.component.html',
-  styleUrl: './user-preferences.component.scss',
-  standalone: true,
-  imports: [NgSelectComponent, FormsModule, NgOptionComponent, TranslateModule]
+    selector: 'app-user-preferences',
+    templateUrl: './user-preferences.component.html',
+    styleUrl: './user-preferences.component.scss',
+    imports: [NgSelectComponent, FormsModule, NgOptionComponent, TranslateModule]
 })
 export class UserPreferencesComponent {
   private alertService = inject(AlertService);

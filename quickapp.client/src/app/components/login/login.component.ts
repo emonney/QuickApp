@@ -16,11 +16,10 @@ import { Utilities } from '../../services/utilities';
 import { UserLogin } from '../../models/user-login.model';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
-  standalone: true,
-  imports: [FormsModule, NgClass]
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.scss',
+    imports: [FormsModule, NgClass]
 })
 
 export class LoginComponent implements OnInit, OnDestroy {

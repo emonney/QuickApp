@@ -26,11 +26,10 @@ interface UserIndex extends User {
 }
 
 @Component({
-  selector: 'app-users-management',
-  templateUrl: './users-management.component.html',
-  styleUrl: './users-management.component.scss',
-  standalone: true,
-  imports: [SearchBoxComponent, NgxDatatableModule, UserInfoComponent, TranslateModule]
+    selector: 'app-users-management',
+    templateUrl: './users-management.component.html',
+    styleUrl: './users-management.component.scss',
+    imports: [SearchBoxComponent, NgxDatatableModule, UserInfoComponent, TranslateModule]
 })
 export class UsersManagementComponent implements OnInit {
   private alertService = inject(AlertService);

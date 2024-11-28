@@ -27,14 +27,13 @@ import { NotificationsViewerComponent } from './components/controls/notification
 declare let alertify: Alertify;
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-  standalone: true,
-  imports: [
-    ToastaModule, RouterLink, RouterLinkActive, NgbCollapseModule, NgbPopover, NotificationsViewerComponent,
-    RouterOutlet, TranslateModule
-  ]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    imports: [
+        ToastaModule, RouterLink, RouterLinkActive, NgbCollapseModule, NgbPopover, NotificationsViewerComponent,
+        RouterOutlet, TranslateModule
+    ]
 })
 export class AppComponent implements OnInit, OnDestroy {
   private toastaService = inject(ToastaService);

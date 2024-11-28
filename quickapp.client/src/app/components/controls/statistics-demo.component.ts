@@ -14,11 +14,10 @@ import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem,
 interface ChartEventArgs { event: ChartEvent; active: object[] }
 
 @Component({
-  selector: 'app-statistics-demo',
-  templateUrl: './statistics-demo.component.html',
-  styleUrl: './statistics-demo.component.scss',
-  standalone: true,
-  imports: [BaseChartDirective, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem, NgbDropdownItem]
+    selector: 'app-statistics-demo',
+    templateUrl: './statistics-demo.component.html',
+    styleUrl: './statistics-demo.component.scss',
+    imports: [BaseChartDirective, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem, NgbDropdownItem]
 })
 export class StatisticsDemoComponent implements OnInit, OnDestroy {
   private alertService = inject(AlertService);
