@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, inject, input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, inject, input, output } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgModel, NgForm, FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -55,8 +55,7 @@ export class UserInfoComponent implements OnInit {
   @Input() isGeneralEditor = false;
 
   // Outupt to broadcast this instance so it can be accessible from within ng-bootstrap modal template
-  @Output()
-  afterOnInit = new EventEmitter<UserInfoComponent>();
+  readonly afterOnInit = output<UserInfoComponent>();
 
   @ViewChild('f')
   public form!: NgForm;

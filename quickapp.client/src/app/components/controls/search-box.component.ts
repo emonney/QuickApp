@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, ViewChild, ElementRef, Output, EventEmitter, HostListener, input } from '@angular/core';
+import { Component, ViewChild, ElementRef, HostListener, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -16,8 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class SearchBoxComponent {
   readonly placeholder = input('Search...');
 
-  @Output()
-  searchChange = new EventEmitter<string>();
+  readonly searchChange = output<string>();
 
   @ViewChild('searchInput')
   searchInput!: ElementRef;

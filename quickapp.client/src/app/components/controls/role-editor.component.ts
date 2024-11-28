@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, ViewChild, Output, EventEmitter, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, output } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgForm, FormsModule } from '@angular/forms';
@@ -18,10 +18,10 @@ import { Permission, Permissions } from '../../models/permission.model';
 import { GroupByPipe } from '../../pipes/group-by.pipe';
 
 @Component({
-    selector: 'app-role-editor',
-    templateUrl: './role-editor.component.html',
-    styleUrl: './role-editor.component.scss',
-    imports: [FormsModule, NgClass, NgbTooltip, TranslateModule, GroupByPipe]
+  selector: 'app-role-editor',
+  templateUrl: './role-editor.component.html',
+  styleUrl: './role-editor.component.scss',
+  imports: [FormsModule, NgClass, NgbTooltip, TranslateModule, GroupByPipe]
 })
 export class RoleEditorComponent implements OnInit {
   private alertService = inject(AlertService);
@@ -42,8 +42,7 @@ export class RoleEditorComponent implements OnInit {
   public changesCancelledCallback: (() => void) | undefined;
 
   // Outupt to broadcast this instance so it can be accessible from within ng-bootstrap modal template
-  @Output()
-  afterOnInit = new EventEmitter<RoleEditorComponent>();
+  readonly afterOnInit = output<RoleEditorComponent>();
 
   @ViewChild('f')
   private form!: NgForm;
