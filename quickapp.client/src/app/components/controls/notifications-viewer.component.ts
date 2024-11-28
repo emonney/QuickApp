@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, Input, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, inject, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -20,10 +20,10 @@ import { Utilities } from '../../services/utilities';
 import { Notification } from '../../models/notification.model';
 
 @Component({
-    selector: 'app-notifications-viewer',
-    templateUrl: './notifications-viewer.component.html',
-    styleUrl: './notifications-viewer.component.scss',
-    imports: [NgxDatatableModule, NgbTooltip, NgClass, TranslateModule]
+  selector: 'app-notifications-viewer',
+  templateUrl: './notifications-viewer.component.html',
+  styleUrl: './notifications-viewer.component.scss',
+  imports: [NgxDatatableModule, NgbTooltip, NgClass, TranslateModule]
 })
 export class NotificationsViewerComponent implements OnInit, OnDestroy {
   private alertService = inject(AlertService);
@@ -38,11 +38,8 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
   dataLoadingConsecutiveFailurs = 0;
   dataLoadingSubscription: Subscription | undefined;
 
-  @Input()
-  isViewOnly = false;
-
-  @Input()
-  verticalScrollbar = false;
+  readonly isViewOnly = input(false);
+  readonly verticalScrollbar = input(false);
 
 
   @ViewChild('statusHeaderTemplate', { static: true })
@@ -64,7 +61,7 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
   actionsTemplate!: TemplateRef<unknown>;
 
   ngOnInit() {
-    if (this.isViewOnly) {
+    if (this.isViewOnly()) {
       this.columns = [
         { prop: 'header', cellTemplate: this.contentHeaderTemplate, width: 200, resizeable: false, sortable: false, draggable: false },
       ];
@@ -87,14 +84,15 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
   }
 
   initDataLoading() {
-    if (this.isViewOnly && this.notificationService.newNotifications) {
+    const isViewOnly = this.isViewOnly();
+    if (isViewOnly && this.notificationService.newNotifications) {
       this.rows = this.processResults(this.notificationService.newNotifications);
       return;
     }
 
     this.loadingIndicator = true;
 
-    this.dataLoadingSubscription = (this.isViewOnly ?
+    this.dataLoadingSubscription = (isViewOnly ?
       this.notificationService.getNewNotifications() : this.notificationService.getNewNotificationsPeriodically())
       .subscribe({
         next: notifications => {
@@ -119,7 +117,7 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
   }
 
   private processResults(notifications: Notification[]) {
-    if (this.isViewOnly) {
+    if (this.isViewOnly()) {
       notifications.sort((a, b) => {
         return b.date.valueOf() - a.date.valueOf();
       });

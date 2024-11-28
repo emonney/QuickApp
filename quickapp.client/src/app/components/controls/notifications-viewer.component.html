@@ -2,12 +2,12 @@
   <ngx-datatable class="material colored-header sm table-hover"
                  [loadingIndicator]="loadingIndicator"
                  [rows]="rows"
-                 [rowHeight]="isViewOnly ? 'auto' : 35"
-                 [headerHeight]="isViewOnly ? 0 : 37"
-                 [footerHeight]="isViewOnly ? 0 :35"
+                 [rowHeight]="isViewOnly() ? 'auto' : 35"
+                 [headerHeight]="isViewOnly() ? 0 : 37"
+                 [footerHeight]="isViewOnly() ? 0 :35"
                  [limit]="10"
                  [columns]="columns"
-                 [scrollbarV]="verticalScrollbar"
+                 [scrollbarV]="verticalScrollbar()"
                  [columnMode]="'force'">
   </ngx-datatable>
 

@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, OnDestroy, Input, TemplateRef, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, inject, input } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -28,10 +28,10 @@ interface Todo {
 }
 
 @Component({
-    selector: 'app-todo-demo',
-    templateUrl: './todo-demo.component.html',
-    styleUrl: './todo-demo.component.scss',
-    imports: [SearchBoxComponent, NgxDatatableModule, FormsModule, AutofocusDirective, NgbTooltip, NgClass, TranslateModule]
+  selector: 'app-todo-demo',
+  templateUrl: './todo-demo.component.html',
+  styleUrl: './todo-demo.component.scss',
+  imports: [SearchBoxComponent, NgxDatatableModule, FormsModule, AutofocusDirective, NgbTooltip, NgClass, TranslateModule]
 })
 export class TodoDemoComponent implements OnInit, OnDestroy {
   private alertService = inject(AlertService);
@@ -74,9 +74,7 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
     return this._hideCompletedTasks;
   }
 
-
-  @Input()
-  verticalScrollbar = false;
+  readonly verticalScrollbar = input(false);
 
   @ViewChild('statusHeaderTemplate', { static: true })
   statusHeaderTemplate!: TemplateRef<unknown>;

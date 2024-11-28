@@ -4,18 +4,17 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, ViewChild, ElementRef, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, ViewChild, ElementRef, Output, EventEmitter, HostListener, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-search-box',
-    templateUrl: './search-box.component.html',
-    styleUrl: './search-box.component.scss',
-    imports: [FormsModule]
+  selector: 'app-search-box',
+  templateUrl: './search-box.component.html',
+  styleUrl: './search-box.component.scss',
+  imports: [FormsModule]
 })
 export class SearchBoxComponent {
-  @Input()
-  placeholder = 'Search...';
+  readonly placeholder = input('Search...');
 
   @Output()
   searchChange = new EventEmitter<string>();
