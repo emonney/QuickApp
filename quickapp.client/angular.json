@@ -222,14 +222,6 @@
                 "inject": false
               }
             ],
-            "stylePreprocessorOptions": {
-              "sass": {
-                "silenceDeprecations": [
-                  "import",
-                  "global-builtin"
-                ]
-              }
-            },
             "scripts": [],
             "karmaConfig": "karma.conf.js"
           }
