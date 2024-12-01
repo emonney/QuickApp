@@ -7,10 +7,10 @@
     <SpaRoot>..\quickapp.client</SpaRoot>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:4200</SpaProxyServerUrl>
-    <Version>9.18.0</Version>
+    <Version>9.19.0</Version>
     <Company>www.ebenmonney.com</Company>
     <Authors>$(Company)</Authors>
-    <Description>ASPNET Core 9.0 - Angular 18 startup template for Quick Application Development</Description>
+    <Description>ASPNET Core 9.0 - Angular 19 startup template for Quick Application Development</Description>
     <Copyright>Copyright © 2024 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://www.ebenmonney.com/quickapp</PackageProjectUrl>
   </PropertyGroup>

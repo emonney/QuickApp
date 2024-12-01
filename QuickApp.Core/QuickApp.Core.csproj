@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>9.18.0</Version>
+    <Version>9.19.0</Version>
     <Company>www.ebenmonney.com</Company>
     <Authors>$(Company)</Authors>
     <Description>Data Access Layer for the Quick Application template</Description>

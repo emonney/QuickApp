@@ -95,7 +95,7 @@ export class ConfigurationService {
     return this._showDashboardBanner != null ? this._showDashboardBanner : ConfigurationService.defaultShowDashboardBanner;
   }
 
-  public static readonly appVersion = '9.18.0';
+  public static readonly appVersion = '9.19.0';
 
   // ***Specify default configurations here***
   public static readonly defaultLanguage = 'en';

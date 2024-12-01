@@ -28,7 +28,6 @@ export class AccountEndpoint extends EndpointBase {
   get roleByRoleNameUrl() { return this.configurations.baseUrl + '/api/account/roles/name'; }
   get permissionsUrl() { return this.configurations.baseUrl + '/api/account/permissions'; }
 
-
   getUserEndpoint<T>(userId?: string): Observable<T> {
     const endpointUrl = userId ? `${this.usersUrl}/${userId}` : this.currentUserUrl;
 
