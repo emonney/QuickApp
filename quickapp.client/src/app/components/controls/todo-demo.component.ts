@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, inject, input } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, inject, input, viewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -76,23 +76,17 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
 
   readonly verticalScrollbar = input(false);
 
-  @ViewChild('statusHeaderTemplate', { static: true })
-  statusHeaderTemplate!: TemplateRef<unknown>;
+  readonly statusHeaderTemplate = viewChild.required<TemplateRef<unknown>>('statusHeaderTemplate');
 
-  @ViewChild('statusTemplate', { static: true })
-  statusTemplate!: TemplateRef<unknown>;
+  readonly statusTemplate = viewChild.required<TemplateRef<unknown>>('statusTemplate');
 
-  @ViewChild('nameTemplate', { static: true })
-  nameTemplate!: TemplateRef<unknown>;
+  readonly nameTemplate = viewChild.required<TemplateRef<unknown>>('nameTemplate');
 
-  @ViewChild('descriptionTemplate', { static: true })
-  descriptionTemplate!: TemplateRef<unknown>;
+  readonly descriptionTemplate = viewChild.required<TemplateRef<unknown>>('descriptionTemplate');
 
-  @ViewChild('actionsTemplate', { static: true })
-  actionsTemplate!: TemplateRef<unknown>;
+  readonly actionsTemplate = viewChild.required<TemplateRef<unknown>>('actionsTemplate');
 
-  @ViewChild('editorModal', { static: true })
-  editorModalTemplate!: TemplateRef<unknown>;
+  readonly editorModalTemplate = viewChild.required<TemplateRef<unknown>>('editorModal');
 
   ngOnInit() {
     this.loadingIndicator = true;
@@ -113,8 +107,8 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
         prop: 'completed',
         name: '',
         width: 30,
-        headerTemplate: this.statusHeaderTemplate,
-        cellTemplate: this.statusTemplate,
+        headerTemplate: this.statusHeaderTemplate(),
+        cellTemplate: this.statusTemplate(),
         resizeable: false,
         canAutoResize: false,
         sortable: false,
@@ -124,18 +118,18 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
         prop: 'name',
         name: gT('todoDemo.management.Task'),
         width: 100,
-        cellTemplate: this.nameTemplate
+        cellTemplate: this.nameTemplate()
       },
       {
         prop: 'description',
         name: gT('todoDemo.management.Description'),
         width: 300,
-        cellTemplate: this.descriptionTemplate
+        cellTemplate: this.descriptionTemplate()
       },
       {
         name: '',
         width: 80,
-        cellTemplate: this.actionsTemplate,
+        cellTemplate: this.actionsTemplate(),
         resizeable: false,
         canAutoResize: false,
         sortable: false,
@@ -213,7 +207,7 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
       this.formResetToggle = true;
 
       this.taskEdit = {};
-      this.modalService.open(this.editorModalTemplate);
+      this.modalService.open(this.editorModalTemplate());
     });
   }
 
@@ -227,9 +221,9 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  updateValue(event: Event, cell: 'name' | 'description', cellValue: string, row: Todo) {
+  updateValue(event: Event, cell: 'name' | 'description', row: Todo) {
     this.editing[row.$$index + '-' + cell] = false;
-    this.rows[row.$$index as number][cell] = (event.target as HTMLInputElement).value;
+    row[cell] = (event.target as HTMLInputElement).value;
     this.rows = [...this.rows];
 
     this.saveToDisk();

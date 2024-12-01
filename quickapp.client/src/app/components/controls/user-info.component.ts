@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, ViewChild, Input, inject, input, output } from '@angular/core';
+import { Component, OnInit, Input, inject, input, output, viewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgModel, NgForm, FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -57,30 +57,21 @@ export class UserInfoComponent implements OnInit {
   // Outupt to broadcast this instance so it can be accessible from within ng-bootstrap modal template
   readonly afterOnInit = output<UserInfoComponent>();
 
-  @ViewChild('f')
-  public form!: NgForm;
+  readonly form = viewChild<NgForm>('f');
 
-  // ViewChilds required because ngIf hides template variables from global scope within template
-  @ViewChild('userName')
-  public userName!: NgModel;
+  readonly userName = viewChild<NgModel>('userName');
 
-  @ViewChild('userPassword')
-  public userPassword!: NgModel;
+  readonly userPassword = viewChild<NgModel>('userPassword');
 
-  @ViewChild('email')
-  public email!: NgModel;
+  readonly email = viewChild<NgModel>('email');
 
-  @ViewChild('currentPassword')
-  public currentPassword!: NgModel;
+  readonly currentPassword = viewChild<NgModel>('currentPassword');
 
-  @ViewChild('newPassword')
-  public newPassword!: NgModel;
+  readonly newPassword = viewChild<NgModel>('newPassword');
 
-  @ViewChild('confirmPassword')
-  public confirmPassword!: NgModel;
+  readonly confirmPassword = viewChild<NgModel>('confirmPassword');
 
-  @ViewChild('roles')
-  public roles!: NgModel;
+  readonly roles = viewChild<NgModel>('roles');
 
   ngOnInit() {
     if (!this.isGeneralEditor) {
@@ -155,6 +146,35 @@ export class UserInfoComponent implements OnInit {
     this.isEditMode = true;
     this.showValidationErrors = true;
     this.isChangePassword = false;
+  }
+
+  showValidationAlerts() {
+    if (!this.userName()?.valid)
+      this.showErrorAlert('User name is required', 'Please enter a user name (minimum of 2 and maximum of 200 characters)');
+
+    if (this.userPassword() && !this.userPassword()?.valid)
+      this.showErrorAlert('Password is required', 'Please enter the current password');
+
+    if (this.email()?.errors?.['required'])
+      this.showErrorAlert('Email is required', 'Please enter an email address (maximum of 200 characters)');
+
+    if (this.email()?.errors?.['pattern'])
+      this.showErrorAlert('Invalid Email', 'Please enter a valid email address');
+
+    if (this.isChangePassword && this.isEditingSelf && !this.currentPassword()?.valid)
+      this.showErrorAlert('Current password is required', 'Please enter the current password');
+
+    if ((this.isChangePassword || this.isNewUser) && !this.newPassword()?.valid)
+      this.showErrorAlert('New password is required', 'Please enter the new password (minimum of 6 characters)');
+
+    if ((this.isChangePassword || this.isNewUser) && this.newPassword()?.valid && this.confirmPassword()?.errors?.['required'])
+      this.showErrorAlert('Confirmation password is required', 'Please enter the confirmation password');
+
+    if ((this.isChangePassword || this.isNewUser) && this.newPassword()?.valid && this.confirmPassword()?.errors?.['validateEqual'])
+      this.showErrorAlert('Passwword mismatch', 'New password and confirmation password do not match');
+
+    if (this.canAssignRoles && !this.roles()?.valid)
+      this.showErrorAlert('Roles is required', 'Please select a minimum of 1 role');
   }
 
   save() {
@@ -312,7 +332,7 @@ export class UserInfoComponent implements OnInit {
     this.isChangePassword = false;
 
     if (!replace) {
-      this.form.reset();
+      this.form()?.reset();
     } else {
       this.formResetToggle = false;
 

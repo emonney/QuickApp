@@ -64,7 +64,7 @@
     "@angular/localize": "^19.0.1",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^22.10.1",
-    "angular-eslint": "19.0.0-alpha.4",
+    "angular-eslint": "19.0.0",
     "eslint": "^9.15.0",
     "jasmine-core": "~5.4.0",
     "karma": "~6.4.0",
@@ -73,6 +73,6 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.6.2",
-    "typescript-eslint": "8.15.0"
+    "typescript-eslint": "8.16.0"
   }
 }

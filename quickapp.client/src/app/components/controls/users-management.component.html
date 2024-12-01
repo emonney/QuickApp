@@ -47,7 +47,7 @@
 
   <ng-template #rolesTemplate let-row="row" let-value="value" let-i="index">
     <div title="{{value?.join('\n')}}">
-      @for (role of value; track role) {
+      @for (role of value; track $index) {
         <span class="user-role badge rounded-pill bg-secondary">{{role}}</span>
       }
     </div>

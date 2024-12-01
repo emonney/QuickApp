@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject, viewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
@@ -26,10 +26,10 @@ interface UserIndex extends User {
 }
 
 @Component({
-    selector: 'app-users-management',
-    templateUrl: './users-management.component.html',
-    styleUrl: './users-management.component.scss',
-    imports: [SearchBoxComponent, NgxDatatableModule, UserInfoComponent, TranslateModule]
+  selector: 'app-users-management',
+  templateUrl: './users-management.component.html',
+  styleUrl: './users-management.component.scss',
+  imports: [SearchBoxComponent, NgxDatatableModule, UserInfoComponent, TranslateModule]
 })
 export class UsersManagementComponent implements OnInit {
   private alertService = inject(AlertService);
@@ -47,20 +47,15 @@ export class UsersManagementComponent implements OnInit {
 
   allRoles: Role[] = [];
 
-  @ViewChild('indexTemplate', { static: true })
-  indexTemplate!: TemplateRef<unknown>;
+  readonly indexTemplate = viewChild.required<TemplateRef<unknown>>('indexTemplate');
 
-  @ViewChild('userNameTemplate', { static: true })
-  userNameTemplate!: TemplateRef<unknown>;
+  readonly userNameTemplate = viewChild.required<TemplateRef<unknown>>('userNameTemplate');
 
-  @ViewChild('rolesTemplate', { static: true })
-  rolesTemplate!: TemplateRef<unknown>;
+  readonly rolesTemplate = viewChild.required<TemplateRef<unknown>>('rolesTemplate');
 
-  @ViewChild('actionsTemplate', { static: true })
-  actionsTemplate!: TemplateRef<unknown>;
+  readonly actionsTemplate = viewChild.required<TemplateRef<unknown>>('actionsTemplate');
 
-  @ViewChild('editorModal', { static: true })
-  editorModalTemplate!: TemplateRef<unknown>;
+  readonly editorModalTemplate = viewChild.required<TemplateRef<unknown>>('editorModal');
 
   userEditor: UserInfoComponent | null = null;
 
@@ -68,12 +63,12 @@ export class UsersManagementComponent implements OnInit {
     const gT = (key: string) => this.translationService.getTranslation(key);
 
     this.columns = [
-      { prop: 'index', name: '#', width: 40, cellTemplate: this.indexTemplate, canAutoResize: false },
+      { prop: 'index', name: '#', width: 40, cellTemplate: this.indexTemplate(), canAutoResize: false },
       { prop: 'jobTitle', name: gT('users.management.Title'), width: 50 },
-      { prop: 'userName', name: gT('users.management.UserName'), width: 90, cellTemplate: this.userNameTemplate },
+      { prop: 'userName', name: gT('users.management.UserName'), width: 90, cellTemplate: this.userNameTemplate() },
       { prop: 'fullName', name: gT('users.management.FullName'), width: 120 },
       { prop: 'email', name: gT('users.management.Email'), width: 140 },
-      { prop: 'roles', name: gT('users.management.Roles'), width: 120, cellTemplate: this.rolesTemplate },
+      { prop: 'roles', name: gT('users.management.Roles'), width: 120, cellTemplate: this.rolesTemplate() },
       { prop: 'phoneNumber', name: gT('users.management.PhoneNumber'), width: 100 }
     ];
 
@@ -81,7 +76,7 @@ export class UsersManagementComponent implements OnInit {
       this.columns.push({
         name: '',
         width: 160,
-        cellTemplate: this.actionsTemplate,
+        cellTemplate: this.actionsTemplate(),
         resizeable: false,
         canAutoResize: false,
         sortable: false,
@@ -197,7 +192,7 @@ export class UsersManagementComponent implements OnInit {
   }
 
   openUserEditor() {
-    const modalRef = this.modalService.open(this.editorModalTemplate, {
+    const modalRef = this.modalService.open(this.editorModalTemplate(), {
       size: 'lg',
       backdrop: 'static'
     });

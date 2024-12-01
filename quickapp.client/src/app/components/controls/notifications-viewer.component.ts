@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, inject, input } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef, inject, input, viewChild } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -41,38 +41,31 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
   readonly isViewOnly = input(false);
   readonly verticalScrollbar = input(false);
 
+  readonly statusHeaderTemplate = viewChild.required<TemplateRef<unknown>>('statusHeaderTemplate');
 
-  @ViewChild('statusHeaderTemplate', { static: true })
-  statusHeaderTemplate!: TemplateRef<unknown>;
+  readonly statusTemplate = viewChild.required<TemplateRef<unknown>>('statusTemplate');
 
-  @ViewChild('statusTemplate', { static: true })
-  statusTemplate!: TemplateRef<unknown>;
+  readonly dateTemplate = viewChild.required<TemplateRef<unknown>>('dateTemplate');
 
-  @ViewChild('dateTemplate', { static: true })
-  dateTemplate!: TemplateRef<unknown>;
+  readonly contentHeaderTemplate = viewChild.required<TemplateRef<unknown>>('contentHeaderTemplate');
 
-  @ViewChild('contentHeaderTemplate', { static: true })
-  contentHeaderTemplate!: TemplateRef<unknown>;
+  readonly contenBodytTemplate = viewChild.required<TemplateRef<unknown>>('contenBodytTemplate');
 
-  @ViewChild('contenBodytTemplate', { static: true })
-  contenBodytTemplate!: TemplateRef<unknown>;
-
-  @ViewChild('actionsTemplate', { static: true })
-  actionsTemplate!: TemplateRef<unknown>;
+  readonly actionsTemplate = viewChild.required<TemplateRef<unknown>>('actionsTemplate');
 
   ngOnInit() {
     if (this.isViewOnly()) {
       this.columns = [
-        { prop: 'header', cellTemplate: this.contentHeaderTemplate, width: 200, resizeable: false, sortable: false, draggable: false },
+        { prop: 'header', cellTemplate: this.contentHeaderTemplate(), width: 200, resizeable: false, sortable: false, draggable: false },
       ];
     } else {
       const gT = (key: string) => this.translationService.getTranslation(key);
 
       this.columns = [
-        { prop: '', name: '', width: 10, headerTemplate: this.statusHeaderTemplate, cellTemplate: this.statusTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false },
-        { prop: 'date', name: gT('notifications.Date'), cellTemplate: this.dateTemplate, width: 30 },
-        { prop: 'body', name: gT('notifications.Notification'), cellTemplate: this.contenBodytTemplate, width: 500 },
-        { name: '', width: 80, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false }
+        { prop: '', name: '', width: 10, headerTemplate: this.statusHeaderTemplate(), cellTemplate: this.statusTemplate(), resizeable: false, canAutoResize: false, sortable: false, draggable: false },
+        { prop: 'date', name: gT('notifications.Date'), cellTemplate: this.dateTemplate(), width: 30 },
+        { prop: 'body', name: gT('notifications.Notification'), cellTemplate: this.contenBodytTemplate(), width: 500 },
+        { name: '', width: 80, cellTemplate: this.actionsTemplate(), resizeable: false, canAutoResize: false, sortable: false, draggable: false }
       ];
     }
 

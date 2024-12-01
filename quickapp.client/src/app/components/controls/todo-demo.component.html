@@ -42,7 +42,10 @@
 
 <ng-template #nameTemplate let-row="row" let-value="value">
   @if (editing[row.$$index + '-name']) {
-    <input class="inline-editor" appAutofocus (blur)="updateValue($event, 'name', value, row)" type="text" [value]="value" />
+    <input class="inline-editor" appAutofocus type="text" [value]="value"
+           (blur)="updateValue($event, 'name', row)"
+           (keydown.enter)="updateValue($event, 'name', row)"
+           (keydown.escape)="editing[row.$$index + '-name'] = false"/>
   }
   @else {
     <span class="inline-label" [class.completed]="row.completed" attr.title="Double click to edit - {{value}}"
@@ -54,7 +57,10 @@
 
 <ng-template #descriptionTemplate let-row="row" let-value="value">
   @if (editing[row.$$index + '-description']) {
-    <input class="inline-editor" appAutofocus (blur)="updateValue($event, 'description', value, row)" type="text" [value]="value" />
+    <input class="inline-editor" appAutofocus type="text" [value]="value"
+           (blur)="updateValue($event, 'description', row)"
+           (keydown.enter)="updateValue($event, 'description', row)"
+           (keydown.escape)="editing[row.$$index + '-description'] = false"/>
   }
   @else {
     <span class="inline-label" [class.completed]="row.completed" attr.title="Double click to edit - {{value}}"

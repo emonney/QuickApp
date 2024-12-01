@@ -1,23 +1,7 @@
 <div>
   @if (formResetToggle) {
     <form [attr.autocomplete]="isGeneralEditor ? 'NaN' : null" name="userInfoForm" #f="ngForm" novalidate
-          (ngSubmit)="f.form.valid ? save() :
-
-              (!userName.valid && showErrorAlert('User name is required', 'Please enter a user name (minimum of 2 and maximum of 200 characters)'));
-
-              (userPassword && !userPassword.valid && showErrorAlert('Password is required', 'Please enter the current password'));
-
-              (email.errors?.['required'] && showErrorAlert('Email is required', 'Please enter an email address (maximum of 200 characters)'));
-              (email.errors?.['pattern'] && showErrorAlert('Invalid Email', 'Please enter a valid email address'));
-
-              (isChangePassword && isEditingSelf && !currentPassword.valid && showErrorAlert('Current password is required', 'Please enter the current password'));
-
-              ((isChangePassword || isNewUser) && !newPassword.valid && showErrorAlert('New password is required', 'Please enter the new password (minimum of 6 characters)'));
-
-              ((isChangePassword || isNewUser) && newPassword.valid && confirmPassword.errors?.['required'] && showErrorAlert('Confirmation password is required', 'Please enter the confirmation password'));
-              ((isChangePassword || isNewUser) && newPassword.valid && confirmPassword.errors?.['validateEqual'] && showErrorAlert('Passwword mismatch', 'New password and confirmation password do not match'));
-
-              (canAssignRoles && !roles.valid && showErrorAlert('Roles is required', 'Please select a minimum of 1 role'));">
+          (ngSubmit)="f.form.valid ? save() : showValidationAlerts()">
       <div class="row">
         <label [class.col-lg-3]="isViewOnly()" [class.col-lg-2]="!isViewOnly()" class="col-form-label" for="jobTitle-{{uniqueId}}">
           {{'users.editor.JobTitle' | translate}}
@@ -258,9 +242,9 @@
                 </ng-template>
               </ng-select>
               @if (showValidationErrors && f.submitted && !roles.valid) {
-                  <span class="invalid-feedback">
-                    {{'users.editor.RoleRequired' | translate}}
-                  </span>
+                <span class="invalid-feedback">
+                  {{'users.editor.RoleRequired' | translate}}
+                </span>
               }
             </div>
           }

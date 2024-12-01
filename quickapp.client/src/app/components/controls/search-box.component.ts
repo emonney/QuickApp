@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, ViewChild, ElementRef, HostListener, input, output } from '@angular/core';
+import { Component, ElementRef, HostListener, input, output, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -18,8 +18,7 @@ export class SearchBoxComponent {
 
   readonly searchChange = output<string>();
 
-  @ViewChild('searchInput')
-  searchInput!: ElementRef;
+  readonly searchInput = viewChild.required<ElementRef>('searchInput');
 
   onValueChange(value: string) {
     setTimeout(() => this.searchChange.emit(value));
@@ -27,7 +26,9 @@ export class SearchBoxComponent {
 
   @HostListener('keydown.escape')
   clear() {
-    this.searchInput.nativeElement.value = '';
-    this.onValueChange(this.searchInput.nativeElement.value);
+    const searchInput = this.searchInput();
+
+    searchInput.nativeElement.value = '';
+    this.onValueChange(searchInput.nativeElement.value);
   }
 }

@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { AfterViewInit, Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CdkDragDrop, moveItemInArray, CdkDropList, CdkDrag, CdkDragPlaceholder } from '@angular/cdk/drag-drop';
 import { TranslateModule } from '@ngx-translate/core';
@@ -20,14 +20,14 @@ import { BannerDemoComponent } from '../controls/banner-demo.component';
 interface WidgetIndex { element: string, index: number }
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrl: './home.component.scss',
-    animations: [fadeInOut],
-    imports: [
-        CdkDropList, RouterLink, CdkDrag, CdkDragPlaceholder, StatisticsDemoComponent, NotificationsViewerComponent,
-        TodoDemoComponent, BannerDemoComponent, TranslateModule
-    ]
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
+  animations: [fadeInOut],
+  imports: [
+    CdkDropList, RouterLink, CdkDrag, CdkDragPlaceholder, StatisticsDemoComponent, NotificationsViewerComponent,
+    TodoDemoComponent, BannerDemoComponent, TranslateModule
+  ]
 })
 export class HomeComponent implements AfterViewInit {
   private authService = inject(AuthService);
@@ -36,8 +36,7 @@ export class HomeComponent implements AfterViewInit {
   dragStartDelay = 200;
   readonly DBKeyWidgetsOrder = 'home-component.widgets_order';
 
-  @ViewChild('widgetsContainer', { read: ElementRef })
-  widgetsContainer!: ElementRef<HTMLDivElement>;
+  readonly widgetsContainer = viewChild.required<ElementRef<HTMLDivElement>>('widgetsContainer');
 
   ngAfterViewInit(): void {
     this.restoreWidgetsOrder();
@@ -49,7 +48,7 @@ export class HomeComponent implements AfterViewInit {
     if (widgetIndexes == null || widgetIndexes.length == 0)
       return;
 
-    const parentEle = this.widgetsContainer.nativeElement;
+    const parentEle = this.widgetsContainer().nativeElement;
 
     for (const widget of Array.from(parentEle.children)) {
       const index = widgetIndexes.find(w => w.element == widget.id)?.index;

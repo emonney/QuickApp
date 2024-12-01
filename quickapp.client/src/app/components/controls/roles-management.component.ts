@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, TemplateRef, inject, viewChild } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
@@ -23,10 +23,10 @@ interface RoleIndex extends Role {
 }
 
 @Component({
-    selector: 'app-roles-management',
-    templateUrl: './roles-management.component.html',
-    styleUrl: './roles-management.component.scss',
-    imports: [SearchBoxComponent, NgxDatatableModule, RoleEditorComponent, TranslateModule]
+  selector: 'app-roles-management',
+  templateUrl: './roles-management.component.html',
+  styleUrl: './roles-management.component.scss',
+  imports: [SearchBoxComponent, NgxDatatableModule, RoleEditorComponent, TranslateModule]
 })
 export class RolesManagementComponent implements OnInit {
   private alertService = inject(AlertService);
@@ -43,15 +43,11 @@ export class RolesManagementComponent implements OnInit {
   editingRoleName: { name: string } | null = null;
   loadingIndicator = false;
 
+  readonly indexTemplate = viewChild.required<TemplateRef<unknown>>('indexTemplate');
 
-  @ViewChild('indexTemplate', { static: true })
-  indexTemplate!: TemplateRef<unknown>;
+  readonly actionsTemplate = viewChild.required<TemplateRef<unknown>>('actionsTemplate');
 
-  @ViewChild('actionsTemplate', { static: true })
-  actionsTemplate!: TemplateRef<unknown>;
-
-  @ViewChild('editorModal', { static: true })
-  editorModalTemplate!: TemplateRef<unknown>;
+  readonly editorModalTemplate = viewChild.required<TemplateRef<unknown>>('editorModal');
 
   roleEditor: RoleEditorComponent | null = null;
 
@@ -59,11 +55,11 @@ export class RolesManagementComponent implements OnInit {
     const gT = (key: string) => this.translationService.getTranslation(key);
 
     this.columns = [
-      { prop: 'index', name: '#', width: 50, cellTemplate: this.indexTemplate, canAutoResize: false },
+      { prop: 'index', name: '#', width: 50, cellTemplate: this.indexTemplate(), canAutoResize: false },
       { prop: 'name', name: gT('roles.management.Name'), width: 180 },
       { prop: 'description', name: gT('roles.management.Description'), width: 320 },
       { prop: 'usersCount', name: gT('roles.management.Users'), width: 50 },
-      { name: '', width: 160, cellTemplate: this.actionsTemplate, resizeable: false, canAutoResize: false, sortable: false, draggable: false }
+      { name: '', width: 160, cellTemplate: this.actionsTemplate(), resizeable: false, canAutoResize: false, sortable: false, draggable: false }
     ];
 
     this.loadData();
@@ -166,7 +162,7 @@ export class RolesManagementComponent implements OnInit {
   }
 
   openRoleEditor() {
-    const modalRef = this.modalService.open(this.editorModalTemplate, {
+    const modalRef = this.modalService.open(this.editorModalTemplate(), {
       size: 'lg',
       backdrop: 'static'
     });

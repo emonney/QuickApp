@@ -4,7 +4,7 @@
 // (c) 2024 www.ebenmonney.com/mit-license
 // ---------------------------------------
 
-import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartEvent, ChartType } from 'chart.js';
@@ -14,10 +14,10 @@ import { NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem,
 interface ChartEventArgs { event: ChartEvent; active: object[] }
 
 @Component({
-    selector: 'app-statistics-demo',
-    templateUrl: './statistics-demo.component.html',
-    styleUrl: './statistics-demo.component.scss',
-    imports: [BaseChartDirective, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem, NgbDropdownItem]
+  selector: 'app-statistics-demo',
+  templateUrl: './statistics-demo.component.html',
+  styleUrl: './statistics-demo.component.scss',
+  imports: [BaseChartDirective, NgbDropdown, NgbDropdownToggle, NgbDropdownMenu, NgbDropdownButtonItem, NgbDropdownItem]
 })
 export class StatisticsDemoComponent implements OnInit, OnDestroy {
   private alertService = inject(AlertService);
@@ -45,8 +45,7 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
 
   timerReference: ReturnType<typeof setInterval> | undefined;
 
-  @ViewChild(BaseChartDirective)
-  chart!: BaseChartDirective;
+  readonly chart = viewChild.required(BaseChartDirective);
 
   ngOnInit() {
     this.refreshChartOptions();
@@ -91,7 +90,7 @@ export class StatisticsDemoComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.chart.update();
+    this.chart().update();
   }
 
   changeChartType(type: ChartType) {
