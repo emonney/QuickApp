@@ -1,4 +1,4 @@
-﻿// ---------------------------------------
+// ---------------------------------------
 // Email: quickapp@ebenmonney.com
 // Templates: www.ebenmonney.com/templates
 // (c) 2024 www.ebenmonney.com/mit-license
@@ -13,7 +13,7 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      
     ],
     client: {
       jasmine: {

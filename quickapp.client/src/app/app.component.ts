@@ -7,7 +7,7 @@
 import { Component, OnInit, OnDestroy, inject, Renderer2 } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, LangChangeEvent } from '@ngx-translate/core';
 import { ToastaService, ToastaConfig, ToastOptions, ToastData, ToastaModule } from 'ngx-toasta';
 import { NgbCollapseModule, NgbModal, NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
@@ -102,7 +102,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }, 2000);
 
     this.languageChangedSubscription = this.translationService.languageChanged$
-      .subscribe(event => {
+      .subscribe((event: LangChangeEvent) => {
         this.renderer.setAttribute(document.documentElement, 'dir', event.lang === 'ar' ? 'rtl' : 'ltr');
         this.renderer.setAttribute(document.documentElement, 'lang', event.lang);
       });

@@ -7,7 +7,7 @@
 import { Component, OnInit, TemplateRef, inject, viewChild } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
+import { TableColumn, NgxDatatableModule, CellContext } from '@siemens/ngx-datatable';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
@@ -43,9 +43,9 @@ export class RolesManagementComponent implements OnInit {
   editingRoleName: { name: string } | null = null;
   loadingIndicator = false;
 
-  readonly indexTemplate = viewChild.required<TemplateRef<unknown>>('indexTemplate');
+  readonly indexTemplate = viewChild.required<TemplateRef<CellContext<any>>>('indexTemplate');
 
-  readonly actionsTemplate = viewChild.required<TemplateRef<unknown>>('actionsTemplate');
+  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<any>>>('actionsTemplate');
 
   readonly editorModalTemplate = viewChild.required<TemplateRef<unknown>>('editorModal');
 

@@ -9,7 +9,7 @@ import { NgClass } from '@angular/common';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
+import { TableColumn, NgxDatatableModule, CellContext, HeaderCellContext } from '@siemens/ngx-datatable';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
 import { AppTranslationService } from '../../services/app-translation.service';
@@ -41,17 +41,17 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
   readonly isViewOnly = input(false);
   readonly verticalScrollbar = input(false);
 
-  readonly statusHeaderTemplate = viewChild.required<TemplateRef<unknown>>('statusHeaderTemplate');
+  readonly statusHeaderTemplate = viewChild.required<TemplateRef<HeaderCellContext>>('statusHeaderTemplate');
 
-  readonly statusTemplate = viewChild.required<TemplateRef<unknown>>('statusTemplate');
+  readonly statusTemplate = viewChild.required<TemplateRef<CellContext<any>>>('statusTemplate');
 
-  readonly dateTemplate = viewChild.required<TemplateRef<unknown>>('dateTemplate');
+  readonly dateTemplate = viewChild.required<TemplateRef<CellContext<any>>>('dateTemplate');
 
-  readonly contentHeaderTemplate = viewChild.required<TemplateRef<unknown>>('contentHeaderTemplate');
+  readonly contentHeaderTemplate = viewChild.required<TemplateRef<CellContext<any>>>('contentHeaderTemplate');
 
-  readonly contenBodytTemplate = viewChild.required<TemplateRef<unknown>>('contenBodytTemplate');
+  readonly contenBodytTemplate = viewChild.required<TemplateRef<CellContext<any>>>('contenBodytTemplate');
 
-  readonly actionsTemplate = viewChild.required<TemplateRef<unknown>>('actionsTemplate');
+  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<any>>>('actionsTemplate');
 
   ngOnInit() {
     if (this.isViewOnly()) {

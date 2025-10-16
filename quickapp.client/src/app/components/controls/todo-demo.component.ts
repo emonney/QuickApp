@@ -9,7 +9,7 @@ import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
+import { TableColumn, NgxDatatableModule, CellContext, HeaderCellContext } from '@siemens/ngx-datatable';
 
 import { AuthService } from '../../services/auth.service';
 import { AlertService, MessageSeverity, DialogType } from '../../services/alert.service';
@@ -76,15 +76,15 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
 
   readonly verticalScrollbar = input(false);
 
-  readonly statusHeaderTemplate = viewChild.required<TemplateRef<unknown>>('statusHeaderTemplate');
+  readonly statusHeaderTemplate = viewChild.required<TemplateRef<HeaderCellContext>>('statusHeaderTemplate');
 
-  readonly statusTemplate = viewChild.required<TemplateRef<unknown>>('statusTemplate');
+  readonly statusTemplate = viewChild.required<TemplateRef<CellContext<any>>>('statusTemplate');
 
-  readonly nameTemplate = viewChild.required<TemplateRef<unknown>>('nameTemplate');
+  readonly nameTemplate = viewChild.required<TemplateRef<CellContext<any>>>('nameTemplate');
 
-  readonly descriptionTemplate = viewChild.required<TemplateRef<unknown>>('descriptionTemplate');
+  readonly descriptionTemplate = viewChild.required<TemplateRef<CellContext<any>>>('descriptionTemplate');
 
-  readonly actionsTemplate = viewChild.required<TemplateRef<unknown>>('actionsTemplate');
+  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<any>>>('actionsTemplate');
 
   readonly editorModalTemplate = viewChild.required<TemplateRef<unknown>>('editorModal');
 

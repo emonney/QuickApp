@@ -1,7 +1,7 @@
 {
   "name": "quickapp.client",
-  "version": "9.19.0",
-  "description": "ASP.NET Core 9.0/Angular 19 startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
+  "version": "9.20.0",
+  "description": "ASP.NET Core 9.0/Angular 20 startup project template with complete login, user and role management. Plus other useful services for Quick Application Development",
   "author": {
     "name": "Ebenezer Monney",
     "email": "info@ebenmonney.com",
@@ -21,58 +21,62 @@
     "start:windows": "ng serve --ssl --ssl-cert \"%APPDATA%\\ASP.NET\\https\\%npm_package_name%.pem\" --ssl-key \"%APPDATA%\\ASP.NET\\https\\%npm_package_name%.key\" --host=127.0.0.1",
     "start:default": "ng serve --ssl --ssl-cert \"$HOME/.aspnet/https/${npm_package_name}.pem\" --ssl-key \"$HOME/.aspnet/https/${npm_package_name}.key\" --host=127.0.0.1"
   },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^19.0.1",
-    "@angular/cdk": "^19.0.1",
-    "@angular/common": "^19.0.1",
-    "@angular/compiler": "^19.0.1",
-    "@angular/core": "^19.0.1",
-    "@angular/forms": "^19.0.1",
-    "@angular/platform-browser": "^19.0.1",
-    "@angular/platform-browser-dynamic": "^19.0.1",
-    "@angular/router": "^19.0.1",
-    "@ng-bootstrap/ng-bootstrap": "^17.0.1",
-    "@ng-select/ng-select": "^14.1.0",
-    "@ngx-translate/core": "^16.0.3",
+    "@angular/animations": "^20.3.4",
+    "@angular/cdk": "^20.2.8",
+    "@angular/common": "^20.3.4",
+    "@angular/compiler": "^20.3.4",
+    "@angular/core": "^20.3.4",
+    "@angular/forms": "^20.3.4",
+    "@angular/platform-browser": "^20.3.4",
+    "@angular/platform-browser-dynamic": "^20.3.4",
+    "@angular/router": "^20.3.4",
+    "@ng-bootstrap/ng-bootstrap": "^19.0.1",
+    "@ng-select/ng-select": "^20.3.0",
+    "@ngx-translate/core": "^17.0.0",
     "@popperjs/core": "^2.11.8",
-    "@siemens/ngx-datatable": "^22.4.1",
-    "bootstrap": "^5.3.3",
-    "bootswatch": "^5.3.3",
-    "chart.js": "^4.4.6",
+    "@siemens/ngx-datatable": "^24.3.0",
+    "bootstrap": "^5.3.8",
+    "bootswatch": "^5.3.8",
+    "chart.js": "^4.5.1",
     "font-awesome": "^4.7.0",
     "jest-editor-support": "*",
-    "ng2-charts": "^7.0.0",
+    "ng2-charts": "^8.0.0",
     "ngx-toasta": "^4.0.0",
     "run-script-os": "*",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
-  "overrides": {
-    "@ng-bootstrap/ng-bootstrap": {
-      "@angular/common": "$@angular/common",
-      "@angular/core": "$@angular/core",
-      "@angular/forms": "$@angular/forms",
-      "@angular/localize": "$@angular/localize"
-    }
-  },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.0.2",
-    "@angular/cli": "^19.0.2",
-    "@angular/compiler-cli": "^19.0.1",
-    "@angular/localize": "^19.0.1",
+    "@angular/build": "^20.3.5",
+    "@angular/cli": "^20.3.5",
+    "@angular/compiler-cli": "^20.3.4",
+    "@angular/localize": "^20.3.4",
     "@types/jasmine": "~5.1.0",
-    "@types/node": "^22.10.1",
-    "angular-eslint": "19.0.0",
-    "eslint": "^9.15.0",
-    "jasmine-core": "~5.4.0",
+    "@types/node": "^22.18.10",
+    "angular-eslint": "20.4.0",
+    "eslint": "^9.37.0",
+    "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.6.2",
-    "typescript-eslint": "8.16.0"
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.1"
   }
 }

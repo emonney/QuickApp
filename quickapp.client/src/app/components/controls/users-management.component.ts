@@ -7,7 +7,7 @@
 import { Component, OnInit, TemplateRef, inject, viewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TableColumn, NgxDatatableModule } from '@siemens/ngx-datatable';
+import { TableColumn, NgxDatatableModule, CellContext } from '@siemens/ngx-datatable';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AlertService, DialogType, MessageSeverity } from '../../services/alert.service';
@@ -47,13 +47,13 @@ export class UsersManagementComponent implements OnInit {
 
   allRoles: Role[] = [];
 
-  readonly indexTemplate = viewChild.required<TemplateRef<unknown>>('indexTemplate');
+  readonly indexTemplate = viewChild.required<TemplateRef<CellContext<any>>>('indexTemplate');
 
-  readonly userNameTemplate = viewChild.required<TemplateRef<unknown>>('userNameTemplate');
+  readonly userNameTemplate = viewChild.required<TemplateRef<CellContext<any>>>('userNameTemplate');
 
-  readonly rolesTemplate = viewChild.required<TemplateRef<unknown>>('rolesTemplate');
+  readonly rolesTemplate = viewChild.required<TemplateRef<CellContext<any>>>('rolesTemplate');
 
-  readonly actionsTemplate = viewChild.required<TemplateRef<unknown>>('actionsTemplate');
+  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<any>>>('actionsTemplate');
 
   readonly editorModalTemplate = viewChild.required<TemplateRef<unknown>>('editorModal');
 
