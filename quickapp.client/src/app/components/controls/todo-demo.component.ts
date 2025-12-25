@@ -78,13 +78,13 @@ export class TodoDemoComponent implements OnInit, OnDestroy {
 
   readonly statusHeaderTemplate = viewChild.required<TemplateRef<HeaderCellContext>>('statusHeaderTemplate');
 
-  readonly statusTemplate = viewChild.required<TemplateRef<CellContext<any>>>('statusTemplate');
+  readonly statusTemplate = viewChild.required<TemplateRef<CellContext<Todo>>>('statusTemplate');
 
-  readonly nameTemplate = viewChild.required<TemplateRef<CellContext<any>>>('nameTemplate');
+  readonly nameTemplate = viewChild.required<TemplateRef<CellContext<Todo>>>('nameTemplate');
 
-  readonly descriptionTemplate = viewChild.required<TemplateRef<CellContext<any>>>('descriptionTemplate');
+  readonly descriptionTemplate = viewChild.required<TemplateRef<CellContext<Todo>>>('descriptionTemplate');
 
-  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<any>>>('actionsTemplate');
+  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<Todo>>>('actionsTemplate');
 
   readonly editorModalTemplate = viewChild.required<TemplateRef<unknown>>('editorModal');
 

@@ -43,15 +43,15 @@ export class NotificationsViewerComponent implements OnInit, OnDestroy {
 
   readonly statusHeaderTemplate = viewChild.required<TemplateRef<HeaderCellContext>>('statusHeaderTemplate');
 
-  readonly statusTemplate = viewChild.required<TemplateRef<CellContext<any>>>('statusTemplate');
+  readonly statusTemplate = viewChild.required<TemplateRef<CellContext<Notification>>>('statusTemplate');
 
-  readonly dateTemplate = viewChild.required<TemplateRef<CellContext<any>>>('dateTemplate');
+  readonly dateTemplate = viewChild.required<TemplateRef<CellContext<Notification>>>('dateTemplate');
 
-  readonly contentHeaderTemplate = viewChild.required<TemplateRef<CellContext<any>>>('contentHeaderTemplate');
+  readonly contentHeaderTemplate = viewChild.required<TemplateRef<CellContext<Notification>>>('contentHeaderTemplate');
 
-  readonly contenBodytTemplate = viewChild.required<TemplateRef<CellContext<any>>>('contenBodytTemplate');
+  readonly contenBodytTemplate = viewChild.required<TemplateRef<CellContext<Notification>>>('contenBodytTemplate');
 
-  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<any>>>('actionsTemplate');
+  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<Notification>>>('actionsTemplate');
 
   ngOnInit() {
     if (this.isViewOnly()) {

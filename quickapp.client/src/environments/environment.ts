@@ -13,7 +13,7 @@ import { Environment } from "../app/models/environment.model";
 export const environment: Environment = {
   production: false,
   baseUrl: 'https://localhost:7085', // API Server url
-  fallbackBaseUrl: 'https://quickapp.azurewebsites.net', // Fallback API Server for development without local API server
+  fallbackBaseUrl: 'https://quickapp.ebenmonney.com', // Fallback API Server for development without local API server
 };
 
 /*

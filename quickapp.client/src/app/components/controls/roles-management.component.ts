@@ -43,9 +43,9 @@ export class RolesManagementComponent implements OnInit {
   editingRoleName: { name: string } | null = null;
   loadingIndicator = false;
 
-  readonly indexTemplate = viewChild.required<TemplateRef<CellContext<any>>>('indexTemplate');
+  readonly indexTemplate = viewChild.required<TemplateRef<CellContext<Role>>>('indexTemplate');
 
-  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<any>>>('actionsTemplate');
+  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<Role>>>('actionsTemplate');
 
   readonly editorModalTemplate = viewChild.required<TemplateRef<unknown>>('editorModal');
 

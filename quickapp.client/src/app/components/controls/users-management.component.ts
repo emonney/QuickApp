@@ -47,13 +47,13 @@ export class UsersManagementComponent implements OnInit {
 
   allRoles: Role[] = [];
 
-  readonly indexTemplate = viewChild.required<TemplateRef<CellContext<any>>>('indexTemplate');
+  readonly indexTemplate = viewChild.required<TemplateRef<CellContext<User>>>('indexTemplate');
 
-  readonly userNameTemplate = viewChild.required<TemplateRef<CellContext<any>>>('userNameTemplate');
+  readonly userNameTemplate = viewChild.required<TemplateRef<CellContext<User>>>('userNameTemplate');
 
-  readonly rolesTemplate = viewChild.required<TemplateRef<CellContext<any>>>('rolesTemplate');
+  readonly rolesTemplate = viewChild.required<TemplateRef<CellContext<User>>>('rolesTemplate');
 
-  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<any>>>('actionsTemplate');
+  readonly actionsTemplate = viewChild.required<TemplateRef<CellContext<User>>>('actionsTemplate');
 
   readonly editorModalTemplate = viewChild.required<TemplateRef<unknown>>('editorModal');
 
