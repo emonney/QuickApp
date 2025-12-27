@@ -1,4 +1,4 @@
-# **QuickApp** - The AI-Ready Reference Architecture for Enterprise .NET
+# **QuickApp** - The AI-Ready Reference Architecture for Angular 21 / ASP.NET Core 10 Projects
 
 [![MIT license](https://cdn.rawgit.com/emonney/tempa/7e9d69ad/MITLicense.png)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 [![VSIX Downloads](https://img.shields.io/visual-studio-marketplace/d/adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)
@@ -6,7 +6,7 @@
 
 **A hardened full-stack foundation designed to be safely extended by AI.**
 
-QuickApp is an opinionated Angular 21 + ASP.NET Core 10.0 starter that solves the *boring, fragile, and security-sensitive* parts of modern web applications so that **AI tools (ChatGPT, Copilot, Claude, Cursor, etc.) can safely build on top of it**.
+QuickApp is an opinionated Angular 21 + ASP.NET Core 10 starter that solves the *boring, fragile, and security-sensitive* parts of modern web applications so that **AI tools (ChatGPT, Copilot, Claude, Cursor, etc.) can safely build on top of it**.
 
 > **Stop letting AI hallucinate your Auth and DB logic—give it a production-grade foundation to build on.**
 
@@ -67,7 +67,7 @@ AI performs best when the rules are clear. QuickApp makes the rules boring and o
 
 ## What You Get Out of the Box
 
-### Backend (ASP.NET Core 10.0)
+### Backend (ASP.NET Core 10)
 - ✅ **JWT-based authentication** with OpenIddict/OAuth2
 - ✅ **Role and permission-based authorization** with custom policies and handlers
 - ✅ **Clean API layering** - BaseApiController with consistent error handling
@@ -270,7 +270,7 @@ Follow the exact patterns from Customer/Product examples.
 ## Technical Stack
 
 ### Backend
-- **ASP.NET Core 10.0** - Cross-platform web framework
+- **ASP.NET Core 10** - Cross-platform web framework
 - **Entity Framework Core** - Code First ORM
 - **OpenIddict** - OAuth2/OIDC authentication
 - **AutoMapper** - Object-to-object mapping

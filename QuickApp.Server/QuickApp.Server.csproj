@@ -11,7 +11,7 @@
     <Company>www.ebenmonney.com</Company>
     <Authors>$(Company)</Authors>
     <Description>
-		AI-ready reference architecture for Enterprise .NET - A hardened Angular 21/ASP.NET Core 10.0 foundation 
+		AI-ready reference architecture for Angular 21/ASP.NET Core 10 Projects - A hardened Angular 21/ASP.NET Core 10 foundation 
 		with secure authentication, authorization, and consistent patterns designed to be safely extended by AI tools
 	</Description>
     <Copyright>Copyright © 2024 www.ebenmonney.com</Copyright>
