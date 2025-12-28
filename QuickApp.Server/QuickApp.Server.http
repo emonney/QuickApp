@@ -5,7 +5,7 @@
 
 #### This file enables you to test the APIs of QuickApp.
 #### You can also test the APIs with Swagger by appending "/swagger"" to the home url or by using postman
-#### See https://learn.microsoft.com/en-us/aspnet/core/test/http-files?view=aspnetcore-8.0 for more info on http files
+#### See https://learn.microsoft.com/en-us/aspnet/core/test/http-files?view=aspnetcore-10.0 for more info on http files
 
 
 ###################################################

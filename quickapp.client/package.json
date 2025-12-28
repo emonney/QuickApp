@@ -1,7 +1,7 @@
 {
   "name": "quickapp.client",
   "version": "10.21.0",
-  "description": "AI-ready reference architecture for Angular 21/ASP.NET Core 10 Projects - A hardened Angular 21/ASP.NET Core 10 foundation with secure authentication, authorization, and consistent patterns designed to be safely extended by AI tools",
+  "description": "AI-ready reference architecture for Angular 21/ASP.NET Core 10 Projects - A hardened Angular/ASP.NET Core foundation with secure authentication, authorization, role and user management, and consistent patterns designed to be safely extended by AI tools",
   "author": {
     "name": "Ebenezer Monney",
     "email": "info@ebenmonney.com",

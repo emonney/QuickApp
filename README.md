@@ -3,16 +3,23 @@
 [![MIT license](https://cdn.rawgit.com/emonney/tempa/7e9d69ad/MITLicense.png)](https://github.com/emonney/QuickApp/blob/master/LICENSE)
 [![VSIX Downloads](https://img.shields.io/visual-studio-marketplace/d/adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)](https://marketplace.visualstudio.com/items?itemName=adentum.QuickApp-ASPNETCoreAngularXProjectTemplate)
 [![Twitter Follow](https://img.shields.io/twitter/follow/kommand?style=social)](https://twitter.com/kommand)
+[![YouTube Channel](https://img.shields.io/youtube/channel/subscribers/@EbenMonney?label=YouTube&style=social)](https://www.youtube.com/@EbenMonney)
 
 **A hardened full-stack foundation designed to be safely extended by AI.**
 
-QuickApp is an opinionated Angular 21 + ASP.NET Core 10 starter that solves the *boring, fragile, and security-sensitive* parts of modern web applications so that **AI tools (ChatGPT, Copilot, Claude, Cursor, etc.) can safely build on top of it**.
+QuickApp is an opinionated Angular 21 + ASP.NET Core 10 starter that solves the *boring, fragile, and security-sensitive* parts of modern web applications—authentication, authorization, role and user management, error handling, and architectural consistency—so that **AI tools (ChatGPT, Copilot, Claude, Cursor, etc.) can safely build on top of it**.
 
 > **Stop letting AI hallucinate your Auth and DB logic—give it a production-grade foundation to build on.**
 
+<div align="center" style="margin: 20px 0;">
+  <a href="https://www.youtube.com/@EbenMonney" target="_blank" style="display: inline-block; padding: 10px 20px; background-color: #FF0000; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px;">
+    📺 Subscribe on YouTube
+  </a>
+</div>
+
 [![QuickApp Demo](https://github.com/emonney/QuickApp/blob/9b122b7f3c38121699d3ec41b700474e192abe37/QuickApp.gif?raw=true)](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
 
-[LIVE DEMO](https://quickapp-standard.ebenmonney.com) | [Video Demo](https://www.youtube.com/watch?v=Wuh7NIZ96jA)
+[LIVE DEMO](https://quickapp-standard.ebenmonney.com) | [Video Demo](https://www.youtube.com/watch?v=Wuh7NIZ96jA) | [📺 YouTube Channel](https://www.youtube.com/@EbenMonney)
 
 ---
 
@@ -47,6 +54,7 @@ QuickApp provides a **standardized foundation** that gives your chosen AI a set 
 ### Architectural Governance
 
 - **Secure auth already done correctly** - OpenIddict/OAuth2 with JWT tokens, refresh token handling, and proper claims management
+- **Complete role and user management system** - Full user CRUD, role assignment, permission-based access control, policy-based authorization, resource-based authorization, and custom authorization handlers
 - **Authorization patterns already enforced** - Role and permission-based policies with custom authorization handlers
 - **Error handling, logging, validation already wired** - Centralized patterns that AI-generated code automatically inherits
 - **Consistent structure** - One obvious way to add features, making AI prompts predictable
@@ -69,6 +77,7 @@ AI performs best when the rules are clear. QuickApp makes the rules boring and o
 
 ### Backend (ASP.NET Core 10)
 - ✅ **JWT-based authentication** with OpenIddict/OAuth2
+- ✅ **Complete user and role management system** - User CRUD operations, role assignment, permission-based access control, policy-based and resource-based authorization with custom handlers
 - ✅ **Role and permission-based authorization** with custom policies and handlers
 - ✅ **Clean API layering** - BaseApiController with consistent error handling
 - ✅ **DTO patterns** - AutoMapper integration for ViewModels
@@ -80,7 +89,7 @@ AI performs best when the rules are clear. QuickApp makes the rules boring and o
 
 ### Frontend (Angular 21)
 - ✅ **Authentication and authorization guards** - Route protection built-in
-- ✅ **User and role management UI** - Complete admin interface
+- ✅ **Complete user and role management UI** - Full admin interface for managing users, roles, and permissions with intuitive controls
 - ✅ **Consistent service patterns** - EndpointBase with automatic token refresh
 - ✅ **Structured component architecture** - Standalone components with lazy loading
 - ✅ **Bootstrap 5 theming** - Responsive design out of the box
@@ -307,6 +316,7 @@ The goal is simple:
 
 ### Documentation
 - [QuickApp Overview](https://www.ebenmonney.com/quickapp)
+- [📺 YouTube Channel - Tutorials & Walkthroughs](https://www.youtube.com/@EbenMonney) - Learn QuickApp through video tutorials
 - [ASP.NET Core Documentation](https://go.microsoft.com/fwlink/?LinkId=518008)
 - [Entity Framework Core](https://docs.microsoft.com/en-us/ef/#pivot=efcore)
 - [Angular Documentation](https://angular.dev/overview)
@@ -338,7 +348,7 @@ Released under the [MIT License](https://github.com/emonney/QuickApp/blob/master
 
 **If you are tired of AI-generated codebases that slowly collapse under their own weight, start from something solid.**
 
-[YOUR FEEDBACK](mailto:feedback@ebenmonney.com) | [FOLLOW ME](https://twitter.com/kommand)
+[YOUR FEEDBACK](mailto:feedback@ebenmonney.com) | [FOLLOW ME](https://twitter.com/kommand) | [📺 SUBSCRIBE ON YOUTUBE](https://www.youtube.com/@EbenMonney)
 
 ---
 

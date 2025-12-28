@@ -2,6 +2,20 @@
 @import 'bootstrap/scss/variables';
 @import 'bootstrap/scss/mixins';
 
+// colors for footer elements
+$datatable-footer-cell-color: rgba(0, 0, 0, 0.54) !default;
+$datatable-footer-border-top-color: rgba(0, 0, 0, 0.12) !default;
+$datatable-pager-color: rgba(0, 0, 0, 0.54) !default;
+$datatable-pager-color-hover: rgba(0, 0, 0, 0.75) !default;
+$datatable-pager-background-hover: rgba(158, 158, 158, 0.2) !default;
+$datatable-pager-disabled-color: rgba(0, 0, 0, 0.26) !default;
+$datatable-pager-disabled-background: transparent !default;
+$datatable-pager-active-background: rgba(158, 158, 158, 0.2) !default;
+
+// colors for summary row elements
+$datatable-summary-row-background: #ddd !default;
+$datatable-summary-row-background-hover: #ddd !default;
+
 .ngx-datatable.material {
   &.table-shadow {
     background: #FFF;
@@ -308,50 +322,50 @@
 	 * Footer Styles
 	 */
   .datatable-footer {
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
-    font-size: 0.875rem;
+    border-block-start: 1px solid $datatable-footer-border-top-color;
+    font-size: 12px;
     font-weight: 400;
-    color: #777;
+    color: $datatable-footer-cell-color;
 
     .page-count {
       /*line-height: 50px;
-			height: 50px;*/
-      padding: 0 1.2rem;
+      block-size: 50px;*/
+      padding-block: 0;
+      padding-inline: 1.2rem;
     }
 
     .datatable-pager {
-      margin: 0 10px;
+      margin-block: 0;
+      margin-inline: 10px;
 
-      li {
-        vertical-align: middle;
-
-        &.disabled a {
-          color: rgba(0, 0, 0, 0.26) !important;
-          background-color: transparent !important;
-        }
-
-        &.active a {
-          background-color: rgba(158,158,158,0.2);
-          font-weight: bold;
-        }
-      }
-
-      a {
-        height: 22px;
-        min-width: 24px;
+      .page-button {
+        block-size: 22px;
+        min-inline-size: 24px;
         line-height: 22px;
-        padding: 0 6px;
+        padding-block: 0;
+        padding-inline: 6px;
         border-radius: 3px;
-        margin: 6px 3px;
+        margin-block: 6px;
+        margin-inline: 3px;
         text-align: center;
-        vertical-align: top;
-        color: rgba(0,0,0,.54);
+        color: $datatable-pager-color;
         text-decoration: none;
-        vertical-align: bottom;
+        border: 0;
+        background: none;
 
         &:hover {
-          color: rgba(0,0,0,.75);
-          background-color: rgba(158,158,158,0.2);
+          color: $datatable-pager-color-hover;
+          background-color: $datatable-pager-background-hover;
+        }
+
+        &.active {
+          background-color: $datatable-pager-active-background;
+          font-weight: bold;
+        }
+
+        &:disabled {
+          color: $datatable-pager-disabled-color;
+          background-color: $datatable-pager-disabled-background;
         }
       }
 
@@ -359,9 +373,26 @@
       .datatable-icon-skip,
       .datatable-icon-right,
       .datatable-icon-prev {
-        font-size: 1.25rem;
-        line-height: 1.25rem;
-        padding: 0 3px;
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 20px;
+        line-height: 20px;
+        padding-block: 0;
+      }
+    }
+  }
+
+  // Summary row styles
+  .datatable-summary-row {
+    .datatable-body-row {
+      background-color: $datatable-summary-row-background;
+
+      &:hover {
+        background-color: $datatable-summary-row-background-hover;
+      }
+
+      .datatable-body-cell {
+        font-weight: bold;
       }
     }
   }

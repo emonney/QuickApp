@@ -11,8 +11,8 @@
     <Company>www.ebenmonney.com</Company>
     <Authors>$(Company)</Authors>
     <Description>
-		AI-ready reference architecture for Angular 21/ASP.NET Core 10 Projects - A hardened Angular 21/ASP.NET Core 10 foundation 
-		with secure authentication, authorization, and consistent patterns designed to be safely extended by AI tools
+		AI-ready reference architecture for Angular 21/ASP.NET Core 10 Projects - A hardened Angular/ASP.NET Core foundation with 
+		secure authentication, authorization, role and user management, and consistent patterns designed to be safely extended by AI tools
 	</Description>
     <Copyright>Copyright © 2024 www.ebenmonney.com</Copyright>
     <PackageProjectUrl>https://www.ebenmonney.com/quickapp</PackageProjectUrl>
@@ -40,7 +40,7 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>  
+  <ItemGroup>
     <ProjectReference Include="..\quickapp.client\quickapp.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
