@@ -229,24 +229,21 @@ Install from the [Visual Studio Marketplace](https://marketplace.visualstudio.co
 **Always include this in your AI prompts:**
 
 ```
-Reference the AI rules files in the ai-rules/ folder:
-- ai-rules/AI_RULES_BACKEND.md for ASP.NET Core backend patterns
-- ai-rules/AI_RULES_FRONTEND.md for Angular frontend patterns
-- ai-rules/AI_RULES_OVERVIEW.md for quick reference
+Reference the AI rules file: ai-rules/AI_RULES.md
 
-Follow the exact patterns and conventions documented in these files.
+Follow the exact patterns and conventions documented in this file.
+Reference UserAccountController, UserRoleController, and UserVMs.cs for real implementation examples.
 ```
 
 ### Detailed Guidelines
 
 When using AI tools with QuickApp, reference existing patterns explicitly:
 
-- ✅ **"Reference ai-rules/AI_RULES_BACKEND.md"** - Comprehensive backend patterns and rules
-- ✅ **"Reference ai-rules/AI_RULES_FRONTEND.md"** - Complete Angular frontend patterns
-- ✅ **"Follow the existing entity pattern"** - Reference `Product.cs` or `Customer.cs`
-- ✅ **"Match the authorization approach used in Users"** - Point to `UserAccountController.cs`
-- ✅ **"Reuse the Angular service and component conventions"** - Reference `AccountEndpoint` or `CustomersComponent`
-- ✅ **"Use the same DTO pattern as ProductVM"** - Show the ViewModel structure
+- ✅ **"Reference ai-rules/AI_RULES.md"** - Complete development rules for backend and frontend patterns
+- ✅ **"Match the authorization approach used in UserAccountController"** - Point to `UserAccountController.cs`
+- ✅ **"Follow the CRUD patterns from UserRoleController"** - Reference `UserRoleController.cs`
+- ✅ **"Use the same ViewModel validation pattern as UserVMs"** - Reference `UserVMs.cs`
+- ✅ **"Reuse the Angular service and component conventions"** - Reference existing endpoint services and components
 - ✅ **"Follow the BaseApiController error handling pattern"** - Reference the base controller
 
 ### Example Prompt
@@ -254,22 +251,21 @@ When using AI tools with QuickApp, reference existing patterns explicitly:
 ```
 Add a new Invoice entity with full CRUD operations following QuickApp patterns.
 
-Reference:
-- ai-rules/AI_RULES_BACKEND.md for backend patterns
-- ai-rules/AI_RULES_FRONTEND.md for frontend patterns
+Reference: ai-rules/AI_RULES.md
 
 Create:
 1. Entity (Invoice.cs) inheriting BaseEntity
-2. ViewModel (InvoiceVM.cs) with validator
+2. ViewModel (InvoiceVM.cs) with DataAnnotations validation
 3. Service interface and implementation
-4. Controller with CRUD endpoints
+4. Controller with CRUD endpoints (inherit BaseApiController)
 5. AutoMapper configuration
 6. Angular model interface
-7. Angular endpoint service
+7. Angular endpoint service (extend EndpointBase)
 8. Angular component with list view
-9. Route configuration
+9. Route configuration with AuthGuard
+10. Translation keys in locale files
 
-Follow the exact patterns from Customer/Product examples.
+Follow the exact patterns from UserAccountController and UserRoleController examples.
 ```
 
 **Clear prompts + stable foundation + comprehensive rules = fewer rewrites.**
